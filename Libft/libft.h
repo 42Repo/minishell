@@ -86,5 +86,6 @@ int		is_format(char c);
 int		process_format(const char *format, va_list arg);
 int		handle_percent(const char *format, int *index, va_list arg, int *err);
 int		handle_character(const char *format, int *index, va_list arg, int *err);
+char	*ft_strjoin_free(char const *s1, char const *s2);
 
 #endif

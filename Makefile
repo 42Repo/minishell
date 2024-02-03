@@ -1,25 +1,28 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    MakefileAutre                                      :+:      :+:    :+:    #
+#    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+         #
+#    By: mbuchs <mael@buchs.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/12 17:42:16 by asuc              #+#    #+#              #
-#    Updated: 2024/02/03 14:10:38 by asuc             ###   ########.fr        #
+#    Updated: 2024/02/03 16:01:23 by mbuchs           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-BGreen		=	$(shell echo "\033[1;32m")
+4BGreen		=	$(shell echo "\033[1;32m")
 RESET		=	$(shell echo "\033[0m")
 BRed		=	$(shell echo "\033[1;31m")
 BCyan		=	$(shell echo "\033[1;36m")
 Green		=	$(shell echo "\033[0;32m")
 NAME		=	minishell
-COMP		=	clang
-CFLAGS		=	-Wall -Werror -Wextra
+COMP		=	cc
+CFLAGS		=	-Wall -Werror -Wextra -lreadline
 libft		=	Libft/
-SRC			=	srcs/minishell.c
+SRC			=	srcs/minishell.c \
+				srcs/lexer/lexer.c \
+				deco.c\
+				srcs/ft_cd.c
 
 OBJ = $(SRC:.c=.o)
 
