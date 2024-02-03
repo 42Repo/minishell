@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
+/*   By: mbuchs <mael@buchs.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:32:07 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/03 14:05:54 by asuc             ###   ########.fr       */
+/*   Updated: 2024/02/03 14:17:25 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,12 @@
 # define MINISHELL_H
 
 # include "../Libft/libft.h"
-# include "stdio.h"
+# include <stdio.h>
+# include <sys/types.h>
+# include <unistd.h>
+# include <sys/wait.h>
+# include <signal.h>
+# include <errno.h>
 
 typedef struct s_env
 {
