@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/minishell.h"
+#include "../includes/minishell.h"
 
-void put_header(void)
+void	put_header(void)
 {
 	printf("welcome to miniShell\n");
 }

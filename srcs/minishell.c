@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:08:03 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/04 08:27:46 by asuc             ###   ########.fr       */
+/*   Updated: 2024/02/04 10:28:20 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,33 +14,31 @@
 
 int	main(int argc, char **argv, char **envp)
 {
+	int		i;
+	char	*line;
+	t_data	data;
+
 	(void)argc;
 	(void)argv;
-	// int i;
-	// char *line;
-	t_data data;
-	(void)envp;
-	(void)data;
-	// put_header();
-	// while (1)
-	// {
-	// 	data.actual_path = getcwd(NULL, 0);
-	// 	ft_putstr_fd(data.actual_path, 1);
-	// 	line = readline(" $> ");
-	// 	ft_cd(&data, line);
-	// 	if (ft_strncmp(line, "env\n", 4) == 0)
-	// 	{
-	// 		i = 0;
-	// 		while (envp[i])
-	// 		{
-	// 			printf("%s\n", envp[i]);
-	// 			i++;
-	// 		}
-	// 	}
-	// 	if (line != NULL)
-	// 		free(line);
-
-	// }
-	lexer(NULL, &data);
+	put_header();
+	while (1)
+	{
+		data.actual_path = ft_strjoin_free(getcwd(NULL, 0), " $> ");
+		line = readline(data.actual_path);
+		add_history(line);
+		ft_cd(line);
+		if (ft_strncmp(line, "env", 3) == 0)
+		{
+			i = 0;
+			while (envp[i])
+			{
+				printf("%s\n", envp[i]);
+				i++;
+			}
+		}
+		if (line != NULL)
+			free(line);
+	}
+	// lexer(NULL, &data);
 	return (0);
 }

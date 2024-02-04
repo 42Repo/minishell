@@ -6,7 +6,7 @@
 #    By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/12 17:42:16 by asuc              #+#    #+#              #
-#    Updated: 2024/02/04 09:32:59 by asuc             ###   ########.fr        #
+#    Updated: 2024/02/04 09:46:16 by asuc             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,8 +22,8 @@ libft		=	Libft/
 SRC			=	srcs/minishell.c \
 				srcs/lexer/lexer.c \
 				srcs/ft_cd.c \
-				srcs/ft_strtok_r.c
-#				deco.c\
+				srcs/ft_strtok_r.c \
+				srcs/deco.c
 
 OBJ = $(SRC:.c=.o)
 

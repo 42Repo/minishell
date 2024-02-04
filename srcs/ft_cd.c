@@ -12,44 +12,54 @@
 
 #include "../includes/minishell.h"
 
-// on change la variables path si il y a des points dans cd_arg par exemple : ../../../ si le path est /home/asuc/Documents/42/minishell ca deviendra /home/asuc
-// de plus on doit aussi gerer le cas ou il y a  ../../../srcs/caca par exemple donc on doit arreter le ft_check_point a chaque / et si il y a un . on doit remonter d'un dossier
-int	check_point(char *path, char *arg_cd)
+static int	error_cd(char *path)
 {
-	int	i;
-	int	j;
-	int	k;
-
-	i = 0;
-	while (arg_cd[i])
+	if (errno == 2)
 	{
-
+		ft_putstr_fd("cd: ", 2);
+		ft_putstr_fd(path, 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
 	}
-}
-
-int	ft_cd(t_data *data, char *path)
-{
-	int	i;
-
-	i = 0;
-	while (path[i])
+	else if (errno == 13)
 	{
-		if (path[i] == '\n')
-			path[i] = '\0';
-		i++;
+		ft_putstr_fd("cd: ", 2);
+		ft_putstr_fd(path, 2);
+		ft_putstr_fd(": Permission denied\n", 2);
 	}
-	check_point(path);
-	data->actual_path = ft_strjoin_free(data->actual_path, "/");
-	data->actual_path = ft_strjoin_free(data->actual_path, path);
-	printf("path to change to %s\n", data->actual_path);
-	if (chdir(data->actual_path) == 0)
+	else if (errno == 20)
 	{
-		printf("path changed to %s\n", getcwd(NULL, 0));
+		ft_putstr_fd("cd: ", 2);
+		ft_putstr_fd(path, 2);
+		ft_putstr_fd(": not a directory\n", 2);
 	}
 	else
+		perror("cd");
+	return (-1);
+}
+
+int	ft_cd(char *path)
+{
+	char	*tmp;
+
+	path = path + 3; // skip "cd " at the beginning of the string
+	if (path[0] == '\0') // peut etre a changer en fonction de ce qu'on recoit en parametre
 	{
-		printf("path not changed\n");
-		return (1);
+		if (chdir(getenv("HOME")) == 0)
+			return (0);
+		else
+			return (error_cd(getenv("HOME")));
 	}
+	if (path[0] == '/')
+	{
+		if (chdir(path) == 0)
+			return (0);
+		else
+			return (error_cd(path));
+	}
+	tmp = ft_strjoin_free(ft_strjoin_free(getcwd(NULL, 0), "/"), path);
+	if (chdir(tmp) == 0)
+		return (0);
+	else
+		return (error_cd(path));
 	return (0);
 }
