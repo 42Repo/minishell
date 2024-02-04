@@ -50,10 +50,9 @@ static int	other_case_cd(char *path)
 	if (path[0] == '~')
 	{
 		tmp = ft_strjoin(getenv("HOME"), path + 1);
-		if (chdir(tmp) == 0)
-			return (0);
-		else
+		if (chdir(tmp) != 0)
 			return (error_cd(tmp));
+		return (0);
 	}
 	return (1);
 }
