@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 20:18:51 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/04 21:27:44 by asuc             ###   ########.fr       */
+/*   Updated: 2024/02/04 21:38:19 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	set_prompt_top(t_data *data, char *hostname)
 	data->prompt_top = ft_strjoin_free(data->prompt_top, getcwd(NULL, 0));
 	if (data->prompt_top == NULL)
 		return (error_strjoin_free("ft_strjoin_free failed"));
-	data->prompt_top = ft_strjoin_free(data->prompt_top, "$\033[0m ");
+	data->prompt_top = ft_strjoin_free(data->prompt_top, "\033[0m$ ");
 	if (data->prompt_top == NULL)
 		return (error_strjoin_free("ft_strjoin_free failed"));
 	return (EXIT_SUCCESS);

@@ -6,7 +6,7 @@
 #    By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/12 17:42:16 by asuc              #+#    #+#              #
-#    Updated: 2024/02/04 21:08:48 by asuc             ###   ########.fr        #
+#    Updated: 2024/02/04 21:36:37 by asuc             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,6 @@ CFLAGS		=	-Wall -Werror -Wextra
 libft		=	Libft/
 SRC			=	srcs/minishell.c \
 				srcs/ft_cd.c \
-				srcs/ft_strtok_r.c \
 				srcs/deco.c \
 				srcs/utils.c \
 				srcs/get_cmd_prompt.c
