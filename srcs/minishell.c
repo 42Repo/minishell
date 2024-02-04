@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:08:03 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/04 11:47:32 by asuc             ###   ########.fr       */
+/*   Updated: 2024/02/04 11:57:49 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	main(int argc, char **argv, char **envp)
 		free(input);
 		add_history(line);
 		ft_cd(&data, line);
-		if (ft_strncmp(line, "env", 3) == 0)
+		if (ft_strncmp(line, "env", max_len(line, 3)) == 0)
 		{
 			i = 0;
 			while (envp[i])

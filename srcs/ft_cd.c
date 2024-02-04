@@ -15,7 +15,6 @@
 
 #include "../includes/minishell.h"
 
-
 static int	error_cd(char *path)
 {
 	ft_putstr_fd("cd: ", 2);
@@ -31,7 +30,7 @@ static int	error_cd(char *path)
 	return (-1);
 }
 
-int	other_case_cd(char *path)
+static int	other_case_cd(char *path)
 {
 	char	*tmp;
 
@@ -61,6 +60,23 @@ int	other_case_cd(char *path)
 	return (1);
 }
 
+static int	old_cd(t_data *data)
+{
+	char	*tmp;
+
+	if (data->old_cd == NULL)
+	{
+		ft_putstr_fd("cd: OLDPWD not set\n", 2);
+		return (-1);
+	}
+	tmp = getcwd(NULL, 0);
+	if (chdir(data->old_cd) != 0)
+		return (error_cd(data->old_cd));
+	free(data->old_cd);
+	data->old_cd = tmp;
+	return (0);
+}
+
 int	ft_cd(t_data *data, char *path)
 {
 	char	*tmp;
@@ -68,27 +84,18 @@ int	ft_cd(t_data *data, char *path)
 	path = path + 3;		// skip "cd " at the beginning of the string
 	if (path == NULL)
 		return (0);
-	if (ft_strncmp(path, "-", 1) == 0)
-	{
-		if (data->old_cd == NULL)
-		{
-			ft_putstr_fd("cd: OLDPWD not set\n", 2);
-			return (-1);
-		}
-		tmp = getcwd(NULL, 0);
-		if (chdir(data->old_cd) != 0)
-			return (error_cd(data->old_cd));
-		free(data->old_cd);
-		data->old_cd = tmp;
-		return (0);
-	}
+	if (ft_strncmp(path, "-", max_len(path, 1)) == 0)
+		return (old_cd(data));
 	free(data->old_cd);
 	data->old_cd = getcwd(NULL, 0);
 	if (other_case_cd(path) == 0)
 		return (0);
 	tmp = ft_strjoin_free(ft_strjoin_free(getcwd(NULL, 0), "/"), path);
 	if (chdir(tmp) != 0)
+	{
+		free(tmp);
 		return (error_cd(path));
+	}
 	free(tmp);
 	return (0);
 }
