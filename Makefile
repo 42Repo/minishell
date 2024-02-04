@@ -6,7 +6,7 @@
 #    By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/12 17:42:16 by asuc              #+#    #+#              #
-#    Updated: 2024/02/04 11:57:02 by asuc             ###   ########.fr        #
+#    Updated: 2024/02/04 17:47:59 by asuc             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,8 +16,8 @@ BRed		=	$(shell echo "\033[1;31m")
 BCyan		=	$(shell echo "\033[1;36m")
 Green		=	$(shell echo "\033[0;32m")
 NAME		=	minishell
-COMP		=	cc
-CFLAGS		=	-Wall -Werror -Wextra -lreadline
+COMP		=	clang
+CFLAGS		=	-Wall -Werror -Wextra
 libft		=	Libft/
 SRC			=	srcs/minishell.c \
 				srcs/lexer/lexer.c \
@@ -53,7 +53,7 @@ start :
 $(NAME) : $(OBJ)
 	@make --quiet --no-print-directory -C $(libft)
 	@cp $(libft)libft.a libft.a
-	@clang -gdwarf-4 -fPIE $(CFLAGS) -o $(NAME) $(OBJ) libft.a
+	@clang -gdwarf-4 -fPIE $(CFLAGS) -o $(NAME) $(OBJ) libft.a -lreadline
 	@echo "\n$(BGreen)Compilation Final $(NAME)$(RESET)"
 
 clean :
