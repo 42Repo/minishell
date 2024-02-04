@@ -37,17 +37,15 @@ static int	other_case_cd(char *path)
 	tmp = NULL;
 	if (path[0] == '\0')	// peut etre a changer en fonction de ce qu'on recoit en parametre
 	{
-		if (chdir(getenv("HOME")) == 0)
-			return (0);
-		else
+		if (chdir(getenv("HOME")) != 0)
 			return (error_cd(getenv("HOME")));
+		return (0);
 	}
 	if (path[0] == '/')
 	{
-		if (chdir(path) == 0)
-			return (0);
-		else
+		if (chdir(path) != 0)
 			return (error_cd(path));
+		return (0);
 	}
 	if (path[0] == '~')
 	{
