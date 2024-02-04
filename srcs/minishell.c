@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:08:03 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/04 11:57:49 by asuc             ###   ########.fr       */
+/*   Updated: 2024/02/04 20:55:10 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int	main(int argc, char **argv, char **envp)
 	int		i;
 	char	*line;
 	t_data	data;
-	char	*input;
 
 	(void)argc;
 	(void)argv;
@@ -31,9 +30,8 @@ int	main(int argc, char **argv, char **envp)
 	init_data(&data);
 	while (1)
 	{
-		input = ft_strjoin_free(getcwd(NULL, 0), " $> ");
-		line = readline(input);
-		free(input);
+		get_cmd_prompt(&data);
+		line = readline(data.prompt_top);
 		add_history(line);
 		ft_cd(&data, line);
 		if (ft_strncmp(line, "env", max_len(line, 3)) == 0)

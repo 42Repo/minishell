@@ -6,7 +6,7 @@
 #    By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/12 17:42:16 by asuc              #+#    #+#              #
-#    Updated: 2024/02/04 17:47:59 by asuc             ###   ########.fr        #
+#    Updated: 2024/02/04 21:08:48 by asuc             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,11 +20,12 @@ COMP		=	clang
 CFLAGS		=	-Wall -Werror -Wextra
 libft		=	Libft/
 SRC			=	srcs/minishell.c \
-				srcs/lexer/lexer.c \
 				srcs/ft_cd.c \
 				srcs/ft_strtok_r.c \
 				srcs/deco.c \
-				srcs/utils.c
+				srcs/utils.c \
+				srcs/get_cmd_prompt.c
+#				srcs/lexer/lexer.c \
 
 OBJ = $(SRC:.c=.o)
 

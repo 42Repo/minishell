@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:32:07 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/04 11:57:09 by asuc             ###   ########.fr       */
+/*   Updated: 2024/02/04 20:48:22 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <termios.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <fcntl.h>
 
 typedef enum e_token_type
 {
@@ -42,7 +43,7 @@ typedef struct s_token
 
 typedef struct s_data
 {
-	t_token	*prompt_top;
+	char	*prompt_top;
 	char	*old_cd;
 }	t_data;
 
@@ -55,5 +56,7 @@ t_token		*ms_lstlast(t_token *lst);
 void		put_header(void);
 int			ft_cd(t_data *data, char *path);
 int			max_len(char *str, int nb);
+int			get_cmd_prompt(t_data *data);
+
 
 #endif
