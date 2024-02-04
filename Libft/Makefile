@@ -43,7 +43,8 @@ LIB = ft_strlen.c\
 	ft_memcpy.c\
 	ft_memmove.c\
 	ft_memchr.c\
-	ft_strjoin_free.c
+	ft_strjoin_free.c\
+	ft_isnamespace.c
 
 ADDITIONAL = ft_substr.c\
 	ft_strjoin.c\
