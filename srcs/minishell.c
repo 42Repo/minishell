@@ -3,25 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mael@buchs.fr>                     +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:08:03 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/03 16:02:57 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/02/04 08:27:46 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 int	main(int argc, char **argv, char **envp)
-{	
+{
 	(void)argc;
 	(void)argv;
 	// int i;
-	// char *line; 
+	// char *line;
 	t_data data;
 	(void)envp;
 	(void)data;
-	put_header();
+	// put_header();
 	// while (1)
 	// {
 	// 	data.actual_path = getcwd(NULL, 0);
@@ -39,7 +39,7 @@ int	main(int argc, char **argv, char **envp)
 	// 	}
 	// 	if (line != NULL)
 	// 		free(line);
-		
+
 	// }
 	lexer(NULL, &data);
 	return (0);

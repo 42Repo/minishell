@@ -3,14 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mbuchs <mael@buchs.fr>                     +#+  +:+       +#+         #
+#    By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/12 17:42:16 by asuc              #+#    #+#              #
-#    Updated: 2024/02/03 16:01:23 by mbuchs           ###   ########.fr        #
+#    Updated: 2024/02/04 09:32:59 by asuc             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-4BGreen		=	$(shell echo "\033[1;32m")
+BGreen		=	$(shell echo "\033[1;32m")
 RESET		=	$(shell echo "\033[0m")
 BRed		=	$(shell echo "\033[1;31m")
 BCyan		=	$(shell echo "\033[1;36m")
@@ -21,8 +21,9 @@ CFLAGS		=	-Wall -Werror -Wextra -lreadline
 libft		=	Libft/
 SRC			=	srcs/minishell.c \
 				srcs/lexer/lexer.c \
-				deco.c\
-				srcs/ft_cd.c
+				srcs/ft_cd.c \
+				srcs/ft_strtok_r.c
+#				deco.c\
 
 OBJ = $(SRC:.c=.o)
 
@@ -62,7 +63,7 @@ clean :
 fclean : clean
 	@make fclean --quiet --no-print-directory -C $(libft)
 	@rm -f $(NAME) libft.a
-	@echo "$(BRed)Erase $(NAME), libft.a(RESET)"
+	@echo "$(BRed)Erase $(NAME), libft.a$(RESET)"
 
 re : fclean all
 

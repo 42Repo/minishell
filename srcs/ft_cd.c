@@ -12,10 +12,25 @@
 
 #include "../includes/minishell.h"
 
+// on change la variables path si il y a des points dans cd_arg par exemple : ../../../ si le path est /home/asuc/Documents/42/minishell ca deviendra /home/asuc
+// de plus on doit aussi gerer le cas ou il y a  ../../../srcs/caca par exemple donc on doit arreter le ft_check_point a chaque / et si il y a un . on doit remonter d'un dossier
+int	check_point(char *path, char *arg_cd)
+{
+	int	i;
+	int	j;
+	int	k;
+
+	i = 0;
+	while (arg_cd[i])
+	{
+
+	}
+}
+
 int	ft_cd(t_data *data, char *path)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
 	while (path[i])
 	{
@@ -23,16 +38,7 @@ int	ft_cd(t_data *data, char *path)
 			path[i] = '\0';
 		i++;
 	}
-	while (ft_strncmp(path, "..", 2) == 0)
-	{
-		if (ft_strncmp(data->actual_path, "/", 1) == 0)
-			return (0);
-		i = ft_strlen(data->actual_path) - 1;
-		while (data->actual_path[i] != '/')
-			i--;
-		data->actual_path[i] = '\0';
-		path += 2;
-	}
+	check_point(path);
 	data->actual_path = ft_strjoin_free(data->actual_path, "/");
 	data->actual_path = ft_strjoin_free(data->actual_path, path);
 	printf("path to change to %s\n", data->actual_path);
