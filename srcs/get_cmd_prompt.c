@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 20:18:51 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/04 21:38:19 by asuc             ###   ########.fr       */
+/*   Updated: 2024/02/05 15:53:21 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,25 @@ int	error_strjoin_free(char *str)
 {
 	perror(str);
 	return (EXIT_FAILURE);
+}
+
+static char	*get_cwd(void)
+{
+	char	*tmp;
+
+	tmp = getcwd(NULL, 0);
+	if (tmp == NULL)
+	{
+		perror("getcwd failed");
+		return (NULL);
+	}
+	if (ft_strncmp(tmp, getenv("HOME"), ft_strlen(getenv("HOME"))) == 0)
+	{
+		tmp = ft_strjoin_free(ft_strdup("~"), tmp + ft_strlen(getenv("HOME")));
+		if (tmp == NULL)
+			return (NULL);
+	}
+	return (tmp);
 }
 
 static int	set_prompt_top(t_data *data, char *hostname)
@@ -32,7 +51,7 @@ static int	set_prompt_top(t_data *data, char *hostname)
 	data->prompt_top = ft_strjoin_free(data->prompt_top, "\033[1;34m");
 	if (data->prompt_top == NULL)
 		return (error_strjoin_free("ft_strjoin_free failed"));
-	data->prompt_top = ft_strjoin_free(data->prompt_top, getcwd(NULL, 0));
+	data->prompt_top = ft_strjoin_free(data->prompt_top, get_cwd());
 	if (data->prompt_top == NULL)
 		return (error_strjoin_free("ft_strjoin_free failed"));
 	data->prompt_top = ft_strjoin_free(data->prompt_top, "\033[0m$ ");

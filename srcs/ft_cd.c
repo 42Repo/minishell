@@ -15,9 +15,32 @@
 
 #include "../includes/minishell.h"
 
+static int	put_program_name(void)
+{
+	char		*tmp;
+	const char	*tmp_error = "minishell";
+	int			i;
+
+
+	tmp = getenv("_");
+	if (tmp == NULL)
+		tmp = (char *)tmp_error;
+	i = ft_strlen(tmp) - 1;
+	while (i >= 0 && tmp[i] != '/')
+		i--;
+	ft_putstr_fd(tmp + i + 1, 2);
+	return (0);
+}
+
 static int	error_cd(char *path)
 {
-	ft_putstr_fd("cd: ", 2);
+	put_program_name();
+	ft_putstr_fd(": cd: ", 2);
+	if (errno == 14)
+	{
+		ft_putstr_fd("HOME not set\n", 2);
+		return (-1);
+	}
 	ft_putstr_fd(path, 2);
 	if (errno == ENOENT)
 		ft_putstr_fd(": No such file or directory\n", 2);
@@ -38,7 +61,9 @@ static int	other_case_cd(char *path)
 	if (path[0] == '\0')	// peut etre a changer en fonction de ce qu'on recoit en parametre
 	{
 		if (chdir(getenv("HOME")) != 0)
+		{
 			return (error_cd(getenv("HOME")));
+		}
 		return (0);
 	}
 	if (path[0] == '/')
@@ -69,6 +94,7 @@ static int	old_cd(t_data *data)
 	tmp = getcwd(NULL, 0);
 	if (chdir(data->old_cd) != 0)
 		return (error_cd(data->old_cd));
+	printf("%s\n", data->old_cd);
 	free(data->old_cd);
 	data->old_cd = tmp;
 	return (0);
