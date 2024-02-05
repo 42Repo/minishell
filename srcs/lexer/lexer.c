@@ -17,11 +17,16 @@ t_token *lexer(char *str, t_data *data)
 	(void)str;
 	int i = 0;
 	int j = 0;
-
+	char *token;
+	
 	while(str[i])
 	{
-		if(str[i] == ' ')
-			ms_lstadd_back(&data->prompt_top, ms_lstnew(0, &str[i]));
+		if(ft_isnamespace(str[i]) )
+		{
+			i++;
+			continue;
+		}
+		ms_lstadd_back(&data->prompt_top, ms_lstnew(0, &str[i]));
 		i++;
 	}
 	print_stack(data->prompt_top);
