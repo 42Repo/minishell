@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:32:07 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/04 20:48:22 by asuc             ###   ########.fr       */
+/*   Updated: 2024/02/05 18:22:32 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,15 @@ typedef enum e_token_type
 	WORD,
 	PIPE,
 	REDIR,
-	LOGIC,
 	END
 }	t_token_type;
 
 typedef struct s_token
+/*
+ 	type 0 -> any other char str
+	type 1 -> pipe
+	type 2 -> redirect
+*/
 {
 	int				type;
 	char			*value;
@@ -43,7 +47,7 @@ typedef struct s_token
 
 typedef struct s_data
 {
-	char	*prompt_top;
+	t_token	*prompt_top;
 	char	*old_cd;
 }	t_data;
 

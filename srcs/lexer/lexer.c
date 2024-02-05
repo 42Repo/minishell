@@ -16,13 +16,14 @@ t_token *lexer(char *str, t_data *data)
 {
 	(void)str;
 	int i = 0;
+	int j = 0;
 
 	while(str[i])
 	{
-		ms_lstadd_back(&data->prompt_top, ms_lstnew(0, &str[i]));
+		if(str[i] == ' ')
+			ms_lstadd_back(&data->prompt_top, ms_lstnew(0, &str[i]));
 		i++;
 	}
-	// data->prompt_top = ms_lstnew(1, "je suis jean caca");
 	print_stack(data->prompt_top);
 	return (NULL);
 }
