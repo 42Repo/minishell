@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+         #
+#    By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/12 17:42:16 by asuc              #+#    #+#              #
-#    Updated: 2024/02/04 21:36:37 by asuc             ###   ########.fr        #
+#    Updated: 2024/02/05 18:39:53 by mbuchs           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,12 +19,13 @@ NAME		=	minishell
 COMP		=	clang
 CFLAGS		=	-Wall -Werror -Wextra
 libft		=	Libft/
-SRC			=	srcs/minishell.c \
-				srcs/ft_cd.c \
+SRC			=	srcs/ft_cd.c \
 				srcs/deco.c \
 				srcs/utils.c \
-				srcs/get_cmd_prompt.c
-#				srcs/lexer/lexer.c \
+				srcs/get_cmd_prompt.c \
+				srcs/debug_main.c
+# srcs/lexer/lexer.c
+# srcs/minishell.c
 
 OBJ = $(SRC:.c=.o)
 
