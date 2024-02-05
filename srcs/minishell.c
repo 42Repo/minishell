@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:08:03 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/05 18:29:32 by asuc             ###   ########.fr       */
+/*   Updated: 2024/02/05 18:55:19 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,13 @@ int	main(int argc, char **argv, char **envp)
 	int		i;
 	char	*line;
 	t_data	data;
+	t_env	*env;
 
 	(void)argc;
 	(void)argv;
 	put_header();
 	init_data(&data);
+	get_env(&env, envp);
 	while (1)
 	{
 		get_cmd_prompt(&data);

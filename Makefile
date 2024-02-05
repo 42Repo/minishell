@@ -6,7 +6,7 @@
 #    By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/12 17:42:16 by asuc              #+#    #+#              #
-#    Updated: 2024/02/04 21:36:37 by asuc             ###   ########.fr        #
+#    Updated: 2024/02/05 18:53:42 by asuc             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,8 @@ SRC			=	srcs/minishell.c \
 				srcs/ft_cd.c \
 				srcs/deco.c \
 				srcs/utils.c \
-				srcs/get_cmd_prompt.c
+				srcs/get_cmd_prompt.c \
+				srcs/get_env.c
 #				srcs/lexer/lexer.c \
 
 OBJ = $(SRC:.c=.o)
@@ -65,6 +66,9 @@ fclean : clean
 	@make fclean --quiet --no-print-directory -C $(libft)
 	@rm -f $(NAME) libft.a
 	@echo "$(BRed)Erase $(NAME), libft.a$(RESET)"
+
+test : all
+	@valgrind --error-limit=no --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=suppressions.supp ./$(NAME)
 
 re : fclean all
 

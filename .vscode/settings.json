@@ -59,5 +59,6 @@
   "files.associations": {
     "minishell.h": "c",
     "libft.h": "c"
-  }
+  },
+  "functionHeaderExtension.headerFilePath": "/nfs/homes/asuc/Documents/42/All Project/minishell/includes/minishell.h"
 }

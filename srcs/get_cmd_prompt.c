@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 20:18:51 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/05 18:29:46 by asuc             ###   ########.fr       */
+/*   Updated: 2024/02/05 18:59:19 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ static char	*get_cwd(void)
 		perror("getcwd failed");
 		return (NULL);
 	}
-	if (ft_strncmp(tmp, getenv("HOME"), ft_strlen(getenv("HOME"))) == 0)
+	if (getenv("HOME") != NULL
+		&& ft_strncmp(tmp, getenv("HOME"), ft_strlen(getenv("HOME"))) == 0)
 	{
 		tmp = ft_strjoin_free(ft_strdup("~"), tmp + ft_strlen(getenv("HOME")));
 		if (tmp == NULL)
