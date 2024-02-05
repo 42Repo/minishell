@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:08:03 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/04 20:55:10 by asuc             ###   ########.fr       */
+/*   Updated: 2024/02/05 18:29:32 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		get_cmd_prompt(&data);
-		line = readline(data.prompt_top);
+		line = readline(data.cmd_prompt);
 		add_history(line);
 		ft_cd(&data, line);
 		if (ft_strncmp(line, "env", max_len(line, 3)) == 0)

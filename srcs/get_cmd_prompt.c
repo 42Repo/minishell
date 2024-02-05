@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 20:18:51 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/05 15:53:21 by asuc             ###   ########.fr       */
+/*   Updated: 2024/02/05 18:29:46 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,23 +39,23 @@ static char	*get_cwd(void)
 
 static int	set_prompt_top(t_data *data, char *hostname)
 {
-	data->prompt_top = ft_strjoin_free(data->prompt_top, "@");
-	if (data->prompt_top == NULL)
+	data->cmd_prompt = ft_strjoin_free(data->cmd_prompt, "@");
+	if (data->cmd_prompt == NULL)
 		return (error_strjoin_free("ft_strjoin_free failed"));
-	data->prompt_top = ft_strjoin_free(data->prompt_top, hostname);
-	if (data->prompt_top == NULL)
+	data->cmd_prompt = ft_strjoin_free(data->cmd_prompt, hostname);
+	if (data->cmd_prompt == NULL)
 		return (error_strjoin_free("ft_strjoin_free failed"));
-	data->prompt_top = ft_strjoin_free(data->prompt_top, "\033[0m:");
-	if (data->prompt_top == NULL)
+	data->cmd_prompt = ft_strjoin_free(data->cmd_prompt, "\033[0m:");
+	if (data->cmd_prompt == NULL)
 		return (error_strjoin_free("ft_strjoin_free failed"));
-	data->prompt_top = ft_strjoin_free(data->prompt_top, "\033[1;34m");
-	if (data->prompt_top == NULL)
+	data->cmd_prompt = ft_strjoin_free(data->cmd_prompt, "\033[1;34m");
+	if (data->cmd_prompt == NULL)
 		return (error_strjoin_free("ft_strjoin_free failed"));
-	data->prompt_top = ft_strjoin_free(data->prompt_top, get_cwd());
-	if (data->prompt_top == NULL)
+	data->cmd_prompt = ft_strjoin_free(data->cmd_prompt, get_cwd());
+	if (data->cmd_prompt == NULL)
 		return (error_strjoin_free("ft_strjoin_free failed"));
-	data->prompt_top = ft_strjoin_free(data->prompt_top, "\033[0m$ ");
-	if (data->prompt_top == NULL)
+	data->cmd_prompt = ft_strjoin_free(data->cmd_prompt, "\033[0m$ ");
+	if (data->cmd_prompt == NULL)
 		return (error_strjoin_free("ft_strjoin_free failed"));
 	return (EXIT_SUCCESS);
 }
@@ -66,9 +66,9 @@ int	get_cmd_prompt(t_data *data)
 	ssize_t	bytes_read;
 	char	hostname[1024];
 
-	data->prompt_top = ft_strjoin_free(ft_strdup("\033[1;32m"), getenv("USER"));
-	if (data->prompt_top == NULL)
-		data->prompt_top = ft_strdup("minishell");
+	data->cmd_prompt = ft_strjoin_free(ft_strdup("\033[1;32m"), getenv("USER"));
+	if (data->cmd_prompt == NULL)
+		data->cmd_prompt = ft_strdup("minishell");
 	fd = open("/etc/hostname", O_RDONLY);
 	if (fd == -1)
 	{
