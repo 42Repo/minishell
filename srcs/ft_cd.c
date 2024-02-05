@@ -21,7 +21,6 @@ static int	put_program_name(void)
 	const char	*tmp_error = "minishell";
 	int			i;
 
-
 	tmp = getenv("_");
 	if (tmp == NULL)
 		tmp = (char *)tmp_error;
