@@ -6,21 +6,11 @@
 /*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 18:49:35 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/05 18:51:09 by asuc             ###   ########.fr       */
+/*   Updated: 2024/02/05 19:30:33 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-// static int	env_len(char **envp)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (envp[i])
-// 		i++;
-// 	return (i);
-// }
 
 void	get_env(t_env **env, char **envp)
 {
@@ -48,4 +38,19 @@ void	get_env(t_env **env, char **envp)
 		}
 		i++;
 	}
+}
+
+char	*get_env_value(t_env *env, char *name)
+{
+	t_env	*tmp;
+
+	tmp = env;
+	while (env)
+	{
+		if (ft_strncmp(env->name, name, ft_strlen(name)) == 0)
+			return (env->value);
+		env = env->next;
+	}
+	env = tmp;
+	return (NULL);
 }
