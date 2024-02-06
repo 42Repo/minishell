@@ -106,12 +106,17 @@ static int	old_cd(t_env *env)
 int	ft_cd(char *path, t_env *env)
 {
 	char	*tmp;
+	char	*tmp2;
 
 	if (path == NULL)
 		return (0);
 	if (ft_strncmp(path, "-", max_len(path, 1)) == 0)
 		return (old_cd(env));
-	ft_export(env, ft_strjoin("OLDPWD=", getcwd(NULL, 0)));
+	tmp2 = getcwd(NULL, 0);
+	tmp = ft_strjoin("OLDPWD=", tmp2);
+	ft_export(env, tmp);
+	free(tmp2);
+	free(tmp);
 	if (other_case_cd(path, env) == 0)
 		return (0);
 	tmp = ft_strjoin_free(ft_strjoin_free(getcwd(NULL, 0), "/"), path);
