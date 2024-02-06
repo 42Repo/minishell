@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:32:07 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/06 23:02:25 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/02/07 00:02:11 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,5 +73,12 @@ void		get_env(t_env *env, char **envp);
 char		*ft_export(t_env *env, char *name);
 t_env		*get_env_value_ptr(t_env *env, char *name);
 char		*get_env_value_string(t_env *env, char *name);
+
+/*
+	0 = no quote
+	1 = simple quote
+	2 = double quote
+*/
+int	quote_management(int i, char c);
 
 #endif

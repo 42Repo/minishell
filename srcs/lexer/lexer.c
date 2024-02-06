@@ -42,18 +42,37 @@ void free_token_lst(t_data *data)
 	data->prompt_top = NULL;
 }
 
-int	quote_management(int i, char c)
-/*
-	0 = no quote
-	1 = simple quote
-	2 = double quote
-*/ 
+char *remove_quotes(char *str)
 {
-	if((i == 1 && c == '\'' ) || (i == 2 && c == '"'))
+	int		i;
+	int		j;
+	char	*new_str;
+
+	i = 0;
+	j = 0;
+	new_str = malloc(sizeof(char) * ft_strlen(str) + 1);
+	if (new_str == NULL)
+		return (NULL);
+	while (str[i])
+	{
+		if (str[i] != '\'' && str[i] != '"')
+		{
+			new_str[j] = str[i];
+			j++;
+		}
+		i++;
+	}
+	new_str[j] = '\0';
+	return (new_str);
+}
+
+int	quote_management(int i, char c)
+{
+	if ((i == 1 && c == '\'' ) || (i == 2 && c == '"'))
 		return (0);
-	if(i == 0 && c == '\'')
+	if (i == 0 && c == '\'')
 		return (1);
-	if(i == 0 && c == '"')
+	if (i == 0 && c == '"')
 		return (2);
 	return (i);
 }
@@ -62,7 +81,6 @@ t_token	*lexer(char *str, t_data *data)
 {
 	int		i;
 	int		j;
-	char	*token;
 	int		is_ok;
 	int		quote;
 
@@ -75,30 +93,26 @@ t_token	*lexer(char *str, t_data *data)
 		free_token_lst(data);
 	while (str[i])
 	{
-		if(i > 1 && str[i] == '>' && str[i - 1] == '>')
+		if (i > 1 && str[i] == '>' && str[i - 1] == '>')
 			i++;
 		if (ft_isnamespace(str[i]) && j < i && quote == 0)
 		{
 			if (!is_ok)
-			{	
-				token = set_token_str(&str[j], i - j);
-				ft_printf("token = %s\n", token);
-				ms_lstadd_back(&data->prompt_top, ms_lstnew(WORD, token), data);
+			{
+				ms_lstadd_back(&data->prompt_top, ms_lstnew(0, \
+				ft_strtrim(remove_quotes(set_token_str(&str[j], i - j)), " ")), data);
 				j = i + 1;
 			}
 			is_ok = 1;
 		}
-		else if(!ft_isnamespace(str[i]))
+		else if (!ft_isnamespace(str[i]))
 			is_ok = 0;
 		quote = quote_management(quote, str[i]);
 		i++;
 	}
 	if (!ft_isnamespace(str[i]) && j < i)
-	{
-		token = set_token_str(&str[j], i - j);
-		ft_printf("token = %s\n", token);
-		ms_lstadd_back(&data->prompt_top, ms_lstnew(0, token), data);
-	}
+		ms_lstadd_back(&data->prompt_top, ms_lstnew(0, \
+		ft_strtrim(set_token_str(&str[j], i - j), " ")), data);
 
 	print_stack(data->prompt_top);
 	// if quote != 0
