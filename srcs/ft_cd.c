@@ -86,8 +86,9 @@ static int	other_case_cd(char *path, t_env *env)
 static int	old_cd(t_data *data, t_env *env)
 {
 	char	*tmp;
+	char	*old_pwd;
 
-	if (data->old_cd == NULL)
+	if (get_env_value_string(env, "OLDPWD") == NULL)
 	{
 		ft_putstr_fd("cd: OLDPWD not set\n", 2);
 		return (-1);
