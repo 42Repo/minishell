@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:32:07 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/06 18:42:55 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/02/06 19:05:59 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
+
+
 /* T token salut lol*/
 t_token		*lexer(char *str, t_data *data);
 
@@ -68,11 +70,10 @@ void		ms_lstadd_back(t_token **lst, t_token *new, t_data *data);
 t_token		*ms_lstnew(int type, char *value);
 t_token		*ms_lstlast(t_token *lst);
 void		put_header(void);
-int			ft_cd(t_data *data, char *path);
+int			ft_cd(t_data *data, char *path, t_env *env);
 int			max_len(char *str, int nb);
 int			get_cmd_prompt(t_data *data);
-void		get_env(t_env **env, char **envp);
-t_env		*get_env_value(t_env *env, char *name);
+void		get_env(t_env *env, char **envp);
 char		*ft_export(t_env *env, char *name);
 
 #endif

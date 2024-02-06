@@ -89,5 +89,7 @@ int		handle_character(const char *format, int *index, va_list arg, int *err);
 char	*ft_strjoin_free(char const *s1, char const *s2);
 char	*ft_strtok_r(char *str, const char *delim, char **saveptr);
 int		ft_isnamespace(int c);
+int		ft_strcmp(const char *s1, const char *s2);
+char	*ft_strndup(const char *s, size_t n);
 
 #endif

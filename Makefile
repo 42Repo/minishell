@@ -6,7 +6,7 @@
 #    By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/12 17:42:16 by asuc              #+#    #+#              #
-#    Updated: 2024/02/06 17:50:28 by mbuchs           ###   ########.fr        #
+#    Updated: 2024/02/06 19:05:34 by mbuchs           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ SRC			=	srcs/ft_cd.c \
 				srcs/utils.c \
 				srcs/get_cmd_prompt.c \
 				srcs/debug_main.c\
-				srcs/ft_export.c \
+				rcs/ft_export.c \
 				srcs/ft_unset.c \
 				srcs/get_env.c\
 				srcs/lexer/lexer.c
@@ -57,7 +57,7 @@ start :
 $(NAME) : $(OBJ)
 	@make --quiet --no-print-directory -C $(libft)
 	@cp $(libft)libft.a libft.a
-	@clang -gdwarf-4 -fPIE $(CFLAGS) -o $(NAME) $(OBJ) libft.a -lreadline
+	@$(COMP) -gdwarf-4 -fPIE $(CFLAGS) -o $(NAME) $(OBJ) libft.a -lreadline
 	@echo "\n$(BGreen)Compilation Final $(NAME)$(RESET)"
 
 clean :
