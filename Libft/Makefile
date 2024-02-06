@@ -46,6 +46,8 @@ LIB = ft_strlen.c\
 	ft_strjoin_free.c\
 	ft_isnamespace.c \
 	ft_strtok_r.c\
+	ft_strndup.c\
+	ft_strcmp.c\
 
 ADDITIONAL = ft_substr.c\
 	ft_strjoin.c\

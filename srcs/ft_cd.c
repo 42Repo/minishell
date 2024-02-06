@@ -15,15 +15,34 @@
 
 #include "../includes/minishell.h"
 
-static int	put_program_name(void)
+// on recupere le nom de la variable d'environnement qi a le nom name qui se presente par exemple sous "_"
+static char	*get_env_value(t_env *env, char *name)
+{
+	t_env	*tmp;
+
+	tmp = env;
+	while (tmp)
+	{
+		if (ft_strcmp(tmp->name, name) == 0)
+		{
+			return (tmp->value);
+		}
+		tmp = tmp->next;
+	}
+	return (NULL);
+}
+
+static int	put_program_name(t_env *env)
 {
 	char		*tmp;
 	const char	*tmp_error = "minishell";
 	int			i;
 
-	tmp = getenv("_");
+	tmp = get_env_value(env, "_");
 	if (tmp == NULL)
+	{
 		tmp = (char *)tmp_error;
+	}
 	i = ft_strlen(tmp) - 1;
 	while (i >= 0 && tmp[i] != '/')
 		i--;
@@ -31,9 +50,9 @@ static int	put_program_name(void)
 	return (0);
 }
 
-static int	error_cd(char *path)
+static int	error_cd(char *path, t_env *env)
 {
-	put_program_name();
+	put_program_name(env);
 	ft_putstr_fd(": cd: ", 2);
 	if (errno == 14)
 	{
@@ -52,7 +71,7 @@ static int	error_cd(char *path)
 	return (-1);
 }
 
-static int	other_case_cd(char *path)
+static int	other_case_cd(char *path, t_env *env)
 {
 	char	*tmp;
 
@@ -61,27 +80,27 @@ static int	other_case_cd(char *path)
 	{
 		if (chdir(getenv("HOME")) != 0)
 		{
-			return (error_cd(getenv("HOME")));
+			return (error_cd(getenv("HOME"), env));
 		}
 		return (0);
 	}
 	if (path[0] == '/')
 	{
 		if (chdir(path) != 0)
-			return (error_cd(path));
+			return (error_cd(path, env));
 		return (0);
 	}
 	if (path[0] == '~')
 	{
 		tmp = ft_strjoin(getenv("HOME"), path + 1);
 		if (chdir(tmp) != 0)
-			return (error_cd(tmp));
+			return (error_cd(tmp, env));
 		return (0);
 	}
 	return (1);
 }
 
-static int	old_cd(t_data *data)
+static int	old_cd(t_data *data, t_env *env)
 {
 	char	*tmp;
 
@@ -92,14 +111,14 @@ static int	old_cd(t_data *data)
 	}
 	tmp = getcwd(NULL, 0);
 	if (chdir(data->old_cd) != 0)
-		return (error_cd(data->old_cd));
+		return (error_cd(data->old_cd, env));
 	printf("%s\n", data->old_cd);
 	free(data->old_cd);
 	data->old_cd = tmp;
 	return (0);
 }
 
-int	ft_cd(t_data *data, char *path)
+int	ft_cd(t_data *data, char *path, t_env *env)
 {
 	char	*tmp;
 
@@ -107,16 +126,16 @@ int	ft_cd(t_data *data, char *path)
 	if (path == NULL)
 		return (0);
 	if (ft_strncmp(path, "-", max_len(path, 1)) == 0)
-		return (old_cd(data));
+		return (old_cd(data, env));
 	free(data->old_cd);
 	data->old_cd = getcwd(NULL, 0);
-	if (other_case_cd(path) == 0)
+	if (other_case_cd(path, env) == 0)
 		return (0);
 	tmp = ft_strjoin_free(ft_strjoin_free(getcwd(NULL, 0), "/"), path);
 	if (chdir(tmp) != 0)
 	{
 		free(tmp);
-		return (error_cd(path));
+		return (error_cd(path, env));
 	}
 	free(tmp);
 	return (0);

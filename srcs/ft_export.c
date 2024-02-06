@@ -6,42 +6,42 @@
 /*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 19:31:03 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/06 01:05:18 by asuc             ###   ########.fr       */
+/*   Updated: 2024/02/06 18:52:40 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-static char	*ft_strndup(const char *s, size_t n)
+static t_env	*get_env_value(t_env *env, char *name)
 {
-	char	*new;
-	size_t	i;
+	t_env	*tmp;
+	char	*tmp_name;
 
-	new = malloc(n + 1);
-	if (!new)
-		return (NULL);
-	i = 0;
-	while (i < n)
+	tmp = env;
+	while (tmp)
 	{
-		new[i] = s[i];
-		i++;
+		tmp_name = ft_strndup(name, ft_strchr(name, '=') - name);
+		if (ft_strcmp(tmp->name, tmp_name) == 0)
+		{
+			free(tmp_name);
+			return (tmp);
+		}
+		tmp = tmp->next;
+		free(tmp_name);
 	}
-	new[i] = '\0';
-	return (new);
+	return (NULL);
 }
 
 char	*ft_export(t_env *env, char *name)
 {
 	t_env	*tmp;
 
+	name += 7;
 	tmp = get_env_value(env, name);
-	printf("name = %s\n", name);
-	printf("tmp->name = %s\n", tmp->name);
-	printf("tmp->value = %s\n", tmp->value);
 	if (tmp)
 	{
 		free(tmp->value);
-		tmp->value = ft_strchr(name, '=') + 1;
+		tmp->value = ft_strdup(ft_strchr(name, '=') + 1);
 		return (tmp->value);
 	}
 	else
@@ -53,7 +53,7 @@ char	*ft_export(t_env *env, char *name)
 		if (!tmp->next)
 			return (NULL);
 		tmp->next->name = ft_strndup(name, ft_strchr(name, '=') - name);
-		tmp->next->value = ft_strchr(name, '=') + 1;
+		tmp->next->value = ft_strdup(ft_strchr(name, '=') + 1);
 		tmp->next->next = NULL;
 		return (tmp->next->value);
 	}
