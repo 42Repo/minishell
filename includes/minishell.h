@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:32:07 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/05 19:29:42 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/02/06 17:34:44 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,7 @@ int			ft_cd(t_data *data, char *path);
 int			max_len(char *str, int nb);
 int			get_cmd_prompt(t_data *data);
 void		get_env(t_env **env, char **envp);
+t_env		*get_env_value(t_env *env, char *name);
+char		*ft_export(t_env *env, char *name);
 
 #endif
