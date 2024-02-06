@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:32:07 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/07 00:02:11 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/02/07 00:25:26 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,86 @@ void		ms_lstadd_front(t_token **lst, t_token *new);
 void		ms_lstadd_back(t_token **lst, t_token *new, t_data *data);
 t_token		*ms_lstnew(t_token_type type, char *value);
 t_token		*ms_lstlast(t_token *lst);
-void		put_header(void);
-int			ft_cd(char *path, t_env *env);
 int			max_len(char *str, int nb);
+void		put_header(void);
+
+/**
+ * @brief change the current directory
+ *
+ * @param path the string of the path to change to
+ * @param env the struct env list
+ * @return int 0 if success, 1 if error
+ */
+int			ft_cd(char *path, t_env *env);
+
+/**
+ * @brief initialize the prompt of shell
+ *
+ * @param data the struct data
+ * @param env the struct env list
+ * @return int 0 if success, 1 if error
+ */
 int			get_cmd_prompt(t_data *data, t_env *env);
+
+/**
+ * @brief set the environment variables from the envp in the struct env list
+ *
+ * @param env the struct env list
+ * @param envp the environment variables
+ */
 void		get_env(t_env *env, char **envp);
+
+/**
+ * @brief Add an environment variable
+ *
+ * @param env the struct env list
+ * @param line the name of the variable to add, ex : "PATH=..." or "HOME=..."
+ * @return char* the value of the variable ex : "/usr/bin" or "/home/user"
+ */
 char		*ft_export(t_env *env, char *name);
-t_env		*get_env_value_ptr(t_env *env, char *name);
+
+/**
+ * @brief Get the env value string object
+ *
+ * @param env the struct env list
+ * @param name the name of the variable to get, ex : "PATH" or "HOME"
+ * @return char* the value of the variable ex : "/usr/bin" or "/home/user"
+ */
 char		*get_env_value_string(t_env *env, char *name);
+
+/**
+ * @brief Get the env value ptr object
+ *
+ * @param env the struct env list
+ * @param name the name of the variable to get, ex : "PATH=..." or "HOME=..."
+ * @return t_env* the pointer to the variable ex : "/usr/bin" or "/home/user"
+ */
+t_env		*get_env_value_ptr(t_env *env, char *name);
+
+/**
+ * @brief Get the env value ptr by name object
+ *
+ * @param env the struct env list
+ * @param name the name of the variable to get, ex : "PATH" or "HOME"
+ * @return t_env* the pointer to the variable ex : "/usr/bin" or "/home/user"
+ */
+t_env		*get_env_value_ptr_by_name(t_env *env, char *name);
+
+/**
+ * @brief delete an environment variable
+ *
+ * @param env the struct env list
+ * @param line the name of the variable to delete, ex : "PATH" or "HOME"
+ */
+void		ft_unset(t_env *env, char *line);
+
+/**
+ * @brief print a string with or without a newline
+ *
+ * @param line the string to print
+ * @param mode 0 = with newline, 1 = without newline
+ */
+void		ft_echo(char *line, int mode);
 
 /*
 	0 = no quote
@@ -80,5 +152,8 @@ char		*get_env_value_string(t_env *env, char *name);
 	2 = double quote
 */
 int	quote_management(int i, char c);
+
+
+/* FUNCTIONS */
 
 #endif

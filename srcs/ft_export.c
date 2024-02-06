@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 19:31:03 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/06 22:40:20 by asuc             ###   ########.fr       */
+/*   Updated: 2024/02/07 00:21:43 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,5 @@ char	*ft_export(t_env *env, char *name)
 		tmp->next->next = NULL;
 		return (tmp->next->value);
 	}
-	env = tmp;
 	return (NULL);
 }

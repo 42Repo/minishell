@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+         #
+#    By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/12 17:42:16 by asuc              #+#    #+#              #
-#    Updated: 2024/02/06 23:00:35 by mbuchs           ###   ########.fr        #
+#    Updated: 2024/02/07 00:09:33 by asuc             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ BCyan		=	$(shell echo "\033[1;36m")
 Green		=	$(shell echo "\033[0;32m")
 NAME		=	minishell
 COMP		=	clang
-CFLAGS		=	-Wall -Werror -Wextra -g
+CFLAGS		=	-Wall -Werror -Wextra -g -pg
 libft		=	Libft/
 SRC			=	srcs/ft_cd.c \
 				srcs/deco.c \
@@ -27,8 +27,9 @@ SRC			=	srcs/ft_cd.c \
 				srcs/ft_unset.c \
 				srcs/get_env.c\
 				srcs/lexer/lexer.c\
-				srcs/debug_main.c
-# srcs/minishell.c
+				srcs/minishell.c\
+				srcs/ft_echo.c
+#				srcs/debug_main.c
 
 OBJ = $(SRC:.c=.o)
 

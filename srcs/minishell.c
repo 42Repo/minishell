@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:08:03 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/06 22:52:22 by asuc             ###   ########.fr       */
+/*   Updated: 2024/02/07 00:09:23 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	init_data(t_data *data)
 {
 	data->prompt_top = NULL;
+	data->cmd_prompt = NULL;
 }
 
 static int	ft_env(t_env *env)
@@ -67,9 +68,10 @@ int	main(int argc, char **argv, char **envp)
 		line = readline(data.cmd_prompt);
 		free(data.cmd_prompt);
 		add_history(line);
+		// lexer(line, &data);
 		if (ft_strncmp(line, "exit", max_len(line, 4)) == 0)
 		{
-			free(line);
+
 			free_env(env);
 			rl_clear_history();
 			return (0);
@@ -89,6 +91,22 @@ int	main(int argc, char **argv, char **envp)
 		else if (ft_strncmp(line, "env", 3) == 0)
 		{
 			ft_env(env);
+		}
+		else if (ft_strncmp(line, "unset ", 6) == 0)
+		{
+			line_tmp = line + 6;
+			printf("line_tmp = %s\n", line_tmp);
+			ft_unset(env, line_tmp);
+		}
+		else if (ft_strncmp(line, "echo ", 5) == 0)
+		{
+			line_tmp = line + 5;
+			printf("line_tmp = %s\n", line_tmp);
+			ft_echo(line_tmp, 0);
+		}
+		else
+		{
+			printf("command not found\n");
 		}
 		if (line != NULL)
 			free(line);

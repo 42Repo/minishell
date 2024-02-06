@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 18:49:35 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/06 19:19:09 by asuc             ###   ########.fr       */
+/*   Updated: 2024/02/07 00:18:37 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,22 @@ char	*get_env_value_string(t_env *env, char *name)
 	return (NULL);
 }
 
+t_env	*get_env_value_ptr_by_name(t_env *env, char *name)
+{
+	t_env	*tmp;
+
+	tmp = env;
+	while (tmp)
+	{
+		if (ft_strcmp(tmp->name, name) == 0)
+		{
+			return (tmp);
+		}
+		tmp = tmp->next;
+	}
+	return (NULL);
+}
+
 t_env	*get_env_value_ptr(t_env *env, char *name)
 {
 	t_env	*tmp;
@@ -71,3 +87,5 @@ t_env	*get_env_value_ptr(t_env *env, char *name)
 	}
 	return (NULL);
 }
+
+
