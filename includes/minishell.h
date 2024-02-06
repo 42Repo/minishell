@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:32:07 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/06 21:38:54 by asuc             ###   ########.fr       */
+/*   Updated: 2024/02/06 22:59:12 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # include <readline/history.h>
 # include <fcntl.h>
 
-typedef enum e_token_type
+typedef enum s_token_type
 {
 	WORD,
 	PIPE,
@@ -63,7 +63,7 @@ t_token		*lexer(char *str, t_data *data);
 void		print_stack(t_token *node);
 void		ms_lstadd_front(t_token **lst, t_token *new);
 void		ms_lstadd_back(t_token **lst, t_token *new, t_data *data);
-t_token		*ms_lstnew(int type, char *value);
+t_token		*ms_lstnew(t_token_type type, char *value);
 t_token		*ms_lstlast(t_token *lst);
 void		put_header(void);
 int			ft_cd(char *path, t_env *env);

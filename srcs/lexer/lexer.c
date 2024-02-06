@@ -42,23 +42,45 @@ void free_token_lst(t_data *data)
 	data->prompt_top = NULL;
 }
 
+int	quote_management(int i, char c)
+/*
+	0 = no quote
+	1 = simple quote
+	2 = double quote
+*/ 
+{
+	if((i == 1 && c == '\'' ) || (i == 2 && c == '"'))
+		return (0);
+	if(i == 0 && c == '\'')
+		return (1);
+	if(i == 0 && c == '"')
+		return (2);
+	return (i);
+}
+
 t_token	*lexer(char *str, t_data *data)
 {
-	int		i = 0;
-	int		j = 0;
+	int		i;
+	int		j;
 	char	*token;
 	int		is_ok;
+	int		quote;
 
+	i = 0;
+	j = 0;
+	quote = 0;
 	is_ok = 1;
 	(void)str;
 	if (data->prompt_top)
 		free_token_lst(data);
 	while (str[i])
 	{
-		if (ft_isnamespace(str[i]) && j < i)
+		if(i > 1 && str[i] == '>' && str[i - 1] == '>')
+			i++;
+		if (ft_isnamespace(str[i]) && j < i && quote == 0)
 		{
 			if (!is_ok)
-			{
+			{	
 				token = set_token_str(&str[j], i - j);
 				ft_printf("token = %s\n", token);
 				ms_lstadd_back(&data->prompt_top, ms_lstnew(0, token), data);
@@ -68,6 +90,7 @@ t_token	*lexer(char *str, t_data *data)
 		}
 		else if(!ft_isnamespace(str[i]))
 			is_ok = 0;
+		quote = quote_management(quote, str[i]);
 		i++;
 	}
 	if (!ft_isnamespace(str[i]) && j < i)
@@ -78,6 +101,9 @@ t_token	*lexer(char *str, t_data *data)
 	}
 
 	print_stack(data->prompt_top);
+	// if quote != 0
+	// 	changer prompt par "squote" ou "dquote"
+	// 	et attendre la fin de la quote
 	return (NULL);
 }
 
