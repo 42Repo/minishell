@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:08:03 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/05 18:55:19 by asuc             ###   ########.fr       */
+/*   Updated: 2024/02/06 00:54:40 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,18 @@ int	main(int argc, char **argv, char **envp)
 	put_header();
 	init_data(&data);
 	get_env(&env, envp);
+	printf("env = \n");
+	ft_export(env, "PATH=caca");
+	while (env->next)
+	{
+		printf("%s=%s\n", env->name, env->value);
+		env = env->next;
+	}
 	while (1)
 	{
 		get_cmd_prompt(&data);
 		line = readline(data.cmd_prompt);
 		add_history(line);
-		ft_cd(&data, line);
 		if (ft_strncmp(line, "env", max_len(line, 3)) == 0)
 		{
 			i = 0;
