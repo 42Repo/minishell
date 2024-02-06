@@ -6,7 +6,7 @@
 #    By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/12 17:42:16 by asuc              #+#    #+#              #
-#    Updated: 2024/02/05 19:02:08 by mbuchs           ###   ########.fr        #
+#    Updated: 2024/02/05 19:16:09 by mbuchs           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,8 +23,8 @@ SRC			=	srcs/ft_cd.c \
 				srcs/deco.c \
 				srcs/utils.c \
 				srcs/get_cmd_prompt.c \
-				srcs/debug_main.c
-# srcs/lexer/lexer.c
+				srcs/debug_main.c \
+				srcs/lexer/lexer.c
 # srcs/minishell.c
 
 OBJ = $(SRC:.c=.o)

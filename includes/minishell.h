@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:32:07 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/05 18:50:10 by asuc             ###   ########.fr       */
+/*   Updated: 2024/02/05 19:29:42 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ typedef struct s_env
 t_token		*lexer(char *str, t_data *data);
 void		print_stack(t_token *node);
 void		ms_lstadd_front(t_token **lst, t_token *new);
-void		ms_lstadd_back(t_token **lst, t_token *new);
+void		ms_lstadd_back(t_token **lst, t_token *new, t_data *data);
 t_token		*ms_lstnew(int type, char *value);
 t_token		*ms_lstlast(t_token *lst);
 void		put_header(void);

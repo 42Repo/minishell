@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   debug_main.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:08:03 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/05 18:29:32 by asuc             ###   ########.fr       */
+/*   Updated: 2024/02/05 19:18:16 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,9 @@ int	main(int argc, char **argv, char **envp)
 		get_cmd_prompt(&data);
 		line = readline(data.cmd_prompt);
 		add_history(line);
-		ft_cd(&data, line);
+		printf("line = %s\n", line);
+		lexer(line, &data);
+		// ft_cd(&data, line);
 		if (ft_strncmp(line, "env", max_len(line, 3)) == 0)
 		{
 			i = 0;
