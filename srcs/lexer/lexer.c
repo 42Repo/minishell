@@ -83,7 +83,7 @@ t_token	*lexer(char *str, t_data *data)
 			{	
 				token = set_token_str(&str[j], i - j);
 				ft_printf("token = %s\n", token);
-				ms_lstadd_back(&data->prompt_top, ms_lstnew(0, token), data);
+				ms_lstadd_back(&data->prompt_top, ms_lstnew(WORD, token), data);
 				j = i + 1;
 			}
 			is_ok = 1;
@@ -147,7 +147,7 @@ void	ms_lstadd_front(t_token **lst, t_token *new)
 	*lst = new;
 }
 
-t_token	*ms_lstnew(int type, char *value)
+t_token		*ms_lstnew(t_token_type type, char *value)
 {
 	t_token	*new;
 
