@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+         #
+#    By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/12 17:42:16 by asuc              #+#    #+#              #
-#    Updated: 2024/02/06 19:07:39 by asuc             ###   ########.fr        #
+#    Updated: 2024/02/06 19:37:49 by mbuchs           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,9 +26,9 @@ SRC			=	srcs/ft_cd.c \
 				srcs/ft_export.c \
 				srcs/ft_unset.c \
 				srcs/get_env.c\
-				srcs/minishell.c
-#srcs/debug_main.c\
-#srcs/lexer/lexer.c
+				srcs/debug_main.c\
+				srcs/lexer/lexer.c
+# srcs/minishell.c
 
 OBJ = $(SRC:.c=.o)
 

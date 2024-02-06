@@ -59,7 +59,7 @@ t_token	*lexer(char *str, t_data *data)
 		{
 			if (!is_ok)
 			{
-				token = set_token_str(&str[j], i - j + 1);
+				token = set_token_str(&str[j], i - j);
 				ft_printf("token = %s\n", token);
 				ms_lstadd_back(&data->prompt_top, ms_lstnew(0, token), data);
 				j = i + 1;
@@ -70,6 +70,13 @@ t_token	*lexer(char *str, t_data *data)
 			is_ok = 0;
 		i++;
 	}
+	if (!ft_isnamespace(str[i]) && j < i)
+	{
+		token = set_token_str(&str[j], i - j);
+		ft_printf("token = %s\n", token);
+		ms_lstadd_back(&data->prompt_top, ms_lstnew(0, token), data);
+	}
+
 	print_stack(data->prompt_top);
 	return (NULL);
 }
