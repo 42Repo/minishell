@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug_main.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:08:03 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/06 19:12:17 by asuc             ###   ########.fr       */
+/*   Updated: 2024/02/06 19:45:24 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,35 +18,53 @@ void	init_data(t_data *data)
 	data->old_cd = NULL;
 }
 
+static int	ft_env(t_env *env)
+{
+	t_env	*tmp;
+
+	tmp = env;
+	while (tmp)
+	{
+		printf("%s=%s\n", tmp->name, tmp->value);
+		tmp = tmp->next;
+	}
+	return (0);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
-	int		i;
 	char	*line;
 	t_data	data;
+	t_env	env;
 
 	(void)argc;
 	(void)argv;
 	put_header();
 	init_data(&data);
+	get_env(&env, envp);
 	while (1)
 	{
-		get_cmd_prompt(&dat, env);
+		get_cmd_prompt(&data, &env);
 		line = readline(data.cmd_prompt);
-		add_history(line);
-		printf("line = %s\n", line);
 		lexer(line, &data);
-		// ft_cd(&data, line);
-		if (ft_strncmp(line, "env", max_len(line, 3)) == 0)
+		add_history(line);
+		if (ft_strncmp(line, "exit", max_len(line, 4)) == 0)
 		{
-			i = 0;
-			while (envp[i])
-			{
-				printf("%s\n", envp[i]);
-				i++;
-			}
 			free(line);
 			free(data.old_cd);
 			return (0);
+		}
+		else if (ft_strncmp(line, "cd ", 3) == 0)
+		{
+			ft_cd(&data, line, &env);
+		}
+		else if (ft_strncmp(line, "export ", 7) == 0)
+		{
+			ft_export(&env, line);
+		}
+		else if (ft_strncmp(line, "env", 3) == 0)
+		{
+			ft_env(&env);
 		}
 		if (line != NULL)
 			free(line);
