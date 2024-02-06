@@ -15,30 +15,13 @@
 
 #include "../includes/minishell.h"
 
-// on recupere le nom de la variable d'environnement qi a le nom name qui se presente par exemple sous "_"
-static char	*get_env_value(t_env *env, char *name)
-{
-	t_env	*tmp;
-
-	tmp = env;
-	while (tmp)
-	{
-		if (ft_strcmp(tmp->name, name) == 0)
-		{
-			return (tmp->value);
-		}
-		tmp = tmp->next;
-	}
-	return (NULL);
-}
-
 static int	put_program_name(t_env *env)
 {
 	char		*tmp;
 	const char	*tmp_error = "minishell";
 	int			i;
 
-	tmp = get_env_value(env, "_");
+	tmp = get_env_value_string(env, "_");
 	if (tmp == NULL)
 	{
 		tmp = (char *)tmp_error;
@@ -76,11 +59,11 @@ static int	other_case_cd(char *path, t_env *env)
 	char	*tmp;
 
 	tmp = NULL;
-	if (path[0] == '\0')	// peut etre a changer en fonction de ce qu'on recoit en parametre
+	if (path[0] == '\0')
 	{
-		if (chdir(getenv("HOME")) != 0)
+		if (chdir(get_env_value_string(env, "HOME")) != 0)
 		{
-			return (error_cd(getenv("HOME"), env));
+			return (error_cd(get_env_value_string(env, "HOME"), env));
 		}
 		return (0);
 	}
@@ -92,7 +75,7 @@ static int	other_case_cd(char *path, t_env *env)
 	}
 	if (path[0] == '~')
 	{
-		tmp = ft_strjoin(getenv("HOME"), path + 1);
+		tmp = ft_strjoin(get_env_value_string(env, "HOME"), path + 1);
 		if (chdir(tmp) != 0)
 			return (error_cd(tmp, env));
 		return (0);
@@ -122,7 +105,7 @@ int	ft_cd(t_data *data, char *path, t_env *env)
 {
 	char	*tmp;
 
-	path = path + 3;		// skip "cd " at the beginning of the string
+	path = path + 3;
 	if (path == NULL)
 		return (0);
 	if (ft_strncmp(path, "-", max_len(path, 1)) == 0)

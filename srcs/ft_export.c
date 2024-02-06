@@ -6,38 +6,18 @@
 /*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 19:31:03 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/06 18:52:40 by asuc             ###   ########.fr       */
+/*   Updated: 2024/02/06 19:14:59 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-static t_env	*get_env_value(t_env *env, char *name)
-{
-	t_env	*tmp;
-	char	*tmp_name;
-
-	tmp = env;
-	while (tmp)
-	{
-		tmp_name = ft_strndup(name, ft_strchr(name, '=') - name);
-		if (ft_strcmp(tmp->name, tmp_name) == 0)
-		{
-			free(tmp_name);
-			return (tmp);
-		}
-		tmp = tmp->next;
-		free(tmp_name);
-	}
-	return (NULL);
-}
 
 char	*ft_export(t_env *env, char *name)
 {
 	t_env	*tmp;
 
 	name += 7;
-	tmp = get_env_value(env, name);
+	tmp = get_env_value_ptr(env, name);
 	if (tmp)
 	{
 		free(tmp->value);

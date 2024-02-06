@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug_main.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:08:03 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/05 19:18:16 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/02/06 19:12:17 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	main(int argc, char **argv, char **envp)
 	init_data(&data);
 	while (1)
 	{
-		get_cmd_prompt(&data);
+		get_cmd_prompt(&dat, env);
 		line = readline(data.cmd_prompt);
 		add_history(line);
 		printf("line = %s\n", line);
