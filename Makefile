@@ -6,7 +6,7 @@
 #    By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/12 17:42:16 by asuc              #+#    #+#              #
-#    Updated: 2024/02/06 21:55:08 by mbuchs           ###   ########.fr        #
+#    Updated: 2024/02/06 23:00:35 by mbuchs           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,6 +72,9 @@ fclean : clean
 
 test : all
 	@valgrind --error-limit=no --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=suppressions.supp ./$(NAME)
+
+test2 : all
+	@valgrind --error-limit=no --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(NAME)
 
 re : fclean all
 
