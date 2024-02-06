@@ -6,7 +6,7 @@
 #    By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/12 17:42:16 by asuc              #+#    #+#              #
-#    Updated: 2024/02/06 19:58:24 by asuc             ###   ########.fr        #
+#    Updated: 2024/02/06 20:08:49 by asuc             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,9 +26,9 @@ SRC			=	srcs/ft_cd.c \
 				srcs/ft_export.c \
 				srcs/ft_unset.c \
 				srcs/get_env.c\
-				srcs/debug_main.c\
-				srcs/lexer/lexer.c
-# srcs/minishell.c
+				srcs/minishell.c
+#srcs/lexer/lexer.c
+#srcs/debug_main.c\
 
 OBJ = $(SRC:.c=.o)
 

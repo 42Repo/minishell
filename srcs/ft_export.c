@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 19:31:03 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/06 19:14:59 by asuc             ###   ########.fr       */
+/*   Updated: 2024/02/06 20:11:40 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ char	*ft_export(t_env *env, char *name)
 {
 	t_env	*tmp;
 
-	name += 7;
 	tmp = get_env_value_ptr(env, name);
 	if (tmp)
 	{

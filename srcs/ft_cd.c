@@ -43,6 +43,7 @@ static int	error_cd(char *path, t_env *env)
 		return (-1);
 	}
 	ft_putstr_fd(path, 2);
+	free(path);
 	if (errno == ENOENT)
 		ft_putstr_fd(": No such file or directory\n", 2);
 	else if (errno == EACCES)
@@ -62,9 +63,7 @@ static int	other_case_cd(char *path, t_env *env)
 	if (path[0] == '\0')
 	{
 		if (chdir(get_env_value_string(env, "HOME")) != 0)
-		{
 			return (error_cd(get_env_value_string(env, "HOME"), env));
-		}
 		return (0);
 	}
 	if (path[0] == '/')
@@ -83,10 +82,9 @@ static int	other_case_cd(char *path, t_env *env)
 	return (1);
 }
 
-static int	old_cd(t_data *data, t_env *env)
+static int	old_cd(t_env *env)
 {
 	char	*tmp;
-	char	*old_pwd;
 
 	if (get_env_value_string(env, "OLDPWD") == NULL)
 	{
@@ -94,25 +92,26 @@ static int	old_cd(t_data *data, t_env *env)
 		return (-1);
 	}
 	tmp = getcwd(NULL, 0);
-	if (chdir(data->old_cd) != 0)
-		return (error_cd(data->old_cd, env));
-	printf("%s\n", data->old_cd);
-	free(data->old_cd);
-	data->old_cd = tmp;
+	if (chdir(get_env_value_string(env, "OLDPWD")) != 0)
+	{
+		ft_export(env, ft_strjoin("OLDPWD=", ft_strdup(tmp)));
+		printf("%s\n", get_env_value_string(env, "OLDPWD"));
+		return (0);
+	}
+	printf("%s\n", get_env_value_string(env, "OLDPWD"));
+	ft_export(env, ft_strjoin("OLDPWD=", ft_strdup(tmp)));
 	return (0);
 }
 
-int	ft_cd(t_data *data, char *path, t_env *env)
+int	ft_cd(char *path, t_env *env)
 {
 	char	*tmp;
 
-	path = path + 3;
 	if (path == NULL)
 		return (0);
 	if (ft_strncmp(path, "-", max_len(path, 1)) == 0)
-		return (old_cd(data, env));
-	free(data->old_cd);
-	data->old_cd = getcwd(NULL, 0);
+		return (old_cd(env));
+	ft_export(env, ft_strjoin("OLDPWD=", getcwd(NULL, 0)));
 	if (other_case_cd(path, env) == 0)
 		return (0);
 	tmp = ft_strjoin_free(ft_strjoin_free(getcwd(NULL, 0), "/"), path);

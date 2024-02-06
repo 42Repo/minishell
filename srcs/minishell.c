@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:08:03 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/06 19:17:37 by asuc             ###   ########.fr       */
+/*   Updated: 2024/02/06 20:26:23 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	main(int argc, char **argv, char **envp)
 	char	*line;
 	t_data	data;
 	t_env	env;
+	char	*line_tmp;
 
 	(void)argc;
 	(void)argv;
@@ -55,11 +56,15 @@ int	main(int argc, char **argv, char **envp)
 		}
 		else if (ft_strncmp(line, "cd ", 3) == 0)
 		{
-			ft_cd(&data, line, &env);
+			line_tmp = line + 3;
+			printf("line_tmp = %s\n", line_tmp);
+			ft_cd(line_tmp, &env);
 		}
 		else if (ft_strncmp(line, "export ", 7) == 0)
 		{
-			ft_export(&env, line);
+			line_tmp = line + 7;
+			printf("line_tmp = %s\n", line_tmp);
+			ft_export(&env, line_tmp);
 		}
 		else if (ft_strncmp(line, "env", 3) == 0)
 		{
