@@ -6,7 +6,7 @@
 #    By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/12 17:42:16 by asuc              #+#    #+#              #
-#    Updated: 2024/02/06 20:08:49 by asuc             ###   ########.fr        #
+#    Updated: 2024/02/06 22:44:14 by asuc             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,6 +72,9 @@ fclean : clean
 
 test : all
 	@valgrind --error-limit=no --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=suppressions.supp ./$(NAME)
+
+test2 : all
+	@valgrind --error-limit=no --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(NAME)
 
 re : fclean all
 
