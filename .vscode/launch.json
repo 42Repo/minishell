@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/maelb/OneDrive/Bureau/minishell",
-      "program": "c:/Users/maelb/OneDrive/Bureau/minishell/build/Debug/outDebug",
+      "cwd": "c:/Users/maelb/Onedrive/Bureau/minishell/Libft",
+      "program": "c:/Users/maelb/Onedrive/Bureau/minishell/Libft/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [

@@ -42,7 +42,11 @@ void free_token_lst(t_data *data)
 	data->prompt_top = NULL;
 }
 
-char *remove_quotes(char *str)
+char *remove_quotes(char *str, int type)
+/*
+	1 = simple quote
+	2 = double quote
+*/ 
 {
 	int		i;
 	int		j;
@@ -55,7 +59,7 @@ char *remove_quotes(char *str)
 		return (NULL);
 	while (str[i])
 	{
-		if (str[i] != '\'' && str[i] != '"')
+		if ((str[i] != '\'' && type == 1) || (str[i] != '"' && type == 2))
 		{
 			new_str[j] = str[i];
 			j++;
@@ -77,43 +81,49 @@ int	quote_management(int i, char c)
 	return (i);
 }
 
+void 	add_token_to_list(t_data *data, char *str, int len, int last_quote)
+{
+	ms_lstadd_back(&data->prompt_top, ms_lstnew(0,ft_strtrim(set_token_str(str, len), " ")), data);
+				if(last_quote == 1)
+					remove_quotes(ms_lstlast(data->prompt_top)->value, 1);
+				else if(last_quote == 2)
+					remove_quotes(ms_lstlast(data->prompt_top)->value, 2);
+}
+
 t_token	*lexer(char *str, t_data *data)
 {
 	int		i;
 	int		j;
 	int		is_ok;
-	int		quote;
+	int	last_quote;
 
+	last_quote = 0;
 	i = 0;
 	j = 0;
-	quote = 0;
 	is_ok = 1;
-	(void)str;
 	if (data->prompt_top)
 		free_token_lst(data);
 	while (str[i])
 	{
 		if (i > 1 && str[i] == '>' && str[i - 1] == '>')
 			i++;
-		if (ft_isnamespace(str[i]) && j < i && quote == 0)
+		if (ft_isnamespace(str[i]) && j < i && data->quote_state== 0)
 		{
 			if (!is_ok)
-			{
-				ms_lstadd_back(&data->prompt_top, ms_lstnew(0, \
-				ft_strtrim(remove_quotes(set_token_str(&str[j], i - j)), " ")), data);
+				add_token_to_list(data, &str[j], i - j, last_quote);
+			if (!is_ok)
 				j = i + 1;
-			}
 			is_ok = 1;
 		}
 		else if (!ft_isnamespace(str[i]))
 			is_ok = 0;
-		quote = quote_management(quote, str[i]);
+		if (quote_management(data->quote_state, str[i]) != data->quote_state && data->quote_state != 0)
+			last_quote = data->quote_state;
+		data->quote_state= quote_management(data->quote_state, str[i]);
 		i++;
 	}
 	if (!ft_isnamespace(str[i]) && j < i)
-		ms_lstadd_back(&data->prompt_top, ms_lstnew(0, \
-		ft_strtrim(set_token_str(&str[j], i - j), " ")), data);
-
+		add_token_to_list(data, &str[j], i - j, last_quote);
 	print_stack(data->prompt_top);
 	// if quote != 0
 	// 	changer prompt par "squote" ou "dquote"

@@ -27,9 +27,9 @@ SRC			=	srcs/ft_cd.c \
 				srcs/ft_unset.c \
 				srcs/get_env.c\
 				srcs/lexer/lexer.c\
-				srcs/minishell.c\
-				srcs/ft_echo.c
-#				srcs/debug_main.c
+				srcs/ft_echo.c\
+				srcs/debug_main.c
+# srcs/minishell.c\
 
 OBJ = $(SRC:.c=.o)
 

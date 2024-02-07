@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
+/*   By: mbuchs <mael@buchs.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:32:07 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/07 00:25:26 by asuc             ###   ########.fr       */
+/*   Updated: 2024/02/07 15:15:14 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct s_data
 {
 	t_token	*prompt_top;
 	char	*old_cd;
+	int 	quote_state;
 	char	*cmd_prompt;
 }	t_data;
 
