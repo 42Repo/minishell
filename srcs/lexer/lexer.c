@@ -42,7 +42,7 @@ void free_token_lst(t_data *data)
 	data->prompt_top = NULL;
 }
 
-char *remove_quotes(char *str, int type)
+char *remove_quotes(char *str, int caca)
 /*
 	1 = simple quote
 	2 = double quote
@@ -51,17 +51,35 @@ char *remove_quotes(char *str, int type)
 	int		i;
 	int		j;
 	char	*new_str;
-
+	int		type;
+	(void)caca;
+	printf("str = %s\n", str);
 	i = 0;
 	j = 0;
+	type = 0;
+	while (str[i])
+	{
+		if (str[i] == '\'')
+			type = 1;
+		if (str[i] == '"')
+			type = 2;
+		if (str[i] == '\'' || str[i] == '"')
+			break;
+		i++;
+	}
+	i = 0;
 	new_str = malloc(sizeof(char) * ft_strlen(str) + 1);
 	if (new_str == NULL)
 		return (NULL);
+	printf("type = %d\n", type);
 	while (str[i])
-	{
-		if ((str[i] != '\'' && type == 1) || (str[i] != '"' && type == 2))
+	{	
+		printf("test 1 = %d\n", (str[i] != '\'' && type == 1));
+		printf("test 2 = %d\n", (str[i] != '"' && type == 2));
+		if ((!(str[i] == '\'' && type == 1) && !(str[i] == '"' && type == 2)))
 		{
 			new_str[j] = str[i];
+			printf("new_str[%d] = %c\n", j, new_str[j]);
 			j++;
 		}
 		i++;
@@ -72,22 +90,21 @@ char *remove_quotes(char *str, int type)
 
 int	quote_management(int i, char c)
 {
-	if ((i == 1 && c == '\'' ) || (i == 2 && c == '"'))
-		return (0);
 	if (i == 0 && c == '\'')
 		return (1);
 	if (i == 0 && c == '"')
 		return (2);
+	if ((i == 1 && c == '\'' )) 
+		return (0);
+	if( (i == 2 && c == '"'))
+		return (0);
 	return (i);
 }
 
-void 	add_token_to_list(t_data *data, char *str, int len, int last_quote)
+void 	add_token_to_list(t_data *data, char *str, int len)
 {
 	ms_lstadd_back(&data->prompt_top, ms_lstnew(0,ft_strtrim(set_token_str(str, len), " ")), data);
-				if(last_quote == 1)
-					remove_quotes(ms_lstlast(data->prompt_top)->value, 1);
-				else if(last_quote == 2)
-					remove_quotes(ms_lstlast(data->prompt_top)->value, 2);
+	ms_lstlast(data->prompt_top)->value = remove_quotes(ms_lstlast(data->prompt_top)->value, 1);
 }
 
 t_token	*lexer(char *str, t_data *data)
@@ -95,9 +112,7 @@ t_token	*lexer(char *str, t_data *data)
 	int		i;
 	int		j;
 	int		is_ok;
-	int	last_quote;
 
-	last_quote = 0;
 	i = 0;
 	j = 0;
 	is_ok = 1;
@@ -110,24 +125,21 @@ t_token	*lexer(char *str, t_data *data)
 		if (ft_isnamespace(str[i]) && j < i && data->quote_state== 0)
 		{
 			if (!is_ok)
-				add_token_to_list(data, &str[j], i - j, last_quote);
+				add_token_to_list(data, &str[j], i - j);
 			if (!is_ok)
 				j = i + 1;
 			is_ok = 1;
 		}
 		else if (!ft_isnamespace(str[i]))
 			is_ok = 0;
-		if (quote_management(data->quote_state, str[i]) != data->quote_state && data->quote_state != 0)
-			last_quote = data->quote_state;
 		data->quote_state= quote_management(data->quote_state, str[i]);
 		i++;
 	}
 	if (!ft_isnamespace(str[i]) && j < i)
-		add_token_to_list(data, &str[j], i - j, last_quote);
+		add_token_to_list(data, &str[j], i - j);
 	print_stack(data->prompt_top);
 	// if quote != 0
-	// 	changer prompt par "squote" ou "dquote"
-	// 	et attendre la fin de la quote
+	// 	syntax error
 	return (NULL);
 }
 

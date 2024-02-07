@@ -6,7 +6,7 @@
 /*   By: mbuchs <mael@buchs.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:32:07 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/07 15:15:14 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/02/07 16:33:29 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,6 +151,8 @@ void		ft_echo(char *line, int mode);
 	0 = no quote
 	1 = simple quote
 	2 = double quote
+	3 = simple quote close
+	4 = double quote close
 */
 int	quote_management(int i, char c);
 
