@@ -29,6 +29,7 @@ SRC			=	srcs/ft_cd.c \
 				srcs/lexer/lexer.c\
 				srcs/ft_echo.c\
 				srcs/debug_main.c
+
 # srcs/minishell.c\
 
 OBJ = $(SRC:.c=.o)
