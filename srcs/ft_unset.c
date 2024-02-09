@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 19:31:29 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/07 00:14:56 by asuc             ###   ########.fr       */
+/*   Updated: 2024/02/07 22:03:26 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static void	delete_env(t_env *env, char *name)
 	t_env	*tmp2;
 
 	tmp = env;
-	printf("name = %s\n", name);
 	while (tmp->next)
 	{
 		if (!ft_strcmp(tmp->next->name, name))

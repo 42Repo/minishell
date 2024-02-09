@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mael@buchs.fr>                     +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:32:07 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/07 16:33:29 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/02/09 23:56:48 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef struct s_data
 {
 	t_token	*prompt_top;
 	char	*old_cd;
-	int 	quote_state;
+	int		quote_state;
 	char	*cmd_prompt;
 }	t_data;
 
@@ -147,6 +147,13 @@ void		ft_unset(t_env *env, char *line);
  */
 void		ft_echo(char *line, int mode);
 
+/**
+ * @brief print the path of the current directory
+ *
+ * @param env the struct env list
+ */
+void		ft_pwd(t_env *env);
+
 /*
 	0 = no quote
 	1 = simple quote
@@ -154,8 +161,7 @@ void		ft_echo(char *line, int mode);
 	3 = simple quote close
 	4 = double quote close
 */
-int	quote_management(int i, char c);
-
+int			quote_management(int i, char c);
 
 /* FUNCTIONS */
 

@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 00:07:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/07 00:08:22 by asuc             ###   ########.fr       */
+/*   Updated: 2024/02/09 23:57:07 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,13 @@
 
 void	ft_echo(char *line, int mode)
 {
-	while (*line == ' ')
-		line++;
-	while (*line)
+	if (line)
 	{
-		write(1, line, 1);
-		line++;
+		while (*line)
+		{
+			write(1, line, 1);
+			line++;
+		}
 	}
 	if (!mode)
 		write(1, "\n", 1);

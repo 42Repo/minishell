@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mael@buchs.fr>                     +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:08:03 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/07 15:15:27 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/02/07 22:30:37 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,9 +105,13 @@ int	main(int argc, char **argv, char **envp)
 			printf("line_tmp = %s\n", line_tmp);
 			ft_echo(line_tmp, 0);
 		}
+		else if (ft_strncmp(line, "pwd", 3) == 0)
+		{
+			ft_pwd(env);
+		}
 		else
 		{
-			printf("command not found\n");
+			printf("%s: command not found\n", line);
 		}
 		if (line != NULL)
 			free(line);
