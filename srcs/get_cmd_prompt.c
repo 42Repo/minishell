@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 20:18:51 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/10 16:55:41 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/02/10 17:42:08 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static int	set_prompt_top(t_data *data, char *hostname, t_env *env)
 	free(tmp);
 	if (data->cmd_prompt == NULL)
 		return (error_free("ft_strjoin_free failed"));
-	data->cmd_prompt = ft_strjoin_free(data->cmd_prompt, "\033[0m$ ");
+	data->cmd_prompt = ft_strjoin_free(data->cmd_prompt, "\001\033[0m$\002 ");
 	if (data->cmd_prompt == NULL)
 		return (error_free("ft_strjoin_free failed"));
 	return (EXIT_SUCCESS);

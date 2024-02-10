@@ -6,7 +6,7 @@
 #    By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/12 17:42:16 by asuc              #+#    #+#              #
-#    Updated: 2024/02/10 09:27:43 by mbuchs           ###   ########.fr        #
+#    Updated: 2024/02/10 17:34:59 by mbuchs           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ BCyan		=	$(shell echo "\033[1;36m")
 Green		=	$(shell echo "\033[0;32m")
 NAME		=	minishell
 COMP		=	clang
-CFLAGS		=	-Wall -Werror -Wextra -g -pg
+CFLAGS		=	-Wall -Werror -Wextra -g
 libft		=	Libft/
 SRC			=	srcs/ft_cd.c \
 				srcs/deco.c \

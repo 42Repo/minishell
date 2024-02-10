@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:08:03 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/10 17:13:36 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/02/10 17:37:52 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,15 +69,13 @@ int	main(int argc, char **argv, char **envp)
 		get_cmd_prompt(data, env);
 		if (data->cmd_prompt == NULL)
 			return (-1);
-		printf("%s\n",data->cmd_prompt);
 		line = readline(data->cmd_prompt);
-		printf("AAAAAAAAAA\n");
 		if (line == NULL)
 			return (-1);
 		// printf("test\n");
 		free(data->cmd_prompt);
 		add_history(line);
-		lexer(line, data);
+		// lexer(line, data);
 		if (ft_strncmp(line, "exit", max_len(line, 4)) == 0)
 		{
 			free_token_lst(data);
