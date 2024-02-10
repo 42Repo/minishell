@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:32:07 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/09 23:56:48 by asuc             ###   ########.fr       */
+/*   Updated: 2024/02/10 09:50:41 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <fcntl.h>
+
+
+/* STRUCTURES */
 
 typedef enum s_token_type
 {
@@ -60,16 +63,148 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
-t_token		*lexer(char *str, t_data *data);
-void		print_stack(t_token *node);
-void		ms_lstadd_front(t_token **lst, t_token *new);
-void		ms_lstadd_back(t_token **lst, t_token *new, t_data *data);
-t_token		*ms_lstnew(t_token_type type, char *value);
-t_token		*ms_lstlast(t_token *lst);
-int			max_len(char *str, int nb);
-void		put_header(void);
+
+/* FUNCTIONS */
+
 
 /**
+ * @brief turn a str input into a tokenized chained list
+ *
+ * @param str the string to turn into chained list
+ * @param data the main struct
+ */
+void		lexer(char *str, t_data *data);
+
+/**
+ * @brief [DEBUG] - print a tokenized chained list
+ *
+ * @param node the top node of the list
+ */
+void		print_stack(t_token *node);
+
+/**
+ * @brief addapted version of the libft's ft_lstadd_back
+ * 
+ * @param lst a pointer to the top node of the list
+ * @param new the node to ad to the lst
+ * @param data the main struct
+ */
+void		ms_lstadd_back(t_token **lst, t_token *new, t_data *data);
+
+/**
+ * @brief addapted version of the libft's ft_lstnew
+ * 
+ * @param type the type your node will have (WORD, PIPE, REDIR or END)
+ * @param value the value of the str
+ */
+t_token		*ms_lstnew(t_token_type type, char *value);
+
+/**
+ * @brief get the last node of a tokenized list
+ * 
+ * @param lst the first node of the list
+ */
+t_token		*ms_lstlast(t_token *lst);
+
+/**
+ * @brief print the startup header
+ */
+void		put_header(void);
+
+int			max_len(char *str, int nb);
+
+/**
+ * @brief add a token to the list, trimming spaces and then filtering quotes
+ * 
+ * @param data the main struct
+ * @param str is attributed to the node
+ * @param len the len of the str you wanna add (can be only a portion of str)
+ * @param type the type your node will have (WORD, PIPE, REDIR or END)
+ */
+void		add_token_to_list(t_data *data,
+				char *str, int len, t_token_type type);
+
+/**
+ * @brief add a REDIR type node to the tokenized list
+ * 
+ * @param str is attributed to the node
+ * @param i	str[i] = char we are checking
+ * @param j str[j] = where last word ended
+ * @param data the main struct
+ */			
+void		add_redir(char *str, int *i, int *j, t_data *data);
+
+/**
+ * @brief add a WORD type node to the tokenized list
+ * 
+ * @param str is attributed to the node
+ * @param i	str[i] = char we are checking
+ * @param j str[j] = where last word ended
+ * @param data the main struct
+ * 
+ * @return 1 c'est un easter egg bonsoir
+ * 
+ */	
+int			add_word_to_list(char *str, int *i, int *j, t_data *data);
+
+/**
+ * @brief add a PIPE type node to the tokenized list
+ * 
+ * @param str is attributed to the node
+ * @param i	str[i] = char we are checking
+ * @param j str[j] = where last word ended
+ * @param data the main struct
+ */	
+void		check_pipe_redir(char *str, int *i, int *j, t_data *data);
+
+/**
+ * @brief return a copy of str of len char
+ * 
+ * @param str the original str
+ * @param len the len of the returned str
+ * 
+ * @return the copied str
+ */	
+char		*set_token_str(char *str, int len);
+
+/**
+ * @brief find which is the first quote used in a str, between ' and "
+ * 
+ * @param str the scanned str
+ * 
+ * @return the quote type (0 = no, 1 = single, 2 = double)
+ */	
+int			get_quote_type(char *str);
+
+/**
+ * @brief removes every iterations of one type of quote
+ * @brief(determined by get_quote_type())
+ *
+ * @param str the scanned str
+ * 
+ * @return the new and filtered str
+ */	
+char		*remove_quotes(char *str);
+
+/**
+ * @brief knows if a char is in a single, double or no quote
+ *
+ * @param i	the actual quote state (0 = no, 1 = single, 2 = double)
+ * @param c the scanned char
+ * 
+ * @return the new quote state (0 = no, 1 = single, 2 = double)
+ */	
+int			quote_management(int i, char c);
+
+/**
+ * @brief free the curent tokenized chained list
+ * 
+ * @param data the main struct
+ */	
+void		free_token_lst(t_data *data);
+
+/**
+ * 
  * @brief change the current directory
  *
  * @param path the string of the path to change to
@@ -154,15 +289,5 @@ void		ft_echo(char *line, int mode);
  */
 void		ft_pwd(t_env *env);
 
-/*
-	0 = no quote
-	1 = simple quote
-	2 = double quote
-	3 = simple quote close
-	4 = double quote close
-*/
-int			quote_management(int i, char c);
-
-/* FUNCTIONS */
 
 #endif

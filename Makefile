@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+         #
+#    By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/12 17:42:16 by asuc              #+#    #+#              #
-#    Updated: 2024/02/09 23:53:14 by asuc             ###   ########.fr        #
+#    Updated: 2024/02/10 09:27:43 by mbuchs           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,8 @@ SRC			=	srcs/ft_cd.c \
 				srcs/lexer/lexer.c\
 				srcs/ft_echo.c\
 				srcs/ft_pwd.c\
+				srcs/lexer/ms_lst.c\
+				srcs/lexer/add_to_list.c\
 				srcs/minishell.c\
 #srcs/debug_main.c
 
