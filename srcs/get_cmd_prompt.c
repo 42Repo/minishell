@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_cmd_prompt.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 20:18:51 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/06 21:55:15 by asuc             ###   ########.fr       */
+/*   Updated: 2024/02/10 16:55:41 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,10 @@ static int	set_prompt_top(t_data *data, char *hostname, t_env *env)
 	data->cmd_prompt = ft_strjoin_free(data->cmd_prompt, hostname);
 	if (data->cmd_prompt == NULL)
 		return (error_free("ft_strjoin_free failed"));
-	data->cmd_prompt = ft_strjoin_free(data->cmd_prompt, "\033[0m:");
+	data->cmd_prompt = ft_strjoin_free(data->cmd_prompt, "\001\033[0m\002:");
 	if (data->cmd_prompt == NULL)
 		return (error_free("ft_strjoin_free failed"));
-	data->cmd_prompt = ft_strjoin_free(data->cmd_prompt, "\033[1;34m");
+	data->cmd_prompt = ft_strjoin_free(data->cmd_prompt, "\001\033[1;34m\002");
 	if (data->cmd_prompt == NULL)
 		return (error_free("ft_strjoin_free failed"));
 	tmp = get_cwd(env);
@@ -76,7 +76,7 @@ int	get_cmd_prompt(t_data *data, t_env *env)
 	ssize_t	bytes_read;
 	char	hostname[1024];
 
-	data->cmd_prompt = ft_strjoin_free(ft_strdup("\033[1;32m"),
+	data->cmd_prompt = ft_strjoin_free(ft_strdup("\001\033[1;32m\002"),
 			get_env_value_string(env, "USER"));
 	if (data->cmd_prompt == NULL)
 		data->cmd_prompt = ft_strdup("minishell");

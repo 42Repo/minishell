@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:32:07 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/10 09:50:41 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/02/10 13:23:39 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,7 +184,7 @@ int			get_quote_type(char *str);
  * 
  * @return the new and filtered str
  */	
-char		*remove_quotes(char *str);
+char		*remove_quotes(char *str, t_data *data);
 
 /**
  * @brief knows if a char is in a single, double or no quote

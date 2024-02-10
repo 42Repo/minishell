@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:08:03 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/10 08:06:23 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/02/10 17:11:41 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,29 +50,37 @@ static int	free_env(t_env *env)
 	return (0);
 }
 
-int	main(int argc, char **argv, char **envp)
+int	main(char **envp)
 {
 	char	*line;
-	t_data	data;
+	t_data	*data;
 	t_env	*env;
 	char	*line_tmp;
 
 	(void)argc;
 	(void)argv;
 	env = malloc(sizeof(t_env));
+	data = malloc(sizeof(t_data));
 	put_header();
-	init_data(&data);
+	init_data(data);
 	get_env(env, envp);
 	while (1)
 	{
-		get_cmd_prompt(&data, env);
-		line = readline(data.cmd_prompt);
-		free(data.cmd_prompt);
+		get_cmd_prompt(data, env);
+		if (data->cmd_prompt == NULL)
+			return (-1);
+		printf("%s\n",data->cmd_prompt);
+		line = readline(data->cmd_prompt);
+		printf("AAAAAAAAAA\n");
+		if (line == NULL)
+			return (-1);
+		// printf("test\n");
+		free(data->cmd_prompt);
 		add_history(line);
-		lexer(line, &data);
+		lexer(line, data);
 		if (ft_strncmp(line, "exit", max_len(line, 4)) == 0)
 		{
-
+			free_token_lst(data);
 			free_env(env);
 			rl_clear_history();
 			return (0);
@@ -83,6 +91,7 @@ int	main(int argc, char **argv, char **envp)
 			printf("line_tmp = %s\n", line_tmp);
 			ft_cd(line_tmp, env);
 		}
+		
 		else if (ft_strncmp(line, "export ", 7) == 0)
 		{
 			line_tmp = line + 7;
@@ -116,6 +125,6 @@ int	main(int argc, char **argv, char **envp)
 		if (line != NULL)
 			free(line);
 	}
-	// lexer(NULL, &data);
+	// lexer(NULL, data);
 	return (0);
 }

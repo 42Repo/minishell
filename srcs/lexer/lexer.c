@@ -43,31 +43,28 @@ int	get_quote_type(char *str)
 	return (type);
 }
 
-char	*remove_quotes(char *str)
-/*
-	1 = simple quote
-	2 = double quote
-*/
+char	*remove_quotes(char *str, t_data *data)
 {
 	int		i;
 	int		j;
 	char	*new_str;
-	int		type;
+	int		local_quote;
 
 	i = 0;
 	j = 0;
-	type = get_quote_type(str);
-	i = 0;
 	new_str = malloc(sizeof(char) * ft_strlen(str) + 1);
 	if (new_str == NULL)
 		return (NULL);
+	local_quote = data->quote_state;
 	while (str[i])
 	{
-		if ((!(str[i] == '\'' && type == 1) && !(str[i] == '"' && type == 2)))
-		{
+		if (!((str[i] == '\'' && (local_quote == 0 || local_quote == 1)) \
+				|| (str[i] == '"' && (local_quote == 0 || local_quote == 2))))
 			new_str[j] = str[i];
+		if (!((str[i] == '\'' && (local_quote == 0 || local_quote == 1)) \
+			|| (str[i] == '"' && (local_quote == 0 || local_quote == 2))))
 			j++;
-		}
+		local_quote = quote_management(local_quote, str[i]);
 		i++;
 	}
 	new_str[j] = '\0';
@@ -77,15 +74,21 @@ char	*remove_quotes(char *str)
 int	quote_management(int i, char c)
 {
 	if (i == 0 && c == '\'')
+		printf("simple quote open\n");
+	if (i == 0 && c == '\'')
 		return (1);
 	if (i == 0 && c == '"')
+		printf("double quote open\n");
+	if (i == 0 && c == '"')
 		return (2);
-	if ((i == 1 && c == '\'' ))
-		return (0);
-	if (i == 2 && c == '"')
+	if ((i == 1 && c == '\'' ) || (i == 2 && c == '"'))
+		printf("quote close\n");
+	if ((i == 1 && c == '\'' ) || (i == 2 && c == '"'))
 		return (0);
 	return (i);
 }
+
+//use quote management pour erase quote
 
 void	lexer(char *str, t_data *data)
 {
@@ -113,7 +116,6 @@ void	lexer(char *str, t_data *data)
 	if (!ft_isnamespace(str[i]) && j < i)
 		add_token_to_list(data, &str[j], i - j, WORD);
 	add_token_to_list(data, "", 0, END);
-	return ;
 }
 
 	// print_stack(data->prompt_top);

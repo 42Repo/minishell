@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/10 08:47:29 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/02/10 08:49:43 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/02/10 16:14:12 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ void	add_token_to_list(t_data *data, char *str, int len, t_token_type type)
 {
 	ms_lstadd_back(&data->prompt_top,
 		ms_lstnew(type, ft_strtrim(set_token_str(str, len), " ")), data);
-	ms_lstlast(data->prompt_top)->value
-	= remove_quotes(ms_lstlast(data->prompt_top)->value);
+	ms_lstlast(data->prompt_top)->value = remove_quotes
+	(ms_lstlast(data->prompt_top)->value, data);
 }
 
 void	add_redir(char *str, int *i, int *j, t_data *data)
