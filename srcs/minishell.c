@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:08:03 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/10 17:11:41 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/02/10 17:13:36 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static int	free_env(t_env *env)
 	return (0);
 }
 
-int	main(char **envp)
+int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
 	t_data	*data;
