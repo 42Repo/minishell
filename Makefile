@@ -3,18 +3,18 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+         #
+#    By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/12 17:42:16 by asuc              #+#    #+#              #
-#    Updated: 2024/02/10 17:34:59 by mbuchs           ###   ########.fr        #
+#    Updated: 2024/02/10 17:43:25 by asuc             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-BGreen		=	$(shell echo "\033[1;32m")
-RESET		=	$(shell echo "\033[0m")
-BRed		=	$(shell echo "\033[1;31m")
-BCyan		=	$(shell echo "\033[1;36m")
-Green		=	$(shell echo "\033[0;32m")
+BGreen		=	\033[1;32m
+RESET		=	\033[0m
+BRed		=	\033[1;31m
+BCyan		=	\033[1;36m
+Green		=	\033[0;32m
 NAME		=	minishell
 COMP		=	clang
 CFLAGS		=	-Wall -Werror -Wextra -g
