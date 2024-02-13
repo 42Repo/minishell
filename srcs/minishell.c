@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:08:03 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/10 17:37:52 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/02/13 00:56:22 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	main(int argc, char **argv, char **envp)
 	t_env	*env;
 	char	*line_tmp;
 
+	printf("\e[1;1H\e[2J");
 	(void)argc;
 	(void)argv;
 	env = malloc(sizeof(t_env));
