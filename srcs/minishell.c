@@ -76,7 +76,7 @@ int	main(int argc, char **argv, char **envp)
 		// printf("test\n");
 		free(data->cmd_prompt);
 		add_history(line);
-		// lexer(line, data);
+		lexer(line, data);
 		if (ft_strncmp(line, "exit", max_len(line, 4)) == 0)
 		{
 			free_token_lst(data);

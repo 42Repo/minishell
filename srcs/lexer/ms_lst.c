@@ -58,9 +58,9 @@ t_token	*ms_lstlast(t_token *lst)
 void	free_token_lst(t_data *data)
 {
 	t_token	*tmp;
-	int		i;
+	// int		i;
 
-	i = 0;
+	// i = 0;
 	while (data->prompt_top != NULL)
 	{
 		tmp = data->prompt_top;
