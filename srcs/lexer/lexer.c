@@ -94,11 +94,9 @@ void	lexer(char *str, t_data *data)
 {
 	int		i;
 	int		j;
-	// int		is_ok;
 
 	i = 0;
 	j = 0;
-	// is_ok = 1;
 	if (data->prompt_top)
 		free_token_lst(data);
 	while (str[i])
@@ -107,8 +105,6 @@ void	lexer(char *str, t_data *data)
 			i++;
 		if (ft_isnamespace(str[i]) && j < i && data->quote_state == 0)
 			add_word_to_list(str, &i, &j, data);
-		else if (!ft_isnamespace(str[i]))
-			// is_ok = 0;
 		check_pipe_redir(str, &i, &j, data);
 		data->quote_state = quote_management(data->quote_state, str[i]);
 		i++;
@@ -122,12 +118,12 @@ void	lexer(char *str, t_data *data)
 	// if quote != 0
 	// 	syntax error
 
-void	print_stack(t_token *node)
-{
-	while (node->next)
-	{
-		printf("Type = %d and value = %s\n", node->type, node->value);
-		node = node->next;
-	}
-	printf("Type = %d and value = %s\n", node->type, node->value);
-}
+// void	print_stack(t_token *node)
+// {
+// 	while (node->next)
+// 	{
+// 		printf("Type = %d and value = %s\n", node->type, node->value);
+// 		node = node->next;
+// 	}
+// 	printf("Type = %d and value = %s\n", node->type, node->value);
+// }

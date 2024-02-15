@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:32:07 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/10 13:23:39 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/02/13 22:47:02 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <fcntl.h>
-
 
 /* STRUCTURES */
 
@@ -63,9 +62,7 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
-
 /* FUNCTIONS */
-
 
 /**
  * @brief turn a str input into a tokenized chained list
@@ -288,6 +285,5 @@ void		ft_echo(char *line, int mode);
  * @param env the struct env list
  */
 void		ft_pwd(t_env *env);
-
 
 #endif
