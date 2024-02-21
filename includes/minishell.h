@@ -62,6 +62,21 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
+typedef struct s_command
+{
+	char *cmd;
+	char **args;
+	struct s_args *args;
+	struct s_next *next;
+}	t_command;
+
+typedef struct s_next
+// 1 = pipe, 2 = redirect, 3 = end
+{
+	int action; 
+	t_command *next;
+}	t_next;
+
 /* FUNCTIONS */
 
 /**
