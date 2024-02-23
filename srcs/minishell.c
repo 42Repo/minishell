@@ -51,6 +51,35 @@ static int	free_env(t_env *env)
 	return (0);
 }
 
+char	**get_env_pour_mael_ce_gros_con(t_env *env)
+{
+	t_env	*tmp;
+	int		i;
+	char	**envp;
+
+	tmp = env;
+	i = 0;
+	while (tmp)
+	{
+		i++;
+		tmp = tmp->next;
+	}
+	envp = malloc(sizeof(char *) * (i + 1));
+	if (envp == NULL)
+		return (NULL);
+	tmp = env;
+	i = 0;
+	while (tmp)
+	{
+		envp[i] = ft_strjoin(tmp->name, "=");
+		envp[i] = ft_strjoin(envp[i], tmp->value);
+		tmp = tmp->next;
+		i++;
+	}
+	envp[i] = NULL;
+	return (envp);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
@@ -67,7 +96,6 @@ int	main(int argc, char **argv, char **envp)
 	put_header();
 	init_data(data);
 	get_env(env, envp);
-
 	while (1)
 	{
 		get_cmd_prompt(data, env);
@@ -94,7 +122,7 @@ int	main(int argc, char **argv, char **envp)
 			printf("line_tmp = %s\n", line_tmp);
 			ft_cd(line_tmp, env);
 		}
-		
+
 		else if (ft_strncmp(line, "export ", 7) == 0)
 		{
 			line_tmp = line + 7;
@@ -123,6 +151,8 @@ int	main(int argc, char **argv, char **envp)
 		}
 		else
 		{
+			char **env_test;
+			env_test = get_env_pour_mael_ce_gros_con(env);
 			execve(data->command_top->cmd, data->command_top->args, envp);
 		}
 		if (line != NULL)
