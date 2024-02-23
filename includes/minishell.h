@@ -58,8 +58,7 @@ typedef struct s_env
 typedef struct s_command
 {
 	char *cmd;
-	char **s_command;
-	struct s_args *args;
+	char **args;
 	struct s_next *next;
 }	t_command;
 
@@ -81,6 +80,7 @@ typedef struct s_data
 
 
 /* FUNCTIONS */
+void parser(t_data *data);
 
 /**
  * @brief turn a str input into a tokenized chained list

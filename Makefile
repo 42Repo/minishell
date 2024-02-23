@@ -32,6 +32,7 @@ SRC			=	srcs/ft_cd.c \
 				srcs/lexer/ms_lst.c\
 				srcs/lexer/add_to_list.c\
 				srcs/minishell.c\
+				srcs/parser/parser.c
 #srcs/debug_main.c
 
 

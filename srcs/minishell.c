@@ -17,6 +17,7 @@ void	init_data(t_data *data)
 	data->prompt_top = NULL;
 	data->cmd_prompt = NULL;
 	data->quote_state = 0;
+	data->command_top = NULL;
 }
 
 static int	ft_env(t_env *env)
@@ -61,10 +62,12 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	env = malloc(sizeof(t_env));
+
 	data = malloc(sizeof(t_data));
 	put_header();
 	init_data(data);
 	get_env(env, envp);
+
 	while (1)
 	{
 		get_cmd_prompt(data, env);
@@ -77,6 +80,7 @@ int	main(int argc, char **argv, char **envp)
 		free(data->cmd_prompt);
 		add_history(line);
 		lexer(line, data);
+		parser(data);
 		if (ft_strncmp(line, "exit", max_len(line, 4)) == 0)
 		{
 			free_token_lst(data);
@@ -117,13 +121,13 @@ int	main(int argc, char **argv, char **envp)
 		{
 			ft_pwd(env);
 		}
-		// else
-		// {
-		// 	printf("%s: command not found\n", line);
-		// }
+		else
+		{
+			execve(data->command_top->cmd, data->command_top->args, envp);
+		}
 		if (line != NULL)
 			free(line);
+
 	}
-	// lexer(NULL, data);
 	return (0);
 }
