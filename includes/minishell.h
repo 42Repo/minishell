@@ -47,13 +47,6 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
-typedef struct s_data
-{
-	t_token	*prompt_top;
-	char	*old_cd;
-	int		quote_state;
-	char	*cmd_prompt;
-}	t_data;
 
 typedef struct s_env
 {
@@ -65,7 +58,7 @@ typedef struct s_env
 typedef struct s_command
 {
 	char *cmd;
-	char **args;
+	char **s_command;
 	struct s_args *args;
 	struct s_next *next;
 }	t_command;
@@ -76,6 +69,16 @@ typedef struct s_next
 	int action; 
 	t_command *next;
 }	t_next;
+
+typedef struct s_data
+{
+	t_token	*prompt_top;
+	t_command *command_top;
+	char	*old_cd;
+	int		quote_state;
+	char	*cmd_prompt;
+}	t_data;
+
 
 /* FUNCTIONS */
 
