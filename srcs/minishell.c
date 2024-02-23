@@ -51,7 +51,7 @@ static int	free_env(t_env *env)
 	return (0);
 }
 
-char	**get_env_pour_mael_ce_gros_con(t_env *env)
+char	**env_to_tab(t_env *env)
 {
 	t_env	*tmp;
 	int		i;
@@ -152,9 +152,25 @@ int	main(int argc, char **argv, char **envp)
 		else
 		{
 			char **env_test;
-			data->command_top->cmd = ft_strjoin("usr/bin/", data->command_top->cmd);
-			env_test = get_env_pour_mael_ce_gros_con(env);
-			execve(data->command_top->cmd, data->command_top->args, env_test);
+			pid_t pid;
+			data->command_top->cmd = ft_strjoin("/usr/bin/", data->command_top->cmd);
+			env_test = env_to_tab(env);
+			pid = fork();
+			if (pid == -1)
+			{
+				printf("fork failed\n");
+				exit(1);
+			}
+			if (pid == 0)
+			{
+				execve(data->command_top->cmd, data->command_top->args, env_test);
+				exit(0);
+			}
+			else
+			{
+				waitpid(pid, NULL, 0);
+			}
+			free(env_test);
 		}
 		if (line != NULL)
 			free(line);
