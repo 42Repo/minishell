@@ -153,7 +153,7 @@ int	main(int argc, char **argv, char **envp)
 		{
 			char **env_test;
 			env_test = get_env_pour_mael_ce_gros_con(env);
-			execve(data->command_top->cmd, data->command_top->args, envp);
+			execve(data->command_top->cmd, data->command_top->args, env_test);
 		}
 		if (line != NULL)
 			free(line);
