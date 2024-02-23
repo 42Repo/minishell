@@ -152,6 +152,7 @@ int	main(int argc, char **argv, char **envp)
 		else
 		{
 			char **env_test;
+			data->command_top->cmd = ft_strjoin("usr/bin/", data->command_top->cmd);
 			env_test = get_env_pour_mael_ce_gros_con(env);
 			execve(data->command_top->cmd, data->command_top->args, env_test);
 		}

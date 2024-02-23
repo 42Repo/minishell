@@ -6,7 +6,7 @@
 /*   By: mbuchs <mael@buchs.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/02/23 23:11:27 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/02/23 23:40:14 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void parser(t_data *data)
 	if (data->prompt_top->type == WORD)
 		data->command_top->cmd = ft_strdup(data->prompt_top->value);
 	selected = data->prompt_top->next;
-	while (selected->type == WORD)
+	while (selected && selected->type == WORD)
 	{
 		data->command_top->args = join_tab(data->command_top->args, ft_strdup(selected->value));
 		selected = selected->next;
