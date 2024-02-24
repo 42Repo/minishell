@@ -6,7 +6,7 @@
 /*   By: mbuchs <mael@buchs.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/02/24 01:58:08 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/02/24 21:04:21 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,12 @@ void parser(t_data *data)
 	t_token		*selected;
 	t_command	*command;
 	data->command_top = malloc(sizeof(t_command));
-	data->command_top->args = ft_calloc(sizeof(char **), 1);
 	selected = data->prompt_top;
 	
 	command = data->command_top;
 	while(selected)
 	{
+		command->args = ft_calloc(sizeof(char **), 1);
 		if (data->prompt_top->type == WORD)
 			command->cmd = ft_strdup(selected->value);
 		// selected = selected->next;
@@ -64,15 +64,15 @@ void parser(t_data *data)
 			command->args = join_tab(command->args, ft_strdup(selected->value));
 			selected = selected->next;
 		}
-		// if (selected->type == PIPE)
-		// {
-		// 	command->next = malloc(sizeof(t_command *));
-		// 	command = command->next;
-		// 	selected = selected->next;
-		// }
-		printf("cmd = %s\n", data->command_top->cmd);
-		printf("arg 1 = %s\n", data->command_top->args[0]);
-		printf("arg 2 = %s\n", data->command_top->args[1]);
+		if (selected->type == PIPE)
+		{
+			command->next = malloc(sizeof(t_command *));
+			command = command->next;
+			selected = selected->next;
+		}
+		// printf("cmd = %s\n", data->command_top->cmd);
+		// printf("arg 1 = %s\n", data->command_top->args[0]);
+		// printf("arg 2 = %s\n", data->command_top->args[1]);
 		
 		if (selected->type == END)
 			return ;
