@@ -154,6 +154,7 @@ int	main(int argc, char **argv, char **envp)
 			char **env_test;
 			pid_t pid;
 			data->command_top->cmd = ft_strjoin("/usr/bin/", data->command_top->cmd);
+			printf("caca\n");
 			env_test = env_to_tab(env);
 			pid = fork();
 			if (pid == -1)

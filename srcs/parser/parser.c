@@ -6,7 +6,7 @@
 /*   By: mbuchs <mael@buchs.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/02/23 23:40:14 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/02/24 01:58:08 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,26 +44,43 @@ char **join_tab(char **tab, char *line)
 	return (new_tab);
 }
 
+
 void parser(t_data *data)
 {
-	t_token *selected;
-
+	t_token		*selected;
+	t_command	*command;
 	data->command_top = malloc(sizeof(t_command));
 	data->command_top->args = ft_calloc(sizeof(char **), 1);
-	if (data->prompt_top->type == WORD)
-		data->command_top->cmd = ft_strdup(data->prompt_top->value);
-	selected = data->prompt_top->next;
-	while (selected && selected->type == WORD)
+	selected = data->prompt_top;
+	
+	command = data->command_top;
+	while(selected)
 	{
-		data->command_top->args = join_tab(data->command_top->args, ft_strdup(selected->value));
-		selected = selected->next;
+		if (data->prompt_top->type == WORD)
+			command->cmd = ft_strdup(selected->value);
+		// selected = selected->next;
+		while (selected && selected->type == WORD)
+		{
+			command->args = join_tab(command->args, ft_strdup(selected->value));
+			selected = selected->next;
+		}
+		// if (selected->type == PIPE)
+		// {
+		// 	command->next = malloc(sizeof(t_command *));
+		// 	command = command->next;
+		// 	selected = selected->next;
+		// }
+		printf("cmd = %s\n", data->command_top->cmd);
+		printf("arg 1 = %s\n", data->command_top->args[0]);
+		printf("arg 2 = %s\n", data->command_top->args[1]);
+		
+		if (selected->type == END)
+			return ;
 	}
-
-	printf("cmd = %s\n", data->command_top->cmd);
-	printf("arg 1 = %s\n", data->command_top->args[0]);
-	printf("arg 2 = %s\n", data->command_top->args[1]);
-
-
+// printf("cmd = %s\n", data->command_top->next->cmd);
+// 		printf("arg 1 = %s\n", data->command_top->next->args[0]);
+// 		printf("arg 2 = %s\n", data->command_top->next->args[1]);
+		
 // if ->top node == word
 // 	command_top == word
 // while -> node->type == WORD
@@ -72,7 +89,7 @@ void parser(t_data *data)
 // if << -> heredoc
 
 // if < -> if next == word
-// 	cat "word" in args
+// 	dup2 "word" in args
 
 // if pipe
 // 	pipex

@@ -59,7 +59,7 @@ typedef struct s_command
 {
 	char *cmd;
 	char **args;
-	struct s_next *next;
+	struct s_command *next;
 }	t_command;
 
 typedef struct s_next
@@ -72,6 +72,7 @@ typedef struct s_next
 typedef struct s_data
 {
 	t_token	*prompt_top;
+	t_token *selected;
 	t_command *command_top;
 	char	*old_cd;
 	int		quote_state;
