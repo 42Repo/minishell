@@ -76,7 +76,7 @@ CACHE_DIR ?= $(shell pwd)/.cache
 DEBUG ?= 0
 
 ifeq ($(DEBUG), 1)
-	CFLAGS += -g3
+	CFLAGS += -gdwarf-4
 endif
 
 OBJ_DIR = $(CACHE_DIR)/$(PROJECT_NAME)/obj
@@ -100,20 +100,15 @@ $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR) $(DEP_DIR)
 	@mkdir -p $(dir $@)
 	@mkdir -p $(dir $(DEP_DIR)/$*)
 	@$(COMP) $(CFLAGS) $(DEP_FLAGS) -o $@ -c $<
-# @sed -i 's|^\(.*\):|$(PREFIX_PATH)/\1:|' $(DEP_DIR)/$*.d
-# @sed -i 's| \./| $(PREFIX_PATH)/|g' $(DEP_DIR)/$*.d
-	@mv -f $(DEP_DIR)/$*.Td $(DEP_DIR)/$*.d
-
+	@mv -f $(DEP_DIR)/$*.Td $(DEP_DIR)/$*.d && touch $@
 
 all : $(NAME)
-
--include $(DEP)
 
 $(OBJ_DIR) $(DEP_DIR):
 	@mkdir -p $(OBJ_DIR) $(DEP_DIR)
 
 $(NAME) : $(OBJ)
-	@printf "\033[2K\r[100%%] Linking $(NAME)\n"
+	@printf "$(Green)\033[2K\r[100%%] Linking $(NAME)\n"
 	@ar -rcs $(NAME) $(OBJ)
 	@printf "$(BGreen)Compilation OK libft.a$(RESET)\n\n"
 
@@ -125,5 +120,6 @@ fclean : clean
 
 re : fclean all
 
+-include $(DEP)
 
 .PHONY: all fclean clean re
