@@ -100,14 +100,15 @@ $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR) $(DEP_DIR)
 	@mkdir -p $(dir $@)
 	@mkdir -p $(dir $(DEP_DIR)/$*)
 	@$(COMP) $(CFLAGS) $(DEP_FLAGS) -o $@ -c $<
-	# @sed -i 's|^\(.*\):|$(PREFIX_PATH)/\1:|' $(DEP_DIR)/$*.d
-	# @sed -i 's| \./| $(PREFIX_PATH)/|g' $(DEP_DIR)/$*.d
+# @sed -i 's|^\(.*\):|$(PREFIX_PATH)/\1:|' $(DEP_DIR)/$*.d
+# @sed -i 's| \./| $(PREFIX_PATH)/|g' $(DEP_DIR)/$*.d
 	@mv -f $(DEP_DIR)/$*.Td $(DEP_DIR)/$*.d
 
 
 all : $(NAME)
 
 -include $(DEP)
+
 $(OBJ_DIR) $(DEP_DIR):
 	@mkdir -p $(OBJ_DIR) $(DEP_DIR)
 

@@ -50,12 +50,14 @@ DEP_DIR = $(CACHE_DIR)/$(NAME)/dep
 OBJ = $(addprefix $(OBJ_DIR)/,$(SRC:.c=.o))
 DEP = $(addprefix $(DEP_DIR)/,$(SRC:.c=.d))
 
+# LIBFT_DEP = $(shell find $(shell pwd)/.cache/Libft/dep -name "*.d")
+LIBFT_OBJS = $(addprefix /home/asuc/Documents/42/minishell/Libft/obj/, $(notdir $(SRC:.c=.o)))
+
 DEP_FLAGS = -MT $@ -MMD -MP -MF $(DEP_DIR)/$*.Td
 
 _CURR = 0
 _TOTAL = $(words $(OBJ))
 _TOTAL_LEN = $(shell echo $(_TOTAL) | wc -c)
-
 $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR) $(DEP_DIR)
 	@if [ $(_CURR) -eq 1 ]; then \
 		printf "$(Bblue)Compilation object files for $(NAME)$(RESET)\n"; \
@@ -65,7 +67,7 @@ $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR) $(DEP_DIR)
 	@printf "\033[2K\r$(Green)[$(shell printf "% 3s" "$(_PERCENTAGE)")%%] $(shell printf "%*d/%d" $(_TOTAL_LEN) $(_CURR) $(_TOTAL)) Compiling $<\r"
 	@mkdir -p $(dir $@)
 	@mkdir -p $(dir $(DEP_DIR)/$*)
-	@$(COMP) $(CFLAGS) $(DEP_FLAGS) -o $@ -c $<
+	@$(COMP) -gdwarf-4 -fPIE $(CFLAGS) $(DEP_FLAGS) -o $@ -c $<
 	@mv -f $(DEP_DIR)/$*.Td $(DEP_DIR)/$*.d
 
 define banner
@@ -81,7 +83,7 @@ $(Bblue)   ### ####  ### #### ####  ### ##  ### ### ###$(RESET)
 $(Green)                              By: $(AUTHORS)$(RESET)
 endef
 
-all : _banner $(NAME)
+all : _banner  $(NAME)
 
 _banner:
 	$(info $(banner))
@@ -94,6 +96,8 @@ $(OBJ_DIR) $(DEP_DIR):
 	@mkdir -p $(OBJ_DIR) $(DEP_DIR)
 
 $(NAME) : $(LIBFT) $(OBJ)
+# @printf "$(LIBFT_DEP)\n"
+# @printf "$(DEP)"
 	@echo "\033[2K\r[100%] Linking $(NAME)"
 	@$(COMP) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT_DIR)libft.a -lreadline
 	@printf "$(BGreen)Compilation Final $(NAME)$(RESET)\n"
@@ -114,8 +118,8 @@ fclean : clean
 
 re : fclean all
 
--include /home/asuc/Documents/42/minishell/.cache/Libft/dep/*.d
 -include $(DEP)
+-include $(LIBFT_OBJS)
 
 # Debugging
 test : all
