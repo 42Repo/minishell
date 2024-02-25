@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
+/*   By: mbuchs <mael@buchs.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 00:16:17 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/25 14:26:19 by asuc             ###   ########.fr       */
+/*   Updated: 2024/02/25 18:56:42 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,7 @@ int	execve_path_env(char *cmd, char **args, t_env *env)
 	i = 0;
 	while (args[i])
 	{
-		printf("args[%d] = %s\n", i, args[i]);
+		// printf("args[%d] = %s\n", i, args[i]);
 		i++;
 	}
 	envp = env_to_tab(env);

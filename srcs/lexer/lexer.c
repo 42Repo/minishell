@@ -74,15 +74,15 @@ char	*remove_quotes(char *str, t_data *data)
 int	quote_management(int i, char c)
 {
 	if (i == 0 && c == '\'')
-		printf("simple quote open\n");
+		// printf("simple quote open\n");
 	if (i == 0 && c == '\'')
 		return (1);
 	if (i == 0 && c == '"')
-		printf("double quote open\n");
+		// printf("double quote open\n");
 	if (i == 0 && c == '"')
 		return (2);
 	if ((i == 1 && c == '\'' ) || (i == 2 && c == '"'))
-		printf("quote close\n");
+		// printf("quote close\n");
 	if ((i == 1 && c == '\'' ) || (i == 2 && c == '"'))
 		return (0);
 	return (i);
@@ -122,8 +122,8 @@ void	print_stack(t_token *node)
 {
 	while (node->next)
 	{
-		printf("Type = %d and value = %s\n", node->type, node->value);
+		// printf("Type = %d and value = %s\n", node->type, node->value);
 		node = node->next;
 	}
-	printf("Type = %d and value = %s\n", node->type, node->value);
+	// printf("Type = %d and value = %s\n", node->type, node->value);
 }

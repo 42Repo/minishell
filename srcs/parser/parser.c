@@ -6,7 +6,7 @@
 /*   By: mbuchs <mael@buchs.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/02/25 02:53:35 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/02/25 18:52:53 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char **join_tab(char **tab, char *line)
 	}
 	new_tab[i] = line;
 	new_tab[i + 1] = NULL;
-	// free(tab);
+	free(tab);
 	return (new_tab);
 }
 
@@ -62,9 +62,12 @@ char *replace_alias(char *str, int *i, char *alias, t_data *data)
 	int	k;
 	
 	(void) data;
-	dollar_len = 0;
+	dollar_len = 1;
+
 	while (str[*i + dollar_len] && ft_isalnum(str[*i + dollar_len]))
 		dollar_len++;
+
+	// printf("dollar_len = %d\n", dollar_len);
 	new_str = ft_calloc(sizeof(char), (ft_strlen(str) + ft_strlen(alias) - dollar_len + 1));
 	j = 0;
 	while(str[j] && j < *i)
@@ -80,14 +83,14 @@ char *replace_alias(char *str, int *i, char *alias, t_data *data)
 		j++;
 		k++;
 	}
-	j = *i + ft_strlen(alias);
+	j = *i + dollar_len;
 	while((int)ft_strlen(str) >= j && str[j])
 	{
 		new_str[k] = str[j];
 		j++;
 		k++;
 	}
-	(*i) += ft_strlen(alias) + 1;
+	(*i) += ft_strlen(alias);
 	free(str);
 	return (new_str);
 }
