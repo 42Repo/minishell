@@ -10,6 +10,8 @@
 #                                                                              #
 # **************************************************************************** #
 
+include Libft/libft_file.mk
+
 BGreen		=	$(shell printf "\033[1;32m")
 RESET		=	$(shell printf "\033[0m")
 BRed		=	$(shell printf "\033[1;31m")
@@ -69,15 +71,15 @@ $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR) $(DEP_DIR)
 
 define banner
 $(Green)Welcome to $(RESET)
-$(Bblue)                            ##          ##  ##
-                      ####  #           #   #
-                     #   #  #           #   #
-  ### ###   ### ###  ##     ###    ##   #   #
- #  # #  # #  # #  #  ###   #  #  #  #  #   #
- #     ### #     ###    ##  #  #  ####  #   #
- #    #  # #    #  # #   #  #  #  #     #   #
-  ### ####  ### #### ####  ### ##  ### ### ###$(RESET)
-$(Green)                              By: $(AUTHORS)$(RESET)
+$(Bblue)                           oo                            .d88888b  dP                dP dP
+                                                         88.    "' 88                88 88
+.d8888b. dP    dP .d8888b. dP .d8888b. .d8888b. dP    dP `Y88888b. 88d888b. .d8888b. 88 88
+88'  `88 88    88 88'  `88 88 88'  `"" 88'  `88 88    88       `8b 88'  `88 88ooood8 88 88
+88.  .88 88.  .88 88.  .88 88 88.  ... 88.  .88 88.  .88 d8'   .8P 88    88 88.  ... 88 88
+`8888P88 `88888P' `88888P' dP `88888P' `88888P' `88888P'  Y88888P  dP    dP `88888P' dP dP
+      88
+      dP                                                                                   $(RESET)
+$(Green)                                                                           By: $(AUTHORS)$(RESET)
 endef
 
 all : _banner $(NAME)
@@ -92,28 +94,38 @@ debug: re
 $(OBJ_DIR) $(DEP_DIR):
 	@mkdir -p $(OBJ_DIR) $(DEP_DIR)
 
-$(NAME) : $(LIBFT) $(OBJ)
+LIBFT_TIMESTAMP := $(LIBFT_DIR).timestamp
+
+$(LIBFT_TIMESTAMP): $(addprefix $(LIBFT_DIR)/, $(SRC_LIBFT)) $(addprefix $(LIBFT_DIR)/, $(HEADER_LIBFT))
+	@printf "\n\n$(Bblue)Compilation object files for libft.a$(RESET)\n"
+	@$(MAKE) -C $(LIBFT_DIR) DEBUG=$(DEBUG) CACHE_DIR=$(CACHE_DIR) -j
+	@touch $(LIBFT_TIMESTAMP)
+
+$(NAME) : $(LIBFT_TIMESTAMP) $(LIBFT) $(OBJ)
 	@printf "$(Green)\033[2K[100%%] Linking $(NAME)\n"
 	@$(COMP) $(CFLAGS) -o $(NAME) $(OBJ) -lreadline -L$(LIBFT_DIR) -lft
 	@printf "$(BGreen)Compilation Final $(NAME)$(RESET)\n"
 
  $(LIBFT):
 	@printf "\n\n$(Bblue)Compilation object files for libft.a$(RESET)\n"
-	@$(MAKE) -C $(LIBFT_DIR) DEBUG=$(DEBUG) -j
+	@$(MAKE) -C $(LIBFT_DIR) DEBUG=$(DEBUG) CACHE_DIR=$(CACHE_DIR) -j
 
 clean :
-	@$(MAKE) -C $(LIBFT_DIR) clean
+	@$(MAKE) -C $(LIBFT_DIR) CACHE_DIR=$(CACHE_DIR) clean
 	@rm -rf $(OBJ_DIR) $(DEP_DIR)
 	@printf "$(BRed)Erase all obj and deb files$(RESET)\n"
 
 fclean : clean
-	@$(MAKE) -C $(LIBFT_DIR)  fclean
+	@$(MAKE) -C $(LIBFT_DIR) CACHE_DIR=$(CACHE_DIR) fclean
 	@rm -rf $(NAME) $(LIBFT) $(CACHE_DIR)
 	@printf "$(BRed)Erase $(NAME), libft.a$(RESET)\n\n"
 
 re : fclean all
 
 -include $(DEP)
+
+
+
 
 # Debugging
 test : debug
@@ -122,7 +134,4 @@ test : debug
 test2 : debug
 	@valgrind --error-limit=no --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(NAME)
 
-.PHONY: all fclean clean re banner $(LIBFT) #test test2 $(OBJ_DIR) $(DEP_DIR) $(NAME)
-
-
-
+.PHONY: all fclean clean re banner
