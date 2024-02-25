@@ -109,6 +109,7 @@ int	main(int argc, char **argv, char **envp)
 		add_history(line);
 		lexer(line, data);
 		parser(data);
+		printf("commande finale = %s\n", data->command_top->cmd);
 		if (ft_strncmp(line, "exit", max_len(line, 4)) == 0)
 		{
 			free_token_lst(data);
@@ -154,7 +155,6 @@ int	main(int argc, char **argv, char **envp)
 			char **env_test;
 			pid_t pid;
 			data->command_top->cmd = ft_strjoin("/usr/bin/", data->command_top->cmd);
-			printf("caca\n");
 			env_test = env_to_tab(env);
 			pid = fork();
 			if (pid == -1)

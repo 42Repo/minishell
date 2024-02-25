@@ -6,7 +6,7 @@
 /*   By: mbuchs <mael@buchs.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/02/24 21:04:21 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/02/25 02:53:35 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,73 @@ char **join_tab(char **tab, char *line)
 }
 
 
+char *get_alias(char *str, int *i, t_data *data)
+{
+	(void) str;
+	(void) i;
+	(void) data; 
+	//get the $text, returns what it should be replaced by
+	return (NULL);
+}
+
+char *replace_alias(char *str, int *i, char *alias, t_data *data)
+{
+	char *new_str;
+	int	dollar_len;
+	int j;
+	int	k;
+	
+	(void) data;
+	dollar_len = 0;
+	while (str[*i + dollar_len] && ft_isalnum(str[*i + dollar_len]))
+		dollar_len++;
+	new_str = ft_calloc(sizeof(char), (ft_strlen(str) + ft_strlen(alias) - dollar_len + 1));
+	j = 0;
+	while(str[j] && j < *i)
+	{
+		new_str[j] = str[j];
+		j++;
+	}
+	k = j;
+	j = 0;
+	while(alias[j])
+	{
+		new_str[k] = alias[j];
+		j++;
+		k++;
+	}
+	j = *i + ft_strlen(alias);
+	while((int)ft_strlen(str) >= j && str[j])
+	{
+		new_str[k] = str[j];
+		j++;
+		k++;
+	}
+	(*i) += ft_strlen(alias) + 1;
+	free(str);
+	return (new_str);
+}
+
+char *check_aliases(char *str, t_data *data)
+{
+	int	i;
+	char *alias;
+	
+	data->quote_state = 0;
+	i = 0;
+	while (str[i])
+	{
+		data->quote_state = quote_management(data->quote_state, str[i]);
+		if (data->quote_state != 1 && str[i] == '$')
+		{
+			alias = get_alias(str, &i, data);
+			(void) alias;
+			str = replace_alias(str, &i, "replaced", data);
+		}
+		i++;
+	}
+	return (remove_quotes(str, data));
+}
 void parser(t_data *data)
 {
 	t_token		*selected;
@@ -57,7 +124,7 @@ void parser(t_data *data)
 	{
 		command->args = ft_calloc(sizeof(char **), 1);
 		if (data->prompt_top->type == WORD)
-			command->cmd = ft_strdup(selected->value);
+			command->cmd = check_aliases(ft_strdup(selected->value), data);
 		// selected = selected->next;
 		while (selected && selected->type == WORD)
 		{
@@ -69,18 +136,11 @@ void parser(t_data *data)
 			command->next = malloc(sizeof(t_command *));
 			command = command->next;
 			selected = selected->next;
-		}
-		// printf("cmd = %s\n", data->command_top->cmd);
-		// printf("arg 1 = %s\n", data->command_top->args[0]);
-		// printf("arg 2 = %s\n", data->command_top->args[1]);
-		
+		}		
 		if (selected->type == END)
 			return ;
 	}
-// printf("cmd = %s\n", data->command_top->next->cmd);
-// 		printf("arg 1 = %s\n", data->command_top->next->args[0]);
-// 		printf("arg 2 = %s\n", data->command_top->next->args[1]);
-		
+	
 // if ->top node == word
 // 	command_top == word
 // while -> node->type == WORD

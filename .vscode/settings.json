@@ -64,7 +64,8 @@
     "string_view": "c",
     "ranges": "c",
     "span": "c",
-    "typeinfo": "c"
+    "typeinfo": "c",
+    "sstream": "c"
   },
   "functionHeaderExtension.headerFilePath": "/nfs/homes/asuc/Documents/42/All Project/minishell/includes/minishell.h"
 }

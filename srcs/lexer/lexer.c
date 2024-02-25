@@ -112,18 +112,18 @@ void	lexer(char *str, t_data *data)
 	if (!ft_isnamespace(str[i]) && j < i)
 		add_token_to_list(data, &str[j], i - j, WORD);
 	add_token_to_list(data, "", 0, END);
-	// print_stack(data->prompt_top);
+	print_stack(data->prompt_top);
 }
 
 	// if quote != 0
 	// 	syntax error
 
-// void	print_stack(t_token *node)
-// {
-// 	while (node->next)
-// 	{
-// 		printf("Type = %d and value = %s\n", node->type, node->value);
-// 		node = node->next;
-// 	}
-// 	printf("Type = %d and value = %s\n", node->type, node->value);
-// }
+void	print_stack(t_token *node)
+{
+	while (node->next)
+	{
+		printf("Type = %d and value = %s\n", node->type, node->value);
+		node = node->next;
+	}
+	printf("Type = %d and value = %s\n", node->type, node->value);
+}
