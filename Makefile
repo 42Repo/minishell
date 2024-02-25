@@ -10,13 +10,13 @@
 #                                                                              #
 # **************************************************************************** #
 
-BGreen		=	$(shell echo -n "\033[1;32m")
-RESET		=	$(shell echo -n "\033[0m")
-BRed		=	$(shell echo -n "\033[1;31m")
-BCyan		=	$(shell echo -n "\033[1;36m")
-Green		=	$(shell echo -n "\033[0;32m")
-Blue 		=	$(shell echo -n "\033[0;34m")
-Bblue		=	$(shell echo -n "\033[1;34m")
+BGreen		=	$(shell printf "\033[1;32m")
+RESET		=	$(shell printf "\033[0m")
+BRed		=	$(shell printf "\033[1;31m")
+BCyan		=	$(shell printf "\033[1;36m")
+Green		=	$(shell printf "\033[0;32m")
+Blue 		=	$(shell printf "\033[0;34m")
+Bblue		=	$(shell printf "\033[1;34m")
 NAME		=	minishell
 COMP		=	clang
 CFLAGS		=	-Wall -Werror -Wextra
