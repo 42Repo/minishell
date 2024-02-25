@@ -113,7 +113,7 @@ $(OBJ_DIR) $(DEP_DIR):
 	@mkdir -p $(OBJ_DIR) $(DEP_DIR)
 
 $(NAME) : $(OBJ)
-	@echo "\033[2K\r[100%] Linking $(NAME)"
+	@printf "\033[2K\r[100%%] Linking $(NAME)\n"
 	@ar -rcs $(NAME) $(OBJ)
 	@printf "$(BGreen)Compilation OK libft.a$(RESET)\n\n"
 

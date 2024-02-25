@@ -64,8 +64,7 @@ $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR) $(DEP_DIR)
 	fi
 	$(eval _CURR=$(shell echo $$(($(_CURR)+1))))
 	$(eval _PERCENTAGE=$(shell echo $$(($(_CURR)*100/$(_TOTAL)))))
-	@printf "\033[2K"
-	@printf "$(Green)[$(shell printf "% 3s" "$(_PERCENTAGE)")%%] $(shell printf "%*d/%d" $(_TOTAL_LEN) $(_CURR) $(_TOTAL)) Compiling $<\r"
+	@printf "\033[2K$(Green)[$(shell printf "% 3s" "$(_PERCENTAGE)")%%] $(shell printf "%*d/%d" $(_TOTAL_LEN) $(_CURR) $(_TOTAL)) Compiling $<\r"
 	@mkdir -p $(dir $@)
 	@mkdir -p $(dir $(DEP_DIR)/$*)
 	@$(COMP) -gdwarf-4 -fPIE $(CFLAGS) $(DEP_FLAGS) -o $@ -c $<
@@ -97,9 +96,7 @@ $(OBJ_DIR) $(DEP_DIR):
 	@mkdir -p $(OBJ_DIR) $(DEP_DIR)
 
 $(NAME) : $(LIBFT) $(OBJ)
-# @printf "$(LIBFT_DEP)\n"
-# @printf "$(DEP)"
-	@echo "\033[2K\r[100%] Linking $(NAME)"
+	@printf "\033[2K[100%%] Linking $(NAME)\n"
 	@$(COMP) $(CFLAGS) -o $(NAME) $(OBJ) $(LIBFT_DIR)libft.a -lreadline
 	@printf "$(BGreen)Compilation Final $(NAME)$(RESET)\n"
 
