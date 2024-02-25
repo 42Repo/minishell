@@ -56,6 +56,7 @@ static int	error_cd(char *path, t_env *env, int mode)
 	return (-1);
 }
 
+
 static int	other_case_cd(char *path, t_env *env)
 {
 	char	*tmp;

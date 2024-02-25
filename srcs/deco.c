@@ -12,8 +12,11 @@
 
 #include "../includes/minishell.h"
 
+
+
 void	put_header(void)
 {
+	printf("\e[1;1H\e[2J");
 	printf("Welcome to\n");
 	printf("                           ##          ##  ##  \n");
 	printf("                      ####  #           #   #  \n");
@@ -25,12 +28,12 @@ void	put_header(void)
 	printf("  ### ####  ### #### ####  ### ##  ### ### ###\n");
 }
 
-                                              
+
 
 //
-// 
-// 
-// 
-// 
+//
+//
+//
+//
 //
 //

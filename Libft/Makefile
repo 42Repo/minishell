@@ -11,16 +11,15 @@
 # **************************************************************************** #
 
 NAME = libft.a
+PROJECT_NAME = Libft
 COMP = clang
 CFLAGS = -Wall -Werror -Wextra
-RESET	=	$(shell echo "\033[0m")
-BCyan	=	$(shell echo "\033[1;36m")
-BGreen	=	$(shell echo "\033[1;32m")
-Green	=	$(shell echo "\033[0;32m")
+RESET	=	\033[0m
+BCyan	=	\033[1;36m
+BGreen	=	\033[1;32m
+Green	=	\033[0;32m
 
-
-
-LIB = ft_strlen.c\
+SRC = ft_strlen.c\
 	ft_atoi.c\
 	ft_strdup.c\
 	ft_strlcat.c\
@@ -48,8 +47,7 @@ LIB = ft_strlen.c\
 	ft_strtok_r.c\
 	ft_strndup.c\
 	ft_strcmp.c\
-
-ADDITIONAL = ft_substr.c\
+	ft_substr.c\
 	ft_strjoin.c\
 	ft_strtrim.c\
 	ft_split.c\
@@ -60,8 +58,7 @@ ADDITIONAL = ft_substr.c\
 	ft_putstr_fd.c\
 	ft_putendl_fd.c\
 	ft_putnbr_fd.c \
-
-BONUS =	ft_lstadd_back_bonus.c\
+	ft_lstadd_back_bonus.c\
 	ft_lstadd_front_bonus.c\
 	ft_lstlast_bonus.c\
 	ft_lstnew_bonus.c\
@@ -75,40 +72,57 @@ BONUS =	ft_lstadd_back_bonus.c\
 	ft_printf.c\
 	ft_printf_utils.c \
 
-SRC = $(LIB) $(ADDITIONAL) $(BONUS)
+CACHE_DIR ?= $(shell pwd)/.cache
+DEBUG ?= 0
 
-OBJ = $(SRC:.c=.o)
-TOTAL = $(words $(OBJ))
-CURR = 0
+ifeq ($(DEBUG), 1)
+	CFLAGS += -g3
+endif
 
-define update_progress
-  $(eval CURR=$(shell echo $$(($(CURR)+1))))
-  @echo -n "\033[1A\033[K"
-  @echo -n "$(Green)[`echo "scale=2; $(CURR)/$(TOTAL)*100" | bc`%] Compiling $< \n$(RESET)"
-endef
+OBJ_DIR = $(CACHE_DIR)/$(PROJECT_NAME)/obj
+DEP_DIR = $(CACHE_DIR)/$(PROJECT_NAME)/dep
+
+
+OBJ = $(addprefix $(OBJ_DIR)/,$(SRC:.c=.o))
+DEP = $(addprefix $(DEP_DIR)/,$(SRC:.c=.d))
+
+DEP_FLAGS = -MT $@ -MMD -MP -MF $(DEP_DIR)/$*.Td
+
+_CURR = 0
+_TOTAL = $(words $(OBJ))
+_TOTAL_LEN = $(shell echo $(_TOTAL) | wc -c)
+PREFIX_PATH = Libft/
+
+$(OBJ_DIR)/%.o: %.c | $(OBJ_DIR) $(DEP_DIR)
+	$(eval _CURR=$(shell echo $$(($(_CURR)+1))))
+	$(eval _PERCENTAGE=$(shell echo $$(($(_CURR)*100/$(_TOTAL)))))
+	@printf "\033[2K\r$(Green)[$(shell printf "% 3s" "$(_PERCENTAGE)")%%] $(shell printf "%*d/%d" $(_TOTAL_LEN) $(_CURR) $(_TOTAL)) Compiling $<\r"
+	@mkdir -p $(dir $@)
+	@mkdir -p $(dir $(DEP_DIR)/$*)
+	@$(COMP) $(CFLAGS) $(DEP_FLAGS) -o $@ -c $<
+	# @sed -i 's|^\(.*\):|$(PREFIX_PATH)/\1:|' $(DEP_DIR)/$*.d
+	# @sed -i 's| \./| $(PREFIX_PATH)/|g' $(DEP_DIR)/$*.d
+	@mv -f $(DEP_DIR)/$*.Td $(DEP_DIR)/$*.d
 
 
 all : $(NAME)
 
-%.o : %.c
-	@if [ $(CURR) -eq 0 ]; then \
-		echo "\n$(BCyan)Compiling object files for $(NAME)...\n$(RESET)"; \
-	fi
-	@$(COMP) -gdwarf-4 -fPIE -O3 -march=native $(CFLAGS) -o $@ -c $<
-	@$(call update_progress)
-
+-include $(DEP)
+$(OBJ_DIR) $(DEP_DIR):
+	@mkdir -p $(OBJ_DIR) $(DEP_DIR)
 
 $(NAME) : $(OBJ)
+	@echo "\033[2K\r[100%] Linking $(NAME)"
 	@ar -rcs $(NAME) $(OBJ)
-	@echo "$(BGreen)Compilation OK $(NAME)$(RESET)\n"
-
+	@printf "$(BGreen)Compilation OK libft.a$(RESET)\n\n"
 
 clean :
-	@rm -f $(OBJ)
+	@rm -rf $(OBJ_DIR) $(DEP_DIR)
 
 fclean : clean
-	@rm -f $(NAME)
+	@rm -rf $(NAME) $(CACHE_DIR)
 
 re : fclean all
+
 
 .PHONY: all fclean clean re

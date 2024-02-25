@@ -51,35 +51,6 @@ static int	free_env(t_env *env)
 	return (0);
 }
 
-char	**env_to_tab(t_env *env)
-{
-	t_env	*tmp;
-	int		i;
-	char	**envp;
-
-	tmp = env;
-	i = 0;
-	while (tmp)
-	{
-		i++;
-		tmp = tmp->next;
-	}
-	envp = malloc(sizeof(char *) * (i + 1));
-	if (envp == NULL)
-		return (NULL);
-	tmp = env;
-	i = 0;
-	while (tmp)
-	{
-		envp[i] = ft_strjoin(tmp->name, "=");
-		envp[i] = ft_strjoin(envp[i], tmp->value);
-		tmp = tmp->next;
-		i++;
-	}
-	envp[i] = NULL;
-	return (envp);
-}
-
 int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
@@ -87,13 +58,11 @@ int	main(int argc, char **argv, char **envp)
 	t_env	*env;
 	char	*line_tmp;
 
-	printf("\e[1;1H\e[2J");
 	(void)argc;
 	(void)argv;
 	env = malloc(sizeof(t_env));
-
 	data = malloc(sizeof(t_data));
-	put_header();
+	printf("\e[1;1H\e[2J");
 	init_data(data);
 	get_env(env, envp);
 	while (1)
@@ -104,12 +73,10 @@ int	main(int argc, char **argv, char **envp)
 		line = readline(data->cmd_prompt);
 		if (line == NULL)
 			return (-1);
-		// printf("test\n");
 		free(data->cmd_prompt);
 		add_history(line);
 		lexer(line, data);
 		parser(data);
-		printf("commande finale = %s\n", data->command_top->cmd);
 		if (ft_strncmp(line, "exit", max_len(line, 4)) == 0)
 		{
 			free_token_lst(data);
@@ -152,26 +119,8 @@ int	main(int argc, char **argv, char **envp)
 		}
 		else
 		{
-			char **env_test;
-			pid_t pid;
-			data->command_top->cmd = ft_strjoin("/usr/bin/", data->command_top->cmd);
-			env_test = env_to_tab(env);
-			pid = fork();
-			if (pid == -1)
-			{
-				printf("fork failed\n");
-				exit(1);
-			}
-			if (pid == 0)
-			{
-				execve(data->command_top->cmd, data->command_top->args, env_test);
-				exit(0);
-			}
-			else
-			{
-				waitpid(pid, NULL, 0);
-			}
-			free(env_test);
+			execve_path_env(data->command_top->cmd,
+				data->command_top->args, env);
 		}
 		if (line != NULL)
 			free(line);
