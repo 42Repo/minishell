@@ -68,6 +68,7 @@ char	*remove_quotes(char *str, t_data *data)
 		i++;
 	}
 	new_str[j] = '\0';
+	free(str);
 	return (new_str);
 }
 
@@ -87,8 +88,6 @@ int	quote_management(int i, char c)
 		return (0);
 	return (i);
 }
-
-//use quote management pour erase quote
 
 void	lexer(char *str, t_data *data)
 {

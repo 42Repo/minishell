@@ -51,6 +51,15 @@ static int	free_env(t_env *env)
 	return (0);
 }
 
+void	ft_exit(t_data *data, t_env *env)
+{
+	free_token_lst(data);
+	free_env(env);
+	free_command(data);
+	rl_clear_history();
+	exit (0);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
@@ -78,12 +87,7 @@ int	main(int argc, char **argv, char **envp)
 		lexer(line, data);
 		parser(data);
 		if (ft_strncmp(line, "exit", max_len(line, 4)) == 0)
-		{
-			free_token_lst(data);
-			free_env(env);
-			rl_clear_history();
-			return (0);
-		}
+			ft_exit(data, env);
 		else if (ft_strncmp(line, "cd ", 3) == 0)
 		{
 			line_tmp = line + 3;
@@ -121,6 +125,8 @@ int	main(int argc, char **argv, char **envp)
 		{
 			execve_path_env(data->command_top->cmd,
 				data->command_top->args, env);
+			// free_token_lst(data);
+			// free_command(data);
 		}
 		if (line != NULL)
 			free(line);

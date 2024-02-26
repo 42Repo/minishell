@@ -83,7 +83,8 @@ typedef struct s_data
 
 /* FUNCTIONS */
 void	parser(t_data *data);
-
+void free_command(t_data *data);
+void    free_tab(char **tab);
 /**
  * @brief turn a str input into a tokenized chained list
  *

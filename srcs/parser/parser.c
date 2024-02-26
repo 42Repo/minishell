@@ -6,7 +6,7 @@
 /*   By: mbuchs <mael@buchs.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/02/25 18:52:53 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/02/26 00:44:06 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,17 +115,43 @@ char *check_aliases(char *str, t_data *data)
 	}
 	return (remove_quotes(str, data));
 }
+
+void free_command(t_data *data)
+{
+	t_command *selected;
+	t_command *old;
+	
+	selected = data->command_top;
+
+	while(selected)
+	{
+		if(selected->cmd)
+			free(selected->cmd);
+		if(selected->args)
+			free_tab(selected->args);
+		old = selected;
+		selected = selected->next;
+		if (old)
+			free(old);
+		printf("cleared cmd\n");
+	}
+}
+
 void parser(t_data *data)
 {
 	t_token		*selected;
 	t_command	*command;
+
+	if (data->command_top)
+		free_command(data);
 	data->command_top = malloc(sizeof(t_command));
 	selected = data->prompt_top;
-	
 	command = data->command_top;
+	command->args = NULL;
 	while(selected)
 	{
 		command->args = ft_calloc(sizeof(char **), 1);
+		command->next = NULL;
 		if (data->prompt_top->type == WORD)
 			command->cmd = check_aliases(ft_strdup(selected->value), data);
 		// selected = selected->next;
