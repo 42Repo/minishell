@@ -6,7 +6,7 @@
 /*   By: mbuchs <mael@buchs.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/02/26 00:44:06 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/02/26 12:24:08 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,17 @@ void free_command(t_data *data)
 	}
 }
 
+t_command *init_command()
+{
+	t_command *command;
+
+	command = malloc(sizeof(t_command));
+	command->cmd = NULL;	
+	command->args = NULL;
+	command->next = NULL;
+	return (command);
+}
+
 void parser(t_data *data)
 {
 	t_token		*selected;
@@ -144,10 +155,9 @@ void parser(t_data *data)
 
 	if (data->command_top)
 		free_command(data);
-	data->command_top = malloc(sizeof(t_command));
+	data->command_top = init_command();
 	selected = data->prompt_top;
 	command = data->command_top;
-	command->args = NULL;
 	while(selected)
 	{
 		command->args = ft_calloc(sizeof(char **), 1);
@@ -162,7 +172,7 @@ void parser(t_data *data)
 		}
 		if (selected->type == PIPE)
 		{
-			command->next = malloc(sizeof(t_command *));
+			command->next = init_command();
 			command = command->next;
 			selected = selected->next;
 		}		
