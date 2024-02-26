@@ -72,7 +72,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	env = malloc(sizeof(t_env));
 	data = malloc(sizeof(t_data));
-	printf("\e[1;1H\e[2J");
+	printf("\033c");
 	init_data(data);
 	get_env(env, envp);
 	while (1)
