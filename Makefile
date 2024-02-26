@@ -138,9 +138,9 @@ re : fclean all
 
 # Debugging
 test : debug
-	@valgrind --error-limit=no --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=suppressions.supp ./$(NAME)
+	@valgrind --error-limit=no --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=suppressions.supp -s ./$(NAME)
 
 test2 : debug
-	@valgrind --error-limit=no --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(NAME)
+	@valgrind --error-limit=no --leak-check=full --show-leak-kinds=all --track-origins=yes -s ./$(NAME)
 
 .PHONY: all fclean clean re banner
