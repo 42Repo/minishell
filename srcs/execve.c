@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 00:16:17 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/26 01:33:06 by asuc             ###   ########.fr       */
+/*   Updated: 2024/02/26 01:46:54 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,12 +144,14 @@ int	execve_path_env(char *cmd, char **args, t_env *env, t_data *data)
 	// 	// printf("args[%d] = %s\n", i, args[i]);
 	// 	i++;
 	// }
+	if (!cmd || !(*args) || !args || !env || !data)
+		return (1);
 	envp = env_to_tab(env);
 	path = get_path(env);
-	if (!path)
+	if (!path || !envp)
 		return (1);
 	path = find_cmd_path(cmd, path);
-	if (!envp)
+	if (!path)
 		return (1);
 	pid = fork();
 	if (pid == -1)
