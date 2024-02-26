@@ -51,13 +51,15 @@ static int	free_env(t_env *env)
 	return (0);
 }
 
-void	ft_exit(t_data *data, t_env *env)
+void	ft_exit(t_data *data, t_env *env, char *exit_msg, int exit_code)
 {
 	free_token_lst(data);
 	free_env(env);
 	free_command(data);
 	free(data);
 	rl_clear_history();
+	if (ft_strlen(exit_msg))
+		printf("%s (%d)\n", exit_msg, exit_code);
 	exit (0);
 }
 
@@ -88,7 +90,7 @@ int	main(int argc, char **argv, char **envp)
 		lexer(line, data);
 		parser(data);
 		if (ft_strncmp(line, "exit", max_len(line, 4)) == 0)
-			ft_exit(data, env);
+			ft_exit(data, env, "exited", 0);
 		else if (ft_strncmp(line, "cd ", 3) == 0)
 		{
 			line_tmp = line + 3;

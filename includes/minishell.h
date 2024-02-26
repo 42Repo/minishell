@@ -306,6 +306,6 @@ void	ft_echo(char *line, int mode);
 void	ft_pwd(t_env *env);
 
 int		execve_path_env(char *cmd, char **args, t_env *env, t_data *data);
-void	ft_exit(t_data *data, t_env *env);
+void	ft_exit(t_data *data, t_env *env, char *exit_msg, int exit_code);
 
 #endif
