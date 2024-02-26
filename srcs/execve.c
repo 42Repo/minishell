@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mael@buchs.fr>                     +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 00:16:17 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/25 18:56:42 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/02/26 01:14:06 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	**env_to_tab(t_env *env)
 	while (tmp)
 	{
 		envp[i] = ft_strjoin(tmp->name, "=");
-		envp[i] = ft_strjoin(envp[i], tmp->value);
+		envp[i] = ft_strjoin_free(envp[i], tmp->value);
 		tmp = tmp->next;
 		i++;
 	}
@@ -130,20 +130,20 @@ int	check_exec_command(char *path)
 	return (0);
 }
 
-int	execve_path_env(char *cmd, char **args, t_env *env)
+int	execve_path_env(char *cmd, char **args, t_env *env, t_data *data)
 {
 	char	**envp;
 	int		i;
 	pid_t	pid;
 	char	*path;
 
-	printf("cmd = %s\n", cmd);
-	i = 0;
-	while (args[i])
-	{
-		// printf("args[%d] = %s\n", i, args[i]);
-		i++;
-	}
+	// printf("cmd = %s\n", cmd);
+	// i = 0;
+	// while (args[i])
+	// {
+	// 	// printf("args[%d] = %s\n", i, args[i]);
+	// 	i++;
+	// }
 	envp = env_to_tab(env);
 	path = get_path(env);
 	if (!path)
@@ -159,11 +159,11 @@ int	execve_path_env(char *cmd, char **args, t_env *env)
 	}
 	if (pid == 0)
 	{
-		char *args_tmp[] = {"-l", NULL};
 		(void)args;
-		i = execve(path, args_tmp, envp);
+		i = execve(path, args, envp);
 		perror("minishell");
 		free_tab(envp);
+		ft_exit(data, env);
 		exit(i);
 	}
 	waitpid(pid, &i, 0);

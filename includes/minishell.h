@@ -29,7 +29,6 @@
 # include <termios.h>
 # include <unistd.h>
 
-
 /* STRUCTURES */
 typedef enum s_token_type
 {
@@ -83,8 +82,8 @@ typedef struct s_data
 
 /* FUNCTIONS */
 void	parser(t_data *data);
-void free_command(t_data *data);
-void    free_tab(char **tab);
+void	free_command(t_data *data);
+void	free_tab(char **tab);
 /**
  * @brief turn a str input into a tokenized chained list
  *
@@ -306,6 +305,7 @@ void	ft_echo(char *line, int mode);
  */
 void	ft_pwd(t_env *env);
 
-int		execve_path_env(char *cmd, char **args, t_env *env);
+int		execve_path_env(char *cmd, char **args, t_env *env, t_data *data);
+void	ft_exit(t_data *data, t_env *env);
 
 #endif

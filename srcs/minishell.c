@@ -56,6 +56,7 @@ void	ft_exit(t_data *data, t_env *env)
 	free_token_lst(data);
 	free_env(env);
 	free_command(data);
+	free(data);
 	rl_clear_history();
 	exit (0);
 }
@@ -124,9 +125,7 @@ int	main(int argc, char **argv, char **envp)
 		else
 		{
 			execve_path_env(data->command_top->cmd,
-				data->command_top->args, env);
-			// free_token_lst(data);
-			// free_command(data);
+				data->command_top->args, env, data);
 		}
 		if (line != NULL)
 			free(line);

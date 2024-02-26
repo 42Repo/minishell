@@ -44,7 +44,16 @@ DEBUG		=	0
 # 				srcs/parser/parser.c\
 # 				srcs/execve.c
 
+
+
+
+
 SRC = $(shell find srcs -name "*.c")
+
+
+
+
+
 
 OBJ_DIR = $(CACHE_DIR)/$(NAME)/obj
 DEP_DIR = $(CACHE_DIR)/$(NAME)/dep
