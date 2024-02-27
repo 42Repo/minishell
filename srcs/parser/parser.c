@@ -6,7 +6,7 @@
 /*   By: mbuchs <mael@buchs.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/02/26 12:24:08 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/02/27 02:11:58 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,6 @@ void free_command(t_data *data)
 		selected = selected->next;
 		if (old)
 			free(old);
-		printf("cleared cmd\n");
 	}
 }
 

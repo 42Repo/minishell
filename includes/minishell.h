@@ -75,9 +75,11 @@ typedef struct s_data
 	t_token		*prompt_top;
 	t_token		*selected;
 	t_command	*command_top;
+	t_env		*env;
 	char		*old_cd;
 	int			quote_state;
 	char		*cmd_prompt;
+
 }	t_data;
 
 /* FUNCTIONS */

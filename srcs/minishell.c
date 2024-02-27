@@ -58,9 +58,27 @@ void	ft_exit(t_data *data, t_env *env, char *exit_msg, int exit_code)
 	free_command(data);
 	free(data);
 	rl_clear_history();
+	if(data->cmd_prompt)
+		free(data->cmd_prompt);
 	if (ft_strlen(exit_msg))
 		printf("%s (%d)\n", exit_msg, exit_code);
 	exit (0);
+}
+
+void	*sig_handler(int num)
+{
+	static t_data *data_struct = NULL;
+
+	if (data_struct == NULL)
+		data_struct = malloc(sizeof(t_data));
+	if (num == SIGINT)
+		printf("^C\n");
+	if (num == SIGINT)
+	{
+		printf("%s", data_struct->cmd_prompt);
+		fflush(stdout);
+	}
+	return (data_struct);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -70,10 +88,14 @@ int	main(int argc, char **argv, char **envp)
 	t_env	*env;
 	char	*line_tmp;
 
+	rl_catch_signals = 0;
+	signal(SIGINT, (void (*)(int))sig_handler);
+	signal(SIGQUIT, (void (*)(int))sig_handler);
 	(void)argc;
 	(void)argv;
+	data = sig_handler(0);
 	env = malloc(sizeof(t_env));
-	data = malloc(sizeof(t_data));
+	data->env = env;
 	printf("\033c");
 	init_data(data);
 	get_env(env, envp);
@@ -84,14 +106,13 @@ int	main(int argc, char **argv, char **envp)
 			return (-1);
 		line = readline(data->cmd_prompt);
 		if (line == NULL)
-			return (-1);
-		free(data->cmd_prompt);
+			ft_exit(data, env, "exit", 0);
 		add_history(line);
 		lexer(line, data);
 		parser(data);
 		if (ft_strncmp(line, "exit", max_len(line, 4)) == 0)
-			ft_exit(data, env, "exited", 0);
-		else if (ft_strncmp(line, "cd ", 3) == 0)
+			ft_exit(data, env, "exit", 0);
+		if (ft_strncmp(line, "cd ", 3) == 0)
 		{
 			line_tmp = line + 3;
 			printf("line_tmp = %s\n", line_tmp);
@@ -105,9 +126,7 @@ int	main(int argc, char **argv, char **envp)
 			ft_export(env, line_tmp);
 		}
 		else if (ft_strncmp(line, "env", 3) == 0)
-		{
 			ft_env(env);
-		}
 		else if (ft_strncmp(line, "unset ", 6) == 0)
 		{
 			line_tmp = line + 6;
@@ -121,9 +140,7 @@ int	main(int argc, char **argv, char **envp)
 			ft_echo(line_tmp, 0);
 		}
 		else if (ft_strncmp(line, "pwd", 3) == 0)
-		{
 			ft_pwd(env);
-		}
 		else
 		{
 			execve_path_env(data->command_top->cmd,

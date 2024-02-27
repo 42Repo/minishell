@@ -47,6 +47,8 @@ static int	set_prompt_top(t_data *data, t_env *env)
 {
 	char	*tmp;
 
+	if (data->cmd_prompt)
+		free(data->cmd_prompt);
 	data->cmd_prompt = ft_strdup("\001\033[1;32m\002");
 	if (data->cmd_prompt == NULL)
 		return (error_free("ft_strdup failed"));
@@ -63,6 +65,7 @@ static int	set_prompt_top(t_data *data, t_env *env)
 
 int	get_cmd_prompt(t_data *data, t_env *env)
 {
+	
 	if (set_prompt_top(data, env) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
