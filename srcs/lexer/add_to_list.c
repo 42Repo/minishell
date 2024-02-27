@@ -14,13 +14,12 @@
 
 void	add_token_to_list(t_data *data, char *str, int len, t_token_type type)
 {
-	char *tmp1;
-	char *tmp2;
+	char	*tmp1;
+	char	*tmp2;
 
 	tmp1 = set_token_str(str, len);
 	tmp2 = ft_strtrim(tmp1, " ");
 	free(tmp1);
-
 	ms_lstadd_back(&data->prompt_top,
 		ms_lstnew(type, tmp2), data);
 	ms_lstlast(data->prompt_top)->value = ms_lstlast(data->prompt_top)->value;

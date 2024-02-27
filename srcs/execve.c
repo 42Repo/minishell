@@ -6,7 +6,7 @@
 /*   By: mbuchs <mael@buchs.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 00:16:17 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/26 12:33:45 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/02/27 18:15:32 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,13 +130,6 @@ int	check_exec_command(char *path)
 	return (0);
 }
 
-int	execve_path_env(char *cmd, char **args, t_env *env, t_data *data)
-{
-	char	**envp;
-	int		i;
-	pid_t	pid;
-	char	*path;
-
 	// printf("cmd = %s\n", cmd);
 	// i = 0;
 	// while (args[i])
@@ -144,6 +137,13 @@ int	execve_path_env(char *cmd, char **args, t_env *env, t_data *data)
 	// 	// printf("args[%d] = %s\n", i, args[i]);
 	// 	i++;
 	// }
+int	execve_path_env(char *cmd, char **args, t_env *env, t_data *data)
+{
+	char	**envp;
+	int		i;
+	pid_t	pid;
+	char	*path;
+
 	if (!cmd || !(*args) || !args || !env || !data)
 		return (1);
 	envp = env_to_tab(env);
@@ -173,4 +173,3 @@ int	execve_path_env(char *cmd, char **args, t_env *env, t_data *data)
 	free(path);
 	return (i);
 }
-

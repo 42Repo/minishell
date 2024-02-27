@@ -75,15 +75,9 @@ char	*remove_quotes(char *str, t_data *data)
 int	quote_management(int i, char c)
 {
 	if (i == 0 && c == '\'')
-		// printf("simple quote open\n");
-	if (i == 0 && c == '\'')
 		return (1);
 	if (i == 0 && c == '"')
-		// printf("double quote open\n");
-	if (i == 0 && c == '"')
 		return (2);
-	if ((i == 1 && c == '\'' ) || (i == 2 && c == '"'))
-		// printf("quote close\n");
 	if ((i == 1 && c == '\'' ) || (i == 2 && c == '"'))
 		return (0);
 	return (i);
@@ -111,18 +105,18 @@ void	lexer(char *str, t_data *data)
 	if (!ft_isnamespace(str[i]) && j < i)
 		add_token_to_list(data, &str[j], i - j, WORD);
 	add_token_to_list(data, "", 0, END);
-	print_stack(data->prompt_top);
 }
 
+	// print_stack(data->prompt_top);
 	// if quote != 0
 	// 	syntax error
 
-void	print_stack(t_token *node)
-{
-	while (node->next)
-	{
-		// printf("Type = %d and value = %s\n", node->type, node->value);
-		node = node->next;
-	}
-	// printf("Type = %d and value = %s\n", node->type, node->value);
-}
+// void	print_stack(t_token *node)
+// {
+// 	while (node->next)
+// 	{
+// 		// printf("Type = %d and value = %s\n", node->type, node->value);
+// 		node = node->next;
+// 	}
+// 	// printf("Type = %d and value = %s\n", node->type, node->value);
+// }

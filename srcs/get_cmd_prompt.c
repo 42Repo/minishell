@@ -65,7 +65,6 @@ static int	set_prompt_top(t_data *data, t_env *env)
 
 int	get_cmd_prompt(t_data *data, t_env *env)
 {
-	
 	if (set_prompt_top(data, env) == EXIT_FAILURE)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);

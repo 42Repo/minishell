@@ -57,24 +57,7 @@ t_token	*ms_lstlast(t_token *lst)
 
 void	free_token_lst(t_data *data)
 {
-	// t_token *selected;
-	// t_token *old;
-	
-	// selected = data->prompt_top;
-
-	// while(selected)
-	// {
-	// 	if(selected->value)
-	// 		free(selected->value);
-	// 	old = selected;
-	// 	selected = selected->next;
-	// 	if (old)
-	// 		free(old);
-	// 	printf("cleared cmd\n");
-	// }
-
 	t_token	*tmp;
-
 
 	while (data->prompt_top != NULL)
 	{

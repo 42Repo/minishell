@@ -229,7 +229,7 @@ void	free_token_lst(t_data *data);
  * @param env the struct env list
  * @return int 0 if success, 1 if error
  */
-int	ft_cd(t_data *data, t_env *env);
+int		ft_cd(t_data *data, t_env *env);
 
 /**
  * @brief initialize the prompt of shell
@@ -309,6 +309,13 @@ void	ft_pwd(t_env *env);
 
 int		execve_path_env(char *cmd, char **args, t_env *env, t_data *data);
 void	ft_exit(t_data *data, t_env *env, char *exit_msg, int exit_code);
-int ft_tablen(char **tab);
+int		ft_tablen(char **tab);
+void	*sig_handler(int num);
+int		wait_cmd_prompt(t_data *data, t_env *env);
+char	*get_alias(char *str, int *i, t_data *data);
+char	*alias_remover(char *str, char *alias, char *new_str, int *i);
+char	*replace_alias(char *str, int *i, char *alias, t_data *data);
+char	*check_aliases(char *str, t_data *data);
+char	**join_tab(char **tab, char *line);
 
 #endif
