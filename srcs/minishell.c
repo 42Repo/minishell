@@ -86,7 +86,6 @@ int	main(int argc, char **argv, char **envp)
 	char	*line;
 	t_data	*data;
 	t_env	*env;
-	char	*line_tmp;
 
 	rl_catch_signals = 0;
 	signal(SIGINT, (void (*)(int))sig_handler);
@@ -115,11 +114,7 @@ int	main(int argc, char **argv, char **envp)
 		if (ft_strncmp(line, "cd ", 3) == 0)
 			ft_cd(data, env);
 		else if (ft_strncmp(line, "export ", 7) == 0)
-		{
-			line_tmp = line + 7;
-			printf("line_tmp = %s\n", line_tmp);
-			ft_export(env, line_tmp);
-		}
+			ft_export(env, data->command_top->args[1]);
 		else if (ft_strncmp(line, "env", 3) == 0)
 			ft_env(env);
 		else if (ft_strncmp(line, "unset ", 6) == 0)
