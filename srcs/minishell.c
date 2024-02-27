@@ -123,11 +123,7 @@ int	main(int argc, char **argv, char **envp)
 		else if (ft_strncmp(line, "env", 3) == 0)
 			ft_env(env);
 		else if (ft_strncmp(line, "unset ", 6) == 0)
-		{
-			line_tmp = line + 6;
-			printf("line_tmp = %s\n", line_tmp);
-			ft_unset(env, line_tmp);
-		}
+			ft_unset(env, data);
 		else if (ft_strncmp(line, "echo ", 5) == 0)
 			ft_echo(data);
 		else if (ft_strncmp(line, "pwd", 3) == 0)

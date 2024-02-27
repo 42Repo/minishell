@@ -290,7 +290,7 @@ t_env	*get_env_value_ptr_by_name(t_env *env, char *name);
  * @param env the struct env list
  * @param line the name of the variable to delete, ex : "PATH" or "HOME"
  */
-void	ft_unset(t_env *env, char *line);
+void	ft_unset(t_env *env, t_data *data);
 
 /**
  * @brief print a string with or without a newline

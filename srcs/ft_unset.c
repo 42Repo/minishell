@@ -33,11 +33,19 @@ static void	delete_env(t_env *env, char *name)
 	}
 }
 
-void	ft_unset(t_env *env, char *line)
+void	ft_unset(t_env *env, t_data *data)
 {
 	t_env	*tmp;
-
-	tmp = get_env_value_ptr_by_name(env, line);
-	if (tmp)
-		delete_env(env, line);
+	int	i;
+	char *line;
+	
+	i = 0;
+	while(data->command_top->args[i])
+	{
+		line = data->command_top->args[i];
+		tmp = get_env_value_ptr_by_name(env, line);
+		if (tmp)
+			delete_env(env, line);
+		i++;
+	}
 }
