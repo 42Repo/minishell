@@ -76,15 +76,15 @@ int	wait_cmd_prompt(t_data *data, t_env *env)
 	}
 }
 
-int	main(int argc, char **argv, char **envp)
+int	main(int argc __attribute__((unused)),
+		char *argv[] __attribute__((unused)),
+		char **envp)
 {
 	t_data	*data;
 	t_env	*env;
 
 	signal(SIGINT, (void (*)(int))sig_handler);
 	signal(SIGQUIT, (void (*)(int))sig_handler);
-	(void)argc;
-	(void)argv;
 	data = sig_handler(0);
 	env = malloc(sizeof(t_env));
 	data->env = env;
