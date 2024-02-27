@@ -113,12 +113,7 @@ int	main(int argc, char **argv, char **envp)
 		if (ft_strncmp(line, "exit", max_len(line, 4)) == 0)
 			ft_exit(data, env, "exit", 0);
 		if (ft_strncmp(line, "cd ", 3) == 0)
-		{
-			line_tmp = line + 3;
-			printf("line_tmp = %s\n", line_tmp);
-			ft_cd(line_tmp, env);
-		}
-
+			ft_cd(data, env);
 		else if (ft_strncmp(line, "export ", 7) == 0)
 		{
 			line_tmp = line + 7;
@@ -134,18 +129,12 @@ int	main(int argc, char **argv, char **envp)
 			ft_unset(env, line_tmp);
 		}
 		else if (ft_strncmp(line, "echo ", 5) == 0)
-		{
-			line_tmp = line + 5;
-			printf("line_tmp = %s\n", line_tmp);
-			ft_echo(line_tmp, 0);
-		}
+			ft_echo(data);
 		else if (ft_strncmp(line, "pwd", 3) == 0)
 			ft_pwd(env);
 		else
-		{
 			execve_path_env(data->command_top->cmd,
 				data->command_top->args, env, data);
-		}
 		if (line != NULL)
 			free(line);
 

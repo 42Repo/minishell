@@ -113,13 +113,24 @@ static int	old_cd(t_env *env)
 	return (0);
 }
 
-int	ft_cd(char *path, t_env *env)
+int	ft_cd(t_data *data, t_env *env)
 {
 	char	*tmp;
 	char	*tmp2;
+	char	*path;
+	int		mode;
 
-	if (path == NULL)
-		return (0);
+	if(data->command_top->args[1])
+	{
+		path = data->command_top->args[1];
+		mode = 0;
+	}
+	else
+	{
+		path = ft_strdup("~/");
+		printf("path = %s\n", path);
+		mode = 1;
+	}
 	if (ft_strncmp(path, "-", max_len(path, 1)) == 0)
 		return (old_cd(env));
 	tmp2 = getcwd(NULL, 0);
@@ -135,6 +146,7 @@ int	ft_cd(char *path, t_env *env)
 		free(tmp);
 		return (error_cd(path, env, 0));
 	}
-	free(tmp);
+	if(mode)
+		free(path);
 	return (0);
 }

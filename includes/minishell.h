@@ -229,7 +229,7 @@ void	free_token_lst(t_data *data);
  * @param env the struct env list
  * @return int 0 if success, 1 if error
  */
-int		ft_cd(char *path, t_env *env);
+int	ft_cd(t_data *data, t_env *env);
 
 /**
  * @brief initialize the prompt of shell
@@ -298,7 +298,7 @@ void	ft_unset(t_env *env, char *line);
  * @param line the string to print
  * @param mode 0 = with newline, 1 = without newline
  */
-void	ft_echo(char *line, int mode);
+void	ft_echo(t_data *data);
 
 /**
  * @brief print the path of the current directory
@@ -309,5 +309,6 @@ void	ft_pwd(t_env *env);
 
 int		execve_path_env(char *cmd, char **args, t_env *env, t_data *data);
 void	ft_exit(t_data *data, t_env *env, char *exit_msg, int exit_code);
+int ft_tablen(char **tab);
 
 #endif

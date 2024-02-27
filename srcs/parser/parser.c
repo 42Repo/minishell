@@ -6,7 +6,7 @@
 /*   By: mbuchs <mael@buchs.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/02/27 02:11:58 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/02/27 15:03:13 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,7 @@ void parser(t_data *data)
 		// selected = selected->next;
 		while (selected && selected->type == WORD)
 		{
-			command->args = join_tab(command->args, ft_strdup(selected->value));
+			command->args = join_tab(command->args, check_aliases(ft_strdup(selected->value), data));
 			selected = selected->next;
 		}
 		if (selected->type == PIPE)
