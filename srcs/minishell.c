@@ -20,6 +20,7 @@ void	init_data(t_data *data)
 	data->quote_state = 0;
 	data->command_top = NULL;
 	data->fd_out = 1;
+	data->fd_in = 0;
 }
 
 static int	ft_env(t_env *env)
@@ -80,7 +81,7 @@ int	wait_cmd_prompt(t_data *data, t_env *env)
 			free(line);
 		if (data->fd_out != 1)
 		{
-			dup2(1, data->fd_out);
+			// dup2(1, data->fd_out);
 			close(data->fd_out);
 			data->fd_out = 1;
 		}

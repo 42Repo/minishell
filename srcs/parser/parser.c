@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
+/*   By: mbuchs <mael@buchs.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/02/28 02:29:16 by asuc             ###   ########.fr       */
+/*   Updated: 2024/02/28 18:17:25 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,16 +68,52 @@ void select_output(char *file, t_data *data, int mode)
 		data->fd_out = 1;
 }
 
-void	get_redir(t_token *selected, t_data *data)
+void	select_input(char *file, t_data *data, t_command *command)
+{
+	char *line;
+	char *tmp = ft_calloc(sizeof(char), 256);
+	
+	line = ft_strdup("");
+	if (data->fd_in != 0)
+		close(data->fd_in);
+	data->fd_in = open(file, O_RDONLY);
+	if (data->fd_in == -1)
+	{
+		printf("minishell: %s: No such file or directory\n", file);
+		command->cmd = NULL;
+	}
+	while (read(data->fd_in, tmp, 256))
+		line = ft_strjoin(line, tmp);
+	command->args = join_tab(command->args, line);
+	printf("line = %s\n", line);
+	close(data->fd_in);
+	data->fd_in = 0;
+}
+
+void	get_redir(t_token *selected, t_data *data, t_command *command)
 {
 	if (selected->type == REDIR)
 	{
-		if (selected->next->type == WORD)
+		if (selected->next && selected->next->type == WORD)
 		{
 			if (ft_strlen(selected->value) == 2 && selected->value[1] == '>')
 				select_output(selected->next->value, data, 2);
 			else if (selected->value[0] == '>')
 				select_output(selected->next->value, data, 1);
+			else if (ft_strlen(selected->value) == 2 && selected->value[1] == '<')
+				printf("faut ouvrir le heredoc mais flemme\n");
+			else if (selected->value[0] == '<')
+				select_input(selected->next->value, data, command);
+			else
+			{
+				printf("minishell: syntax error near unexpected token `newline'\n");
+				command->cmd = NULL;
+			}
+		}
+		else
+		{
+			printf("minishell: syntax error near unexpected token `newline'\n");
+			command->cmd = NULL;
 		}
 	}
 }
@@ -104,10 +140,10 @@ void	parse_line(t_data *data, t_token *selected, t_command *command)
 		}
 		if (selected->type == REDIR)
 		{
-			get_redir(selected, data);
+			get_redir(selected, data, command);
 			selected = selected->next->next;
 		}
-		if (selected->type == END)
+		if (selected && selected->type == END)
 			return ;
 	}
 }

@@ -47,6 +47,12 @@ void	add_redir(char *str, int *i, int *j, t_data *data)
 			add_token_to_list(data, &str[*j], *i - *j, WORD);
 		add_token_to_list(data, &str[*i], 1, REDIR);
 	}
+	else if (str[*i] == '<')
+	{
+		if (*j < *i)
+			add_token_to_list(data, &str[*j], *i - *j, WORD);
+		add_token_to_list(data, &str[*i], 1, REDIR);
+	}
 	*j = *i + 1;
 }
 

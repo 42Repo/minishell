@@ -80,6 +80,7 @@ typedef struct s_data
 	int			quote_state;
 	char		*cmd_prompt;
 	int			fd_out;
+	int			fd_in;
 }	t_data;
 
 /* FUNCTIONS */
