@@ -6,7 +6,7 @@
 /*   By: mbuchs <mael@buchs.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/02/27 18:04:00 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/02/28 20:22:53 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,21 @@
 char	*get_alias(char *str, int *i, t_data *data)
 	//get the $text, returns what it should be replaced by
 {
-	(void) str;
-	(void) i;
-	(void) data;
-	return (NULL);
+	t_env	*tmp = data->env;
+	char *alias;
+	int		dollar_len;
+
+	dollar_len = 1;
+	while (str[*i + dollar_len] && ft_isalnum(str[*i + dollar_len]))
+		dollar_len++;
+	alias = NULL;
+	while (tmp && ft_strncmp(tmp->name, &str[*i+1], dollar_len))
+		tmp = tmp->next;
+	if (tmp)
+		alias = ft_strdup(tmp->value);
+	else
+		alias = ft_strdup("");
+	return (alias);
 }
 
 char	*alias_remover(char *str, char *alias, char *new_str, int *i)
@@ -79,8 +90,9 @@ char	*check_aliases(char *str, t_data *data)
 		if (data->quote_state != 1 && str[i] == '$')
 		{
 			alias = get_alias(str, &i, data);
-			(void) alias;
-			str = replace_alias(str, &i, "replaced", data);
+			str = replace_alias(str, &i, alias, data);
+			if (alias)
+				free(alias);
 		}
 		i++;
 	}
