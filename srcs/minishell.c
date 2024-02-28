@@ -34,7 +34,7 @@ static int	ft_env(t_env *env)
 	return (0);
 }
 
-void	chose_case(t_env *env, t_data *data, char *line)
+void	choose_case(t_env *env, t_data *data, char *line)
 {
 	if (ft_strncmp(line, "exit", max_len(line, 4)) == 0)
 		ft_exit(data, env, "exit", 0);
@@ -61,6 +61,10 @@ int	wait_cmd_prompt(t_data *data, t_env *env)
 
 	while (1)
 	{
+		if (data->prompt_top)
+			free_token_lst(data);
+		if (data->command_top)
+			free_command(data);
 		get_cmd_prompt(data, env);
 		if (data->cmd_prompt == NULL)
 			return (-1);
@@ -70,7 +74,7 @@ int	wait_cmd_prompt(t_data *data, t_env *env)
 		add_history(line);
 		lexer(line, data);
 		parser(data);
-		chose_case(env, data, line);
+		choose_case(env, data, line);
 		if (line != NULL)
 			free(line);
 	}

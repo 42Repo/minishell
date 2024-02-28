@@ -130,7 +130,14 @@ t_token	*ms_lstlast(t_token *lst);
  */
 void	put_header(void);
 
-int		max_len(char *str, int nb);
+/**
+ * @brief Get the max len between a lenght of a str and a size_t
+ *
+ * @param str the string to check
+ * @param nb the size_t to check
+ * @return int the max len
+ */
+int		max_len(char *str, size_t nb);
 
 /**
  * @brief add a token to the list, trimming spaces and then filtering quotes

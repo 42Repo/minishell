@@ -131,7 +131,7 @@ int	ft_cd(t_data *data, t_env *env)
 		printf("path = %s\n", path);
 		mode = 1;
 	}
-	if (ft_strncmp(path, "-", max_len(path, 1)) == 0)
+	if (ft_strcmp(path, "-") == 0)
 		return (old_cd(env));
 	tmp2 = getcwd(NULL, 0);
 	tmp = ft_strjoin("OLDPWD=", tmp2);

@@ -90,8 +90,6 @@ void	lexer(char *str, t_data *data)
 
 	i = 0;
 	j = 0;
-	if (data->prompt_top)
-		free_token_lst(data);
 	while (str[i])
 	{
 		if (i > 1 && str[i] == '>' && str[i - 1] == '>')

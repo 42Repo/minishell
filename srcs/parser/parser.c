@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mael@buchs.fr>                     +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/02/27 18:04:16 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/02/28 01:52:47 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,6 @@ void	parser(t_data *data)
 	t_token		*selected;
 	t_command	*command;
 
-	if (data->command_top)
-		free_command(data);
 	data->command_top = init_command();
 	selected = data->prompt_top;
 	command = data->command_top;
@@ -94,7 +92,7 @@ void	parser(t_data *data)
 // 	command_top == word
 // while -> node->type == WORD
 // 	join_tab to command->top->args
-	// 
+	//
 // if << -> heredoc
 
 // if < -> if next == word
