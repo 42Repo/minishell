@@ -79,7 +79,7 @@ typedef struct s_data
 	char		*old_cd;
 	int			quote_state;
 	char		*cmd_prompt;
-
+	int			fd_out;
 }	t_data;
 
 /* FUNCTIONS */
