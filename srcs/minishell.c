@@ -19,6 +19,7 @@ void	init_data(t_data *data)
 	data->cmd_prompt = NULL;
 	data->quote_state = 0;
 	data->command_top = NULL;
+	data->fd_out = 1;
 }
 
 static int	ft_env(t_env *env)
@@ -77,6 +78,12 @@ int	wait_cmd_prompt(t_data *data, t_env *env)
 		choose_case(env, data, line);
 		if (line != NULL)
 			free(line);
+		if (data->fd_out != 1)
+		{
+			dup2(data->fd_out, 1);
+			close(data->fd_out);
+			data->fd_out = 1;
+		}
 	}
 }
 
