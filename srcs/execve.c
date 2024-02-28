@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 00:16:17 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/28 01:33:26 by asuc             ###   ########.fr       */
+/*   Updated: 2024/02/28 02:30:53 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,7 @@ int	execve_path_env(char *cmd, char **args, t_env *env, t_data *data)
 	if (pid == 0)
 	{
 		(void)args;
+		dup2(data->fd_out, 1);
 		i = execve(path, args, envp);
 		perror("minishell");
 		free_tab(envp);

@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/02/28 02:19:03 by asuc             ###   ########.fr       */
+/*   Updated: 2024/02/28 02:29:16 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,8 +121,8 @@ void	parser(t_data *data)
 	selected = data->prompt_top;
 	command = data->command_top;
 	parse_line(data, selected, command);
-	printf("fd_out = %d\n", data->fd_out);
-	dup2(1, data->fd_out);
+	// printf("fd_out = %d\n", data->fd_out);
+	// dup2(1, data->fd_out);
 }
 
 // if ->top node == word

@@ -80,7 +80,7 @@ int	wait_cmd_prompt(t_data *data, t_env *env)
 			free(line);
 		if (data->fd_out != 1)
 		{
-			dup2(data->fd_out, 1);
+			dup2(1, data->fd_out);
 			close(data->fd_out);
 			data->fd_out = 1;
 		}
