@@ -6,7 +6,7 @@
 /*   By: mbuchs <mael@buchs.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:30:00 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/02/27 17:35:09 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/02/28 02:04:12 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,6 @@ void	*sig_handler(int num)
 	if (num == SIGINT)
 		printf("^C\n");
 	if (num == SIGINT)
-	{
-		printf("%s", data_struct->cmd_prompt);
-		fflush(stdout);
-	}
+		write(1, data_struct->cmd_prompt, ft_strlen(data_struct->cmd_prompt));
 	return (data_struct);
 }
