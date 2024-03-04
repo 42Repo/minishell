@@ -38,19 +38,20 @@ static int	ft_env(t_env *env)
 
 void	choose_case(t_env *env, t_data *data, char *line)
 {
-	if (ft_strcmp(line, "exit") == 0)
+	(void)line;
+	if (ft_strcmp(data->command_top->cmd, "exit") == 0)
 		ft_exit(data, env, "exit", 0);
-	if (ft_strcmp(line, "cd ") == 0)
+	if (ft_strcmp(data->command_top->cmd, "cd") == 0)
 		ft_cd(data, env);
-	else if (ft_strcmp(line, "export ") == 0)
+	else if (ft_strcmp(data->command_top->cmd, "export") == 0)
 		ft_export(env, data->command_top->args[1]);
-	else if (ft_strcmp(line, "env") == 0)
+	else if (ft_strcmp(data->command_top->cmd, "env") == 0)
 		ft_env(env);
-	else if (ft_strcmp(line, "unset ") == 0)
+	else if (ft_strcmp(data->command_top->cmd, "unset") == 0)
 		ft_unset(env, data);
-	else if (ft_strcmp(line, "echo ") == 0)
+	else if (ft_strcmp(data->command_top->cmd, "echo") == 0)
 		ft_echo(data);
-	else if (ft_strcmp(line, "pwd") == 0)
+	else if (ft_strcmp(data->command_top->cmd, "pwd") == 0)
 		ft_pwd(env);
 	else
 		execve_path_env(data->command_top->cmd,
