@@ -6,7 +6,7 @@
 /*   By: mbuchs <mael@buchs.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/02/28 21:29:37 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/02/29 14:31:43 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,11 +129,11 @@ void	parse_line(t_data *data, t_token *selected, t_command *command)
 		if (data->prompt_top->type == WORD)
 		{
 			tmp2 = check_aliases(ft_strdup(selected->value), data);
-			printf("tmp2 = %s\n", tmp2);
+			// printf("tmp2 = %s\n", tmp2);
 			tmp = ft_split(tmp2, ' ');
 			command->cmd = ft_strdup(tmp[0]);
-			printf("cmd0 = %s\n", tmp[0]);
-			printf("tmp1 = %s\n", tmp[1]);
+			// printf("cmd0 = %s\n", tmp[0]);
+			// printf("tmp1 = %s\n", tmp[1]);
 			if(ft_tablen(tmp) > 1)
 				command->args = tmp;
 		}
@@ -168,10 +168,10 @@ void	parser(t_data *data)
 	selected = data->prompt_top;
 	command = data->command_top;
 	parse_line(data, selected, command);
-	printf("cmd = %s\n", command->cmd);
-	printf("args = %s\n", command->args[0]);
-	printf("args = %s\n", command->args[1]);
-	printf("args = %s\n", command->args[2]);
+	// printf("cmd = %s\n", command->cmd);
+	// printf("args = %s\n", command->args[0]);
+	// printf("args = %s\n", command->args[1]);
+	// printf("args = %s\n", command->args[2]);
 	
 	// printf("fd_out = %d\n", data->fd_out);
 	// dup2(1, data->fd_out);
