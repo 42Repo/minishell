@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:30:00 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/02/28 02:11:25 by asuc             ###   ########.fr       */
+/*   Updated: 2024/03/04 01:18:59 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ void	ft_exit(t_data *data, t_env *env, char *exit_msg, int exit_code)
 	free_token_lst(data);
 	free_env(env);
 	free_command(data);
-	free(data);
 	rl_clear_history();
 	if (data->cmd_prompt)
 		free(data->cmd_prompt);
+	free(data);
 	if (ft_strlen(exit_msg))
 		printf("%s (%d)\n", exit_msg, exit_code);
 	exit (0);

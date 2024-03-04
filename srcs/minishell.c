@@ -97,7 +97,8 @@ int	main(int argc __attribute__((unused)),
 
 	signal(SIGINT, (void (*)(int))sig_handler);
 	signal(SIGQUIT, (void (*)(int))sig_handler);
-	data = sig_handler(0);
+	// data = sig_handler(0);
+	data = malloc(sizeof(t_data));
 	env = malloc(sizeof(t_env));
 	data->env = env;
 	printf("\033c");
