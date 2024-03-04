@@ -1,0 +1,3 @@
+-fix ctrl c (not clearing the readline)
+-add pipes
+-fix redirect (not redirecting)
