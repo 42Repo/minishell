@@ -3,27 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   aliases.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mael@buchs.fr>                     +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/02/28 21:06:36 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/02/29 14:36:51 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 char	*get_alias(char *str, int *i, t_data *data)
-	//get the $text, returns what it should be replaced by
+// get the $text, returns what it should be replaced by
 {
-	t_env	*tmp = data->env;
-	char *alias;
+	t_env	*tmp;
+	char	*alias;
 	int		dollar_len;
 
+	tmp = data->env;
 	dollar_len = 1;
 	while (str[*i + dollar_len] && ft_isalnum(str[*i + dollar_len]))
 		dollar_len++;
 	alias = NULL;
-	while (tmp && ft_strncmp(tmp->name, &str[*i+1], dollar_len))
+	while (tmp && ft_strncmp(tmp->name, &str[*i + 1], dollar_len))
 		tmp = tmp->next;
 	if (tmp)
 		alias = ft_strdup(tmp->value);
@@ -65,12 +66,12 @@ char	*replace_alias(char *str, int *i, char *alias, t_data *data)
 	char	*new_str;
 	int		dollar_len;
 
-	(void) data;
+	(void)data;
 	dollar_len = 1;
 	while (str[*i + dollar_len] && ft_isalnum(str[*i + dollar_len]))
 		dollar_len++;
-	new_str = ft_calloc(sizeof(char), (ft_strlen(str) \
-		+ ft_strlen(alias) - dollar_len + 1));
+	new_str = ft_calloc(sizeof(char), (ft_strlen(str) + ft_strlen(alias)
+				- dollar_len + 1));
 	alias_remover(str, alias, new_str, i);
 	(*i) += ft_strlen(alias) + dollar_len;
 	free(str);

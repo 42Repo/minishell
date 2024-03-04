@@ -120,7 +120,7 @@ int	ft_cd(t_data *data, t_env *env)
 	char	*path;
 	int		mode;
 
-	if(data->command_top->args[1])
+	if (data->command_top->args[1])
 	{
 		path = data->command_top->args[1];
 		mode = 0;
@@ -146,7 +146,7 @@ int	ft_cd(t_data *data, t_env *env)
 		free(tmp);
 		return (error_cd(path, env, 0));
 	}
-	if(mode)
+	if (mode)
 		free(path);
 	return (0);
 }
