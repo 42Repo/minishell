@@ -6,7 +6,7 @@
 /*   By: mbuchs <mael@buchs.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/02/29 14:31:43 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/03/07 10:38:55 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,10 @@ void select_output(char *file, t_data *data, int mode)
 		close(data->fd_out);
 	if (data->fd_out != 1)
 		data->fd_out = 1;
-	printf("file = %s\n", file);
 	if (mode == 1)
 		data->fd_out = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else
 		data->fd_out = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	printf("fd_out = %d\n", data->fd_out);
 	if (data->fd_out == -1)
 		data->fd_out = 1;
 }
@@ -85,7 +83,6 @@ void	select_input(char *file, t_data *data, t_command *command)
 	while (read(data->fd_in, tmp, 256))
 		line = ft_strjoin(line, tmp);
 	command->args = join_tab(command->args, line);
-	// printf("line = %s\n", line);
 	close(data->fd_in);
 	data->fd_in = 0;
 }
@@ -129,13 +126,12 @@ void	parse_line(t_data *data, t_token *selected, t_command *command)
 		if (data->prompt_top->type == WORD)
 		{
 			tmp2 = check_aliases(ft_strdup(selected->value), data);
-			// printf("tmp2 = %s\n", tmp2);
 			tmp = ft_split(tmp2, ' ');
 			command->cmd = ft_strdup(tmp[0]);
-			// printf("cmd0 = %s\n", tmp[0]);
-			// printf("tmp1 = %s\n", tmp[1]);
 			if(ft_tablen(tmp) > 1)
 				command->args = tmp;
+			if(ft_tablen(tmp) > 1)
+				selected = selected->next;
 		}
 		while (selected && selected->type == WORD)
 		{
@@ -168,13 +164,6 @@ void	parser(t_data *data)
 	selected = data->prompt_top;
 	command = data->command_top;
 	parse_line(data, selected, command);
-	// printf("cmd = %s\n", command->cmd);
-	// printf("args = %s\n", command->args[0]);
-	// printf("args = %s\n", command->args[1]);
-	// printf("args = %s\n", command->args[2]);
-	
-	// printf("fd_out = %d\n", data->fd_out);
-	// dup2(1, data->fd_out);
 }
 
 // if ->top node == word

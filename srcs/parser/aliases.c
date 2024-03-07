@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   aliases.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
+/*   By: mbuchs <mael@buchs.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/02/29 14:36:51 by asuc             ###   ########.fr       */
+/*   Updated: 2024/03/07 10:39:03 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ char	*replace_alias(char *str, int *i, char *alias, t_data *data)
 		dollar_len++;
 	new_str = ft_calloc(sizeof(char), (ft_strlen(str) + ft_strlen(alias)
 				- dollar_len + 1));
-	alias_remover(str, alias, new_str, i);
+	new_str = alias_remover(str, alias, new_str, i);
 	(*i) += ft_strlen(alias) + dollar_len;
 	free(str);
 	return (new_str);

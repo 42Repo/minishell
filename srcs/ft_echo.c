@@ -30,13 +30,12 @@ void	ft_echo(t_data *data)
 	{
 		while (data->command_top->args[i])
 		{
-			write(1, data->command_top->args[i], \
-				ft_strlen(data->command_top->args[i]));
+			printf("%s", data->command_top->args[i]);
 			if (data->command_top->args[i + 1])
-				write(1, " ", 1);
+				printf(" ");
 			i++;
 		}
 	}
 	if (!mode)
-		write(1, "\n", 1);
+		printf("\n");
 }
