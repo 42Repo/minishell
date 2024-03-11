@@ -53,7 +53,7 @@ void	*sig_handler(int num)
 	if (num == SIGINT)
 		printf("^C\n");
 	rl_replace_line("", 0);
-	// if (num == SIGINT)
-	// 	write(1, data_struct->cmd_prompt, ft_strlen(data_struct->cmd_prompt));
+	if (num == SIGINT)
+		write(1, data_struct->cmd_prompt, ft_strlen(data_struct->cmd_prompt));
 	return (data_struct);
 }
