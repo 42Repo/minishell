@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:30:00 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/03/11 17:52:15 by asuc             ###   ########.fr       */
+/*   Updated: 2024/03/11 18:26:44 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,5 @@ void	*sig_handler(int num)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
-	return (data_struct);
+	return (NULL);
 }
