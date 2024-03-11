@@ -2,14 +2,11 @@
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+
-	+:+     */
-/*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+
-	+#+        */
-/*                                                +#+#+#+#+#+
-	+#+           */
-/*   Created: 2024/02/03 15:46:32 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/03 15:46:39 by asuc             ###   ########.fr       */
+/*                                                    +:+ +:+         +:+     */
+/*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/11 17:02:40 by asuc              #+#    #+#             */
+/*   Updated: 2024/03/11 17:02:40 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,26 +53,26 @@ static int	error_cd(char *path, t_env *env, int mode)
 	return (-1);
 }
 
-static int	other_case_cd(char *path, t_env *env)
+static int	other_case_cd(t_data *data, t_env *env)
 {
 	char	*tmp;
 
 	tmp = NULL;
-	if (path[0] == '\0')
+	if (data->command_top->args[1] == NULL)
 	{
 		if (chdir(get_env_value_string(env, "HOME")) != 0)
 			return (error_cd(get_env_value_string(env, "HOME"), env, 0));
 		return (0);
 	}
-	if (path[0] == '/')
+	if (data->command_top->args[1][0] == '/')
 	{
-		if (chdir(path) != 0)
-			return (error_cd(path, env, 0));
+		if (chdir(data->command_top->args[1]) != 0)
+			return (error_cd(data->command_top->args[1], env, 0));
 		return (0);
 	}
-	if (path[0] == '~')
+	if (data->command_top->args[1][0] == '~')
 	{
-		tmp = ft_strjoin(get_env_value_string(env, "HOME"), path + 1);
+		tmp = ft_strjoin(get_env_value_string(env, "HOME"), data->command_top->args[1] + 1);
 		if (chdir(tmp) != 0)
 			return (error_cd(tmp, env, 1));
 		free(tmp);
@@ -117,36 +114,24 @@ int	ft_cd(t_data *data, t_env *env)
 {
 	char	*tmp;
 	char	*tmp2;
-	char	*path;
-	int		mode;
 
-	if (data->command_top->args[1])
-	{
-		path = data->command_top->args[1];
-		mode = 0;
-	}
-	else
-	{
-		path = ft_strdup("~/");
-		printf("path = %s\n", path);
-		mode = 1;
-	}
-	if (ft_strcmp(path, "-") == 0)
+	if (data->command_top == NULL || (data->command_top->args[1] != NULL && data->command_top->args[2] != NULL))
+		return (0);
+	if (data->command_top->args[1] != NULL && ft_strncmp(data->command_top->args[1], "-", max_len(data->command_top->args[1], 1)) == 0)
 		return (old_cd(env));
 	tmp2 = getcwd(NULL, 0);
 	tmp = ft_strjoin("OLDPWD=", tmp2);
 	ft_export(env, tmp);
 	free(tmp2);
 	free(tmp);
-	if (other_case_cd(path, env) == 0)
+	if (other_case_cd(data, env) == 0)
 		return (0);
-	tmp = ft_strjoin_free(ft_strjoin_free(getcwd(NULL, 0), "/"), path);
+	tmp = ft_strjoin_free(ft_strjoin_free(getcwd(NULL, 0), "/"), data->command_top->args[1]);
 	if (chdir(tmp) != 0)
 	{
 		free(tmp);
-		return (error_cd(path, env, 0));
+		return (error_cd(data->command_top->args[1], env, 0));
 	}
-	if (mode)
-		free(path);
+	free(tmp);
 	return (0);
 }

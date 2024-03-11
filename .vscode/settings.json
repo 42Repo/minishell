@@ -67,5 +67,12 @@
     "typeinfo": "c",
     "sstream": "c"
   },
-  "functionHeaderExtension.headerFilePath": "/nfs/homes/asuc/Documents/42/All Project/minishell/includes/minishell.h"
+  "functionHeaderExtension.headerFilePath": "/nfs/homes/asuc/Documents/42/All Project/minishell/includes/minishell.h",
+  "makefile.launchConfigurations": [
+    {
+      "cwd": "/home/asuc/Documents/42/minishell",
+      "binaryPath": "/home/asuc/Documents/42/minishell/minishell",
+      "binaryArgs": []
+    }
+  ]
 }

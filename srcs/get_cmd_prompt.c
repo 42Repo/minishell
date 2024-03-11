@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/04 20:18:51 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/13 16:27:19 by asuc             ###   ########.fr       */
+/*   Created: 2024/03/11 17:18:39 by asuc              #+#    #+#             */
+/*   Updated: 2024/03/11 17:18:39 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,13 @@ static char	*get_cwd(t_env *env)
 		perror("getcwd failed");
 		return (NULL);
 	}
-	if (get_env_value_string(env, "HOME") != NULL
-		&& ft_strcmp(tmp, get_env_value_string(env, "HOME")) == 0)
+	if (get_env_value_string(env, "HOME") != NULL && ft_strncmp(tmp,
+			get_env_value_string(env, "HOME"),
+			ft_strlen(get_env_value_string(env, "HOME"))) == 0)
 	{
 		tmp2 = tmp;
-		tmp = ft_strjoin_free(ft_strdup("~"),
-				tmp2 + ft_strlen(get_env_value_string(env, "HOME")));
+		tmp = ft_strjoin_free(ft_strdup("~"), tmp2
+				+ ft_strlen(get_env_value_string(env, "HOME")));
 		free(tmp2);
 		if (tmp == NULL)
 			return (NULL);
