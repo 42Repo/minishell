@@ -46,10 +46,6 @@ void	ft_exit(t_data *data, t_env *env, char *exit_msg, int exit_code)
 
 void	*sig_handler(int num)
 {
-	static t_data	*data_struct = NULL;
-
-	if (data_struct == NULL)
-		data_struct = malloc(sizeof(t_data));
 	if (num == SIGINT)
 	{
 		printf("^C\n");
@@ -57,7 +53,5 @@ void	*sig_handler(int num)
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
-	// if (num == SIGINT)
-	// 	write(1, data_struct->cmd_prompt, ft_strlen(data_struct->cmd_prompt));
 	return (data_struct);
 }
