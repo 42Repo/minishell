@@ -51,9 +51,13 @@ void	*sig_handler(int num)
 	if (data_struct == NULL)
 		data_struct = malloc(sizeof(t_data));
 	if (num == SIGINT)
+	{
 		printf("^C\n");
-	rl_replace_line("", 0);
-	if (num == SIGINT)
-		write(1, data_struct->cmd_prompt, ft_strlen(data_struct->cmd_prompt));
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+	// if (num == SIGINT)
+	// 	write(1, data_struct->cmd_prompt, ft_strlen(data_struct->cmd_prompt));
 	return (data_struct);
 }
