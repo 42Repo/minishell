@@ -39,6 +39,8 @@ static int	ft_env(t_env *env)
 void	choose_case(t_env *env, t_data *data, char *line)
 {
 	(void)line;
+	if (data->command_top == NULL || data->command_top->cmd == NULL)
+		return ;
 	if (ft_strcmp(data->command_top->cmd, "exit") == 0)
 		ft_exit(data, env, "exit", 0);
 	if (ft_strcmp(data->command_top->cmd, "cd") == 0)
