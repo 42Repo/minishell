@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:30:00 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/03/04 01:18:59 by asuc             ###   ########.fr       */
+/*   Updated: 2024/03/11 17:52:15 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ void	*sig_handler(int num)
 		data_struct = malloc(sizeof(t_data));
 	if (num == SIGINT)
 		printf("^C\n");
-	if (num == SIGINT)
-		write(1, data_struct->cmd_prompt, ft_strlen(data_struct->cmd_prompt));
+	rl_replace_line("", 0);
+	// if (num == SIGINT)
+	// 	write(1, data_struct->cmd_prompt, ft_strlen(data_struct->cmd_prompt));
 	return (data_struct);
 }
