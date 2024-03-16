@@ -320,10 +320,10 @@ void	ft_exit(t_data *data, t_env *env, char *exit_msg, int exit_code);
 int		ft_tablen(char **tab);
 void	*sig_handler(int num);
 int		wait_cmd_prompt(t_data *data, t_env *env);
-char	*get_alias(char *str, int *i, t_data *data);
-char	*alias_remover(char *str, char *alias, char *new_str, int *i);
-char	*replace_alias(char *str, int *i, char *alias, t_data *data);
-char	*check_aliases(char *str, t_data *data);
+char	*get_envar(char *str, int *i, t_data *data);
+char	*envar_remover(char *str, char *envar, char *new_str, int *i);
+char	*replace_envar(char *str, int *i, char *envar, t_data *data);
+char	*check_envar(char *str, t_data *data);
 char	**join_tab(char **tab, char *line);
 
 #endif

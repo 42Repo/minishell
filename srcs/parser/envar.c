@@ -1,39 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   aliases.c                                          :+:      :+:    :+:   */
+/*   envar.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mael@buchs.fr>                     +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/03/07 10:39:03 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/03/16 19:50:36 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*get_alias(char *str, int *i, t_data *data)
+extern int	g_return_code;
+
+char	*get_envar(char *str, int *i, t_data *data)
 // get the $text, returns what it should be replaced by
 {
 	t_env	*tmp;
-	char	*alias;
+	char	*envar;
 	int		dollar_len;
 
+	if (ft_strlen(str) == 2 && str[*i + 1] == '?')
+	{
+		(*i)++;
+		return (ft_itoa(g_return_code));
+	}
 	tmp = data->env;
 	dollar_len = 1;
 	while (str[*i + dollar_len] && ft_isalnum(str[*i + dollar_len]))
 		dollar_len++;
-	alias = NULL;
+	envar = NULL;
 	while (tmp && ft_strncmp(tmp->name, &str[*i + 1], dollar_len))
 		tmp = tmp->next;
 	if (tmp)
-		alias = ft_strdup(tmp->value);
+		envar = ft_strdup(tmp->value);
 	else
-		alias = ft_strdup("");
-	return (alias);
+		envar = ft_strdup("");
+	return (envar);
 }
 
-char	*alias_remover(char *str, char *alias, char *new_str, int *i)
+char	*envar_remover(char *str, char *envar, char *new_str, int *i)
 {
 	int	j;
 	int	k;
@@ -46,9 +53,9 @@ char	*alias_remover(char *str, char *alias, char *new_str, int *i)
 	}
 	k = j;
 	j = 0;
-	while (alias[j])
+	while (envar[j])
 	{
-		new_str[k] = alias[j];
+		new_str[k] = envar[j];
 		j++;
 		k++;
 	}
@@ -61,7 +68,7 @@ char	*alias_remover(char *str, char *alias, char *new_str, int *i)
 	return (new_str);
 }
 
-char	*replace_alias(char *str, int *i, char *alias, t_data *data)
+char	*replace_envar(char *str, int *i, char *envar, t_data *data)
 {
 	char	*new_str;
 	int		dollar_len;
@@ -70,18 +77,18 @@ char	*replace_alias(char *str, int *i, char *alias, t_data *data)
 	dollar_len = 1;
 	while (str[*i + dollar_len] && ft_isalnum(str[*i + dollar_len]))
 		dollar_len++;
-	new_str = ft_calloc(sizeof(char), (ft_strlen(str) + ft_strlen(alias)
+	new_str = ft_calloc(sizeof(char), (ft_strlen(str) + ft_strlen(envar)
 				- dollar_len + 1));
-	new_str = alias_remover(str, alias, new_str, i);
-	(*i) += ft_strlen(alias) + dollar_len;
+	new_str = envar_remover(str, envar, new_str, i);
+	(*i) += ft_strlen(envar) + dollar_len;
 	free(str);
 	return (new_str);
 }
 
-char	*check_aliases(char *str, t_data *data)
+char	*check_envar(char *str, t_data *data)
 {
 	int		i;
-	char	*alias;
+	char	*envar;
 
 	data->quote_state = 0;
 	i = 0;
@@ -90,10 +97,10 @@ char	*check_aliases(char *str, t_data *data)
 		data->quote_state = quote_management(data->quote_state, str[i]);
 		if (data->quote_state != 1 && str[i] == '$')
 		{
-			alias = get_alias(str, &i, data);
-			str = replace_alias(str, &i, alias, data);
-			if (alias)
-				free(alias);
+			envar = get_envar(str, &i, data);
+			str = replace_envar(str, &i, envar, data);
+			if (envar)
+				free(envar);
 		}
 		i++;
 	}

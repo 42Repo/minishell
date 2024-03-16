@@ -12,6 +12,8 @@
 
 #include "../includes/minishell.h"
 
+int	g_return_code	= 0;
+
 void	init_data(t_data *data)
 {
 	rl_catch_signals = 0;
@@ -56,7 +58,7 @@ void	choose_case(t_env *env, t_data *data, char *line)
 	else if (ft_strcmp(data->command_top->cmd, "pwd") == 0)
 		ft_pwd(env);
 	else
-		execve_path_env(data->command_top->cmd,
+		g_return_code = execve_path_env(data->command_top->cmd,
 			data->command_top->args, env, data);
 }
 

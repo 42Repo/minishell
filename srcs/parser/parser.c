@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mael@buchs.fr>                     +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/03/07 10:38:55 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/03/16 19:46:20 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ void	parse_line(t_data *data, t_token *selected, t_command *command)
 		command->next = NULL;
 		if (data->prompt_top->type == WORD)
 		{
-			tmp2 = check_aliases(ft_strdup(selected->value), data);
+			tmp2 = check_envar(ft_strdup(selected->value), data);
 			tmp = ft_split(tmp2, ' ');
 			command->cmd = ft_strdup(tmp[0]);
 			if(ft_tablen(tmp) > 1)
@@ -136,7 +136,7 @@ void	parse_line(t_data *data, t_token *selected, t_command *command)
 		while (selected && selected->type == WORD)
 		{
 			command->args = join_tab(command->args, \
-				check_aliases(ft_strdup(selected->value), data));
+				check_envar(ft_strdup(selected->value), data));
 			selected = selected->next;
 		}
 		if (selected->type == PIPE)
