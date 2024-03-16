@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/11 17:02:40 by asuc              #+#    #+#             */
-/*   Updated: 2024/03/11 17:02:40 by asuc             ###   ########.fr       */
+/*   Created: 2024/03/11 22:37:00 by asuc              #+#    #+#             */
+/*   Updated: 2024/03/11 22:37:00 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,17 +39,13 @@ static int	error_cd(char *path, t_env *env, int mode)
 		ft_putstr_fd("HOME not set\n", 2);
 		return (-1);
 	}
-	ft_putstr_fd(path, 2);
+	if (path != NULL)
+		ft_putstr_fd(path, 2);
 	if (mode == 1)
 		free(path);
-	if (errno == ENOENT)
-		ft_putstr_fd(": No such file or directory\n", 2);
-	else if (errno == EACCES)
-		ft_putstr_fd(": Permission denied\n", 2);
-	else if (errno == ENOTDIR)
-		ft_putstr_fd(": Not a directory\n", 2);
-	else
-		perror("");
+	ft_putstr_fd(": ", 2);
+	ft_putstr_fd(strerror(errno), 2);
+	ft_putstr_fd("\n", 2);
 	return (-1);
 }
 
@@ -72,7 +68,8 @@ static int	other_case_cd(t_data *data, t_env *env)
 	}
 	if (data->command_top->args[1][0] == '~')
 	{
-		tmp = ft_strjoin(get_env_value_string(env, "HOME"), data->command_top->args[1] + 1);
+		tmp = ft_strjoin(get_env_value_string(env, "HOME"),
+				data->command_top->args[1] + 1);
 		if (chdir(tmp) != 0)
 			return (error_cd(tmp, env, 1));
 		free(tmp);
@@ -115,9 +112,11 @@ int	ft_cd(t_data *data, t_env *env)
 	char	*tmp;
 	char	*tmp2;
 
-	if (data->command_top == NULL || (data->command_top->args[1] != NULL && data->command_top->args[2] != NULL))
-		return (0);
-	if (data->command_top->args[1] != NULL && ft_strncmp(data->command_top->args[1], "-", max_len(data->command_top->args[1], 1)) == 0)
+	if (data->command_top == NULL || (data->command_top->args[1] != NULL
+			&& data->command_top->args[2] != NULL))
+		return (error_cd(NULL, env, 0));
+	if (data->command_top->args[1] != NULL
+		&& ft_strcmp(data->command_top->args[1], "-") == 0)
 		return (old_cd(env));
 	tmp2 = getcwd(NULL, 0);
 	tmp = ft_strjoin("OLDPWD=", tmp2);
@@ -126,7 +125,8 @@ int	ft_cd(t_data *data, t_env *env)
 	free(tmp);
 	if (other_case_cd(data, env) == 0)
 		return (0);
-	tmp = ft_strjoin_free(ft_strjoin_free(getcwd(NULL, 0), "/"), data->command_top->args[1]);
+	tmp = ft_strjoin_free(ft_strjoin_free(getcwd(NULL, 0), "/"),
+			data->command_top->args[1]);
 	if (chdir(tmp) != 0)
 	{
 		free(tmp);
