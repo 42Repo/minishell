@@ -74,5 +74,6 @@
       "binaryPath": "/home/asuc/Documents/42/minishell/minishell",
       "binaryArgs": []
     }
-  ]
+  ],
+  "C_Cpp.default.compilerPath": "/usr/bin/clang"
 }
