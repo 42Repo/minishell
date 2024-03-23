@@ -52,8 +52,5 @@ Mkfile.old
 dkms.conf
 minishell
 .cache
-.vscode
+.vscode/
 Libft/.timestamp
-.vscode/c_cpp_properties.json
-.vscode/launch.json
-.vscode/settings.json
