@@ -105,7 +105,7 @@ int	main(int argc __attribute__((unused)),
 	data = malloc(sizeof(t_data));
 	env = malloc(sizeof(t_env));
 	data->env = env;
-	printf("\033c");
+	// printf("\033c");
 	init_data(data);
 	get_env(env, envp);
 	wait_cmd_prompt(data, env);
