@@ -37,7 +37,7 @@ t_token	*ms_lstnew(t_token_type type, char *value)
 {
 	t_token	*new;
 
-	new = malloc(sizeof(*new));
+	new = ft_calloc(sizeof(*new), 1);
 	if (new == NULL)
 		return (NULL);
 	new -> type = type;

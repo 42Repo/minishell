@@ -61,6 +61,8 @@ typedef struct s_command
 	char				*cmd;
 	char				**args;
 	struct s_command	*next;
+	int					input_file;
+	int					output_file;
 }	t_command;
 
 // 1 = pipe, 2 = redirect, 3 = end
