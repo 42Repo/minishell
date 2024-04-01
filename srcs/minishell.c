@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:08:03 by asuc              #+#    #+#             */
-/*   Updated: 2024/03/29 12:43:36 by asuc             ###   ########.fr       */
+/*   Updated: 2024/04/01 17:01:05 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	init_data(t_data *data)
 	data->command_top = NULL;
 	data->fd_out = 1;
 	data->fd_in = 0;
+
 }
 
 static int	ft_env(t_env *env)
@@ -51,12 +52,12 @@ void	execute_command(t_command *command, t_env *env, t_data *data,
 	}
 	if (pid == 0)
 	{
-		if (input_fd != STDIN_FILENO)
+		if (input_fd && input_fd != STDIN_FILENO)
 		{
 			dup2(input_fd, STDIN_FILENO);
 			close(input_fd);
 		}
-		if (output_fd != STDOUT_FILENO)
+		if (output_fd && output_fd != STDOUT_FILENO)
 		{
 			dup2(output_fd, STDOUT_FILENO);
 			close(output_fd);
@@ -160,10 +161,10 @@ int	main(int argc __attribute__((unused)), char *argv[] __attribute__((unused)),
 
 	signal(SIGINT, (void (*)(int))sig_handler);
 	signal(SIGQUIT, (void (*)(int))sig_handler);
-	data = malloc(sizeof(t_data));
-	env = malloc(sizeof(t_env));
+	data = ft_calloc(sizeof(t_data), 1);
+	env = ft_calloc(sizeof(t_env), 1);
 	data->env = env;
-	printf("\033c");
+	// printf("\033c");
 	init_data(data);
 	get_env(env, envp);
 	wait_cmd_prompt(data, env);

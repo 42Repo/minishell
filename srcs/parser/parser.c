@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/03/16 19:46:20 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/03/27 22:53:03 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_command	*init_command(void)
 {
 	t_command	*command;
 
-	command = malloc(sizeof(t_command));
+	command = ft_calloc(sizeof(t_command), 1);
 	command->cmd = NULL;
 	command->args = NULL;
 	command->next = NULL;
@@ -135,6 +135,7 @@ void	parse_line(t_data *data, t_token *selected, t_command *command)
 		}
 		while (selected && selected->type == WORD)
 		{
+			printf("selected->value = %s\n", selected->value);
 			command->args = join_tab(command->args, \
 				check_envar(ft_strdup(selected->value), data));
 			selected = selected->next;

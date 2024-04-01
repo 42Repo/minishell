@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 00:16:17 by asuc              #+#    #+#             */
-/*   Updated: 2024/03/23 14:20:14 by asuc             ###   ########.fr       */
+/*   Updated: 2024/03/27 22:53:38 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	**env_to_tab(t_env *env)
 		i++;
 		tmp = tmp->next;
 	}
-	envp = malloc(sizeof(char *) * (i + 1));
+	envp = ft_calloc(sizeof(char *), (i + 1));
 	if (envp == NULL)
 		return (NULL);
 	tmp = env;

@@ -16,7 +16,7 @@ char	*set_token_str(char *str, int len)
 {
 	char	*token;
 
-	token = malloc(sizeof(char) * len + 1);
+	token = ft_calloc(sizeof(char), len + 1);
 	if (token == NULL)
 		return (NULL);
 	ft_strlcpy(token, str, len + 1);
@@ -52,7 +52,7 @@ char	*remove_quotes(char *str, t_data *data)
 
 	i = 0;
 	j = 0;
-	new_str = malloc(sizeof(char) * ft_strlen(str) + 1);
+	new_str = ft_calloc(sizeof(char),  ft_strlen(str) + 1);
 	if (new_str == NULL)
 		return (NULL);
 	local_quote = data->quote_state;

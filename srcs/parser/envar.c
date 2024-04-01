@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/03/16 19:50:36 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/03/27 22:52:23 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,11 @@ char	*get_envar(char *str, int *i, t_data *data)
 	while (str[*i + dollar_len] && ft_isalnum(str[*i + dollar_len]))
 		dollar_len++;
 	envar = NULL;
-	while (tmp && ft_strncmp(tmp->name, &str[*i + 1], dollar_len))
+	while (tmp && *i + 1 < (int)ft_strlen(str) && ft_strncmp(tmp->name, &str[*i + 1], dollar_len))
+	{
+		// printf("tmp->value = %s\n", tmp->value);
 		tmp = tmp->next;
+	}
 	if (tmp)
 		envar = ft_strdup(tmp->value);
 	else
@@ -45,6 +48,8 @@ char	*envar_remover(char *str, char *envar, char *new_str, int *i)
 	int	j;
 	int	k;
 
+	printf("str = %s\n", str);
+	printf("envar = %s\n", envar);
 	j = 0;
 	while (str[j] && j < *i)
 	{
@@ -82,6 +87,7 @@ char	*replace_envar(char *str, int *i, char *envar, t_data *data)
 	new_str = envar_remover(str, envar, new_str, i);
 	(*i) += ft_strlen(envar) + dollar_len;
 	free(str);
+	// printf("new_str = %s\n", new_str);
 	return (new_str);
 }
 
@@ -95,10 +101,14 @@ char	*check_envar(char *str, t_data *data)
 	while (str[i])
 	{
 		data->quote_state = quote_management(data->quote_state, str[i]);
+			// printf("str = %s\n", str);
+			// printf("str[i] = %c\n", str[i]);
 		if (data->quote_state != 1 && str[i] == '$')
 		{
+			printf("cheh batard\n");
 			envar = get_envar(str, &i, data);
 			str = replace_envar(str, &i, envar, data);
+			printf("str = %s\n", str);
 			if (envar)
 				free(envar);
 		}

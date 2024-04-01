@@ -28,7 +28,7 @@ char	*ft_export(t_env *env, char *name)
 		tmp = env;
 		while (tmp->next)
 			tmp = tmp->next;
-		tmp->next = malloc(sizeof(t_env));
+		tmp->next = ft_calloc(sizeof(t_env), 1);
 		if (!tmp->next)
 			return (NULL);
 		tmp->next->name = ft_strndup(name, ft_strchr(name, '=') - name);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 18:49:35 by asuc              #+#    #+#             */
-/*   Updated: 2024/03/23 14:18:23 by asuc             ###   ########.fr       */
+/*   Updated: 2024/03/27 22:54:15 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	get_env(t_env *env, char **envp)
 	tmp = env;
 	while (envp[++i])
 	{
-		tmp->next = malloc(sizeof(t_env));
+		tmp->next = ft_calloc(sizeof(t_env), 1);
 		if (!tmp->next)
 			return ;
 		tmp = tmp->next;
