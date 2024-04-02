@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/29 17:08:03 by asuc              #+#    #+#             */
-/*   Updated: 2024/03/27 22:58:23 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/02 16:52:13 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	init_data(t_data *data)
 	data->command_top = NULL;
 	data->fd_out = 1;
 	data->fd_in = 0;
-	
+
 }
 
 static int	ft_env(t_env *env)
@@ -62,9 +62,6 @@ void	execute_command(t_command *command, t_env *env, t_data *data,
 			dup2(output_fd, STDOUT_FILENO);
 			close(output_fd);
 		}
-		printf("command->cmd: %s\n", command->cmd);
-		for (int i = 0; command->args[i]; i++)
-			printf("command->args == %s\n", command->args[i]);
 		if (ft_strcmp(command->cmd, "exit") == 0)
 			ft_exit(data, env, "exit", 0);
 		else if (ft_strcmp(command->cmd, "cd") == 0)
@@ -112,11 +109,15 @@ void	choose_case(t_env *env, t_data *data)
 		}
 		execute_command(command, env, data, prev_fd, pipe_fd[1]);
 		if (prev_fd != STDIN_FILENO)
+		{
+			printf("close prev_fd\n");
 			close(prev_fd);
+		}
 		if (command->next)
 		{
 			close(pipe_fd[1]);
-			prev_fd = pipe_fd[0];
+			prev_fd = dup(pipe_fd[0]);
+			close(pipe_fd[0]);
 		}
 		command = command->next;
 	}
