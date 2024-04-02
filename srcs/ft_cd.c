@@ -1,13 +1,13 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_cd.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/11 22:37:00 by asuc              #+#    #+#             */
-/*   Updated: 2024/03/11 22:37:00 by asuc             ###   ########.fr       */
-/*                                                                            */
+# /* ************************************************************************** */
+# /*                                                                            */
+# /*                                                        :::      ::::::::   */
+# /*   ft_cd.c                                            :+:      :+:    :+:   */
+# /*                                                    +:+ +:+         +:+     */
+# /*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
+# /*                                                +#+#+#+#+#+   +#+           */
+# /*   Created: 2024/03/11 22:37:00 by asuc              #+#    #+#             */
+# /*   Updated: 2024/03/11 22:37:00 by asuc             ###   ########.fr       */
+# /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
@@ -78,6 +78,33 @@ static int	other_case_cd(t_data *data, t_env *env)
 	return (1);
 }
 
+static char	*ft_export_single_arg(t_env *env, char *name)
+{
+	t_env	*tmp;
+
+	tmp = get_env_value_ptr(env, name);
+	if (tmp)
+	{
+		free(tmp->value);
+		tmp->value = ft_strdup(ft_strchr(name, '=') + 1);
+		return (tmp->value);
+	}
+	else
+	{
+		tmp = env;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = ft_calloc(sizeof(t_env), 1);
+		if (!tmp->next)
+			return (NULL);
+		tmp->next->name = ft_strndup(name, ft_strchr(name, '=') - name);
+		tmp->next->value = ft_strdup(ft_strchr(name, '=') + 1);
+		tmp->next->next = NULL;
+		return (tmp->next->value);
+	}
+	return (NULL);
+}
+
 static int	old_cd(t_env *env)
 {
 	char	*tmp;
@@ -94,18 +121,19 @@ static int	old_cd(t_env *env)
 		tmp2 = (tmp);
 		tmp = ft_strjoin("OLDPWD=", tmp2);
 		free(tmp2);
-		ft_export(env, tmp);
+		ft_export_single_arg(env, tmp);
 		free(tmp);
 		printf("%s\n", get_env_value_string(env, "OLDPWD"));
 		return (0);
 	}
 	printf("%s\n", get_env_value_string(env, "OLDPWD"));
 	tmp2 = ft_strjoin("OLDPWD=", tmp);
-	ft_export(env, tmp2);
+	ft_export_single_arg(env, tmp2);
 	free(tmp2);
 	free(tmp);
 	return (0);
 }
+
 
 int	ft_cd(t_data *data, t_env *env)
 {
@@ -120,7 +148,7 @@ int	ft_cd(t_data *data, t_env *env)
 		return (old_cd(env));
 	tmp2 = getcwd(NULL, 0);
 	tmp = ft_strjoin("OLDPWD=", tmp2);
-	ft_export(env, tmp);
+	ft_export_single_arg(env, tmp);
 	free(tmp2);
 	free(tmp);
 	if (other_case_cd(data, env) == 0)

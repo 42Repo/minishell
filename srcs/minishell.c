@@ -1,13 +1,13 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/29 17:08:03 by asuc              #+#    #+#             */
-/*   Updated: 2024/04/01 17:01:05 by asuc             ###   ########.fr       */
-/*                                                                            */
+# /* ************************************************************************** */
+# /*                                                                            */
+# /*                                                        :::      ::::::::   */
+# /*   minishell.c                                        :+:      :+:    :+:   */
+# /*                                                    +:+ +:+         +:+     */
+# /*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
+# /*                                                +#+#+#+#+#+   +#+           */
+# /*   Created: 2024/01/29 17:08:03 by asuc              #+#    #+#             */
+# /*   Updated: 2024/04/02 17:12:38 by asuc             ###   ########.fr       */
+# /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
@@ -39,11 +39,62 @@ static int	ft_env(t_env *env)
 	return (0);
 }
 
+int	execute_bultin(t_command *command, t_env *env, t_data *data)
+{
+	if (ft_strcmp(command->cmd, "exit") == 0)
+	{
+		ft_exit(data, env, "exit", 0);
+		return (1);
+	}
+	else if (ft_strcmp(command->cmd, "cd") == 0)
+	{
+		ft_cd(data, env);
+		return (1);
+	}
+	else if (ft_strcmp(command->cmd, "export") == 0)
+	{
+		ft_export(env, command->args);
+		return (1);
+	}
+	else if (ft_strcmp(command->cmd, "env") == 0)
+	{
+		ft_env(env);
+		return (1);
+	}
+	else if (ft_strcmp(command->cmd, "unset") == 0)
+	{
+		ft_unset(env, data);
+		return (1);
+	}
+	else if (ft_strcmp(command->cmd, "echo") == 0)
+	{
+		ft_echo(data);
+		return (1);
+	}
+	else if (ft_strcmp(command->cmd, "pwd") == 0)
+	{
+		ft_pwd(env);
+		return (1);
+	}
+	return (0);
+}
 void	execute_command(t_command *command, t_env *env, t_data *data,
 		int input_fd, int output_fd)
 {
 	pid_t	pid;
 
+	if (input_fd && input_fd != STDIN_FILENO)
+	{
+		dup2(input_fd, STDIN_FILENO);
+		close(input_fd);
+	}
+	if (output_fd && output_fd != STDOUT_FILENO)
+	{
+		dup2(output_fd, STDOUT_FILENO);
+		close(output_fd);
+	}
+	if (execute_bultin(command, env, data) == 1)
+		return ;
 	pid = fork();
 	if (pid == -1)
 	{
@@ -52,33 +103,7 @@ void	execute_command(t_command *command, t_env *env, t_data *data,
 	}
 	if (pid == 0)
 	{
-		if (input_fd && input_fd != STDIN_FILENO)
-		{
-			dup2(input_fd, STDIN_FILENO);
-			close(input_fd);
-		}
-		if (output_fd && output_fd != STDOUT_FILENO)
-		{
-			dup2(output_fd, STDOUT_FILENO);
-			close(output_fd);
-		}
-		if (ft_strcmp(command->cmd, "exit") == 0)
-			ft_exit(data, env, "exit", 0);
-		else if (ft_strcmp(command->cmd, "cd") == 0)
-			ft_cd(data, env);
-		else if (ft_strcmp(command->cmd, "export") == 0)
-			ft_export(env, command->args[1]);
-		else if (ft_strcmp(command->cmd, "env") == 0)
-			ft_env(env);
-		else if (ft_strcmp(command->cmd, "unset") == 0)
-			ft_unset(env, data);
-		else if (ft_strcmp(command->cmd, "echo") == 0)
-			ft_echo(data);
-		else if (ft_strcmp(command->cmd, "pwd") == 0)
-			ft_pwd(env);
-		else
-			g_return_code = execve_path_env(command->cmd, command->args, env,
-					data);
+		g_return_code = execve_path_env(command->cmd, command->args, env, data);
 		exit(g_return_code);
 	}
 	else
@@ -97,30 +122,26 @@ void	choose_case(t_env *env, t_data *data)
 	prev_fd = STDIN_FILENO;
 	while (command)
 	{
-		if (ft_strcmp(command->cmd, "exit") == 0)
-			ft_exit(data, env, "exit", 0);
+		if (command->next && pipe(pipe_fd) == -1)
+		{
+			perror("pipe");
+			return ;
+		}
 		if (command->next)
-		{
-			if (pipe(pipe_fd) == -1)
-			{
-				perror("pipe");
-				return ;
-			}
-		}
-		execute_command(command, env, data, prev_fd, pipe_fd[1]);
+			execute_command(command, env, data, prev_fd, pipe_fd[1]);
+		else
+			execute_command(command, env, data, prev_fd, data->fd_out);
 		if (prev_fd != STDIN_FILENO)
-		{
-			printf("close prev_fd\n");
 			close(prev_fd);
-		}
 		if (command->next)
 		{
 			close(pipe_fd[1]);
-			prev_fd = dup(pipe_fd[0]);
-			close(pipe_fd[0]);
+			prev_fd = pipe_fd[0];
 		}
 		command = command->next;
 	}
+	if (prev_fd != STDIN_FILENO)
+		close(prev_fd);
 }
 
 int	wait_cmd_prompt(t_data *data, t_env *env)

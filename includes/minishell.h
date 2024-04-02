@@ -1,13 +1,13 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+
-	+:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+
-	+#+        */
-/*                                                +#+#+#+#+#+
-	+#+           */
+# /* ************************************************************************** */
+# /*                                                                            */
+# /*                                                        :::      ::::::::   */
+# /*   minishell.h                                        :+:      :+:    :+:   */
+# /*                                                    +:+ +:+
+# 	+:+     */
+# /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+
+# 	+#+        */
+# /*                                                +#+#+#+#+#+
+# 	+#+           */
 /*   Created: 2024/01/29 17:32:07 by asuc              #+#    #+#             */
 /*   Updated: 2024/02/13 22:47:02 by mbuchs           ###   ########.fr       */
 /*                                                                            */
@@ -265,7 +265,7 @@ void	get_env(t_env *env, char **envp);
  * @param line the name of the variable to add, ex : "PATH=..." or "HOME=..."
  * @return char* the value of the variable ex : "/usr/bin" or "/home/user"
  */
-char	*ft_export(t_env *env, char *name);
+void	ft_export(t_env *env, char **args);
 
 /**
  * @brief Get the env value string object
