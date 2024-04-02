@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/03/27 22:52:23 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/02 16:11:32 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*get_envar(char *str, int *i, t_data *data)
 	while (str[*i + dollar_len] && ft_isalnum(str[*i + dollar_len]))
 		dollar_len++;
 	envar = NULL;
-	while (tmp && *i + 1 < (int)ft_strlen(str) && ft_strncmp(tmp->name, &str[*i + 1], dollar_len))
+	while (tmp && ft_strncmp(&str[*i + 1], tmp->name, dollar_len - 1))
 	{
 		// printf("tmp->value = %s\n", tmp->value);
 		tmp = tmp->next;
@@ -40,36 +40,36 @@ char	*get_envar(char *str, int *i, t_data *data)
 		envar = ft_strdup(tmp->value);
 	else
 		envar = ft_strdup("");
+	printf("envar = %s\n", envar);
+	(*i) += dollar_len;
 	return (envar);
 }
 
 char	*envar_remover(char *str, char *envar, char *new_str, int *i)
 {
-	int	j;
-	int	k;
+	int		j;
+	int		k;
 
-	printf("str = %s\n", str);
-	printf("envar = %s\n", envar);
 	j = 0;
+	k = 0;
 	while (str[j] && j < *i)
 	{
 		new_str[j] = str[j];
 		j++;
 	}
-	k = j;
-	j = 0;
-	while (envar[j])
+	while (envar[k])
 	{
-		new_str[k] = envar[j];
+		new_str[j] = envar[k];
 		j++;
 		k++;
 	}
-	while ((int)ft_strlen(str) >= j && str[j])
+	while (str[*i])
 	{
-		new_str[k] = str[j];
+		new_str[j] = str[*i];
 		j++;
-		k++;
+		(*i)++;
 	}
+	new_str[j] = '\0';
 	return (new_str);
 }
 
