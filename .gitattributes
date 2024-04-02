@@ -1,2 +1,2 @@
-*.c filter=ignorefirstlines
-*.h filter=ignorefirstlines
+*.c filter=strip_header
+*.h filter=strip_header
