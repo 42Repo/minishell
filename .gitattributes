@@ -1,2 +1,0 @@
-*.c filter=strip_header
-*.h filter=strip_header
