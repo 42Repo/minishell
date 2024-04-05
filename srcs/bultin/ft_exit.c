@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:30:00 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/04/05 19:31:49 by asuc             ###   ########.fr       */
+/*   Updated: 2024/04/05 21:49:02 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	ft_exit(t_data *data, t_env *env, char *exit_msg, int exit_code)
 	}
 }
 
-void	*sig_handler(int num)
+void	sig_handler(int num)
 {
 	if (num == SIGINT)
 	{
@@ -56,5 +56,4 @@ void	*sig_handler(int num)
 		rl_redisplay();
 		g_return_code = 130;
 	}
-	return (NULL);
 }

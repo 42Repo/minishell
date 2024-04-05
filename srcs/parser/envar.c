@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envar.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/04/05 16:54:55 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/05 21:33:25 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ char *expander(t_data *data)
 	{
 		int i = 0;
 		quote_state = 0;
-		
+
 		while(selected->value[i])
 		{
 			quote_management(quote_state, selected->value[i]);
-			if ((int)ft_strlen(&selected->value[i]) >= i + 1 && selected->value[i] == '$' && !ft_isdigit(selected->value[i + 1]) && selected->value[i + 1] != '_' && quote_state != 1)
-				printf("la faut replace\n");
+			// if ((int)ft_strlen(&selected->value[i]) >= i + 1 && selected->value[i] == '$' && !ft_isdigit(selected->value[i + 1]) && selected->value[i + 1] != '_' && quote_state != 1)
+			// 	printf("la faut replace\n");
 			i++;
 		}
 		// printf("%s\n", selected->value);
@@ -136,7 +136,7 @@ char *expander(t_data *data)
 // 			envar_interogation(str, &i, data);
 // 		while(str[i + 1] && str[i] != '$' && ft_isdigit(str[i] + 1))
 // 			i++;
-		
+
 // r	}
 // 	// while (str[i])
 // 	// {

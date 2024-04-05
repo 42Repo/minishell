@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/04/05 20:36:56 by asuc             ###   ########.fr       */
+/*   Updated: 2024/04/05 21:56:38 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ int	execute_bultin(t_command *command, t_env *env, t_data *data)
 	else
 		return (0);
 	return (1);
-
 }
 
 void	execute_command(t_command *command, t_data *data, int input_fd,
@@ -52,7 +51,6 @@ void	execute_command(t_command *command, t_data *data, int input_fd,
 {
 	pid_t	pid;
 	int		status;
-
 
 	if (input_fd && input_fd != STDIN_FILENO)
 	{
@@ -86,7 +84,6 @@ void	execute_command(t_command *command, t_data *data, int input_fd,
 		else if (WIFSIGNALED(status))
 			g_return_code = 128 + WTERMSIG(status);
 	}
-
 }
 
 void	choose_case(t_data *data)
@@ -138,7 +135,8 @@ int	wait_cmd_prompt(t_data *data)
 		line = readline(data->cmd_prompt);
 		if (line == NULL)
 			ft_exit(data, data->env, "exit", g_return_code);
-		add_history(line);
+		if (ft_strlen(line) > 0)
+			add_history(line);
 		lexer(line, data);
 		parser(data);
 		choose_case(data);
@@ -149,7 +147,6 @@ int	wait_cmd_prompt(t_data *data)
 			close(data->fd_out);
 			data->fd_out = 1;
 		}
-		printf("g_return_code = %d\n", g_return_code);
 	}
 }
 
@@ -158,11 +155,11 @@ int	main(int argc __attribute__((unused)), char *argv[] __attribute__((unused)),
 {
 	t_data	*data;
 
-	signal(SIGINT, (void (*)(int))sig_handler);
-	signal(SIGQUIT, (void (*)(int))sig_handler);
+	signal(SIGINT, sig_handler);
+	signal(SIGQUIT, sig_handler);
 	data = ft_calloc(sizeof(t_data), 1);
 	data->env = ft_calloc(sizeof(t_env), 1);
-	printf("\033c");
+	// printf("\033c");
 	init_data(data);
 	get_env(data->env, envp);
 	wait_cmd_prompt(data);

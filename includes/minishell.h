@@ -318,7 +318,7 @@ void	ft_pwd(t_env *env);
 int		execve_path_env(char *cmd, char **args, t_env *env, t_data *data);
 void	ft_exit(t_data *data, t_env *env, char *exit_msg, int exit_code);
 int		ft_tablen(char **tab);
-void	*sig_handler(int num);
+void	sig_handler(int num);
 int		wait_cmd_prompt(t_data *data);
 char	*get_envar(char *str, int *i, t_data *data);
 char	*envar_remover(char *str, char *envar, char *new_str, int *i);
