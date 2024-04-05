@@ -34,7 +34,9 @@ char	*ft_strdup(const char *s)
 		return (NULL);
 	tab = malloc(sizeof(char) * (ft_strlen(s) + 1));
 	if (tab == NULL)
+	{
 		return (tab);
+	}
 	ft_strcpy(tab, s);
 	return (tab);
 }
