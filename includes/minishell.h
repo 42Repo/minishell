@@ -328,5 +328,6 @@ char	**join_tab(char **tab, char *line);
 void	print_sorted_env(t_env *env);
 char	*expander(t_data *data);
 int		ft_env(t_env *env);
+void	free_env(t_env *env);
 
 #endif

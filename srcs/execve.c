@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 00:16:17 by asuc              #+#    #+#             */
-/*   Updated: 2024/04/05 19:31:32 by asuc             ###   ########.fr       */
+/*   Updated: 2024/04/05 22:09:33 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,12 @@ int	execve_path_env(char *cmd, char **args, t_env *env, t_data *data)
 	{
 		free_tab(envp);
 		free(path);
+		free_token_lst(data);
+		free_env(env);
+		free_command(data);
+		if (data->cmd_prompt)
+			free(data->cmd_prompt);
+		free(data);
 		return (g_return_code);
 	}
 	execve(path, args, envp);

@@ -6,25 +6,11 @@
 /*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 16:15:42 by asuc              #+#    #+#             */
-/*   Updated: 2024/04/05 16:16:53 by asuc             ###   ########.fr       */
+/*   Updated: 2024/04/05 22:10:26 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-static void	free_env(t_env *env)
-{
-	t_env	*tmp;
-
-	while (env)
-	{
-		tmp = env;
-		env = env->next;
-		free(tmp->name);
-		free(tmp->value);
-		free(tmp);
-	}
-}
 
 static t_env	*create_new_node(t_env *tmp)
 {
