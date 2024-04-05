@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/04/05 20:34:38 by asuc             ###   ########.fr       */
+/*   Updated: 2024/04/05 20:36:56 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ int	main(int argc __attribute__((unused)), char *argv[] __attribute__((unused)),
 	signal(SIGQUIT, (void (*)(int))sig_handler);
 	data = ft_calloc(sizeof(t_data), 1);
 	data->env = ft_calloc(sizeof(t_env), 1);
-	// printf("\033c");
+	printf("\033c");
 	init_data(data);
 	get_env(data->env, envp);
 	wait_cmd_prompt(data);
