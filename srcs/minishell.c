@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/04/05 20:24:54 by asuc             ###   ########.fr       */
+/*   Updated: 2024/04/05 20:34:38 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,6 @@ void	init_data(t_data *data)
 	data->command_top = NULL;
 	data->fd_out = 1;
 	data->fd_in = 0;
-}
-
-static int	ft_env(t_env *env)
-{
-	t_env	*tmp;
-
-	tmp = env;
-	while (tmp)
-	{
-		printf("%s=%s\n", tmp->name, tmp->value);
-		tmp = tmp->next;
-	}
-	return (0);
 }
 
 int	execute_bultin(t_command *command, t_env *env, t_data *data)
