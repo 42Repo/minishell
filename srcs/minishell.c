@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/04/05 19:42:44 by asuc             ###   ########.fr       */
+/*   Updated: 2024/04/05 20:06:46 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ void	execute_command(t_command *command, t_data *data, int input_fd,
 {
 	pid_t	pid;
 	int		status;
+
 
 	if (input_fd && input_fd != STDIN_FILENO)
 	{
