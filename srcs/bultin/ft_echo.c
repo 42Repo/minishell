@@ -15,27 +15,23 @@
 void	ft_echo(t_data *data)
 {
 	int	i;
-	int	mode;
+	int	newline;
 
-	mode = 0;
-	if (ft_tablen(data->command_top->args) > 1
-		&& !ft_strcmp(data->command_top->args[1], "-n"))
+	newline = 1;
+	i = 1;
+	if (data->command_top->args[i]
+		&& ft_strcmp(data->command_top->args[i], "-n") == 0)
 	{
-		mode = 1;
-		i = 2;
+		newline = 0;
+		i++;
 	}
-	else
-		i = 1;
-	if (ft_tablen(data->command_top->args) > 1)
+	while (data->command_top->args[i])
 	{
-		while (data->command_top->args[i])
-		{
-			printf("%s", data->command_top->args[i]);
-			if (data->command_top->args[i + 1])
-				printf(" ");
-			i++;
-		}
+		ft_putstr_fd(data->command_top->args[i], 1);
+		if (data->command_top->args[i + 1])
+			ft_putchar_fd(' ', 1);
+		i++;
 	}
-	if (!mode)
-		printf("\n");
+	if (newline)
+		ft_putchar_fd('\n', 1);
 }

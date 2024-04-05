@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 00:16:17 by asuc              #+#    #+#             */
-/*   Updated: 2024/03/27 22:58:11 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/05 17:17:42 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,13 +160,13 @@ int	execve_path_env(char *cmd, char **args, t_env *env, t_data *data)
 		{
 			free_tab(envp);
 			free(path);
-			ft_exit(data, env, "", 0);
+			ft_exit(data, env, "", g_return_code);
 		}
 		i = execve(path, args, envp);
 		perror("minishell");
 		free_tab(envp);
 		free(path);
-		ft_exit(data, env, "", 0);
+		ft_exit(data, env, "", g_return_code);
 	}
 	waitpid(pid, &i, 0);
 	free_tab(envp);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/04/05 16:23:23 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/05 17:12:39 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	select_input(char *file, t_data *data, t_command *command)
 {
 	char *line;
 	char *tmp = ft_calloc(sizeof(char), 256);
-	
+
 	line = ft_strdup("");
 	if (data->fd_in != 0)
 		close(data->fd_in);
@@ -135,7 +135,7 @@ void	parse_line(t_data *data, t_token *selected, t_command *command)
 		}
 		while (selected && selected->type == WORD)
 		{
-			printf("selected->value = %s\n", selected->value);
+			// printf("selected->value = %s\n", selected->value);
 			command->args = join_tab(command->args, ft_strdup(selected->value));
 			selected = selected->next;
 		}

@@ -82,6 +82,8 @@ typedef struct s_data
 	int			fd_in;
 }	t_data;
 
+extern int g_return_code;
+
 /* FUNCTIONS */
 void	parser(t_data *data);
 void	free_command(t_data *data);

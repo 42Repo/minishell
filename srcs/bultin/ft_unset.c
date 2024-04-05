@@ -15,37 +15,39 @@
 static void	delete_env(t_env *env, char *name)
 {
 	t_env	*tmp;
-	t_env	*tmp2;
+	t_env	*prev;
 
 	tmp = env;
-	while (tmp->next)
+	prev = NULL;
+	while (tmp)
 	{
-		if (!ft_strcmp(tmp->next->name, name))
+		if (!ft_strcmp(tmp->name, name))
 		{
-			tmp2 = tmp->next;
-			tmp->next = tmp->next->next;
-			free(tmp2->name);
-			free(tmp2->value);
-			free(tmp2);
+			if (prev)
+				prev->next = tmp->next;
+			else
+				env = tmp->next;
+			free(tmp->name);
+			free(tmp->value);
+			free(tmp);
 			return ;
 		}
+		prev = tmp;
 		tmp = tmp->next;
 	}
 }
 
 void	ft_unset(t_env *env, t_data *data)
 {
-	t_env	*tmp;
 	int		i;
 	char	*line;
 
-	i = 0;
+	i = 1;
+	g_return_code = 0;
 	while (data->command_top->args[i])
 	{
 		line = data->command_top->args[i];
-		tmp = get_env_value_ptr_by_name(env, line);
-		if (tmp)
-			delete_env(env, line);
+		delete_env(env, line);
 		i++;
 	}
 }

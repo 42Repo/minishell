@@ -6,28 +6,24 @@
 /*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:30:00 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/04/05 16:15:01 by asuc             ###   ########.fr       */
+/*   Updated: 2024/04/05 17:16:07 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	free_env(t_env *env)
+static void	free_env(t_env *env)
 {
 	t_env	*tmp;
 
-	while (env->next)
+	while (env)
 	{
-		tmp = env->next;
-		free(env->name);
-		free(env->value);
-		free(env);
-		env = tmp;
+		tmp = env;
+		env = env->next;
+		free(tmp->name);
+		free(tmp->value);
+		free(tmp);
 	}
-	free(env->name);
-	free(env->value);
-	free(env);
-	return (0);
 }
 
 void	ft_exit(t_data *data, t_env *env, char *exit_msg, int exit_code)
@@ -39,9 +35,17 @@ void	ft_exit(t_data *data, t_env *env, char *exit_msg, int exit_code)
 	if (data->cmd_prompt)
 		free(data->cmd_prompt);
 	free(data);
+
 	if (ft_strlen(exit_msg))
 		printf("%s (%d)\n", exit_msg, exit_code);
-	exit (0);
+
+	if (exit_code >= 0 && exit_code <= 255)
+		exit(exit_code);
+	else
+	{
+		printf("minishell: exit: %d: numeric argument required\n", exit_code);
+		exit(2);
+	}
 }
 
 void	*sig_handler(int num)
@@ -52,6 +56,7 @@ void	*sig_handler(int num)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
+		g_return_code = 130;
 	}
 	return (NULL);
 }

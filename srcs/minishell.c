@@ -6,13 +6,13 @@
 /*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/04/05 16:01:37 by asuc             ###   ########.fr       */
+/*   Updated: 2024/04/05 17:18:14 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int			g_return_code = 0;
+int g_return_code = 0;
 
 void	init_data(t_data *data)
 {
@@ -42,7 +42,7 @@ int	execute_bultin(t_command *command, t_env *env, t_data *data)
 {
 	if (ft_strcmp(command->cmd, "exit") == 0)
 	{
-		ft_exit(data, env, "exit", 0);
+		ft_exit(data, env, "exit", g_return_code);
 		return (1);
 	}
 	else if (ft_strcmp(command->cmd, "cd") == 0)
@@ -149,6 +149,7 @@ int	wait_cmd_prompt(t_data *data, t_env *env)
 
 	while (1)
 	{
+		g_return_code = 0;
 		if (data->prompt_top)
 			free_token_lst(data);
 		if (data->command_top)
@@ -158,7 +159,7 @@ int	wait_cmd_prompt(t_data *data, t_env *env)
 			return (-1);
 		line = readline(data->cmd_prompt);
 		if (line == NULL)
-			ft_exit(data, env, "exit", 0);
+			ft_exit(data, env, "exit", g_return_code);
 		add_history(line);
 		lexer(line, data);
 		parser(data);
@@ -170,6 +171,7 @@ int	wait_cmd_prompt(t_data *data, t_env *env)
 			close(data->fd_out);
 			data->fd_out = 1;
 		}
+		printf("g_return_code = %d\n", g_return_code);
 	}
 }
 

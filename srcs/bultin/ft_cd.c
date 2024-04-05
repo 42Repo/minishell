@@ -37,6 +37,7 @@ static int	error_cd(char *path, t_env *env, int mode)
 	if (errno == 14)
 	{
 		ft_putstr_fd("HOME not set\n", 2);
+		g_return_code = 1;
 		return (-1);
 	}
 	if (path != NULL)
@@ -46,6 +47,7 @@ static int	error_cd(char *path, t_env *env, int mode)
 	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(strerror(errno), 2);
 	ft_putstr_fd("\n", 2);
+	g_return_code = 1;
 	return (-1);
 }
 
@@ -113,6 +115,7 @@ static int	old_cd(t_env *env)
 	if (get_env_value_string(env, "OLDPWD") == NULL)
 	{
 		ft_putstr_fd("cd: OLDPWD not set\n", 2);
+		g_return_code = 1;
 		return (-1);
 	}
 	tmp = getcwd(NULL, 0);
@@ -124,6 +127,7 @@ static int	old_cd(t_env *env)
 		ft_export_single_arg(env, tmp);
 		free(tmp);
 		printf("%s\n", get_env_value_string(env, "OLDPWD"));
+		g_return_code = 1;
 		return (0);
 	}
 	printf("%s\n", get_env_value_string(env, "OLDPWD"));
@@ -134,12 +138,12 @@ static int	old_cd(t_env *env)
 	return (0);
 }
 
-
 int	ft_cd(t_data *data, t_env *env)
 {
 	char	*tmp;
 	char	*tmp2;
 
+	g_return_code = 0;
 	if (data->command_top == NULL || (data->command_top->args[1] != NULL
 			&& data->command_top->args[2] != NULL))
 		return (error_cd(NULL, env, 0));

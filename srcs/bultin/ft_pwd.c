@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-static int	put_program_name(t_env *env)
+static void	put_program_name(t_env *env)
 {
 	char		*tmp;
 	const char	*tmp_error = "minishell";
@@ -20,14 +20,11 @@ static int	put_program_name(t_env *env)
 
 	tmp = get_env_value_string(env, "_");
 	if (tmp == NULL)
-	{
 		tmp = (char *)tmp_error;
-	}
 	i = ft_strlen(tmp) - 1;
 	while (i >= 0 && tmp[i] != '/')
 		i--;
 	ft_putstr_fd(tmp + i + 1, 2);
-	return (0);
 }
 
 void	ft_pwd(t_env *env)
@@ -41,11 +38,11 @@ void	ft_pwd(t_env *env)
 		ft_putstr_fd(": pwd: ", 2);
 		ft_putstr_fd(strerror(errno), 2);
 		ft_putstr_fd("\n", 2);
+		g_return_code = 1;
+		return ;
 	}
-	else
-	{
-		ft_putstr_fd(path, 1);
-		ft_putstr_fd("\n", 1);
-		free(path);
-	}
+	ft_putstr_fd(path, 1);
+	ft_putstr_fd("\n", 1);
+	free(path);
+	g_return_code = 0;
 }
