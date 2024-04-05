@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/04/05 17:18:14 by asuc             ###   ########.fr       */
+/*   Updated: 2024/04/05 19:31:11 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,12 @@ int	execute_bultin(t_command *command, t_env *env, t_data *data)
 	}
 	return (0);
 }
-void	execute_command(t_command *command, t_env *env, t_data *data,
-		int input_fd, int output_fd)
+
+void	execute_command(t_command *command, t_data *data, int input_fd,
+							int output_fd)
 {
 	pid_t	pid;
+	int		status;
 
 	if (input_fd && input_fd != STDIN_FILENO)
 	{
@@ -92,7 +94,7 @@ void	execute_command(t_command *command, t_env *env, t_data *data,
 		dup2(output_fd, STDOUT_FILENO);
 		close(output_fd);
 	}
-	if (execute_bultin(command, env, data) == 1)
+	if (execute_bultin(command, data->env, data) == 1)
 		return ;
 	pid = fork();
 	if (pid == -1)
@@ -102,16 +104,21 @@ void	execute_command(t_command *command, t_env *env, t_data *data,
 	}
 	if (pid == 0)
 	{
-		g_return_code = execve_path_env(command->cmd, command->args, env, data);
+		g_return_code = execve_path_env(command->cmd, command->args,
+				data->env, data);
 		exit(g_return_code);
 	}
 	else
 	{
-		waitpid(pid, &g_return_code, 0);
+		waitpid(pid, &status, 0);
+		if (WIFEXITED(status))
+			g_return_code = WEXITSTATUS(status);
+		else if (WIFSIGNALED(status))
+			g_return_code = 128 + WTERMSIG(status);
 	}
 }
 
-void	choose_case(t_env *env, t_data *data)
+void	choose_case(t_data *data)
 {
 	t_command	*command;
 	int			pipe_fd[2];
@@ -127,9 +134,9 @@ void	choose_case(t_env *env, t_data *data)
 			return ;
 		}
 		if (command->next)
-			execute_command(command, env, data, prev_fd, pipe_fd[1]);
+			execute_command(command, data, prev_fd, pipe_fd[1]);
 		else
-			execute_command(command, env, data, prev_fd, data->fd_out);
+			execute_command(command, data, prev_fd, data->fd_out);
 		if (prev_fd != STDIN_FILENO)
 			close(prev_fd);
 		if (command->next)
@@ -143,7 +150,7 @@ void	choose_case(t_env *env, t_data *data)
 		close(prev_fd);
 }
 
-int	wait_cmd_prompt(t_data *data, t_env *env)
+int	wait_cmd_prompt(t_data *data)
 {
 	char	*line;
 
@@ -154,16 +161,16 @@ int	wait_cmd_prompt(t_data *data, t_env *env)
 			free_token_lst(data);
 		if (data->command_top)
 			free_command(data);
-		get_cmd_prompt(data, env);
+		get_cmd_prompt(data, data->env);
 		if (data->cmd_prompt == NULL)
 			return (-1);
 		line = readline(data->cmd_prompt);
 		if (line == NULL)
-			ft_exit(data, env, "exit", g_return_code);
+			ft_exit(data, data->env, "exit", g_return_code);
 		add_history(line);
 		lexer(line, data);
 		parser(data);
-		choose_case(env, data);
+		choose_case(data);
 		if (line != NULL)
 			free(line);
 		if (data->fd_out != 1)
@@ -179,16 +186,14 @@ int	main(int argc __attribute__((unused)), char *argv[] __attribute__((unused)),
 		char **envp)
 {
 	t_data	*data;
-	t_env	*env;
 
 	signal(SIGINT, (void (*)(int))sig_handler);
 	signal(SIGQUIT, (void (*)(int))sig_handler);
 	data = ft_calloc(sizeof(t_data), 1);
-	env = ft_calloc(sizeof(t_env), 1);
-	data->env = env;
+	data->env = ft_calloc(sizeof(t_env), 1);
 	// printf("\033c");
 	init_data(data);
-	get_env(env, envp);
-	wait_cmd_prompt(data, env);
+	get_env(data->env, envp);
+	wait_cmd_prompt(data);
 	return (0);
 }

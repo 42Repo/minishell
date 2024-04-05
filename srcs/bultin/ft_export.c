@@ -65,7 +65,7 @@ static void	process_arg(t_env *env, char *arg)
 		add_new_env_variable(env, arg);
 }
 
-void	ft_export(t_env *env, char **args)
+int	ft_export(t_env *env, char **args)
 {
 	int	i;
 
@@ -73,11 +73,12 @@ void	ft_export(t_env *env, char **args)
 	if (!args[i])
 	{
 		print_sorted_env(env);
-		return ;
+		return (0);
 	}
 	while (args[i])
 	{
 		process_arg(env, args[i]);
 		i++;
 	}
+	return (0);
 }

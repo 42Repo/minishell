@@ -75,14 +75,13 @@ typedef struct s_data
 	t_token		*selected;
 	t_command	*command_top;
 	t_env		*env;
-	char		*old_cd;
 	int			quote_state;
 	char		*cmd_prompt;
 	int			fd_out;
 	int			fd_in;
 }	t_data;
 
-extern int g_return_code;
+extern int	g_return_code;
 
 /* FUNCTIONS */
 void	parser(t_data *data);
@@ -262,9 +261,9 @@ void	get_env(t_env *env, char **envp);
  *
  * @param env the struct env list
  * @param line the name of the variable to add, ex : "PATH=..." or "HOME=..."
- * @return char* the value of the variable ex : "/usr/bin" or "/home/user"
+ * @return int, always 0
  */
-void	ft_export(t_env *env, char **args);
+int		ft_export(t_env *env, char **args);
 
 /**
  * @brief Get the env value string object
@@ -320,13 +319,13 @@ int		execve_path_env(char *cmd, char **args, t_env *env, t_data *data);
 void	ft_exit(t_data *data, t_env *env, char *exit_msg, int exit_code);
 int		ft_tablen(char **tab);
 void	*sig_handler(int num);
-int		wait_cmd_prompt(t_data *data, t_env *env);
+int		wait_cmd_prompt(t_data *data);
 char	*get_envar(char *str, int *i, t_data *data);
 char	*envar_remover(char *str, char *envar, char *new_str, int *i);
 char	*replace_envar(char *str, int *i, char *envar, t_data *data);
 char	*check_envar(char *str, t_data *data);
 char	**join_tab(char **tab, char *line);
 void	print_sorted_env(t_env *env);
-char *expander(t_data *data);
+char	*expander(t_data *data);
 
 #endif
