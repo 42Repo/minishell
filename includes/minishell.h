@@ -324,5 +324,7 @@ char	*envar_remover(char *str, char *envar, char *new_str, int *i);
 char	*replace_envar(char *str, int *i, char *envar, t_data *data);
 char	*check_envar(char *str, t_data *data);
 char	**join_tab(char **tab, char *line);
+void	print_sorted_env(t_env *env);
+
 
 #endif
