@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/04/05 20:10:18 by asuc             ###   ########.fr       */
+/*   Updated: 2024/04/05 20:12:36 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,41 +41,23 @@ static int	ft_env(t_env *env)
 int	execute_bultin(t_command *command, t_env *env, t_data *data)
 {
 	if (ft_strcmp(command->cmd, "exit") == 0)
-	{
 		ft_exit(data, env, "exit", g_return_code);
-		return (1);
-	}
 	else if (ft_strcmp(command->cmd, "cd") == 0)
-	{
 		ft_cd(data, env);
-		return (1);
-	}
 	else if (ft_strcmp(command->cmd, "export") == 0)
-	{
 		ft_export(env, command->args);
-		return (1);
-	}
 	else if (ft_strcmp(command->cmd, "env") == 0)
-	{
 		ft_env(env);
-		return (1);
-	}
 	else if (ft_strcmp(command->cmd, "unset") == 0)
-	{
 		ft_unset(env, data);
-		return (1);
-	}
 	else if (ft_strcmp(command->cmd, "echo") == 0)
-	{
 		ft_echo(data);
-		return (1);
-	}
 	else if (ft_strcmp(command->cmd, "pwd") == 0)
-	{
 		ft_pwd(env);
-		return (1);
-	}
-	return (0);
+	else
+		return (0);
+	return (1);
+
 }
 
 void	execute_command(t_command *command, t_data *data, int input_fd,
