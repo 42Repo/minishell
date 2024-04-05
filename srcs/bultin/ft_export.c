@@ -70,6 +70,7 @@ int	ft_export(t_env *env, char **args)
 	int	i;
 
 	i = 1;
+	g_return_code = 0;
 	if (!args[i])
 	{
 		print_sorted_env(env);

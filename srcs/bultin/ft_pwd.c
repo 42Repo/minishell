@@ -31,6 +31,7 @@ void	ft_pwd(t_env *env)
 {
 	char	*path;
 
+	g_return_code = 0;
 	path = getcwd(NULL, 0);
 	if (!path)
 	{

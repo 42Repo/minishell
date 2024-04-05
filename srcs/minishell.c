@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/04/05 19:31:11 by asuc             ###   ########.fr       */
+/*   Updated: 2024/04/05 19:42:44 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,9 +154,9 @@ int	wait_cmd_prompt(t_data *data)
 {
 	char	*line;
 
+	g_return_code = 0;
 	while (1)
 	{
-		g_return_code = 0;
 		if (data->prompt_top)
 			free_token_lst(data);
 		if (data->command_top)

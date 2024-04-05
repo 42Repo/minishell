@@ -17,6 +17,7 @@ void	ft_echo(t_data *data)
 	int	i;
 	int	newline;
 
+	g_return_code = 0;
 	newline = 1;
 	i = 1;
 	if (data->command_top->args[i]
