@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 16:15:42 by asuc              #+#    #+#             */
-/*   Updated: 2024/04/05 22:10:26 by asuc             ###   ########.fr       */
+/*   Updated: 2024/04/06 18:55:38 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,11 +89,15 @@ void	print_sorted_env(t_env *env)
 	tmp = sorted_env;
 	while (tmp)
 	{
-		ft_putstr_fd("declare -x ", 1);
-		ft_putstr_fd(tmp->name, 1);
-		ft_putstr_fd("=\"", 1);
-		ft_putstr_fd(tmp->value, 1);
-		ft_putstr_fd("\"\n", 1);
+		if (tmp->name && tmp->name[0] == '_' && tmp->name[1] == '\0')
+		{
+			tmp = tmp->next;
+			continue ;
+		}
+		printf("declare -x %s", tmp->name);
+		if (tmp->value)
+			printf("=\"%s\"", tmp->value);
+		printf("\n");
 		tmp = tmp->next;
 	}
 	free_env(sorted_env);

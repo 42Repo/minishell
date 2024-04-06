@@ -29,6 +29,20 @@ static int	is_valid_identifier(char *str)
 	return (1);
 }
 
+static int	ft_is_equal(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '=')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 static void	add_new_env_variable(t_env *env, char *arg)
 {
 	t_env	*new_env;
@@ -36,6 +50,16 @@ static void	add_new_env_variable(t_env *env, char *arg)
 	new_env = ft_calloc(sizeof(t_env), 1);
 	if (!new_env)
 		return ;
+	if (!(ft_is_equal(arg)))
+	{
+		new_env->name = ft_strdup(arg);
+		new_env->value = NULL;
+		new_env->next = NULL;
+		while (env->next)
+			env = env->next;
+		env->next = new_env;
+		return ;
+	}
 	new_env->name = ft_strndup(arg, ft_strchr(arg, '=') - arg);
 	new_env->value = ft_strdup(ft_strchr(arg, '=') + 1);
 	new_env->next = NULL;
@@ -55,6 +79,7 @@ static void	process_arg(t_env *env, char *arg)
 		ft_putstr_fd("': not a valid identifier\n", 2);
 		return ;
 	}
+	printf("arg = %s\n", arg);
 	tmp = get_env_value_ptr(env, arg);
 	if (tmp)
 	{

@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 20:29:57 by asuc              #+#    #+#             */
-/*   Updated: 2024/04/05 20:30:14 by asuc             ###   ########.fr       */
+/*   Updated: 2024/04/06 18:45:27 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int	ft_env(t_env *env)
 	tmp = env;
 	while (tmp)
 	{
-		printf("%s=%s\n", tmp->name, tmp->value);
+		if (tmp->value)
+			printf("%s=%s\n", tmp->name, tmp->value);
 		tmp = tmp->next;
 	}
 	return (0);
