@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/04/05 22:40:24 by asuc             ###   ########.fr       */
+/*   Updated: 2024/04/06 20:40:34 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,13 +91,9 @@ void	choose_case(t_data *data)
 	t_command	*command;
 	int			pipe_fd[2];
 	int			prev_fd;
-	int			old_fd_out;
-	int			old_fd_in;
 
 	command = data->command_top;
 	prev_fd = STDIN_FILENO;
-	old_fd_out = dup(STDOUT_FILENO);
-	old_fd_in = dup(STDIN_FILENO);
 	while (command)
 	{
 		if (command->next && pipe(pipe_fd) == -1)
@@ -108,7 +104,7 @@ void	choose_case(t_data *data)
 		if (command->next)
 			execute_command(command, data, prev_fd, pipe_fd[1]);
 		else
-			execute_command(command, data, prev_fd, data->fd_out);
+			execute_command(command, data, prev_fd, 1);
 		if (prev_fd != STDIN_FILENO)
 			close(prev_fd);
 		if (command->next)
@@ -120,10 +116,6 @@ void	choose_case(t_data *data)
 	}
 	if (prev_fd != STDIN_FILENO)
 		close(prev_fd);
-	dup2(old_fd_out, STDOUT_FILENO);
-	dup2(old_fd_in, STDIN_FILENO);
-	close(old_fd_out);
-	close(old_fd_in);
 }
 
 int	wait_cmd_prompt(t_data *data)
@@ -150,11 +142,6 @@ int	wait_cmd_prompt(t_data *data)
 		choose_case(data);
 		if (line != NULL)
 			free(line);
-		if (data->fd_out != 1)
-		{
-			close(data->fd_out);
-			data->fd_out = 1;
-		}
 	}
 }
 
@@ -173,3 +160,4 @@ int	main(int argc __attribute__((unused)), char *argv[] __attribute__((unused)),
 	wait_cmd_prompt(data);
 	return (0);
 }
+
