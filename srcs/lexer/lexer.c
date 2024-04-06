@@ -103,6 +103,7 @@ void	lexer(char *str, t_data *data)
 	if (!ft_isnamespace(str[i]) && j < i)
 		add_token_to_list(data, &str[j], i - j, WORD);
 	add_token_to_list(data, "", 0, END);
+	expander(data);
 }
 
 	// print_stack(data->prompt_top);
