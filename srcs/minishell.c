@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/04/06 20:40:34 by asuc             ###   ########.fr       */
+/*   Updated: 2024/04/06 21:13:03 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,22 +46,11 @@ int	execute_bultin(t_command *command, t_env *env, t_data *data)
 	return (1);
 }
 
-void	execute_command(t_command *command, t_data *data, int input_fd,
-							int output_fd)
+void	execute_command(t_command *command, t_data *data, int input_fd, int output_fd)
 {
 	pid_t	pid;
 	int		status;
 
-	if (input_fd && input_fd != STDIN_FILENO)
-	{
-		dup2(input_fd, STDIN_FILENO);
-		close(input_fd);
-	}
-	if (output_fd && output_fd != STDOUT_FILENO)
-	{
-		dup2(output_fd, STDOUT_FILENO);
-		close(output_fd);
-	}
 	if (execute_bultin(command, data->env, data) == 1)
 		return ;
 	pid = fork();
@@ -72,8 +61,17 @@ void	execute_command(t_command *command, t_data *data, int input_fd,
 	}
 	if (pid == 0)
 	{
-		g_return_code = execve_path_env(command->cmd, command->args,
-				data->env, data);
+		if (input_fd != STDIN_FILENO)
+		{
+			dup2(input_fd, STDIN_FILENO);
+			close(input_fd);
+		}
+		if (output_fd != STDOUT_FILENO)
+		{
+			dup2(output_fd, STDOUT_FILENO);
+			close(output_fd);
+		}
+		g_return_code = execve_path_env(command->cmd, command->args, data->env, data);
 		exit(g_return_code);
 	}
 	else
@@ -104,7 +102,7 @@ void	choose_case(t_data *data)
 		if (command->next)
 			execute_command(command, data, prev_fd, pipe_fd[1]);
 		else
-			execute_command(command, data, prev_fd, 1);
+			execute_command(command, data, prev_fd, data->fd_out);
 		if (prev_fd != STDIN_FILENO)
 			close(prev_fd);
 		if (command->next)
@@ -117,6 +115,7 @@ void	choose_case(t_data *data)
 	if (prev_fd != STDIN_FILENO)
 		close(prev_fd);
 }
+
 
 int	wait_cmd_prompt(t_data *data)
 {
