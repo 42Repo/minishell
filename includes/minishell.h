@@ -60,6 +60,7 @@ typedef struct s_command
 	struct s_command	*next;
 	int					input_file;
 	int					output_file;
+	pid_t				pid;
 }	t_command;
 
 // 1 = pipe, 2 = redirect, 3 = end
