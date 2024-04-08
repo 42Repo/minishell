@@ -6,7 +6,7 @@
 /*   By: mbuchs <mael@buchs.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/04/06 08:46:39 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/08 17:04:35 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*get_envar(char *str, int len, t_data *data)
 	t_env	*tmp;
 	char	*envar;
 	
-	if (ft_strlen(str) == 2 && str[2] == '?')
+	if (ft_strlen(str) == 2 && str[1] == '?')
 		return (ft_itoa(g_return_code));
 	tmp = data->env;
 	envar = NULL;
@@ -36,6 +36,8 @@ char	*get_envar(char *str, int len, t_data *data)
 int	get_envar_len(char *str)
 {
 	int i = 1;
+	if(str[i] == '?')
+		return (2);
 	while(str[i] && ft_isalnum(str[i]))
 		i++;
 	return (i);
