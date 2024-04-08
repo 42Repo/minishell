@@ -6,7 +6,7 @@
 /*   By: mbuchs <mael@buchs.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/04/08 17:04:35 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/08 17:07:52 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ char	*get_envar(char *str, int len, t_data *data)
 	t_env	*tmp;
 	char	*envar;
 	
+	if (len == 1)
+		return(ft_strdup("$"));
 	if (ft_strlen(str) == 2 && str[1] == '?')
 		return (ft_itoa(g_return_code));
 	tmp = data->env;
@@ -86,7 +88,8 @@ char	*expander(t_data *data)
 		while(selected->value[i])
 		{
 			quote_state = quote_management(quote_state, selected->value[i]);
-			if ((int)ft_strlen(selected->value) >= i + 1 && selected->value[i] == '$' && !ft_isdigit(selected->value[i + 1]) && selected->value[i + 1] != '_' && quote_state != 1)
+			if ((int)ft_strlen(selected->value) >= i + 1 && selected->value[i] == '$' \
+				&& !ft_isdigit(selected->value[i + 1]) && selected->value[i + 1] != '_' && quote_state != 1)
 				selected->value = replace_envar(data, selected, i);
 			i++;
 		}
