@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mael@buchs.fr>                     +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/04/08 17:33:56 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/08 18:17:02 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,18 +50,15 @@ int	execute_bultin(t_command *command, t_env *env, t_data *data)
 
 void	execute_command(t_command *command, t_data *data, int input_fd, int output_fd)
 {
-	pid_t	pid;
-	int		status;
-
 	if (execute_bultin(command, data->env, data) == 1)
 		return ;
-	pid = fork();
-	if (pid == -1)
+	command->pid = fork();
+	if (command->pid == -1)
 	{
 		perror("fork");
 		return ;
 	}
-	if (pid == 0)
+	if (command->pid == 0)
 	{
 		if (input_fd != STDIN_FILENO)
 		{
@@ -78,11 +75,7 @@ void	execute_command(t_command *command, t_data *data, int input_fd, int output_
 	}
 	else
 	{
-		waitpid(pid, &status, 0);
-		if (WIFEXITED(status))
-			g_return_code = WEXITSTATUS(status);
-		else if (WIFSIGNALED(status))
-			g_return_code = 128 + WTERMSIG(status);
+
 	}
 }
 
@@ -91,6 +84,7 @@ void	choose_case(t_data *data)
 	t_command	*command;
 	int			pipe_fd[2];
 	int			prev_fd;
+	int			status;
 
 	command = data->command_top;
 	prev_fd = STDIN_FILENO;
@@ -112,6 +106,16 @@ void	choose_case(t_data *data)
 			close(pipe_fd[1]);
 			prev_fd = pipe_fd[0];
 		}
+		command = command->next;
+	}
+	command = data->command_top;
+	while (command->next)
+	{
+		waitpid(command->pid, &status, 0);
+		if (WIFEXITED(status))
+			g_return_code = WEXITSTATUS(status);
+		if (WIFSIGNALED(status))
+			g_return_code = 128 + WTERMSIG(status);
 		command = command->next;
 	}
 	if (prev_fd != STDIN_FILENO)
