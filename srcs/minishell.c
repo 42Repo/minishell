@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
+/*   By: mbuchs <mael@buchs.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/04/06 21:13:03 by asuc             ###   ########.fr       */
+/*   Updated: 2024/04/08 17:33:56 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void	init_data(t_data *data)
 
 int	execute_bultin(t_command *command, t_env *env, t_data *data)
 {
+	if (data->prompt_top->type == END)
+		return 0;
 	if (ft_strcmp(command->cmd, "exit") == 0)
 		ft_exit(data, env, "exit", g_return_code);
 	else if (ft_strcmp(command->cmd, "cd") == 0)

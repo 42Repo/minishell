@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
+/*   By: mbuchs <mael@buchs.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:30:00 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/04/05 22:09:17 by asuc             ###   ########.fr       */
+/*   Updated: 2024/04/08 17:24:37 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	ft_exit(t_data *data, t_env *env, char *exit_msg, int exit_code)
 	free_env(env);
 	free_command(data);
 	rl_clear_history();
+	
 	if (data->cmd_prompt)
 		free(data->cmd_prompt);
 	free(data);
