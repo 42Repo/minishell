@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/04/09 14:41:22 by asuc             ###   ########.fr       */
+/*   Updated: 2024/04/09 14:45:14 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,10 @@ void	execute_command(t_command *command, t_data *data, int input_fd, int output_
 	}
 	else
 	{
-		
+		if (input_fd != STDIN_FILENO)
+			close(input_fd);
+		if (output_fd != STDOUT_FILENO)
+			close(output_fd);
 	}
 }
 
@@ -102,14 +105,11 @@ void	choose_case(t_data *data)
 		if (prev_fd != STDIN_FILENO)
 			close(prev_fd);
 		if (command->next)
-		{
-			close(pipe_fd[1]);
 			prev_fd = pipe_fd[0];
-		}
 		command = command->next;
 	}
 	command = data->command_top;
-	while (command->next)
+	while (command)
 	{
 		waitpid(command->pid, &status, 0);
 		if (WIFEXITED(status))
@@ -118,8 +118,6 @@ void	choose_case(t_data *data)
 			g_return_code = 128 + WTERMSIG(status);
 		command = command->next;
 	}
-	if (prev_fd != STDIN_FILENO)
-		close(prev_fd);
 }
 
 
