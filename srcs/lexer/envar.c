@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envar.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mbuchs <mael@buchs.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/04/10 17:41:17 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/10 23:55:30 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ char	*replace_envar(t_data *data, t_token *selected, int i)
 		i++;
 	}
 	str[0] = ft_strjoin_free(str[0], str[1]);
+	free(str[1]);
 	str[0] = ft_strjoin_free(str[0], str[2]);
 	free(str[2]);
 	return (str[0]);
