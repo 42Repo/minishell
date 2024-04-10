@@ -66,5 +66,4 @@ void	free_token_lst(t_data *data)
 		free(tmp->value);
 		free(tmp);
 	}
-	data->prompt_top = NULL;
 }

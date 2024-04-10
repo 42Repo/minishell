@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envar.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mael@buchs.fr>                     +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/04/08 17:07:52 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/10 17:41:17 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	get_envar_len(char *str)
 	int i = 1;
 	if(str[i] == '?')
 		return (2);
-	while(str[i] && ft_isalnum(str[i]))
+	while (str[i] && ft_isalnum(str[i]))
 		i++;
 	return (i);
 }
@@ -53,7 +53,7 @@ char	*replace_envar(t_data *data, t_token *selected, int i)
 	
 	(void) data;
 	str[0] = ft_calloc(sizeof(char), i + 1);
-	while(j < i)
+	while (j < i)
 	{
 		str[0][j] = selected->value[j];
 		j++;
@@ -61,7 +61,7 @@ char	*replace_envar(t_data *data, t_token *selected, int i)
 	str[1] = get_envar(&selected->value[i], get_envar_len(&selected->value[i]), data);
 	i += get_envar_len(&selected->value[i]);
 	str[2] = ft_calloc(sizeof(char), ft_strlen(&selected->value[i]) + 1);
-	while(selected->value[i])
+	while (selected->value[i])
 	{
 		str[2][k] = selected->value[i];
 		k++;
@@ -69,6 +69,7 @@ char	*replace_envar(t_data *data, t_token *selected, int i)
 	}
 	str[0] = ft_strjoin_free(str[0], str[1]);
 	str[0] = ft_strjoin_free(str[0], str[2]);
+	free(str[2]);
 	return (str[0]);
 }
 
@@ -80,12 +81,12 @@ char	*expander(t_data *data)
 	if (!data->prompt_top)
 		return(NULL);
 	selected = data->prompt_top;
-	while(selected->type != END)
+	while (selected->type != END)
 	{
 		int i = 0;
 		quote_state = 0;
-
-		while(selected->value[i])
+		printf("%s\n", selected->value);
+		while (i < (int) ft_strlen(selected->value) && selected->value[i])
 		{
 			quote_state = quote_management(quote_state, selected->value[i]);
 			if ((int)ft_strlen(selected->value) >= i + 1 && selected->value[i] == '$' \
