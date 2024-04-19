@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mael@buchs.fr>                     +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/04/06 08:45:33 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/19 15:29:49 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,13 +119,24 @@ void	parse_line(t_data *data, t_token *selected, t_command *command)
 {
 	char	**tmp;
 	char *tmp2;
+	t_token *token = data->prompt_top;
+	// printf("a\n") ;
+	while(token->type != END)
+	{
+		// printf("token->value before = %s\n", token->value);
+		if(token->type == WORD)
+			token->value = remove_quotes(token->value, data);
+		// printf("token->value after = %s\n", token->value);
+		token = token->next;
+	}
+	
 	while (selected)
 	{
 		command->args = ft_calloc(sizeof(char **), 1);
 		command->next = NULL;
 		if (data->prompt_top->type == WORD)
 		{
-			tmp2 = ft_strdup(selected->value);
+			tmp2 = remove_quotes(selected->value, data);
 			tmp = ft_split(tmp2, ' ');
 			command->cmd = ft_strdup(tmp[0]);
 			if(ft_tablen(tmp) > 1)
@@ -164,6 +175,20 @@ void	parser(t_data *data)
 	selected = data->prompt_top;
 	command = data->command_top;
 	parse_line(data, selected, command);
+	command = data->command_top;
+	while (command->next)
+	{
+		command->cmd = remove_quotes(command->cmd, data);
+		printf("cmd = %s\n", command->cmd);
+		int i = 0;
+		while(command->args[i])
+		{
+			command->args[i] = remove_quotes(command->args[i], data);
+			printf("cmd = %s\n", command->args[i]);
+			i++;
+		}
+		command = command->next;
+	}
 }
 
 // if ->top node == word

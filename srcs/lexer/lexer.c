@@ -49,13 +49,13 @@ char	*remove_quotes(char *str, t_data *data)
 	int		j;
 	char	*new_str;
 	int		local_quote;
-
+	(void) data;
 	i = 0;
 	j = 0;
 	new_str = ft_calloc(sizeof(char),  ft_strlen(str) + 1);
 	if (new_str == NULL)
 		return (NULL);
-	local_quote = data->quote_state;
+	local_quote = 0;
 	while (str[i])
 	{
 		if (!((str[i] == '\'' && (local_quote == 0 || local_quote == 1)) \
