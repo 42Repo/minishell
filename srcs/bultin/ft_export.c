@@ -79,7 +79,7 @@ static void	process_arg(t_env *env, char *arg)
 		ft_putstr_fd("': not a valid identifier\n", 2);
 		return ;
 	}
-	printf("arg = %s\n", arg);
+	// printf("arg = %s\n", arg);
 	tmp = get_env_value_ptr(env, arg);
 	if (tmp)
 	{

@@ -49,13 +49,13 @@ char	*remove_quotes(char *str, t_data *data)
 	int		j;
 	char	*new_str;
 	int		local_quote;
-
+	(void) data;
 	i = 0;
 	j = 0;
 	new_str = ft_calloc(sizeof(char),  ft_strlen(str) + 1);
 	if (new_str == NULL)
 		return (NULL);
-	local_quote = data->quote_state;
+	local_quote = 0;
 	while (str[i])
 	{
 		if (!((str[i] == '\'' && (local_quote == 0 || local_quote == 1)) \
@@ -88,18 +88,22 @@ void	lexer(char *str, t_data *data)
 	int		i;
 	int		j;
 
+	data->quote_state = 0;
+	// printf("lexer str = %s\n", str);
 	i = 0;
 	j = 0;
 	while (str[i])
 	{
+		data->quote_state = quote_management(data->quote_state, str[i]);
+		// printf("%c -> quote_state = %d\n", str[i], data->quote_state);
 		if (i > 1 && str[i] == '>' && str[i - 1] == '>')
 			i++;
 		if (ft_isnamespace(str[i]) && j < i && data->quote_state == 0)
 			add_word_to_list(str, &i, &j, data);
 		check_pipe_redir(str, &i, &j, data);
-		data->quote_state = quote_management(data->quote_state, str[i]);
 		i++;
 	}
+	if (data)
 	if (!ft_isnamespace(str[i]) && j < i)
 		add_token_to_list(data, &str[j], i - j, WORD);
 	add_token_to_list(data, "", 0, END);

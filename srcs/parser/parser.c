@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mael@buchs.fr>                     +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/04/06 08:45:33 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/20 18:17:38 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,23 +119,34 @@ void	parse_line(t_data *data, t_token *selected, t_command *command)
 {
 	char	**tmp;
 	char *tmp2;
+	t_token *token;
+	
+	token = data->prompt_top;
+	while(token->type != END)
+	{
+		if(token->type == WORD)
+			token->value = remove_quotes(token->value, data);
+		token = token->next;
+	}
+	selected = data->prompt_top;
 	while (selected)
 	{
 		command->args = ft_calloc(sizeof(char **), 1);
 		command->next = NULL;
 		if (data->prompt_top->type == WORD)
 		{
+			selected->value =remove_quotes(selected->value, data);
 			tmp2 = ft_strdup(selected->value);
 			tmp = ft_split(tmp2, ' ');
 			command->cmd = ft_strdup(tmp[0]);
-			if(ft_tablen(tmp) > 1)
+			
+			if(ft_tablen(tmp) > 2)
 				command->args = tmp;
-			if(ft_tablen(tmp) > 1)
+			if(ft_tablen(tmp) > 2)
 				selected = selected->next;
 		}
 		while (selected && selected->type == WORD)
 		{
-			// printf("selected->value = %s\n", selected->value);
 			command->args = join_tab(command->args, ft_strdup(selected->value));
 			selected = selected->next;
 		}
@@ -164,6 +175,18 @@ void	parser(t_data *data)
 	selected = data->prompt_top;
 	command = data->command_top;
 	parse_line(data, selected, command);
+	command = data->command_top;
+	while (command->next)
+	{
+		command->cmd = remove_quotes(command->cmd, data);
+		int i = 0;
+		while(command->args[i])
+		{
+			command->args[i] = remove_quotes(command->args[i], data);
+			i++;
+		}
+		command = command->next;
+	}
 }
 
 // if ->top node == word
