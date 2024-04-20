@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/04/20 18:15:24 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/20 18:17:38 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,9 @@ void	parse_line(t_data *data, t_token *selected, t_command *command)
 {
 	char	**tmp;
 	char *tmp2;
-	t_token *token = data->prompt_top;
+	t_token *token;
+	
+	token = data->prompt_top;
 	while(token->type != END)
 	{
 		if(token->type == WORD)
@@ -129,7 +131,6 @@ void	parse_line(t_data *data, t_token *selected, t_command *command)
 	selected = data->prompt_top;
 	while (selected)
 	{
-		
 		command->args = ft_calloc(sizeof(char **), 1);
 		command->next = NULL;
 		if (data->prompt_top->type == WORD)
@@ -146,9 +147,7 @@ void	parse_line(t_data *data, t_token *selected, t_command *command)
 		}
 		while (selected && selected->type == WORD)
 		{
-			// printf("selected->value = %s\n", selected->value);
 			command->args = join_tab(command->args, ft_strdup(selected->value));
-			// printf("command->args[1] %s\n", command->args[1]);
 			selected = selected->next;
 		}
 		if (selected->type == PIPE)
@@ -164,7 +163,6 @@ void	parse_line(t_data *data, t_token *selected, t_command *command)
 		}
 		if (selected && selected->type == END)
 			return ;
-		printf("aaaa\n");
 	}
 }
 
@@ -174,7 +172,6 @@ void	parser(t_data *data)
 	t_command	*command;
 
 	data->command_top = init_command();
-	// printf("juif %s\n", data->prompt_top->next->value);
 	selected = data->prompt_top;
 	command = data->command_top;
 	parse_line(data, selected, command);
@@ -182,12 +179,10 @@ void	parser(t_data *data)
 	while (command->next)
 	{
 		command->cmd = remove_quotes(command->cmd, data);
-		// printf("cmd = %s\n", command->cmd);
 		int i = 0;
 		while(command->args[i])
 		{
 			command->args[i] = remove_quotes(command->args[i], data);
-			// printf("cmd = %s\n", command->args[i]);
 			i++;
 		}
 		command = command->next;
