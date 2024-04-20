@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/04/10 17:28:17 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/20 21:45:24 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,8 @@ void	choose_case(t_data *data)
 			perror("pipe");
 			return ;
 		}
-		if (command->next)
-			execute_command(command, data, prev_fd, pipe_fd[1]);
+		// if (command->next)
+		// 	execute_command(command, data, prev_fd, pipe_fd[1]);
 		else
 			execute_command(command, data, prev_fd, data->fd_out);
 		if (prev_fd != STDIN_FILENO)

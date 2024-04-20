@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:30:00 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/04/20 21:24:38 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/20 21:52:33 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	free_env(t_env *env)
 
 void	ft_exit(t_data *data, t_env *env, char *exit_msg, int exit_code)
 {
-	int i = 1;
+	int i = 0;
 	
 	if (data->command_top->args[2])
 	{
@@ -38,7 +38,9 @@ void	ft_exit(t_data *data, t_env *env, char *exit_msg, int exit_code)
 		g_return_code = 1;
 		return ;
 	}
-	while(data->command_top->args[1] && data->command_top->args[1][i] && !(data->command_top->args[1][0] == '+' || data->command_top->args[1][0] == '-' || ft_isdigit(data->command_top->args[1][0])))
+	if (data->command_top->args[1][0] == '+' || data->command_top->args[1][0] == '-')
+		i++;		
+	while(data->command_top->args[1] && data->command_top->args[1][i])
 	{	
 		if(!ft_isdigit(data->command_top->args[1][i]))
 		{
