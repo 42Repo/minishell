@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/04/20 17:17:48 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/20 17:25:47 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,13 @@
 extern int	g_return_code;
 
 char	*get_envar(char *str, int len, t_data *data)
-// get the $text, returns what it should be replaced by
 {
 	t_env	*tmp;
 	char	*envar;
-	
+
 	if (len == 1)
-		return(ft_strdup("$"));
-	if ((ft_strlen(str) >=2 && str[1] == '?'))
+		return (ft_strdup("$"));
+	if ((ft_strlen(str) >= 2 && str[1] == '?'))
 		return (ft_itoa(g_return_code));
 	tmp = data->env;
 	envar = NULL;
@@ -37,8 +36,10 @@ char	*get_envar(char *str, int len, t_data *data)
 
 int	get_envar_len(char *str)
 {
-	int i = 1;
-	if(str[i] == '?')
+	int	i;
+
+	i = 1;
+	if (str[i] == '?')
 		return (2);
 	while (str[i] && ft_isalnum(str[i]))
 		i++;
@@ -47,18 +48,20 @@ int	get_envar_len(char *str)
 
 char	*replace_envar(t_data *data, t_token *selected, int i)
 {
-	char *str[3];
-	int j = 0;
-	int k = 0;
-	
-	(void) data;
+	char	*str[3];
+	int		j;
+	int		k;
+
+	j = 0;
+	k = 0;
 	str[0] = ft_calloc(sizeof(char), i + 1);
 	while (j < i)
 	{
 		str[0][j] = selected->value[j];
 		j++;
 	}
-	str[1] = get_envar(&selected->value[i], get_envar_len(&selected->value[i]), data);
+	str[1] = get_envar(&selected->value[i], \
+	get_envar_len(&selected->value[i]), data);
 	i += get_envar_len(&selected->value[i]);
 	str[2] = ft_calloc(sizeof(char), ft_strlen(&selected->value[i]) + 1);
 	while (selected->value[i])

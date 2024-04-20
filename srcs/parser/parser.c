@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/04/20 16:56:26 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/20 18:15:24 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,34 +120,35 @@ void	parse_line(t_data *data, t_token *selected, t_command *command)
 	char	**tmp;
 	char *tmp2;
 	t_token *token = data->prompt_top;
-	// printf("a\n") ;
 	while(token->type != END)
 	{
-		// printf("token->value before = %s\n", token->value);
 		if(token->type == WORD)
 			token->value = remove_quotes(token->value, data);
-		// printf("token->value after = %s\n", token->value);
 		token = token->next;
 	}
-	
+	selected = data->prompt_top;
 	while (selected)
 	{
+		
 		command->args = ft_calloc(sizeof(char **), 1);
 		command->next = NULL;
 		if (data->prompt_top->type == WORD)
 		{
-			tmp2 = remove_quotes(selected->value, data);
+			selected->value =remove_quotes(selected->value, data);
+			tmp2 = ft_strdup(selected->value);
 			tmp = ft_split(tmp2, ' ');
 			command->cmd = ft_strdup(tmp[0]);
-			if(ft_tablen(tmp) > 1)
+			
+			if(ft_tablen(tmp) > 2)
 				command->args = tmp;
-			if(ft_tablen(tmp) > 1)
+			if(ft_tablen(tmp) > 2)
 				selected = selected->next;
 		}
 		while (selected && selected->type == WORD)
 		{
 			// printf("selected->value = %s\n", selected->value);
 			command->args = join_tab(command->args, ft_strdup(selected->value));
+			// printf("command->args[1] %s\n", command->args[1]);
 			selected = selected->next;
 		}
 		if (selected->type == PIPE)
@@ -163,6 +164,7 @@ void	parse_line(t_data *data, t_token *selected, t_command *command)
 		}
 		if (selected && selected->type == END)
 			return ;
+		printf("aaaa\n");
 	}
 }
 
@@ -172,6 +174,7 @@ void	parser(t_data *data)
 	t_command	*command;
 
 	data->command_top = init_command();
+	// printf("juif %s\n", data->prompt_top->next->value);
 	selected = data->prompt_top;
 	command = data->command_top;
 	parse_line(data, selected, command);
