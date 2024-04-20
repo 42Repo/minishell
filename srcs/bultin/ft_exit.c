@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:30:00 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/04/20 21:52:33 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/21 01:24:36 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,22 @@ void	free_env(t_env *env)
 
 void	ft_exit(t_data *data, t_env *env, char *exit_msg, int exit_code)
 {
-	int i = 0;
+	int	i;
 	
-	if (data->command_top->args[2])
+	i = 0;
+	if (data->command_top->args[0] && data->command_top->args[1] && data->command_top->args[2])
 	{
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 		g_return_code = 1;
 		return ;
 	}
-	if (data->command_top->args[1][0] == '+' || data->command_top->args[1][0] == '-')
-		i++;		
+	if (data->command_top->args[0] && data->command_top->args[1])
+	{
+		if ((data->command_top->args[1][0] == '+' || data->command_top->args[1][0] == '-'))
+			i++;
+	}
 	while(data->command_top->args[1] && data->command_top->args[1][i])
-	{	
+	{
 		if(!ft_isdigit(data->command_top->args[1][i]))
 		{
 			ft_putstr_fd("minishell: exit: ", 2);

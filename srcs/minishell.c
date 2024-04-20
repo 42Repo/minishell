@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/04/20 21:57:50 by asuc             ###   ########.fr       */
+/*   Updated: 2024/04/21 01:31:05 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,64 @@ void	init_data(t_data *data)
 	data->fd_in = 0;
 }
 
+void	ft_exit_fork(t_data *data, t_env *env, char *exit_msg, int exit_code)
+{
+	int	i;
+	
+	i = 0;
+	if (data->command_top->args[0] && data->command_top->args[1] && data->command_top->args[2])
+	{
+		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+		g_return_code = 1;
+		return ;
+	}
+	if (data->command_top->args[0] && data->command_top->args[1])
+	{
+		if ((data->command_top->args[1][0] == '+' || data->command_top->args[1][0] == '-'))
+			i++;
+	}
+	while(data->command_top->args[1] && data->command_top->args[1][i])
+	{
+		if(!ft_isdigit(data->command_top->args[1][i]))
+		{
+			ft_putstr_fd("minishell: exit: ", 2);
+			ft_putstr_fd(data->command_top->args[1], 2);
+			ft_putstr_fd(": numeric argument required\n", 2);
+			g_return_code = 2;
+			return ;
+		}
+		i++;
+	}
+	if(data->command_top->args[1])
+		exit_code = ft_atoi(data->command_top->args[1]);
+	free_token_lst(data);
+	free_env(env);
+	free_command(data);
+	rl_clear_history();
+	if (data->cmd_prompt)
+		free(data->cmd_prompt);
+	free(data);
+	if (ft_strlen(exit_msg))
+		printf("%s\n", exit_msg);
+	if (exit_code >= 0 && exit_code <= 255)
+		exit(exit_code);
+	if (exit_code < 0)
+		exit(256 + exit_code);
+	if (exit_code > 255)
+		exit(exit_code % 256);
+	else
+	{
+		printf("minishell: exit: %d: numeric argument required\n", exit_code);
+		exit(2);
+	}
+}
+
 int	execute_bultin(t_command *command, t_env *env, t_data *data)
 {
 	if (data->prompt_top->type == END)
 		return (0);
 	if (ft_strcmp(command->cmd, "exit") == 0)
-		ft_exit(data, env, "exit", g_return_code);
+		ft_exit_fork(data, env, "exit", g_return_code);
 	else if (ft_strcmp(command->cmd, "cd") == 0)
 		ft_cd(data, env);
 	else if (ft_strcmp(command->cmd, "export") == 0)
@@ -77,13 +129,6 @@ void	execute_command(t_command *command, t_data *data, int input_fd, int output_
 		g_return_code = execve_path_env(command->cmd, command->args, data->env, data);
 		exit(g_return_code);
 	}
-	else
-	{
-		if (input_fd != STDIN_FILENO)
-			close(input_fd);
-		if (output_fd != STDOUT_FILENO)
-			close(output_fd);
-	}
 }
 
 void	choose_case(t_data *data)
@@ -103,8 +148,8 @@ void	choose_case(t_data *data)
 			perror("pipe");
 			return ;
 		}
-		// if (command->next)
-		// 	execute_command(command, data, prev_fd, pipe_fd[1]);
+		if (command->next)
+			execute_command(command, data, prev_fd, pipe_fd[1]);
 		else
 			execute_command(command, data, prev_fd, STDOUT_FILENO);
 		if (prev_fd != STDIN_FILENO)
