@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/04/10 17:28:17 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/14 13:23:57 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,10 @@ int	execute_bultin(t_command *command, t_env *env, t_data *data)
 
 void	execute_command(t_command *command, t_data *data, int input_fd, int output_fd)
 {
-	if (execute_bultin(command, data->env, data) == 1)
+	if (data->prompt_top->type == END)
 		return ;
+	if (ft_strcmp(command->cmd, "exit") == 0)
+		ft_exit(data, data->env, "exit", g_return_code);
 	command->pid = fork();
 	if (command->pid == -1)
 	{
@@ -70,6 +72,8 @@ void	execute_command(t_command *command, t_data *data, int input_fd, int output_
 			dup2(output_fd, STDOUT_FILENO);
 			close(output_fd);
 		}
+		if (execute_bultin(command, data->env, data) == 1)
+			exit(g_return_code);
 		g_return_code = execve_path_env(command->cmd, command->args, data->env, data);
 		exit(g_return_code);
 	}
@@ -102,11 +106,15 @@ void	choose_case(t_data *data)
 		if (command->next)
 			execute_command(command, data, prev_fd, pipe_fd[1]);
 		else
-			execute_command(command, data, prev_fd, data->fd_out);
+			execute_command(command, data, prev_fd, STDOUT_FILENO);
 		if (prev_fd != STDIN_FILENO)
 			close(prev_fd);
 		if (command->next)
-			prev_fd = pipe_fd[0];
+		{
+			prev_fd = dup(pipe_fd[0]);
+			close(pipe_fd[0]);
+			close(pipe_fd[1]);
+		}
 		command = command->next;
 	}
 	command = data->command_top;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 00:16:17 by asuc              #+#    #+#             */
-/*   Updated: 2024/04/10 17:51:03 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/11 00:20:07 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,7 @@ int	execve_path_env(char *cmd, char **args, t_env *env, t_data *data)
 		if (data->cmd_prompt)
 			free(data->cmd_prompt);
 		free(data);
-		return (g_return_code);
+		exit(g_return_code);
 	}
 	execve(path, args, envp);
 	perror("minishell");
