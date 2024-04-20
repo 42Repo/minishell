@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mael@buchs.fr>                     +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:30:00 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/04/08 17:24:37 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/20 16:45:55 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	ft_exit(t_data *data, t_env *env, char *exit_msg, int exit_code)
 		free(data->cmd_prompt);
 	free(data);
 	if (ft_strlen(exit_msg))
-		printf("%s (%d)\n", exit_msg, exit_code);
+		printf("%s\n", exit_msg);
 	if (exit_code >= 0 && exit_code <= 255)
 		exit(exit_code);
 	else

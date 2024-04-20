@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/04/19 14:41:15 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/20 17:17:48 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*get_envar(char *str, int len, t_data *data)
 	
 	if (len == 1)
 		return(ft_strdup("$"));
-	if (ft_strlen(str) == 2 && str[1] == '?')
+	if ((ft_strlen(str) >=2 && str[1] == '?'))
 		return (ft_itoa(g_return_code));
 	tmp = data->env;
 	envar = NULL;

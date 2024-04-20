@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/04/19 15:29:49 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/20 16:56:26 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,12 +179,12 @@ void	parser(t_data *data)
 	while (command->next)
 	{
 		command->cmd = remove_quotes(command->cmd, data);
-		printf("cmd = %s\n", command->cmd);
+		// printf("cmd = %s\n", command->cmd);
 		int i = 0;
 		while(command->args[i])
 		{
 			command->args[i] = remove_quotes(command->args[i], data);
-			printf("cmd = %s\n", command->args[i]);
+			// printf("cmd = %s\n", command->args[i]);
 			i++;
 		}
 		command = command->next;

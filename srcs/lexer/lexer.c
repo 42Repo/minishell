@@ -88,16 +88,19 @@ void	lexer(char *str, t_data *data)
 	int		i;
 	int		j;
 
+	data->quote_state = 0;
+	// printf("lexer str = %s\n", str);
 	i = 0;
 	j = 0;
 	while (str[i])
 	{
+		data->quote_state = quote_management(data->quote_state, str[i]);
+		// printf("%c -> quote_state = %d\n", str[i], data->quote_state);
 		if (i > 1 && str[i] == '>' && str[i - 1] == '>')
 			i++;
 		if (ft_isnamespace(str[i]) && j < i && data->quote_state == 0)
 			add_word_to_list(str, &i, &j, data);
 		check_pipe_redir(str, &i, &j, data);
-		data->quote_state = quote_management(data->quote_state, str[i]);
 		i++;
 	}
 	if (!ft_isnamespace(str[i]) && j < i)
