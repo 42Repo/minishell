@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/04/21 12:22:51 by asuc             ###   ########.fr       */
+/*   Updated: 2024/04/21 16:20:54 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,39 +62,33 @@ t_command	*init_command(void)
 	return (command);
 }
 
-void select_output(char *file, t_data *data, int mode)
+void select_output(char *file, t_data *data, int mode, t_command *command)
 {
-	if (data->fd_out != 1)
-		close(data->fd_out);
-	if (data->fd_out != 1)
-		data->fd_out = 1;
+	(void) data;
+	if (command->fd_out != 1)
+		close(command->fd_out);
+	if (command->fd_out != 1)
+		command->fd_out = 1;
 	if (mode == 1)
-		data->fd_out = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		command->fd_out = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else
-		data->fd_out = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if (data->fd_out == -1)
-		data->fd_out = 1;
+		command->fd_out = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	if (command->fd_out == -1)
+		command->fd_out = 1;
+	// gerer erreurs
 }
 
 void	select_input(char *file, t_data *data, t_command *command)
 {
-	char *line;
-	char *tmp = ft_calloc(sizeof(char), 256);
-
-	line = ft_strdup("");
-	if (data->fd_in != 0)
-		close(data->fd_in);
-	data->fd_in = open(file, O_RDONLY);
-	if (data->fd_in == -1)
-	{
-		printf("minishell: %s: No such file or directory\n", file);
-		command->cmd = NULL;
-	}
-	while (read(data->fd_in, tmp, 256))
-		line = ft_strjoin(line, tmp);
-	command->args = join_tab(command->args, line);
-	close(data->fd_in);
-	data->fd_in = 0;
+	(void) data;
+	if (command->fd_in != 0)
+		close(command->fd_in);
+	if (command->fd_in != 0)
+		command->fd_in = 0;
+	command->fd_in = open(file, O_RDONLY);
+	if (command->fd_in == -1)
+		command->fd_in = 0;
+	// gerer erreurs
 }
 
 void	get_redir(t_token *selected, t_data *data, t_command *command)
@@ -104,9 +98,9 @@ void	get_redir(t_token *selected, t_data *data, t_command *command)
 		if (selected->next && selected->next->type == WORD)
 		{
 			if (ft_strlen(selected->value) == 2 && selected->value[1] == '>')
-				select_output(selected->next->value, data, 2);
+				select_output(selected->next->value, data, 2, command);
 			else if (selected->value[0] == '>')
-				select_output(selected->next->value, data, 1);
+				select_output(selected->next->value, data, 1, command);
 			else if (ft_strlen(selected->value) == 2 && selected->value[1] == '<')
 				printf("faut ouvrir le heredoc mais flemme\n");
 			else if (selected->value[0] == '<')

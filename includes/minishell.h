@@ -58,8 +58,8 @@ typedef struct s_command
 	char				*cmd;
 	char				**args;
 	struct s_command	*next;
-	int					input_file;
-	int					output_file;
+	int					fd_in;
+	int					fd_out;
 	pid_t				pid;
 }	t_command;
 
