@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:30:00 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/04/20 21:52:33 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/20 22:13:47 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,16 @@ void	ft_exit(t_data *data, t_env *env, char *exit_msg, int exit_code)
 		g_return_code = 1;
 		return ;
 	}
-	if (data->command_top->args[1][0] == '+' || data->command_top->args[1][0] == '-')
+	if (data->command_top->args[1] && (data->command_top->args[1][0] == '+' || data->command_top->args[1][0] == '-'))
 		i++;		
+
 	while(data->command_top->args[1] && data->command_top->args[1][i])
 	{	
 		if(!ft_isdigit(data->command_top->args[1][i]))
 		{
 			ft_putstr_fd("minishell: exit: ", 2);
 			ft_putstr_fd(data->command_top->args[1], 2);
-			ft_putstr_fd(": numeric argument required\n", 2);
+			ft_putstr_fd(": numeric argument requireeeeed\n", 2);
 			g_return_code = 2;
 			return ;
 		}
