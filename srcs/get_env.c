@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 18:49:35 by asuc              #+#    #+#             */
-/*   Updated: 2024/04/06 18:08:45 by asuc             ###   ########.fr       */
+/*   Updated: 2024/04/21 04:06:28 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ t_env	*get_env_value_ptr(t_env *env, char *name)
 	{
 		tmp_name = ft_strchr(name, '=');
 		if (!tmp_name)
-			return (NULL);
+			tmp_name = name;
 		tmp_name = ft_strndup(name, tmp_name - name);
 		if (ft_strcmp(tmp->name, tmp_name) == 0)
 		{
