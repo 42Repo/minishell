@@ -48,13 +48,17 @@ static int	set_prompt_top(t_data *data, t_env *env)
 	char	*tmp;
 
 	if (data->cmd_prompt)
+	{
 		free(data->cmd_prompt);
+		data->cmd_prompt = NULL;
+	}
 	data->cmd_prompt = ft_strdup("\001\033[1;32m\002");
 	if (data->cmd_prompt == NULL)
 		return (error_free("ft_strdup failed"));
 	tmp = get_cwd(env);
 	data->cmd_prompt = ft_strjoin_free(data->cmd_prompt, tmp);
 	free(tmp);
+	tmp = NULL;
 	if (data->cmd_prompt == NULL)
 		return (error_free("ft_strjoin_free failed"));
 	data->cmd_prompt = ft_strjoin_free(data->cmd_prompt, "\001\033[0m$\002 ");
