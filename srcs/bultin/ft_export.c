@@ -80,15 +80,9 @@ static void	process_arg(t_env *env, char *arg)
 		g_return_code = 1;
 		return ;
 	}
-	printf("arg: %s\n", arg);
 	tmp = get_env_value_ptr(env, arg);
 	if (tmp)
-		printf("tmp: %s\n", tmp->name);
-	if (tmp)
 	{
-		// si il y a seulement export a alors on ne fait rien
-		if (ft_is_equal(arg) == 0)
-			return ;
 		free(tmp->value);
 		tmp->value = ft_strdup(ft_strchr(arg, '=') + 1);
 	}
