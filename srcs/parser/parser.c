@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/04/21 06:21:48 by asuc             ###   ########.fr       */
+/*   Updated: 2024/04/21 12:22:51 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	free_command(t_data *data)
 			free(old);
 			old = NULL;
 		}
+		data->command_top = selected;
 	}
 }
 
