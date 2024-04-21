@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/04/20 18:17:38 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/21 12:22:51 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,23 @@ void	free_command(t_data *data)
 	while (selected)
 	{
 		if (selected->cmd)
+		{
 			free(selected->cmd);
+			selected->cmd = NULL;
+		}
 		if (selected->args)
+		{
 			free_tab(selected->args);
+			selected->args = NULL;
+		}
 		old = selected;
 		selected = selected->next;
 		if (old)
+		{
 			free(old);
+			old = NULL;
+		}
+		data->command_top = selected;
 	}
 }
 

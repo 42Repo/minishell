@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 00:16:17 by asuc              #+#    #+#             */
-/*   Updated: 2024/04/20 21:57:45 by asuc             ###   ########.fr       */
+/*   Updated: 2024/04/21 06:21:26 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,11 @@ void	free_tab(char **tab)
 	while (tab[i])
 	{
 		free(tab[i]);
+		tab[i] = NULL;
 		i++;
 	}
 	free(tab);
+	tab = NULL;
 }
 
 char	*find_cmd_path(char *cmd, char *path_env)
@@ -163,7 +165,7 @@ int	execve_path_env(char *cmd, char **args, t_env *env, t_data *data)
 		if (data->cmd_prompt)
 			free(data->cmd_prompt);
 		free(data);
-		exit(g_return_code);
+		return (g_return_code);
 	}
 	execve(path, args, envp);
 	perror("minishell");

@@ -23,7 +23,6 @@ void	add_token_to_list(t_data *data, char *str, int len, t_token_type type)
 	free(tmp1);
 	ms_lstadd_back(&data->prompt_top,
 		ms_lstnew(type, tmp2), data);
-	// printf("%s hihi\n", tmp2);
 }
 
 void	add_redir(char *str, int *i, int *j, t_data *data)

@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/04/20 21:57:50 by asuc             ###   ########.fr       */
+/*   Updated: 2024/04/21 12:27:59 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,54 @@ void	init_data(t_data *data)
 	data->fd_in = 0;
 }
 
+void	ft_exit_fork(t_data *data, t_env *env, int exit_code)
+{
+	int	i;
+
+	i = 0;
+	if (data->command_top->args[0] && data->command_top->args[1] && data->command_top->args[2])
+	{
+		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+		g_return_code = 1;
+		return ;
+	}
+	if (data->command_top->args[0] && data->command_top->args[1])
+	{
+		if ((data->command_top->args[1][0] == '+' || data->command_top->args[1][0] == '-'))
+			i++;
+	}
+	while(data->command_top->args[0] && data->command_top->args[1] && data->command_top->args[1][i])
+	{
+		i++;
+	}
+	if(data->command_top->args[1])
+		exit_code = ft_atoi(data->command_top->args[1]);
+	free_token_lst(data);
+	free_env(env);
+	free_command(data);
+	rl_clear_history();
+	if (data->cmd_prompt)
+		free(data->cmd_prompt);
+	free(data);
+	if (exit_code >= 0 && exit_code <= 255)
+		exit(exit_code);
+	if (exit_code < 0)
+		exit(256 + exit_code);
+	if (exit_code > 255)
+		exit(exit_code % 256);
+	else
+	{
+		printf("minishell: exit: %d: numeric argument required\n", exit_code);
+		exit(2);
+	}
+}
+
 int	execute_bultin(t_command *command, t_env *env, t_data *data)
 {
 	if (data->prompt_top->type == END)
 		return (0);
 	if (ft_strcmp(command->cmd, "exit") == 0)
-		ft_exit(data, env, "exit", g_return_code);
+		ft_exit_fork(data, env, g_return_code);
 	else if (ft_strcmp(command->cmd, "cd") == 0)
 		ft_cd(data, env);
 	else if (ft_strcmp(command->cmd, "export") == 0)
@@ -48,7 +90,7 @@ int	execute_bultin(t_command *command, t_env *env, t_data *data)
 	return (1);
 }
 
-void	execute_command(t_command *command, t_data *data, int input_fd, int output_fd)
+void	execute_command_pipe(t_command *command, t_data *data, int input_fd, int output_fd)
 {
 	if (data->prompt_top->type == END)
 		return ;
@@ -73,17 +115,46 @@ void	execute_command(t_command *command, t_data *data, int input_fd, int output_
 			close(output_fd);
 		}
 		if (execute_bultin(command, data->env, data) == 1)
-			exit(g_return_code);
+			ft_exit_fork(data, data->env, g_return_code);
 		g_return_code = execve_path_env(command->cmd, command->args, data->env, data);
 		exit(g_return_code);
 	}
-	else
+}
+
+void	execute_command(t_command *command, t_data *data, int input_fd, int output_fd)
+{
+	if (data->prompt_top->type == END)
+		return ;
+	if (input_fd != STDIN_FILENO)
 	{
-		if (input_fd != STDIN_FILENO)
-			close(input_fd);
-		if (output_fd != STDOUT_FILENO)
-			close(output_fd);
+		dup2(input_fd, STDIN_FILENO);
+		close(input_fd);
 	}
+	if (output_fd != STDOUT_FILENO)
+	{
+		dup2(output_fd, STDOUT_FILENO);
+		close(output_fd);
+	}
+	if (ft_strcmp(command->cmd, "exit") == 0)
+		ft_exit(data, data->env, "exit", g_return_code);
+	if (execute_bultin(command, data->env, data) == 1)
+		return ;
+	command->pid = fork();
+	if (command->pid == -1)
+	{
+		perror("fork");
+		return ;
+	}
+	if (command->pid == 0)
+	{
+		g_return_code = execve_path_env(command->cmd, command->args, data->env, data);
+		exit(g_return_code);
+	}
+	waitpid(command->pid, &g_return_code, 0);
+	if (WIFEXITED(g_return_code))
+		g_return_code = WEXITSTATUS(g_return_code);
+	if (WIFSIGNALED(g_return_code))
+		g_return_code = 128 + WTERMSIG(g_return_code);
 }
 
 void	choose_case(t_data *data)
@@ -96,6 +167,11 @@ void	choose_case(t_data *data)
 	status = 0;
 	command = data->command_top;
 	prev_fd = STDIN_FILENO;
+	if (command && command->next == NULL)
+	{
+		execute_command(command, data, prev_fd, STDOUT_FILENO);
+		return ;
+	}
 	while (command)
 	{
 		if (command->next && pipe(pipe_fd) == -1)
@@ -103,10 +179,10 @@ void	choose_case(t_data *data)
 			perror("pipe");
 			return ;
 		}
-		// if (command->next)
-		// 	execute_command(command, data, prev_fd, pipe_fd[1]);
+		if (command->next)
+			execute_command_pipe(command, data, prev_fd, pipe_fd[1]);
 		else
-			execute_command(command, data, prev_fd, STDOUT_FILENO);
+			execute_command_pipe(command, data, prev_fd, STDOUT_FILENO);
 		if (prev_fd != STDIN_FILENO)
 			close(prev_fd);
 		if (command->next)
@@ -129,7 +205,6 @@ void	choose_case(t_data *data)
 	}
 }
 
-
 int	wait_cmd_prompt(t_data *data)
 {
 	char	*line;
@@ -144,7 +219,14 @@ int	wait_cmd_prompt(t_data *data)
 		get_cmd_prompt(data, data->env);
 		if (data->cmd_prompt == NULL)
 			return (-1);
+		// if (isatty(fileno(stdin)))
 		line = readline(data->cmd_prompt);
+		// else
+		// {
+		// 	line = get_next_line(fileno(stdin));
+		// 	line = ft_strtrim(line, "\n");
+		// 	free(line);
+		// }
 		if (line == NULL)
 			ft_exit(data, data->env, "exit", g_return_code);
 		if (ft_strlen(line) > 0)
