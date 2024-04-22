@@ -94,7 +94,7 @@ void	free_tab(char **tab);
  * @param str the string to turn into chained list
  * @param data the main struct
  */
-void	lexer(char *str, t_data *data);
+int	lexer(char *str, t_data *data);
 
 /**
  * @brief [DEBUG] - print a tokenized chained list

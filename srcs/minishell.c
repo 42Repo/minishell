@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/04/21 12:27:59 by asuc             ###   ########.fr       */
+/*   Updated: 2024/04/22 14:50:55 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,8 +231,8 @@ int	wait_cmd_prompt(t_data *data)
 			ft_exit(data, data->env, "exit", g_return_code);
 		if (ft_strlen(line) > 0)
 			add_history(line);
-		lexer(line, data);
-		parser(data);
+		if(lexer(line, data) == 0)
+			parser(data);
 		choose_case(data);
 		if (line != NULL)
 			free(line);

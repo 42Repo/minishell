@@ -83,7 +83,7 @@ int	quote_management(int i, char c)
 	return (i);
 }
 
-void	lexer(char *str, t_data *data)
+int	lexer(char *str, t_data *data)
 {
 	int		i;
 	int		j;
@@ -103,11 +103,17 @@ void	lexer(char *str, t_data *data)
 		check_pipe_redir(str, &i, &j, data);
 		i++;
 	}
-	if (data)
+	if (data->quote_state != 0)
+	{
+		printf("syntax error\n");
+		free_token_lst(data);
+		return (-1);
+	}
 	if (!ft_isnamespace(str[i]) && j < i)
 		add_token_to_list(data, &str[j], i - j, WORD);
 	add_token_to_list(data, "", 0, END);
 	expander(data);
+	return (0);
 }
 
 	// print_stack(data->prompt_top);
