@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/04/21 16:20:54 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/26 16:33:58 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,32 @@ void	select_input(char *file, t_data *data, t_command *command)
 	// gerer erreurs
 }
 
+void	heredoc(char *file, t_data *data, t_command *command)
+{
+	char	*line;
+	int		fd;
+
+	(void) data;
+	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd == -1)
+	{
+		printf("minishell: %s: %s\n", file, strerror(errno));
+		command->cmd = NULL;
+		return ;
+	}
+	line = readline("> ");
+	while (line && ft_strcmp(line, file) != 0)
+	{
+		write(fd, line, ft_strlen(line));
+		write(fd, "\n", 1);
+		free(line);
+		line = readline("> ");
+	}
+	free(line);
+	close(fd);
+	printf("pranked ca marche pas\n");
+}
+
 void	get_redir(t_token *selected, t_data *data, t_command *command)
 {
 	if (selected->type == REDIR)
@@ -102,7 +128,7 @@ void	get_redir(t_token *selected, t_data *data, t_command *command)
 			else if (selected->value[0] == '>')
 				select_output(selected->next->value, data, 1, command);
 			else if (ft_strlen(selected->value) == 2 && selected->value[1] == '<')
-				printf("faut ouvrir le heredoc mais flemme\n");
+				heredoc(selected->next->value, data, command);
 			else if (selected->value[0] == '<')
 				select_input(selected->next->value, data, command);
 			else

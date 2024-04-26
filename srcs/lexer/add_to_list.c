@@ -27,7 +27,6 @@ void	add_token_to_list(t_data *data, char *str, int len, t_token_type type)
 
 void	add_redir(char *str, int *i, int *j, t_data *data)
 {
-
 	if (str[*i] == '>' && str[*i + 1] == '>')
 	{
 		if (*j < *i)

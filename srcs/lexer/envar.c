@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/04/20 17:25:47 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/26 15:03:09 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ char	*expander(t_data *data)
 	{
 		int i = 0;
 		quote_state = 0;
-		// printf("%s\n", selected->value);
 		while (i < (int) ft_strlen(selected->value) && selected->value[i])
 		{
 			quote_state = quote_management(quote_state, selected->value[i]);
