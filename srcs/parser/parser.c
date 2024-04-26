@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/04/26 16:33:58 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/26 16:42:23 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,9 +152,9 @@ void	parse_line(t_data *data, t_token *selected, t_command *command)
 	t_token *token;
 	
 	token = data->prompt_top;
-	while(token->type != END)
+	while (token->type != END)
 	{
-		if(token->type == WORD)
+		if (token->type == WORD)
 			token->value = remove_quotes(token->value, data);
 		token = token->next;
 	}
@@ -170,9 +170,9 @@ void	parse_line(t_data *data, t_token *selected, t_command *command)
 			tmp = ft_split(tmp2, ' ');
 			command->cmd = ft_strdup(tmp[0]);
 			
-			if(ft_tablen(tmp) > 2)
+			if (ft_tablen(tmp) > 2)
 				command->args = tmp;
-			if(ft_tablen(tmp) > 2)
+			if (ft_tablen(tmp) > 2)
 				selected = selected->next;
 		}
 		while (selected && selected->type == WORD)
@@ -210,7 +210,7 @@ void	parser(t_data *data)
 	{
 		command->cmd = remove_quotes(command->cmd, data);
 		int i = 0;
-		while(command->args[i])
+		while (command->args[i])
 		{
 			command->args[i] = remove_quotes(command->args[i], data);
 			i++;

@@ -6,13 +6,13 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/04/22 14:50:55 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/26 16:46:47 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int g_return_code = 0;
+int	g_return_code = 0;
 
 void	init_data(t_data *data)
 {
@@ -30,22 +30,21 @@ void	ft_exit_fork(t_data *data, t_env *env, int exit_code)
 	int	i;
 
 	i = 0;
-	if (data->command_top->args[0] && data->command_top->args[1] && data->command_top->args[2])
+	if (data->command_top->args[0] && data->command_top->args[1]
+		&& data->command_top->args[2])
 	{
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 		g_return_code = 1;
 		return ;
 	}
-	if (data->command_top->args[0] && data->command_top->args[1])
-	{
-		if ((data->command_top->args[1][0] == '+' || data->command_top->args[1][0] == '-'))
-			i++;
-	}
-	while(data->command_top->args[0] && data->command_top->args[1] && data->command_top->args[1][i])
-	{
+	if ((data->command_top->args[0] && data->command_top->args[1])
+		&& (data->command_top->args[1][0] == '+'
+		|| data->command_top->args[1][0] == '-'))
 		i++;
-	}
-	if(data->command_top->args[1])
+	while (data->command_top->args[0] && data->command_top->args[1]
+		&& data->command_top->args[1][i])
+		i++;
+	if (data->command_top->args[1])
 		exit_code = ft_atoi(data->command_top->args[1]);
 	free_token_lst(data);
 	free_env(env);
@@ -116,7 +115,8 @@ void	execute_command_pipe(t_command *command, t_data *data, int input_fd, int ou
 		}
 		if (execute_bultin(command, data->env, data) == 1)
 			ft_exit_fork(data, data->env, g_return_code);
-		g_return_code = execve_path_env(command->cmd, command->args, data->env, data);
+		g_return_code = execve_path_env(command->cmd,
+				command->args, data->env, data);
 		exit(g_return_code);
 	}
 }
@@ -147,7 +147,8 @@ void	execute_command(t_command *command, t_data *data, int input_fd, int output_
 	}
 	if (command->pid == 0)
 	{
-		g_return_code = execve_path_env(command->cmd, command->args, data->env, data);
+		g_return_code = execve_path_env(command->cmd, command->args,
+				data->env, data);
 		exit(g_return_code);
 	}
 	waitpid(command->pid, &g_return_code, 0);
@@ -231,7 +232,7 @@ int	wait_cmd_prompt(t_data *data)
 			ft_exit(data, data->env, "exit", g_return_code);
 		if (ft_strlen(line) > 0)
 			add_history(line);
-		if(lexer(line, data) == 0)
+		if (lexer(line, data) == 0)
 			parser(data);
 		choose_case(data);
 		if (line != NULL)
@@ -254,4 +255,3 @@ int	main(int argc __attribute__((unused)), char *argv[] __attribute__((unused)),
 	wait_cmd_prompt(data);
 	return (0);
 }
-

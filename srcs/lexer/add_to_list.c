@@ -69,7 +69,7 @@ void	check_pipe_redir(char *str, int *i, int *j, t_data *data)
 	// if (str[*i] == '>' || str[*i] == '<')
 			// printf("hm\n");
 
-	if(data->quote_state != 0)
+	if (data->quote_state != 0)
 		return ;
 	if (str[*i] == '>' || str[*i] == '<')
 		add_redir(str, i, j, data);

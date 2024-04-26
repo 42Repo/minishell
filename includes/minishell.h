@@ -88,6 +88,13 @@ extern int	g_return_code;
 void	parser(t_data *data);
 void	free_command(t_data *data);
 void	free_tab(char **tab);
+int	execve_path_env(char *cmd, char **args, t_env *env, t_data *data);
+char	*get_path(t_env *env);
+char	*find_cmd_path(char *cmd, char *path_env);
+void	put_error(char *str1, char *str2, char *str3);
+int	check_exec_command(char *path);
+int	execve_error(char *path);
+char	**env_to_tab(t_env *env);
 /**
  * @brief turn a str input into a tokenized chained list
  *

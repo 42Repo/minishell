@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   execve.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 00:16:17 by asuc              #+#    #+#             */
-/*   Updated: 2024/04/21 06:21:26 by asuc             ###   ########.fr       */
+/*   Updated: 2024/04/26 16:48:52 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	execve_error(char *path)
 {
@@ -93,83 +93,4 @@ char	*find_cmd_path(char *cmd, char *path_env)
 	}
 	free_tab(path_tab);
 	return (ft_strdup(cmd));
-}
-
-char	*get_path(t_env *env)
-{
-	t_env	*tmp;
-
-	tmp = env;
-	while (tmp)
-	{
-		if (!ft_strcmp(tmp->name, "PATH"))
-			return (tmp->value);
-		tmp = tmp->next;
-	}
-	return (NULL);
-}
-
-int	check_exec_command(char *path)
-{
-	struct stat	buf;
-
-	if (stat(path, &buf) == -1)
-	{
-		if (errno == ENOENT)
-		{
-			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(path, 2);
-			ft_putstr_fd(": command not found\n", 2);
-			return (127);
-		}
-		else
-			return (execve_error(path));
-	}
-	if (S_ISDIR(buf.st_mode))
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(path, 2);
-		ft_putstr_fd(": Is a directory\n", 2);
-		return (126);
-	}
-	if (!(buf.st_mode & S_IXUSR))
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(path, 2);
-		ft_putstr_fd(": Permission denied\n", 2);
-		return (126);
-	}
-	return (0);
-}
-
-int	execve_path_env(char *cmd, char **args, t_env *env, t_data *data)
-{
-	char	**envp;
-	char	*path;
-
-	if (!cmd || !(*args) || !args || !env || !data)
-		return (1);
-	envp = env_to_tab(env);
-	path = get_path(env);
-	if (!path || !envp)
-		return (1);
-	path = find_cmd_path(cmd, path);
-	g_return_code = check_exec_command(path);
-	if (g_return_code != 0)
-	{
-		free_tab(envp);
-		free(path);
-		free_token_lst(data);
-		free_env(env);
-		free_command(data);
-		if (data->cmd_prompt)
-			free(data->cmd_prompt);
-		free(data);
-		return (g_return_code);
-	}
-	execve(path, args, envp);
-	perror("minishell");
-	free_tab(envp);
-	free(path);
-	return (127);
 }

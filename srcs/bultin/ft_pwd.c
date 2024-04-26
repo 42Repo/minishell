@@ -36,9 +36,7 @@ void	ft_pwd(t_env *env)
 	if (!path)
 	{
 		put_program_name(env);
-		ft_putstr_fd(": pwd: ", 2);
-		ft_putstr_fd(strerror(errno), 2);
-		ft_putstr_fd("\n", 2);
+		put_error(": pwd: ", strerror(errno), "\n");
 		g_return_code = 1;
 		return ;
 	}
