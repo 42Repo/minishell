@@ -52,6 +52,8 @@ char	*remove_quotes(char *str, t_data *data)
 	(void) data;
 	i = 0;
 	j = 0;
+	if(!str)
+		return (NULL);
 	new_str = ft_calloc(sizeof(char),  ft_strlen(str) + 1);
 	if (new_str == NULL)
 		return (NULL);

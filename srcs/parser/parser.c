@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/04/28 18:21:47 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/28 19:11:44 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,7 @@ int	parse_line(t_data *data, t_token *selected, t_command *command)
 			else if (selected->type == REDIR)
 			{
 				if (!(selected->next && selected->next->type == WORD))
-					return (-1);	
+					return (-1);
 				get_redir(selected, data, command);
 				selected = selected->next;
 			}
@@ -167,7 +167,7 @@ int	parse_line(t_data *data, t_token *selected, t_command *command)
 		}
 		if (selected && selected->type == PIPE)
 		{
-			if (!command->cmd || selected->next->type != WORD)
+			if (selected->next->type != WORD)
 				return (-1);
 			command->next = init_command();
 			command = command->next;

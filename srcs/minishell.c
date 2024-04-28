@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/04/28 18:26:53 by asuc             ###   ########.fr       */
+/*   Updated: 2024/04/28 22:01:27 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ void	choose_case(t_data *data)
 
 	status = 0;
 	command = data->command_top;
-	prev_fd = STDIN_FILENO;
+	prev_fd = command->fd_in;
 	if (command && command->next == NULL)
 	{
 		execute_command(command, data, prev_fd, STDOUT_FILENO);
@@ -175,6 +175,11 @@ void	choose_case(t_data *data)
 	}
 	while (command)
 	{
+		if (command->fd_in != STDIN_FILENO)
+		{
+			prev_fd = command->fd_in;
+			command->fd_in = STDIN_FILENO;
+		}
 		if (command->next && pipe(pipe_fd) == -1)
 		{
 			perror("pipe");
@@ -185,7 +190,10 @@ void	choose_case(t_data *data)
 		else
 			execute_command_pipe(command, data, prev_fd, STDOUT_FILENO);
 		if (prev_fd != STDIN_FILENO)
+		{
 			close(prev_fd);
+			prev_fd = STDIN_FILENO;
+		}
 		if (command->next)
 		{
 			prev_fd = dup(pipe_fd[0]);

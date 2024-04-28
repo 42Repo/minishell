@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 16:30:08 by asuc              #+#    #+#             */
-/*   Updated: 2024/04/28 18:28:11 by asuc             ###   ########.fr       */
+/*   Updated: 2024/04/28 18:49:13 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ void	heredoc(char *eof, t_data *data, t_command *command)
 
 	if (eof == NULL)
 		return ;
+	if (command->fd_in != 0)
+		close(command->fd_in);
 	if (command->random_name[0] == '\0')
 		random_init(data);
 	fd = open(command->random_name, O_WRONLY | O_CREAT | O_APPEND, 0644);
@@ -64,6 +66,7 @@ void	heredoc(char *eof, t_data *data, t_command *command)
 		free(line);
 		line = readline("> ");
 	}
-	free(line);
 	close(fd);
+	command->fd_in = open(command->random_name, O_RDONLY);
+	free(line);
 }
