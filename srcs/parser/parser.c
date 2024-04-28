@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/04/28 18:12:40 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/28 18:21:47 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,7 @@ int	parse_line(t_data *data, t_token *selected, t_command *command)
 				if (!(selected->next && selected->next->type == WORD))
 					return (-1);	
 				get_redir(selected, data, command);
-				selected = selected->next->next;
+				selected = selected->next;
 			}
 			selected = selected->next;
 		}
@@ -183,26 +183,25 @@ int	parser(t_data *data)
 {
 	t_token		*selected;
 	t_command	*command;
+	int			i;
 
+	i = 0;
 	data->command_top = init_command();
 	selected = data->prompt_top;
 	command = data->command_top;
-	
-	if(parse_line(data, selected, command) < 0)
+
+	if (parse_line(data, selected, command) < 0)
 	{
 		printf("minishell: syntax error near unexpected token `newline'\n");
-		return -1;
+		return (-1);
 	}
 	command = data->command_top;
 	while (command->next)
 	{
 		command->cmd = remove_quotes(command->cmd, data);
-		int i = 0;
-		while (command->args[i])
-		{
+		i = 0;
+		while (command->args[i++])
 			command->args[i] = remove_quotes(command->args[i], data);
-			i++;
-		}
 		command = command->next;
 	}
 	return (0);

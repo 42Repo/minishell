@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/04/28 18:19:37 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/28 18:20:10 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ char	*expander(t_data *data)
 	int	quote_state = 0;
 
 	if (!data->prompt_top)
-		return(NULL);
+		return (NULL);
 	selected = data->prompt_top;
 	while (selected->type != END)
 	{
