@@ -116,7 +116,7 @@ int	lexer(char *str, t_data *data)
 	return (0);
 }
 
-	// print_stack(data->prompt_top);
+	// print_stack(data->pxrompt_top);
 	// if quote != 0
 	// 	syntax error
 

@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/04/28 17:56:23 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/28 18:12:40 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,7 @@ int	parse_line(t_data *data, t_token *selected, t_command *command)
 			else if (selected->type == REDIR)
 			{
 				if (!(selected->next && selected->next->type == WORD))
-					return -1;	
+					return (-1);	
 				get_redir(selected, data, command);
 				selected = selected->next->next;
 			}
@@ -174,9 +174,9 @@ int	parse_line(t_data *data, t_token *selected, t_command *command)
 			selected = selected->next;
 		}
 		if (selected && selected->type == END)
-			return 0;
+			return (0);
 	}
-	return 0;
+	return (0);
 }
 
 int	parser(t_data *data)
@@ -205,5 +205,5 @@ int	parser(t_data *data)
 		}
 		command = command->next;
 	}
-	return 0;
+	return (0);
 }
