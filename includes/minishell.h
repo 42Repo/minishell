@@ -86,7 +86,7 @@ typedef struct s_data
 extern int	g_return_code;
 
 /* FUNCTIONS */
-void	parser(t_data *data);
+int	parser(t_data *data);
 void	free_command(t_data *data);
 void	free_tab(char **tab);
 int	execve_path_env(char *cmd, char **args, t_env *env, t_data *data);

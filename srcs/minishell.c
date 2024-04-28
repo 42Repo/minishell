@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/04/26 16:46:47 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/28 17:55:05 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,8 +233,8 @@ int	wait_cmd_prompt(t_data *data)
 		if (ft_strlen(line) > 0)
 			add_history(line);
 		if (lexer(line, data) == 0)
-			parser(data);
-		choose_case(data);
+			if (parser(data) == 0)
+				choose_case(data);
 		if (line != NULL)
 			free(line);
 	}

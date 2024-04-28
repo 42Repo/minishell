@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/04/28 17:47:45 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/28 17:56:23 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,7 @@ void	get_redir(t_token *selected, t_data *data, t_command *command)
 	}
 }
 
-void	parse_line(t_data *data, t_token *selected, t_command *command)
+int	parse_line(t_data *data, t_token *selected, t_command *command)
 {
 	char	**tmp;
 	char	*tmp2;
@@ -158,6 +158,8 @@ void	parse_line(t_data *data, t_token *selected, t_command *command)
 				command->args = join_tab(command->args, ft_strdup(selected->value));
 			else if (selected->type == REDIR)
 			{
+				if (!(selected->next && selected->next->type == WORD))
+					return -1;	
 				get_redir(selected, data, command);
 				selected = selected->next->next;
 			}
@@ -165,18 +167,19 @@ void	parse_line(t_data *data, t_token *selected, t_command *command)
 		}
 		if (selected && selected->type == PIPE)
 		{
-			if (!command->cmd)
-				printf("erreur de syntaxe batard\n");
+			if (!command->cmd || selected->next->type != WORD)
+				return (-1);
 			command->next = init_command();
 			command = command->next;
 			selected = selected->next;
 		}
 		if (selected && selected->type == END)
-			return ;
+			return 0;
 	}
+	return 0;
 }
 
-void	parser(t_data *data)
+int	parser(t_data *data)
 {
 	t_token		*selected;
 	t_command	*command;
@@ -184,7 +187,12 @@ void	parser(t_data *data)
 	data->command_top = init_command();
 	selected = data->prompt_top;
 	command = data->command_top;
-	parse_line(data, selected, command);
+	
+	if(parse_line(data, selected, command) < 0)
+	{
+		printf("minishell: syntax error near unexpected token `newline'\n");
+		return -1;
+	}
 	command = data->command_top;
 	while (command->next)
 	{
@@ -197,4 +205,5 @@ void	parser(t_data *data)
 		}
 		command = command->next;
 	}
+	return 0;
 }
