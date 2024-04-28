@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/04/28 17:18:46 by asuc             ###   ########.fr       */
+/*   Updated: 2024/04/28 17:39:59 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,22 +141,20 @@ void	parse_line(t_data *data, t_token *selected, t_command *command)
 	{
 		command->args = ft_calloc(sizeof(char **), 1);
 		command->next = NULL;
-		if (data->prompt_top->type == WORD)
-		{
-			selected->value = remove_quotes(selected->value, data);
-			tmp2 = ft_strdup(selected->value);
-			tmp = ft_split(tmp2, ' ');
-			command->cmd = ft_strdup(tmp[0]);
-			if (ft_tablen(tmp) > 2)
-				command->args = tmp;
-			if (ft_tablen(tmp) > 2)
-				selected = selected->next;
-		}
 		while (selected && selected->type != PIPE)
 		{
-			printf("selected->value = %s\n", selected->value);
-			printf("selected->type = %d\n", selected->type);
-			if (selected->type == WORD)
+			if (selected->type == WORD && !command->args)
+			{
+				selected->value = remove_quotes(selected->value, data);
+				tmp2 = ft_strdup(selected->value);
+				tmp = ft_split(tmp2, ' ');
+				command->cmd = ft_strdup(tmp[0]);
+				if (ft_tablen(tmp) > 2)
+					command->args = tmp;
+				if (ft_tablen(tmp) > 2)
+					selected = selected->next;
+			}
+			else if (selected->type == WORD)
 				command->args = join_tab(command->args, ft_strdup(selected->value));
 			else if (selected->type == REDIR)
 			{
@@ -167,6 +165,8 @@ void	parse_line(t_data *data, t_token *selected, t_command *command)
 		}
 		if (selected && selected->type == PIPE)
 		{
+			if (!command->cmd)
+				printf("erreur de syntaxe batard\n");
 			command->next = init_command();
 			command = command->next;
 			selected = selected->next;
