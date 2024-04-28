@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/04/26 16:42:23 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/28 16:22:53 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,9 +148,9 @@ void	get_redir(t_token *selected, t_data *data, t_command *command)
 void	parse_line(t_data *data, t_token *selected, t_command *command)
 {
 	char	**tmp;
-	char *tmp2;
-	t_token *token;
-	
+	char	*tmp2;
+	t_token	*token;
+
 	token = data->prompt_top;
 	while (token->type != END)
 	{
@@ -165,11 +165,10 @@ void	parse_line(t_data *data, t_token *selected, t_command *command)
 		command->next = NULL;
 		if (data->prompt_top->type == WORD)
 		{
-			selected->value =remove_quotes(selected->value, data);
+			selected->value = remove_quotes(selected->value, data);
 			tmp2 = ft_strdup(selected->value);
 			tmp = ft_split(tmp2, ' ');
 			command->cmd = ft_strdup(tmp[0]);
-			
 			if (ft_tablen(tmp) > 2)
 				command->args = tmp;
 			if (ft_tablen(tmp) > 2)
