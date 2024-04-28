@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/04/28 17:39:59 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/28 17:47:45 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ void	parse_line(t_data *data, t_token *selected, t_command *command)
 		command->next = NULL;
 		while (selected && selected->type != PIPE)
 		{
-			if (selected->type == WORD && !command->args)
+			if (selected->type == WORD && !command->cmd)
 			{
 				selected->value = remove_quotes(selected->value, data);
 				tmp2 = ft_strdup(selected->value);
@@ -154,7 +154,7 @@ void	parse_line(t_data *data, t_token *selected, t_command *command)
 				if (ft_tablen(tmp) > 2)
 					selected = selected->next;
 			}
-			else if (selected->type == WORD)
+			if (selected->type == WORD)
 				command->args = join_tab(command->args, ft_strdup(selected->value));
 			else if (selected->type == REDIR)
 			{
