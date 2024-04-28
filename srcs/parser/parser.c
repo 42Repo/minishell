@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/04/28 16:30:28 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/28 17:18:46 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,10 @@ t_command	*init_command(void)
 	command->cmd = NULL;
 	command->args = NULL;
 	command->next = NULL;
+	command->fd_in = 0;
+	command->fd_out = 1;
+	command->random_name[0] = '\0';
+	command->pid = 0;
 	return (command);
 }
 
@@ -89,32 +93,6 @@ void	select_input(char *file, t_data *data, t_command *command)
 	if (command->fd_in == -1)
 		command->fd_in = 0;
 	// gerer erreurs
-}
-
-void	heredoc(char *file, t_data *data, t_command *command)
-{
-	char	*line;
-	int		fd;
-
-	(void) data;
-	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd == -1)
-	{
-		printf("minishell: %s: %s\n", file, strerror(errno));
-		command->cmd = NULL;
-		return ;
-	}
-	line = readline("> ");
-	while (line && ft_strcmp(line, file) != 0)
-	{
-		write(fd, line, ft_strlen(line));
-		write(fd, "\n", 1);
-		free(line);
-		line = readline("> ");
-	}
-	free(line);
-	close(fd);
-	printf("pranked ca marche pas\n");
 }
 
 void	get_redir(t_token *selected, t_data *data, t_command *command)
@@ -174,21 +152,24 @@ void	parse_line(t_data *data, t_token *selected, t_command *command)
 			if (ft_tablen(tmp) > 2)
 				selected = selected->next;
 		}
-		while (selected && selected->type == WORD)
+		while (selected && selected->type != PIPE)
 		{
-			command->args = join_tab(command->args, ft_strdup(selected->value));
+			printf("selected->value = %s\n", selected->value);
+			printf("selected->type = %d\n", selected->type);
+			if (selected->type == WORD)
+				command->args = join_tab(command->args, ft_strdup(selected->value));
+			else if (selected->type == REDIR)
+			{
+				get_redir(selected, data, command);
+				selected = selected->next->next;
+			}
 			selected = selected->next;
 		}
-		if (selected->type == PIPE)
+		if (selected && selected->type == PIPE)
 		{
 			command->next = init_command();
 			command = command->next;
 			selected = selected->next;
-		}
-		if (selected->type == REDIR)
-		{
-			get_redir(selected, data, command);
-			selected = selected->next->next;
 		}
 		if (selected && selected->type == END)
 			return ;

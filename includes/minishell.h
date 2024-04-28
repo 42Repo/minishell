@@ -61,6 +61,7 @@ typedef struct s_command
 	int					fd_in;
 	int					fd_out;
 	pid_t				pid;
+	char				random_name[21];
 }	t_command;
 
 // 1 = pipe, 2 = redirect, 3 = end
@@ -337,5 +338,6 @@ void	print_sorted_env(t_env *env);
 char	*expander(t_data *data);
 int		ft_env(t_env *env);
 void	free_env(t_env *env);
+void	heredoc(char *file, t_data *data, t_command *command);
 
 #endif
