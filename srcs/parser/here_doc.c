@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 16:30:08 by asuc              #+#    #+#             */
-/*   Updated: 2024/04/28 17:28:15 by asuc             ###   ########.fr       */
+/*   Updated: 2024/04/28 18:28:11 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,23 +45,19 @@ void	heredoc(char *eof, t_data *data, t_command *command)
 	char	*line;
 	int		fd;
 
-	if (command->cmd[0] == '\0' || command->cmd[0] == '\n' || command->cmd[0] == ' ')
-	{
-		printf("minishell: %s: here-document delimited by end-of-file (wanted `%s')\n", eof, eof);
-		command->cmd = NULL;
+	if (eof == NULL)
 		return ;
-	}
 	if (command->random_name[0] == '\0')
 		random_init(data);
-	fd = open(command->random_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	fd = open(command->random_name, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 	{
 		printf("minishell: %s: %s\n", command->random_name, strerror(errno));
-		command->cmd = NULL;
+		eof = NULL;
 		return ;
 	}
 	line = readline("> ");
-	while (line && ft_strcmp(line, command->random_name) != 0)
+	while (line && ft_strcmp(line, eof) != 0)
 	{
 		write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
@@ -70,5 +66,4 @@ void	heredoc(char *eof, t_data *data, t_command *command)
 	}
 	free(line);
 	close(fd);
-	printf("pranked ca marche pas\n");
 }

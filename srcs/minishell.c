@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/04/28 17:55:05 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/28 18:26:53 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	execute_bultin(t_command *command, t_env *env, t_data *data)
 
 void	execute_command_pipe(t_command *command, t_data *data, int input_fd, int output_fd)
 {
-	if (data->prompt_top->type == END)
+	if (data->prompt_top->type == END || command == NULL || command->cmd == NULL)
 		return ;
 	if (ft_strcmp(command->cmd, "exit") == 0)
 		ft_exit(data, data->env, "exit", g_return_code);
@@ -123,7 +123,7 @@ void	execute_command_pipe(t_command *command, t_data *data, int input_fd, int ou
 
 void	execute_command(t_command *command, t_data *data, int input_fd, int output_fd)
 {
-	if (data->prompt_top->type == END)
+	if (data->prompt_top->type == END || command == NULL || command->cmd == NULL)
 		return ;
 	if (input_fd != STDIN_FILENO)
 	{
