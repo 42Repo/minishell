@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/04/28 16:22:53 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/28 16:30:28 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,19 +217,3 @@ void	parser(t_data *data)
 		command = command->next;
 	}
 }
-
-// if ->top node == word
-// 	command_top == word
-// while -> node->type == WORD
-// 	join_tab to command->top->args
-	//
-// if << -> heredoc
-
-// if < -> if next == word
-// 	dup2 "word" in args
-
-// if pipe
-// 	pipex
-
-// if >> OR >
-// 	change output to file
