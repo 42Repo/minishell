@@ -79,8 +79,8 @@ typedef struct s_data
 	t_env		*env;
 	int			quote_state;
 	char		*cmd_prompt;
-	int			fd_out;
 	int			fd_in;
+	int			fd_out;
 }	t_data;
 
 extern int	g_return_code;

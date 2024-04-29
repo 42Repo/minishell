@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/04/29 09:25:39 by asuc             ###   ########.fr       */
+/*   Updated: 2024/04/29 10:04:59 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void	init_data(t_data *data)
 	data->cmd_prompt = NULL;
 	data->quote_state = 0;
 	data->command_top = NULL;
-	data->fd_out = 1;
-	data->fd_in = 0;
+	data->fd_out = dup(STDOUT_FILENO);
+	data->fd_in = dup(STDIN_FILENO);
 }
 
 void	ft_exit_fork(t_data *data, t_env *env, int exit_code)
@@ -128,21 +128,25 @@ void	execute_command(t_command *command, t_data *data, int input_fd, int output_
 	if (input_fd != STDIN_FILENO)
 	{
 		dup2(input_fd, STDIN_FILENO);
-		close(input_fd);
 	}
 	if (output_fd != STDOUT_FILENO)
 	{
 		dup2(output_fd, STDOUT_FILENO);
-		close(output_fd);
 	}
 	if (ft_strcmp(command->cmd, "exit") == 0)
 		ft_exit(data, data->env, "exit", g_return_code);
 	if (execute_bultin(command, data->env, data) == 1)
+	{
+		dup2(dup(data->fd_in), STDIN_FILENO);
+		dup2(dup(data->fd_out), STDOUT_FILENO);
 		return ;
+	}
 	command->pid = fork();
 	if (command->pid == -1)
 	{
 		perror("fork");
+		dup2(dup(data->fd_in), STDIN_FILENO);
+		dup2(dup(data->fd_out), STDOUT_FILENO);
 		return ;
 	}
 	if (command->pid == 0)
@@ -156,6 +160,8 @@ void	execute_command(t_command *command, t_data *data, int input_fd, int output_
 		g_return_code = WEXITSTATUS(g_return_code);
 	if (WIFSIGNALED(g_return_code))
 		g_return_code = 128 + WTERMSIG(g_return_code);
+	dup2(dup(data->fd_in), STDIN_FILENO);
+	dup2(dup(data->fd_out), STDOUT_FILENO);
 }
 
 void	choose_case(t_data *data)
