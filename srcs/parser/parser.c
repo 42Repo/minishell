@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/04/29 08:33:25 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/29 10:20:21 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,18 @@ void	select_input(char *file, t_data *data, t_command *command)
 		close(command->fd_in);
 	if (command->fd_in != 0)
 		command->fd_in = 0;
+	if (access(file, F_OK) == -1)
+	{
+		printf("minishell: %s: No such file or directory\n", file);
+		command->cmd = NULL;
+		return ;
+	}
+	if (access(file, R_OK) == -1)
+	{
+		printf("minishell: %s: Permission denied\n", file);
+		command->cmd = NULL;
+		return ;
+	}
 	command->fd_in = open(file, O_RDONLY);
 	if (command->fd_in == -1)
 		command->fd_in = 0;
@@ -187,7 +199,7 @@ int	parser(t_data *data)
 	data->command_top = init_command();
 	selected = data->prompt_top;
 	command = data->command_top;
-	
+
 	if(parse_line(data, selected, command) < 0)
 	{
 		printf("minishell: syntax error near unexpected token `newline'\n");

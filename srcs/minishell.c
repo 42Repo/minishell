@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/04/29 10:04:59 by asuc             ###   ########.fr       */
+/*   Updated: 2024/04/29 11:18:30 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,7 @@ void	choose_case(t_data *data)
 	status = 0;
 	command = data->command_top;
 	prev_fd = command->fd_in;
-	if (command && command->next == NULL)
+ 	if (command && command->next == NULL)
 	{
 		execute_command(command, data, prev_fd, command->fd_out);
 		return ;

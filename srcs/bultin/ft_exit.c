@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:30:00 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/04/29 08:53:04 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/29 10:07:00 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	ft_exit(t_data *data, t_env *env, char *exit_msg, int exit_code)
 	int	i;
 
 	i = 0;
-	printf("PIPI\n");
 	if (data->command_top)
 	{
 		if (data->command_top->args)
