@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/04/29 08:55:29 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/29 09:25:39 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,7 @@ void	choose_case(t_data *data)
 	prev_fd = command->fd_in;
 	if (command && command->next == NULL)
 	{
-		execute_command(command, data, prev_fd, STDOUT_FILENO);
+		execute_command(command, data, prev_fd, command->fd_out);
 		return ;
 	}
 	while (command)
@@ -188,7 +188,7 @@ void	choose_case(t_data *data)
 		if (command->next)
 			execute_command_pipe(command, data, prev_fd, pipe_fd[1]);
 		else
-			execute_command_pipe(command, data, prev_fd, STDOUT_FILENO);
+			execute_command_pipe(command, data, prev_fd, command->fd_out);
 		if (prev_fd != STDIN_FILENO)
 		{
 			close(prev_fd);
