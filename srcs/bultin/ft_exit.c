@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:30:00 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/04/26 16:42:23 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/29 08:53:04 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,14 @@ void	ft_exit(t_data *data, t_env *env, char *exit_msg, int exit_code)
 	int	i;
 
 	i = 0;
+	printf("PIPI\n");
 	if (data->command_top)
 	{
 		if (data->command_top->args)
 		{
 			if (data->command_top->args[0] && data->command_top->args[1] && data->command_top->args[2])
 			{
-				ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+				// ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 				g_return_code = 1;
 				return ;
 			}

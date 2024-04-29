@@ -115,19 +115,21 @@ int	lexer(char *str, t_data *data)
 		add_token_to_list(data, &str[j], i - j, WORD);
 	add_token_to_list(data, "", 0, END);
 	expander(data);
+	// printf("GROS CACA\n");
+	// print_stack(data->prompt_top);
+
 	return (0);
 }
 
-	// print_stack(data->pxrompt_top);
 	// if quote != 0
-	// 	syntax error
+// 	// 	syntax error
 
 // void	print_stack(t_token *node)
 // {
 // 	while (node->next)
 // 	{
-// 		// printf("Type = %d and value = %s\n", node->type, node->value);
+// 		printf("Type = %d and value = %s\n", node->type, node->value);
 // 		node = node->next;
 // 	}
-// 	// printf("Type = %d and value = %s\n", node->type, node->value);
+// 	printf("Type = %d and value = %s\n", node->type, node->value);
 // }

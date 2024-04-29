@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/04/28 22:01:27 by asuc             ###   ########.fr       */
+/*   Updated: 2024/04/29 08:55:29 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	ft_exit_fork(t_data *data, t_env *env, int exit_code)
 	if (data->command_top->args[0] && data->command_top->args[1]
 		&& data->command_top->args[2])
 	{
-		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+		// ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 		g_return_code = 1;
 		return ;
 	}
