@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/04/30 07:37:24 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/30 09:51:01 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,7 +235,7 @@ int	wait_cmd_prompt(t_data *data)
 		if (data->cmd_prompt == NULL)
 			return (-1);
 		// if (isatty(fileno(stdin)))
-		line = readline(data->cmd_prompt);
+		line = ft_strtrim_free(readline(data->cmd_prompt), " ");
 		// else
 		// {
 		// 	line = get_next_line(fileno(stdin));
