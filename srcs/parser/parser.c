@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/04/30 07:07:52 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/30 08:22:34 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,13 +91,13 @@ void	select_input(char *file, t_data *data, t_command *command)
 		command->fd_in = 0;
 	if (access(file, F_OK) == -1)
 	{
-		printf("minishell: %s: No such file or directory\n", file);
+		put_error("minishell: ", file, ": No such file or directory\n");
 		command->cmd = NULL;
 		return ;
 	}
 	if (access(file, R_OK) == -1)
 	{
-		printf("minishell: %s: Permission denied\n", file);
+		put_error("minishell: ", file, ": Permission denied\n");
 		command->cmd = NULL;
 		return ;
 	}
