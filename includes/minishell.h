@@ -83,16 +83,33 @@ typedef struct s_data
 	int			fd_out;
 }	t_data;
 
+typedef struct s_parser
+{
+	char	**tmp;
+	char	*tmp2;
+	char	*error;
+}	t_parser;
+
 extern int	g_return_code;
 
 /* FUNCTIONS */
 int	parser(t_data *data);
+char	*parse_misc(t_token **selected, t_data *data, \
+		t_command *command, t_parser *parser);
 void	free_command(t_data *data);
+void	get_redir(t_token *selected, t_data *data, t_command *command);
 void	free_tab(char **tab);
 int	execve_path_env(char *cmd, char **args, t_env *env, t_data *data);
+t_command	*init_command(void);
 char	*get_path(t_env *env);
+void	parse_word(t_token *selected, t_command *command, \
+			char *tmp2, char **tmp);
+void	clear_token_quotes(t_data *data);
 char	*find_cmd_path(char *cmd, char *path_env);
+char	*parse_redir(t_token **selected, t_data *data, t_command *command);
 void	put_error(char *str1, char *str2, char *str3);
+void	remove_empty_tokens(t_data *data);
+char	*parse_pipe(t_token **selected, t_command **command);
 int	check_exec_command(char *path);
 char	*ft_strtrim_free(char *s1, char *set);
 int	execve_error(char *path);
@@ -220,7 +237,7 @@ int		get_quote_type(char *str);
  *
  * @return the new and filtered str
  */
-char	*remove_quotes(char *str, t_data *data);
+char	*remove_quotes(char *str);
 
 /**
  * @brief knows if a char is in a single, double or no quote

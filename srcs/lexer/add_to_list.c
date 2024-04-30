@@ -20,14 +20,30 @@ void	add_token_to_list(t_data *data, char *str, int len, t_token_type type)
 	tmp1 = set_token_str(str, len);
 	tmp2 = ft_strtrim(tmp1, " ");
 	free(tmp1);
-	if(ft_strlen(tmp2) == 0)
+	if (ft_strlen(tmp2) == 0)
 	{
 		free(tmp2);
 		return ;
 	}
-
 	ms_lstadd_back(&data->prompt_top,
 		ms_lstnew(type, tmp2), data);
+}
+
+void	redir_outfile(char *str, int *i, int *j, t_data *data)
+{
+	if (str[*i] == '<' && str[*i + 1] == '<')
+	{
+		if (*j < *i)
+			add_token_to_list(data, &str[*j], *i - *j, WORD);
+		add_token_to_list(data, "<<", 2, REDIR);
+		*i += 1;
+	}
+	else if (str[*i] == '<')
+	{
+		if (*j < *i)
+			add_token_to_list(data, &str[*j], *i - *j, WORD);
+		add_token_to_list(data, &str[*i], 1, REDIR);
+	}
 }
 
 void	add_redir(char *str, int *i, int *j, t_data *data)
@@ -45,19 +61,8 @@ void	add_redir(char *str, int *i, int *j, t_data *data)
 			add_token_to_list(data, &str[*j], *i - *j, WORD);
 		add_token_to_list(data, &str[*i], 1, REDIR);
 	}
-	else if (str[*i] == '<' && str[*i + 1] == '<')
-	{
-		if (*j < *i)
-			add_token_to_list(data, &str[*j], *i - *j, WORD);
-		add_token_to_list(data, "<<", 2, REDIR);
-		*i += 1;
-	}
-	else if (str[*i] == '<')
-	{
-		if (*j < *i)
-			add_token_to_list(data, &str[*j], *i - *j, WORD);
-		add_token_to_list(data, &str[*i], 1, REDIR);
-	}
+	else
+		redir_outfile(str, i, j, data);
 	*j = *i + 1;
 }
 
@@ -71,15 +76,10 @@ int	add_word_to_list(char *str, int *i, int *j, t_data *data)
 
 void	check_pipe_redir(char *str, int *i, int *j, t_data *data)
 {
-	// if (str[*i] == '>' || str[*i] == '<')
-			// printf("hm\n");
-
 	if (data->quote_state != 0)
 		return ;
-//	printf("str[i] = %c\n", str[*i]);
 	if (str[*i] == '>' || str[*i] == '<')
 		add_redir(str, i, j, data);
-	
 	else if (str[*i] == '|')
 	{
 		if (*j < *i)

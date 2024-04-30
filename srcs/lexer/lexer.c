@@ -43,19 +43,17 @@ int	get_quote_type(char *str)
 	return (type);
 }
 
-char	*remove_quotes(char *str, t_data *data)
+char	*remove_quotes(char *str)
 {
 	int		i;
 	int		j;
 	char	*new_str;
 	int		local_quote;
-	(void) data;
+
 	i = 0;
 	j = 0;
-	if(!str)
-		return (NULL);
-	new_str = ft_calloc(sizeof(char),  ft_strlen(str) + 1);
-	if (new_str == NULL)
+	new_str = ft_calloc(sizeof(char), ft_strlen(str) + 1);
+	if (!str || new_str == NULL)
 		return (NULL);
 	local_quote = 0;
 	while (str[i])
@@ -85,21 +83,19 @@ int	quote_management(int i, char c)
 	return (i);
 }
 
+		// if (i > 1 && str[i] == '>' && str[i - 1] == '>')
+		// 	i++;
 int	lexer(char *str, t_data *data)
 {
 	int		i;
 	int		j;
 
 	data->quote_state = 0;
-	// printf("lexer str = %s\n", str);
 	i = 0;
 	j = 0;
 	while (str[i])
 	{
 		data->quote_state = quote_management(data->quote_state, str[i]);
-		// printf("%c -> quote_state = %d\n", str[i], data->quote_state);
-		// if (i > 1 && str[i] == '>' && str[i - 1] == '>')
-		// 	i++;
 		if (ft_isnamespace(str[i]) && j < i && data->quote_state == 0)
 			add_word_to_list(str, &i, &j, data);
 		check_pipe_redir(str, &i, &j, data);
@@ -115,21 +111,5 @@ int	lexer(char *str, t_data *data)
 		add_token_to_list(data, &str[j], i - j, WORD);
 	add_token_to_list(data, ft_strdup("newline"), 7, END);
 	expander(data);
-	// printf("GROS CACA\n");
-	// print_stack(data->prompt_top);
-
 	return (0);
 }
-
-	// if quote != 0
-// 	// 	syntax error
-
-// void	print_stack(t_token *node)
-// {
-// 	while (node->next)
-// 	{
-// 		printf("Type = %d and value = %s\n", node->type, node->value);
-// 		node = node->next;
-// 	}
-// 	printf("Type = %d and value = %s\n", node->type, node->value);
-// }

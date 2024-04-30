@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 16:30:08 by asuc              #+#    #+#             */
-/*   Updated: 2024/04/30 08:25:31 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/30 15:22:18 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,17 @@ void	random_init(t_data *data)
 	close(urandom_fd);
 }
 
+void	read_heredoc(int fd, char *line, char *eof)
+{
+	while (line && ft_strcmp(line, eof) != 0)
+	{
+		write(fd, line, ft_strlen(line));
+		write(fd, "\n", 1);
+		free(line);
+		line = readline("> ");
+	}
+}
+
 void	heredoc(char *eof, t_data *data, t_command *command)
 {
 	char	*line;
@@ -59,13 +70,7 @@ void	heredoc(char *eof, t_data *data, t_command *command)
 		return ;
 	}
 	line = readline("> ");
-	while (line && ft_strcmp(line, eof) != 0)
-	{
-		write(fd, line, ft_strlen(line));
-		write(fd, "\n", 1);
-		free(line);
-		line = readline("> ");
-	}
+	read_heredoc(fd, line, eof);
 	close(fd);
 	command->fd_in = open(command->random_name, O_RDONLY);
 	free(line);
