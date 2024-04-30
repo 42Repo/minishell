@@ -94,6 +94,7 @@ char	*get_path(t_env *env);
 char	*find_cmd_path(char *cmd, char *path_env);
 void	put_error(char *str1, char *str2, char *str3);
 int	check_exec_command(char *path);
+char	*ft_strtrim_free(char *s1, char *set);
 int	execve_error(char *path);
 char	**env_to_tab(t_env *env);
 /**

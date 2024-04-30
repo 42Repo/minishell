@@ -18,3 +18,13 @@ int	max_len(char *str, size_t nb)
 		return (ft_strlen(str));
 	return (nb);
 }
+
+char	*ft_strtrim_free(char *s1, char *set)
+{
+	char *line;
+
+	line = ft_strtrim(s1, set);
+	if (s1)
+		free(s1);
+	return (line);
+}
