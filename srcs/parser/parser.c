@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/04/30 08:22:34 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/30 10:11:14 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,8 @@ char *parse_line(t_data *data, t_token *selected, t_command *command)
 		token = token->next;
 	}
 	selected = data->prompt_top;
+	if (selected->type == PIPE)
+		return (selected->value);
 	while (selected)
 	{
 		command->args = ft_calloc(sizeof(char **), 1);
@@ -172,6 +174,8 @@ char *parse_line(t_data *data, t_token *selected, t_command *command)
 			{
 				if (selected->next && selected->next->type == END)
 					return (selected->next->value);
+				if (!selected->next || (selected->next && selected->next->type != WORD))
+					return (selected->value);
 				get_redir(selected, data, command);
 				selected = selected->next;
 			}
