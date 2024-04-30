@@ -113,7 +113,7 @@ int	lexer(char *str, t_data *data)
 	}
 	if (!ft_isnamespace(str[i]) && j < i)
 		add_token_to_list(data, &str[j], i - j, WORD);
-	add_token_to_list(data, "", 0, END);
+	add_token_to_list(data, ft_strdup("newline"), 7, END);
 	expander(data);
 	// printf("GROS CACA\n");
 	// print_stack(data->prompt_top);

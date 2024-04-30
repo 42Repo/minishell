@@ -16,7 +16,6 @@ void	add_token_to_list(t_data *data, char *str, int len, t_token_type type)
 {
 	char	*tmp1;
 	char	*tmp2;
-	// printf("ttl str = %s\n", str);
 
 	tmp1 = set_token_str(str, len);
 	tmp2 = ft_strtrim(tmp1, " ");

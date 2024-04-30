@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/04/29 10:20:21 by asuc             ###   ########.fr       */
+/*   Updated: 2024/04/30 07:07:52 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,19 +123,19 @@ void	get_redir(t_token *selected, t_data *data, t_command *command)
 				select_input(selected->next->value, data, command);
 			else
 			{
-				printf("minishell: syntax error near unexpected token `newline'\n");
+				ft_putstr_fd("minishell: syntax error near unexpected token `HEHEHE'\n", 2);
 				command->cmd = NULL;
 			}
 		}
 		else
 		{
-			printf("minishell: syntax error near unexpected token `newline'\n");
+			ft_putstr_fd("minishell: syntax error near unexpected 'HAHAHA'\n", 2);
 			command->cmd = NULL;
 		}
 	}
 }
 
-int	parse_line(t_data *data, t_token *selected, t_command *command)
+char *parse_line(t_data *data, t_token *selected, t_command *command)
 {
 	char	**tmp;
 	char	*tmp2;
@@ -170,8 +170,8 @@ int	parse_line(t_data *data, t_token *selected, t_command *command)
 				command->args = join_tab(command->args, ft_strdup(selected->value));
 			else if (selected->type == REDIR)
 			{
-				if (!(selected->next && selected->next->type == WORD))
-					return (-1);
+				if (selected->next && selected->next->type == END)
+					return (selected->next->value);
 				get_redir(selected, data, command);
 				selected = selected->next;
 			}
@@ -179,30 +179,36 @@ int	parse_line(t_data *data, t_token *selected, t_command *command)
 		}
 		if (selected && selected->type == PIPE)
 		{
+			if (selected->next && selected->next->type == REDIR && selected->next->value[0] == '>')
+				return (selected->next->value);
 			if (selected->next->type != WORD)
-				return (-1);
+				return (selected->value);
 			command->next = init_command();
 			command = command->next;
 			selected = selected->next;
 		}
 		if (selected && selected->type == END)
-			return (0);
+			return (NULL);
 	}
-	return (0);
+	return (NULL);
 }
 
 int	parser(t_data *data)
 {
 	t_token		*selected;
 	t_command	*command;
-
+	char		*error;
+	
 	data->command_top = init_command();
 	selected = data->prompt_top;
 	command = data->command_top;
-
-	if(parse_line(data, selected, command) < 0)
+	error = parse_line(data, selected, command);
+	if(error)
 	{
-		printf("minishell: syntax error near unexpected token `newline'\n");
+		ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
+		ft_putstr_fd(error, 2);
+		ft_putstr_fd("'\n", 2);
+		g_return_code = 2;
 		return -1;
 	}
 	command = data->command_top;
