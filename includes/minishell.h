@@ -316,7 +316,7 @@ void	ft_unset(t_env *env, t_data *data);
  * @param line the string to print
  * @param mode 0 = with newline, 1 = without newline
  */
-void	ft_echo(t_data *data, int fd_out);
+void	ft_echo(t_command *command, int fd_out);
 
 /**
  * @brief print the path of the current directory

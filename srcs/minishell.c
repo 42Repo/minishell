@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/04/30 09:54:16 by asuc             ###   ########.fr       */
+/*   Updated: 2024/04/30 11:22:40 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	ft_exit_fork(t_data *data, t_env *env, int exit_code)
 	}
 }
 
-int	execute_bultin(t_command *command, t_env *env, t_data *data)
+int	  execute_bultin(t_command *command, t_env *env, t_data *data, int output_fd)
 {
 	if (data->prompt_top->type == END)
 		return (0);
@@ -81,7 +81,7 @@ int	execute_bultin(t_command *command, t_env *env, t_data *data)
 	else if (ft_strcmp(command->cmd, "unset") == 0)
 		ft_unset(env, data);
 	else if (ft_strcmp(command->cmd, "echo") == 0)
-		ft_echo(data, command->fd_out);
+		ft_echo(command, output_fd);
 	else if (ft_strcmp(command->cmd, "pwd") == 0)
 		ft_pwd(env);
 	else
@@ -103,6 +103,8 @@ void	execute_command_pipe(t_command *command, t_data *data, int input_fd, int ou
 	}
 	if (command->pid == 0)
 	{
+		if (execute_bultin(command, data->env, data, output_fd) == 1)
+			ft_exit_fork(data, data->env, g_return_code);
 		if (input_fd != STDIN_FILENO)
 		{
 			dup2(input_fd, STDIN_FILENO);
@@ -113,8 +115,6 @@ void	execute_command_pipe(t_command *command, t_data *data, int input_fd, int ou
 			dup2(output_fd, STDOUT_FILENO);
 			close(output_fd);
 		}
-		if (execute_bultin(command, data->env, data) == 1)
-			ft_exit_fork(data, data->env, g_return_code);
 		g_return_code = execve_path_env(command->cmd,
 				command->args, data->env, data);
 		exit(g_return_code);
@@ -135,7 +135,7 @@ void	execute_command(t_command *command, t_data *data, int input_fd, int output_
 	}
 	if (ft_strcmp(command->cmd, "exit") == 0)
 		ft_exit(data, data->env, "exit", g_return_code);
-	if (execute_bultin(command, data->env, data) == 1)
+	if (execute_bultin(command, data->env, data, output_fd) == 1)
 	{
 		dup2(dup(data->fd_in), STDIN_FILENO);
 		dup2(dup(data->fd_out), STDOUT_FILENO);
