@@ -17,11 +17,16 @@ void	add_token_to_list(t_data *data, char *str, int len, t_token_type type)
 	char	*tmp1;
 	char	*tmp2;
 
-	// printf("value: %s\n", str);
-	// printf("type: %d\n", type);
 	tmp1 = set_token_str(str, len);
 	tmp2 = ft_strtrim(tmp1, " ");
 	free(tmp1);
+	if(ft_strlen(tmp2) == 0)
+	{
+		free(tmp2);
+		return ;
+	}
+	// printf("value: %s\n", tmp2);
+	// printf("type: %d\n", type);
 	ms_lstadd_back(&data->prompt_top,
 		ms_lstnew(type, tmp2), data);
 }
