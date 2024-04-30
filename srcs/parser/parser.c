@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/04/30 10:11:14 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/04/30 13:00:13 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,17 +135,47 @@ void	get_redir(t_token *selected, t_data *data, t_command *command)
 	}
 }
 
+void remove_empty_tokens(t_data *data)
+{
+	t_token	*selected;
+	t_token	*old;
+
+	old = NULL;
+	selected = data->prompt_top;
+	while (selected)
+	{
+		if (selected->type == WORD && ft_strlen(selected->value) == 0)
+		{
+			if (old)
+				old->next = selected->next;
+			else
+				data->prompt_top = selected->next;
+			if(selected->value)
+				free(selected->value);
+			if(selected)
+				free(selected);
+			if (old)
+				selected = old;
+		}
+		old = selected;
+		selected = selected->next;
+	}
+
+}
+
 char *parse_line(t_data *data, t_token *selected, t_command *command)
 {
 	char	**tmp;
 	char	*tmp2;
 	t_token	*token;
 
+	remove_empty_tokens(data);
 	token = data->prompt_top;
 	while (token->type != END)
 	{
 		if (token->type == WORD)
 			token->value = remove_quotes(token->value, data);
+		// printf("token->value = %s\n", token->value);
 		token = token->next;
 	}
 	selected = data->prompt_top;

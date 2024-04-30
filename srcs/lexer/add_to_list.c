@@ -25,8 +25,7 @@ void	add_token_to_list(t_data *data, char *str, int len, t_token_type type)
 		free(tmp2);
 		return ;
 	}
-	// printf("value: %s\n", tmp2);
-	// printf("type: %d\n", type);
+
 	ms_lstadd_back(&data->prompt_top,
 		ms_lstnew(type, tmp2), data);
 }
