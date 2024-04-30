@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-void	ft_echo(t_data *data)
+void	ft_echo(t_data *data, int fd_out)
 {
 	int	i;
 	int	newline;
@@ -28,11 +28,11 @@ void	ft_echo(t_data *data)
 	}
 	while (data->command_top->args[i])
 	{
-		ft_putstr_fd(data->command_top->args[i], 1);
+		ft_putstr_fd(data->command_top->args[i], fd_out);
 		if (data->command_top->args[i + 1])
-			ft_putchar_fd(' ', 1);
+			ft_putchar_fd(' ', fd_out);
 		i++;
 	}
 	if (newline)
-		ft_putchar_fd('\n', 1);
+		ft_putchar_fd('\n', fd_out);
 }
