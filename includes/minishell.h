@@ -111,7 +111,7 @@ char	*parse_redir(t_token **selected, t_data *data, t_command *command);
 void	put_error(char *str1, char *str2, char *str3);
 void	remove_empty_tokens(t_data *data);
 char	*parse_pipe(t_token **selected, t_command **command);
-int	check_exec_command(char *path);
+int		check_exec_command_path(char *path);
 char	*ft_strtrim_free(char *s1, char *set);
 int	execve_error(char *path);
 char	**env_to_tab(t_env *env);

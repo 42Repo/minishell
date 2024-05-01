@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/01 15:53:41 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/01 18:16:16 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,8 +152,8 @@ void	execute_command(t_command *command, t_data *data, int input_fd, int output_
 	waitpid(command->pid, &g_return_code, 0);
 	if (WIFEXITED(g_return_code))
 		g_return_code = WEXITSTATUS(g_return_code);
-	if (WIFSIGNALED(g_return_code))
-		g_return_code = 128 + WTERMSIG(g_return_code);
+	// if (WIFSIGNALED(g_return_code))
+	// 	g_return_code = 128 + WTERMSIG(g_return_code);
 	dup2(dup(data->fd_in), STDIN_FILENO);
 	dup2(dup(data->fd_out), STDOUT_FILENO);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/01 17:33:59 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/01 19:32:00 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,13 @@ void	select_output(char *file, t_data *data, int mode, t_command *command)
 		close(command->fd_out);
 	if (command->fd_out != 1)
 		command->fd_out = 1;
+	if (access(file, F_OK) == 0 && access(file, W_OK) == -1)
+	{
+		put_error("minishell: ", file, ": Permission denied\n");
+		g_return_code = 126;
+		command->cmd = NULL;
+		return ;
+	}
 	if (mode == 1)
 		command->fd_out = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else
@@ -39,11 +46,13 @@ void	select_input(char *file, t_data *data, t_command *command)
 	{
 		put_error("minishell: ", file, ": No such file or directory\n");
 		command->cmd = NULL;
+		g_return_code = 1;
 		return ;
 	}
 	if (access(file, R_OK) == -1)
 	{
 		put_error("minishell: ", file, ": Permission denied\n");
+		g_return_code = 126;
 		command->cmd = NULL;
 		return ;
 	}

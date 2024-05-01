@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execve.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 00:16:17 by asuc              #+#    #+#             */
-/*   Updated: 2024/04/26 16:48:52 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/01 21:11:58 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,16 @@ char	*find_cmd_path(char *cmd, char *path_env)
 				free_tab(path_tab);
 				return (path);
 			}
+			else
+			{
+				errno = EACCES;
+				free_tab(path_tab);
+				return (NULL);
+			}
 		}
 		free(path);
 		i++;
 	}
 	free_tab(path_tab);
-	return (ft_strdup(cmd));
+	return (NULL);
 }

@@ -19,6 +19,7 @@ void	ft_echo(t_command *command, int fd_out)
 
 	newline = 1;
 	i = 1;
+	g_return_code = 0;
 	if (command->args[i]
 		&& ft_strcmp(command->args[i], "-n") == 0)
 	{
