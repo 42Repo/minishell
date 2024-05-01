@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 00:16:17 by asuc              #+#    #+#             */
-/*   Updated: 2024/04/28 21:47:58 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/01 13:14:55 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ int	execve_path_env(char *cmd, char **args, t_env *env, t_data *data)
 		free(data);
 		return (g_return_code);
 	}
+	close(data->fd_in);
+	close(data->fd_out);
 	execve(path, args, envp);
 	perror("minishell");
 	free_tab(envp);

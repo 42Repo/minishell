@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/04/30 11:22:40 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/01 15:53:41 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,17 +53,7 @@ void	ft_exit_fork(t_data *data, t_env *env, int exit_code)
 	if (data->cmd_prompt)
 		free(data->cmd_prompt);
 	free(data);
-	if (exit_code >= 0 && exit_code <= 255)
-		exit(exit_code);
-	if (exit_code < 0)
-		exit(256 + exit_code);
-	if (exit_code > 255)
-		exit(exit_code % 256);
-	else
-	{
-		printf("minishell: exit: %d: numeric argument required\n", exit_code);
-		exit(2);
-	}
+	exit(exit_code);
 }
 
 int	  execute_bultin(t_command *command, t_env *env, t_data *data, int output_fd)
@@ -104,7 +94,9 @@ void	execute_command_pipe(t_command *command, t_data *data, int input_fd, int ou
 	if (command->pid == 0)
 	{
 		if (execute_bultin(command, data->env, data, output_fd) == 1)
+		{
 			ft_exit_fork(data, data->env, g_return_code);
+		}
 		if (input_fd != STDIN_FILENO)
 		{
 			dup2(input_fd, STDIN_FILENO);
@@ -115,6 +107,8 @@ void	execute_command_pipe(t_command *command, t_data *data, int input_fd, int ou
 			dup2(output_fd, STDOUT_FILENO);
 			close(output_fd);
 		}
+		if (command->pipe[1] == output_fd)
+			close(command->pipe[0]);
 		g_return_code = execve_path_env(command->cmd,
 				command->args, data->env, data);
 		exit(g_return_code);
@@ -167,7 +161,6 @@ void	execute_command(t_command *command, t_data *data, int input_fd, int output_
 void	choose_case(t_data *data)
 {
 	t_command	*command;
-	int			pipe_fd[2];
 	int			prev_fd;
 	int			status;
 
@@ -186,13 +179,13 @@ void	choose_case(t_data *data)
 			prev_fd = command->fd_in;
 			command->fd_in = STDIN_FILENO;
 		}
-		if (command->next && pipe(pipe_fd) == -1)
+		if (command->next && pipe(command->pipe) == -1)
 		{
 			perror("pipe");
 			return ;
 		}
 		if (command->next)
-			execute_command_pipe(command, data, prev_fd, pipe_fd[1]);
+			execute_command_pipe(command, data, prev_fd, command->pipe[1]);
 		else
 			execute_command_pipe(command, data, prev_fd, command->fd_out);
 		if (prev_fd != STDIN_FILENO)
@@ -202,9 +195,9 @@ void	choose_case(t_data *data)
 		}
 		if (command->next)
 		{
-			prev_fd = dup(pipe_fd[0]);
-			close(pipe_fd[0]);
-			close(pipe_fd[1]);
+			prev_fd = dup(command->pipe[0]);
+			close(command->pipe[0]);
+			close(command->pipe[1]);
 		}
 		command = command->next;
 	}

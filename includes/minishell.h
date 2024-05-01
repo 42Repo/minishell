@@ -62,6 +62,7 @@ typedef struct s_command
 	int					fd_out;
 	pid_t				pid;
 	char				random_name[21];
+	int					pipe[2];
 }	t_command;
 
 // 1 = pipe, 2 = redirect, 3 = end
