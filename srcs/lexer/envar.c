@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/04/30 13:20:18 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/01 17:33:47 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,7 @@ char	*replace_envar(t_data *data, t_token *selected, int i)
 	j = 0;
 	k = 0;
 	str[0] = ft_calloc(sizeof(char), i + 1);
-	while (j++ < i)
-		str[0][j] = selected->value[j];
+	ft_strlcpy(str[0], selected->value, i + 1);
 	str[1] = get_envar(&selected->value[i], \
 		get_envar_len(&selected->value[i]), data);
 	i += get_envar_len(&selected->value[i]);

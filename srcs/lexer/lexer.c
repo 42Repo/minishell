@@ -85,6 +85,19 @@ int	quote_management(int i, char c)
 
 		// if (i > 1 && str[i] == '>' && str[i - 1] == '>')
 		// 	i++;
+
+// void printf_stack(t_data *data)
+// {
+// 	t_token	*token;
+
+// 	token = data->prompt_top;
+// 	while (token)
+// 	{
+// 		printf("type = %d, value = %s\n", token->type, token->value);
+// 		token = token->next;
+// 	}
+// }
+
 int	lexer(char *str, t_data *data)
 {
 	int		i;
@@ -111,5 +124,6 @@ int	lexer(char *str, t_data *data)
 		add_token_to_list(data, &str[j], i - j, WORD);
 	add_token_to_list(data, ft_strdup("newline"), 7, END);
 	expander(data);
+	// printf_stack(data);
 	return (0);
 }

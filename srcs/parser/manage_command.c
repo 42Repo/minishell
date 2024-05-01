@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 15:18:00 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/04/30 15:29:26 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/01 17:23:49 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ void	remove_empty_tokens(t_data *data)
 	{
 		if (selected->type == WORD && ft_strlen(selected->value) == 0)
 		{
+			printf("REMOVED");
 			if (old)
 				old->next = selected->next;
 			else
