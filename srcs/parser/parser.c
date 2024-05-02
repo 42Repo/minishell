@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/02 17:37:20 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/02 17:46:10 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ void	select_input(char *file, t_data *data, t_command *command)
 	{
 		put_error("minishell: ", file, ": No such file or directory\n");
 		command->cmd = NULL;
+		command->fd_out = -1;
 		g_return_code = 1;
 		return ;
 	}
@@ -91,6 +92,7 @@ void	select_input(char *file, t_data *data, t_command *command)
 	{
 		put_error("minishell: ", file, ": Permission denied\n");
 		g_return_code = 126;
+		command->fd_out = -1;
 		command->cmd = NULL;
 		return ;
 	}
@@ -139,9 +141,13 @@ char	*parse_line(t_data *data, t_token *selected, t_command *command)
 		command->next = NULL;
 		while (selected && selected->type != PIPE)
 		{
-			parser.error = parse_misc(&selected, data, command, &parser);
-			if (command->fd_out == -1)
-				return (NULL);
+			if (command->fd_out != -1 && command->fd_in != -1)
+				parser.error = parse_misc(&selected, data, command, &parser);
+			else
+			{
+				selected = selected->next;
+				parser.error = NULL;
+			}
 			if (parser.error)
 				return (parser.error);
 		}

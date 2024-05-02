@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/02 16:05:18 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/02 18:25:58 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	init_data(t_data *data)
 	data->fd_in = dup(STDIN_FILENO);
 }
 
-void	ft_exit_fork(t_data *data, t_env *env, int exit_code)
+void	ft_exit_fork(t_data *data, t_env *env)
 {
 	int	i;
 
@@ -45,7 +45,7 @@ void	ft_exit_fork(t_data *data, t_env *env, int exit_code)
 		&& data->command_top->args[1][i])
 		i++;
 	if (data->command_top->args[1])
-		exit_code = ft_atoi(data->command_top->args[1]);
+		g_return_code = ft_atoi(data->command_top->args[1]);
 	free_token_lst(data);
 	free_env(env);
 	free_command(data);
@@ -53,7 +53,7 @@ void	ft_exit_fork(t_data *data, t_env *env, int exit_code)
 	if (data->cmd_prompt)
 		free(data->cmd_prompt);
 	free(data);
-	exit(exit_code);
+	exit(g_return_code);
 }
 
 int	  execute_bultin(t_command *command, t_env *env, t_data *data, int output_fd)
@@ -61,7 +61,7 @@ int	  execute_bultin(t_command *command, t_env *env, t_data *data, int output_fd
 	if (data->prompt_top->type == END)
 		return (0);
 	if (ft_strcmp(command->cmd, "exit") == 0)
-		ft_exit_fork(data, env, g_return_code);
+		ft_exit_fork(data, env);
 	else if (ft_strcmp(command->cmd, "cd") == 0)
 		ft_cd(command, env);
 	else if (ft_strcmp(command->cmd, "export") == 0)
@@ -93,7 +93,7 @@ void	execute_command_pipe(t_command *command, t_data *data, int input_fd, int ou
 	}
 	if (command->pid == 0)
 	{
-		if (input_fd != STDIN_FILENO)
+ 		if (input_fd != STDIN_FILENO)
 		{
 			dup2(input_fd, STDIN_FILENO);
 			close(input_fd);
@@ -105,7 +105,7 @@ void	execute_command_pipe(t_command *command, t_data *data, int input_fd, int ou
 		}
 		if (execute_bultin(command, data->env, data, output_fd) == 1)
 		{
-			ft_exit_fork(data, data->env, g_return_code);
+			ft_exit_fork(data, data->env);
 		}
 		if (command->pipe[1] == output_fd)
 			close(command->pipe[0]);
@@ -182,14 +182,14 @@ void	choose_case(t_data *data)
 			perror("pipe");
 			return ;
 		}
-		if (command->next)
+		if (command->fd_out != -1 && command->fd_in != -1 && command->next)
 		{
 			if (command->fd_out != STDOUT_FILENO)
 				execute_command_pipe(command, data, prev_fd, command->fd_out);
 			else
 				execute_command_pipe(command, data, prev_fd, command->pipe[1]);
 		}
-		else
+		else if (command->fd_out != -1 && command->fd_in != -1)
 			execute_command_pipe(command, data, prev_fd, command->fd_out);
 		if (prev_fd != STDIN_FILENO)
 		{
@@ -212,6 +212,13 @@ void	choose_case(t_data *data)
 			g_return_code = WEXITSTATUS(status);
 		if (WIFSIGNALED(status))
 			g_return_code = 128 + WTERMSIG(status);
+		command = command->next;
+	}
+	command = data->command_top;
+	while (command)
+	{
+		if (command->next == NULL && (command->fd_out == -1 || command->fd_in == -1))
+			g_return_code = 1;
 		command = command->next;
 	}
 }

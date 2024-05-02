@@ -17,6 +17,7 @@ void	ft_echo(t_command *command, int fd_out)
 	int	i;
 	int	newline;
 
+	(void)fd_out;
 	newline = 1;
 	i = 1;
 	g_return_code = 0;
@@ -28,11 +29,11 @@ void	ft_echo(t_command *command, int fd_out)
 	}
 	while (command->args[i])
 	{
-		ft_putstr_fd(command->args[i], fd_out);
+		ft_putstr_fd(command->args[i], 1);
 		if (command->args[i + 1])
-			ft_putchar_fd(' ', fd_out);
+			ft_putchar_fd(' ', 1);
 		i++;
 	}
 	if (newline)
-		ft_putchar_fd('\n', fd_out);
+		ft_putchar_fd('\n', 1);
 }
