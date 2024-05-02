@@ -94,41 +94,41 @@ typedef struct s_parser
 extern int	g_return_code;
 
 /* FUNCTIONS */
-int	parser(t_data *data);
-char	*parse_misc(t_token **selected, t_data *data, \
-		t_command *command, t_parser *parser);
-void	free_command(t_data *data);
-void	get_redir(t_token *selected, t_data *data, t_command *command);
-void	free_tab(char **tab);
-int	execve_path_env(char *cmd, char **args, t_env *env, t_data *data);
+int			parser(t_data *data);
+char		*parse_misc(t_token **selected, t_data *data, \
+			t_command *command, t_parser *parser);
+void		free_command(t_data *data);
+void		get_redir(t_token *selected, t_data *data, t_command *command);
+void		free_tab(char **tab);
+int			execve_path_env(char *cmd, char **args, t_env *env, t_data *data);
 t_command	*init_command(void);
-char	*get_path(t_env *env);
-void	parse_word(t_token *selected, t_command *command, \
-			char *tmp2, char **tmp);
-void	clear_token_quotes(t_data *data);
-char	*find_cmd_path(char *cmd, char *path_env);
-char	*parse_redir(t_token **selected, t_data *data, t_command *command);
-void	put_error(char *str1, char *str2, char *str3);
-void	remove_empty_tokens(t_data *data);
-char	*parse_pipe(t_token **selected, t_command **command);
-int		check_exec_command_path(char *path);
-char	*ft_strtrim_free(char *s1, char *set);
-int	execve_error(char *path);
-char	**env_to_tab(t_env *env);
+char		*get_path(t_env *env);
+void		parse_word(t_token *selected, t_command *command, \
+				char *tmp2, char **tmp);
+void		clear_token_quotes(t_data *data);
+char		*find_cmd_path(char *cmd, char *path_env);
+char		*parse_redir(t_token **selected, t_data *data, t_command *command);
+void		put_error(char *str1, char *str2, char *str3);
+void		remove_empty_tokens(t_data *data);
+char		*parse_pipe(t_token **selected, t_command **command);
+int			check_exec_command_path(char *path);
+char		*ft_strtrim_free(char *s1, char *set);
+int			execve_error(char *path);
+char		**env_to_tab(t_env *env);
 /**
  * @brief turn a str input into a tokenized chained list
  *
  * @param str the string to turn into chained list
  * @param data the main struct
  */
-int	lexer(char *str, t_data *data);
+int			lexer(char *str, t_data *data);
 
 /**
  * @brief [DEBUG] - print a tokenized chained list
  *
  * @param node the top node of the list
  */
-void	print_stack(t_token *node);
+void		print_stack(t_token *node);
 
 /**
  * @brief addapted version of the libft's ft_lstadd_back
@@ -137,7 +137,7 @@ void	print_stack(t_token *node);
  * @param new the node to ad to the lst
  * @param data the main struct
  */
-void	ms_lstadd_back(t_token **lst, t_token *new, t_data *data);
+void		ms_lstadd_back(t_token **lst, t_token *new, t_data *data);
 
 /**
  * @brief addapted version of the libft's ft_lstnew
@@ -145,19 +145,19 @@ void	ms_lstadd_back(t_token **lst, t_token *new, t_data *data);
  * @param type the type your node will have (WORD, PIPE, REDIR or END)
  * @param value the value of the str
  */
-t_token	*ms_lstnew(t_token_type type, char *value);
+t_token		*ms_lstnew(t_token_type type, char *value);
 
 /**
  * @brief get the last node of a tokenized list
  *
  * @param lst the first node of the list
  */
-t_token	*ms_lstlast(t_token *lst);
+t_token		*ms_lstlast(t_token *lst);
 
 /**
  * @brief print the startup header
  */
-void	put_header(void);
+void		put_header(void);
 
 /**
  * @brief Get the max len between a lenght of a str and a size_t
@@ -166,7 +166,7 @@ void	put_header(void);
  * @param nb the size_t to check
  * @return int the max len
  */
-int		max_len(char *str, size_t nb);
+int			max_len(char *str, size_t nb);
 
 /**
  * @brief add a token to the list, trimming spaces and then filtering quotes
@@ -176,7 +176,8 @@ int		max_len(char *str, size_t nb);
  * @param len the len of the str you wanna add (can be only a portion of str)
  * @param type the type your node will have (WORD, PIPE, REDIR or END)
  */
-void	add_token_to_list(t_data *data, char *str, int len, t_token_type type);
+void		add_token_to_list(t_data *data, char *str,
+				int len, t_token_type type);
 
 /**
  * @brief add a REDIR type node to the tokenized list
@@ -186,7 +187,7 @@ void	add_token_to_list(t_data *data, char *str, int len, t_token_type type);
  * @param j str[j] = where last word ended
  * @param data the main struct
  */
-void	add_redir(char *str, int *i, int *j, t_data *data);
+void		add_redir(char *str, int *i, int *j, t_data *data);
 
 /**
  * @brief add a WORD type node to the tokenized list
@@ -199,7 +200,7 @@ void	add_redir(char *str, int *i, int *j, t_data *data);
  * @return 1 c'est un easter egg bonsoir
  *
  */
-int		add_word_to_list(char *str, int *i, int *j, t_data *data);
+int			add_word_to_list(char *str, int *i, int *j, t_data *data);
 
 /**
  * @brief add a PIPE type node to the tokenized list
@@ -209,7 +210,7 @@ int		add_word_to_list(char *str, int *i, int *j, t_data *data);
  * @param j str[j] = where last word ended
  * @param data the main struct
  */
-void	check_pipe_redir(char *str, int *i, int *j, t_data *data);
+void		check_pipe_redir(char *str, int *i, int *j, t_data *data);
 
 /**
  * @brief return a copy of str of len char
@@ -219,7 +220,7 @@ void	check_pipe_redir(char *str, int *i, int *j, t_data *data);
  *
  * @return the copied str
  */
-char	*set_token_str(char *str, int len);
+char		*set_token_str(char *str, int len);
 
 /**
  * @brief find which is the first quote used in a str, between ' and "
@@ -228,7 +229,7 @@ char	*set_token_str(char *str, int len);
  *
  * @return the quote type (0 = no, 1 = single, 2 = double)
  */
-int		get_quote_type(char *str);
+int			get_quote_type(char *str);
 
 /**
  * @brief removes every iterations of one type of quote
@@ -238,7 +239,7 @@ int		get_quote_type(char *str);
  *
  * @return the new and filtered str
  */
-char	*remove_quotes(char *str);
+char		*remove_quotes(char *str);
 
 /**
  * @brief knows if a char is in a single, double or no quote
@@ -248,14 +249,14 @@ char	*remove_quotes(char *str);
  *
  * @return the new quote state (0 = no, 1 = single, 2 = double)
  */
-int		quote_management(int i, char c);
+int			quote_management(int i, char c);
 
 /**
  * @brief free the curent tokenized chained list
  *
  * @param data the main struct
  */
-void	free_token_lst(t_data *data);
+void		free_token_lst(t_data *data);
 
 /**
  *
@@ -265,7 +266,7 @@ void	free_token_lst(t_data *data);
  * @param env the struct env list
  * @return int 0 if success, 1 if error
  */
-int	ft_cd(t_command *command, t_env *env);
+int			ft_cd(t_command *command, t_env *env);
 /**
  * @brief initialize the prompt of shell
  *
@@ -273,7 +274,7 @@ int	ft_cd(t_command *command, t_env *env);
  * @param env the struct env list
  * @return int 0 if success, 1 if error
  */
-int		get_cmd_prompt(t_data *data, t_env *env);
+int			get_cmd_prompt(t_data *data, t_env *env);
 
 /**
  * @brief set the environment variables from the envp in the struct env list
@@ -281,7 +282,7 @@ int		get_cmd_prompt(t_data *data, t_env *env);
  * @param env the struct env list
  * @param envp the environment variables
  */
-void	get_env(t_env *env, char **envp);
+void		get_env(t_env *env, char **envp);
 
 /**
  * @brief Add an environment variable
@@ -290,7 +291,7 @@ void	get_env(t_env *env, char **envp);
  * @param line the name of the variable to add, ex : "PATH=..." or "HOME=..."
  * @return int, always 0
  */
-int		ft_export(t_env *env, char **args);
+int			ft_export(t_env *env, char **args);
 
 /**
  * @brief Get the env value string object
@@ -299,7 +300,7 @@ int		ft_export(t_env *env, char **args);
  * @param name the name of the variable to get, ex : "PATH" or "HOME"
  * @return char* the value of the variable ex : "/usr/bin" or "/home/user"
  */
-char	*get_env_value_string(t_env *env, char *name);
+char		*get_env_value_string(t_env *env, char *name);
 
 /**
  * @brief Get the env value ptr object
@@ -308,7 +309,7 @@ char	*get_env_value_string(t_env *env, char *name);
  * @param name the name of the variable to get, ex : "PATH=..." or "HOME=..."
  * @return t_env* the pointer to the variable ex : "/usr/bin" or "/home/user"
  */
-t_env	*get_env_value_ptr(t_env *env, char *name);
+t_env		*get_env_value_ptr(t_env *env, char *name);
 
 /**
  * @brief Get the env value ptr by name object
@@ -317,7 +318,7 @@ t_env	*get_env_value_ptr(t_env *env, char *name);
  * @param name the name of the variable to get, ex : "PATH" or "HOME"
  * @return t_env* the pointer to the variable ex : "/usr/bin" or "/home/user"
  */
-t_env	*get_env_value_ptr_by_name(t_env *env, char *name);
+t_env		*get_env_value_ptr_by_name(t_env *env, char *name);
 
 /**
  * @brief delete an environment variable
@@ -325,7 +326,7 @@ t_env	*get_env_value_ptr_by_name(t_env *env, char *name);
  * @param env the struct env list
  * @param line the name of the variable to delete, ex : "PATH" or "HOME"
  */
-void	ft_unset(t_env *env, t_data *data);
+void		ft_unset(t_env *env, t_data *data);
 
 /**
  * @brief print a string with or without a newline
@@ -333,29 +334,30 @@ void	ft_unset(t_env *env, t_data *data);
  * @param line the string to print
  * @param mode 0 = with newline, 1 = without newline
  */
-void	ft_echo(t_command *command, int fd_out);
+void		ft_echo(t_command *command);
 
 /**
  * @brief print the path of the current directory
  *
  * @param env the struct env list
  */
-void	ft_pwd(t_env *env);
+void		ft_pwd(t_env *env);
 
-int		execve_path_env(char *cmd, char **args, t_env *env, t_data *data);
-void	ft_exit(t_command *command, t_data *data, t_env *env, char *exit_msg);
-int		ft_tablen(char **tab);
-void	sig_handler(int num);
-int		wait_cmd_prompt(t_data *data);
-char	*get_envar(char *str, int len, t_data *data);
-char	*envar_remover(char *str, char *envar, char *new_str, int *i);
-char	*replace_envar(t_data *data, t_token *selected, int i);
-char	*check_envar(char *str, t_data *data);
-char	**join_tab(char **tab, char *line);
-void	print_sorted_env(t_env *env);
-char	*expander(t_data *data);
-int		ft_env(t_env *env);
-void	free_env(t_env *env);
-void	heredoc(char *file, t_data *data, t_command *command);
+int			execve_path_env(char *cmd, char **args, t_env *env, t_data *data);
+void		ft_exit(t_command *command, t_data *data,
+				t_env *env, char *exit_msg);
+int			ft_tablen(char **tab);
+void		sig_handler(int num);
+int			wait_cmd_prompt(t_data *data);
+char		*get_envar(char *str, int len, t_data *data);
+char		*envar_remover(char *str, char *envar, char *new_str, int *i);
+char		*replace_envar(t_data *data, t_token *selected, int i);
+char		*check_envar(char *str, t_data *data);
+char		**join_tab(char **tab, char *line);
+void		print_sorted_env(t_env *env);
+char		*expander(t_data *data);
+int			ft_env(t_env *env);
+void		free_env(t_env *env);
+void		heredoc(char *file, t_data *data, t_command *command);
 
 #endif

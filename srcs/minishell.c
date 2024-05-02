@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/02 18:25:58 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/02 18:45:48 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	ft_exit_fork(t_data *data, t_env *env)
 	exit(g_return_code);
 }
 
-int	  execute_bultin(t_command *command, t_env *env, t_data *data, int output_fd)
+int	  execute_bultin(t_command *command, t_env *env, t_data *data)
 {
 	if (data->prompt_top->type == END)
 		return (0);
@@ -71,7 +71,7 @@ int	  execute_bultin(t_command *command, t_env *env, t_data *data, int output_fd
 	else if (ft_strcmp(command->cmd, "unset") == 0)
 		ft_unset(env, data);
 	else if (ft_strcmp(command->cmd, "echo") == 0)
-		ft_echo(command, output_fd);
+		ft_echo(command);
 	else if (ft_strcmp(command->cmd, "pwd") == 0)
 		ft_pwd(env);
 	else
@@ -103,7 +103,7 @@ void	execute_command_pipe(t_command *command, t_data *data, int input_fd, int ou
 			dup2(output_fd, STDOUT_FILENO);
 			close(output_fd);
 		}
-		if (execute_bultin(command, data->env, data, output_fd) == 1)
+		if (execute_bultin(command, data->env, data) == 1)
 		{
 			ft_exit_fork(data, data->env);
 		}
@@ -129,7 +129,7 @@ void	execute_command(t_command *command, t_data *data, int input_fd, int output_
 	}
 	if (ft_strcmp(command->cmd, "exit") == 0)
 		ft_exit(command, data, data->env, "exit");
-	if (execute_bultin(command, data->env, data, output_fd) == 1)
+	if (execute_bultin(command, data->env, data) == 1)
 	{
 		dup2(dup(data->fd_in), STDIN_FILENO);
 		dup2(dup(data->fd_out), STDOUT_FILENO);
@@ -237,14 +237,7 @@ int	wait_cmd_prompt(t_data *data)
 		get_cmd_prompt(data, data->env);
 		if (data->cmd_prompt == NULL)
 			return (-1);
-		// if (isatty(fileno(stdin)))
 		line = ft_strtrim_free(readline(data->cmd_prompt), " ");
-		// else
-		// {
-		// 	line = get_next_line(fileno(stdin));
-		// 	line = ft_strtrim(line, "\n");
-		// 	free(line);
-		// }
 		if (line == NULL)
 			ft_exit(data->command_top, data, data->env, "exit");
 		if (ft_strlen(line) > 0)

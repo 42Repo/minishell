@@ -12,12 +12,11 @@
 
 #include "../../includes/minishell.h"
 
-void	ft_echo(t_command *command, int fd_out)
+void	ft_echo(t_command *command)
 {
 	int	i;
 	int	newline;
 
-	(void)fd_out;
 	newline = 1;
 	i = 1;
 	g_return_code = 0;
