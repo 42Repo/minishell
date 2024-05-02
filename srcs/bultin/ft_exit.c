@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:30:00 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/04/29 10:07:00 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/02 14:03:01 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	ft_exit(t_data *data, t_env *env, char *exit_msg, int exit_code)
 		{
 			if (data->command_top->args[0] && data->command_top->args[1] && data->command_top->args[2])
 			{
-				// ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+				ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 				g_return_code = 1;
 				return ;
 			}
@@ -52,15 +52,13 @@ void	ft_exit(t_data *data, t_env *env, char *exit_msg, int exit_code)
 			{
 				if (!ft_isdigit(data->command_top->args[1][i]))
 				{
-					ft_putstr_fd("minishell: exit: ", 2);
-					ft_putstr_fd(data->command_top->args[1], 2);
-					ft_putstr_fd(": numeric argument required\n", 2);
+					put_error("exit", data->command_top->args[1], "numeric argument required");
 					g_return_code = 2;
 					return ;
 				}
 				i++;
 			}
-			if (data->command_top->args[1])
+			if (data->command_top->args [1])
 				exit_code = ft_atoi(data->command_top->args[1]);
 		}
 	}

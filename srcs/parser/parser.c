@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/01 19:32:00 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/02 15:26:43 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ void	select_output(char *file, t_data *data, int mode, t_command *command)
 		command->fd_out = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else
 		command->fd_out = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if (command->fd_out == -1)
-		command->fd_out = 1;
 }
 	// gerer erreurs
 
