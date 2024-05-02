@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 00:16:17 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/01 21:13:26 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/01 21:19:49 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ int	execve_path_env(char *cmd, char **args, t_env *env, t_data *data)
 
 	if (!cmd || !(*args) || !args || !env || !data)
 		return (1);
+	g_return_code = 0;
 	envp = env_to_tab(env);
 	path = get_path(env);
 	if (!path || !envp)

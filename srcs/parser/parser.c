@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/02 15:26:43 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/02 15:28:08 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	select_output(char *file, t_data *data, int mode, t_command *command)
 	if (access(file, F_OK) == 0 && access(file, W_OK) == -1)
 	{
 		put_error("minishell: ", file, ": Permission denied\n");
-		g_return_code = 126;
+		g_return_code = 1;
 		command->cmd = NULL;
 		return ;
 	}
