@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/02 17:24:37 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/02 17:37:20 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void	select_output(char *file, int mode, t_command *command)
 	if (access(file, F_OK) == 0 && access(file, W_OK) == -1)
 	{
 		put_error("minishell: ", file, ": Permission denied\n");
+		command->fd_out = -1;
 		g_return_code = 1;
 		command->cmd = NULL;
 		return ;
@@ -139,6 +140,8 @@ char	*parse_line(t_data *data, t_token *selected, t_command *command)
 		while (selected && selected->type != PIPE)
 		{
 			parser.error = parse_misc(&selected, data, command, &parser);
+			if (command->fd_out == -1)
+				return (NULL);
 			if (parser.error)
 				return (parser.error);
 		}
