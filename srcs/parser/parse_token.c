@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_token.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 15:22:03 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/04/30 15:24:00 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/02 16:15:45 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,7 @@ char	*parse_redir(t_token **selected, t_data *data, t_command *command)
 
 char	*parse_pipe(t_token **selected, t_command **command)
 {
-	if ((*selected)->next && (*selected)->next->type == REDIR && \
-		(*selected)->next->value[0] == '>')
-		return ((*selected)->next->value);
-	if ((*selected)->next->type != WORD)
+	if ((*selected)->next->type != WORD && (*selected)->next->type != REDIR)
 		return ((*selected)->value);
 	(*command)->next = init_command();
 	(*command) = (*command)->next;

@@ -51,27 +51,27 @@ static int	error_cd(char *path, t_env *env, int mode)
 	return (-1);
 }
 
-static int	other_case_cd(t_data *data, t_env *env)
+static int	other_case_cd(t_command *command, t_env *env)
 {
 	char	*tmp;
 
 	tmp = NULL;
-	if (data->command_top->args[1] == NULL)
+	if (command->args[1] == NULL)
 	{
 		if (chdir(get_env_value_string(env, "HOME")) != 0)
 			return (error_cd(get_env_value_string(env, "HOME"), env, 0));
 		return (0);
 	}
-	if (data->command_top->args[1][0] == '/')
+	if (command->args[1][0] == '/')
 	{
-		if (chdir(data->command_top->args[1]) != 0)
-			return (error_cd(data->command_top->args[1], env, 0));
+		if (chdir(command->args[1]) != 0)
+			return (error_cd(command->args[1], env, 0));
 		return (0);
 	}
-	if (data->command_top->args[1][0] == '~')
+	if (command->args[1][0] == '~')
 	{
 		tmp = ft_strjoin(get_env_value_string(env, "HOME"),
-				data->command_top->args[1] + 1);
+				command->args[1] + 1);
 		if (chdir(tmp) != 0)
 			return (error_cd(tmp, env, 1));
 		free(tmp);
@@ -138,32 +138,51 @@ static int	old_cd(t_env *env)
 	return (0);
 }
 
-int	ft_cd(t_data *data, t_env *env)
+int error_to_many_args(t_env *env)
+{
+	put_program_name(env);
+	ft_putstr_fd(": cd: ", 2);
+	ft_putstr_fd("too many arguments\n", 2);
+	g_return_code = 1;
+	return (-1);
+}
+
+void set_new_pwd(t_env *env, char *tmp)
+{
+	char	*tmp2;
+
+	tmp2 = ft_strjoin("PWD=", tmp);
+	ft_export_single_arg(env, tmp2);
+	free(tmp2);
+}
+
+int	ft_cd(t_command *command, t_env *env) // TODO : Ajouter le PWD dans l'env
 {
 	char	*tmp;
 	char	*tmp2;
 
 	g_return_code = 0;
-	if (data->command_top == NULL || (data->command_top->args[1] != NULL
-			&& data->command_top->args[2] != NULL))
-		return (error_cd(NULL, env, 0));
-	if (data->command_top->args[1] != NULL
-		&& ft_strcmp(data->command_top->args[1], "-") == 0)
+	if (command == NULL || (command->args[1] != NULL
+			&& command->args[2] != NULL))
+		return (error_to_many_args(env));
+	if (command->args[1] != NULL
+		&& ft_strcmp(command->args[1], "-") == 0)
 		return (old_cd(env));
 	tmp2 = getcwd(NULL, 0);
 	tmp = ft_strjoin("OLDPWD=", tmp2);
 	ft_export_single_arg(env, tmp);
 	free(tmp2);
 	free(tmp);
-	if (other_case_cd(data, env) == 0)
+	if (other_case_cd(command, env) == 0)
 		return (0);
 	tmp = ft_strjoin_free(ft_strjoin_free(getcwd(NULL, 0), "/"),
-			data->command_top->args[1]);
+			command->args[1]);
 	if (chdir(tmp) != 0)
 	{
 		free(tmp);
-		return (error_cd(data->command_top->args[1], env, 0));
+		return (error_cd(command->args[1], env, 0));
 	}
+	set_new_pwd(env, tmp);
 	free(tmp);
 	return (0);
 }

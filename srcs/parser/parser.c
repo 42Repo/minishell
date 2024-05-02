@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/02 16:06:39 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/02 17:24:37 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,37 +14,45 @@
 
 int	check_dir(char *file, t_command *command)
 {
-	int	i;
-	char *end;
-	char *dir;
-	struct stat sb;
-	
+	int			i;
+	char		*end;
+	char		*dir;
+	struct stat	sb;
+
 	i = 0;
 	end = ft_strrchr(file, '/');
 	if (!end)
-		return 0;
-	while(&file[i] != end)
+		return (0);
+	while (&file[i] != end)
 		i++;
 	dir = ft_strndup(&file[0], i);
 	stat(dir, &sb);
-	if(access(dir, F_OK) == -1)
+	if (access(dir, F_OK))
 	{
-		put_error("minishell: ", dir, ": No such file or directory\n");
-		g_return_code = 1;
+		put_error("minishell: ", "no such file or directory: ", dir);
+		ft_putstr_fd("\n", 2);
+		g_return_code = 126;
+		command->fd_out = -1;
+		command->cmd = NULL;
+		free(dir);
+		return (1);
+	}
+	if (!(S_ISDIR(sb.st_mode)))
+	{
+		put_error("minishell: ", dir, ": Is a directory\n");
+		g_return_code = 126;
 		command->fd_out = -1;
 		command->cmd = NULL;
 		free(dir);
 		return (1);
 	}
 	free(dir);
-	return 0;
+	return (0);
 }
 
 
 void	select_output(char *file, int mode, t_command *command)
 {
-	struct stat sb;
-	
 	if (command->fd_out != 1)
 		close(command->fd_out);
 	if (command->fd_out != 1)
@@ -58,20 +66,11 @@ void	select_output(char *file, int mode, t_command *command)
 	}
 	if (check_dir(file, command))
 		return ;
-	stat(file, &sb);
-	if (S_ISDIR(sb.st_mode))
-	{
-		put_error("minishell: ", file, ": Is a directory\n");
-		command->fd_out = -1;
-		g_return_code = 126;
-	}
-	// if (access())
 	if (mode == 1)
 		command->fd_out = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else
 		command->fd_out = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 }
-	// gerer erreurs
 
 void	select_input(char *file, t_data *data, t_command *command)
 {

@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/02 15:21:20 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/02 16:05:18 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	  execute_bultin(t_command *command, t_env *env, t_data *data, int output_fd
 	if (ft_strcmp(command->cmd, "exit") == 0)
 		ft_exit_fork(data, env, g_return_code);
 	else if (ft_strcmp(command->cmd, "cd") == 0)
-		ft_cd(data, env);
+		ft_cd(command, env);
 	else if (ft_strcmp(command->cmd, "export") == 0)
 		ft_export(env, command->args);
 	else if (ft_strcmp(command->cmd, "env") == 0)
@@ -84,7 +84,7 @@ void	execute_command_pipe(t_command *command, t_data *data, int input_fd, int ou
 	if (data->prompt_top->type == END || command == NULL || command->cmd == NULL)
 		return ;
 	if (ft_strcmp(command->cmd, "exit") == 0)
-		ft_exit(data, data->env, "exit", g_return_code);
+		ft_exit(command, data, data->env, "exit");
 	command->pid = fork();
 	if (command->pid == -1)
 	{
@@ -93,10 +93,6 @@ void	execute_command_pipe(t_command *command, t_data *data, int input_fd, int ou
 	}
 	if (command->pid == 0)
 	{
-		if (execute_bultin(command, data->env, data, output_fd) == 1)
-		{
-			ft_exit_fork(data, data->env, g_return_code);
-		}
 		if (input_fd != STDIN_FILENO)
 		{
 			dup2(input_fd, STDIN_FILENO);
@@ -106,6 +102,10 @@ void	execute_command_pipe(t_command *command, t_data *data, int input_fd, int ou
 		{
 			dup2(output_fd, STDOUT_FILENO);
 			close(output_fd);
+		}
+		if (execute_bultin(command, data->env, data, output_fd) == 1)
+		{
+			ft_exit_fork(data, data->env, g_return_code);
 		}
 		if (command->pipe[1] == output_fd)
 			close(command->pipe[0]);
@@ -128,7 +128,7 @@ void	execute_command(t_command *command, t_data *data, int input_fd, int output_
 		dup2(output_fd, STDOUT_FILENO);
 	}
 	if (ft_strcmp(command->cmd, "exit") == 0)
-		ft_exit(data, data->env, "exit", g_return_code);
+		ft_exit(command, data, data->env, "exit");
 	if (execute_bultin(command, data->env, data, output_fd) == 1)
 	{
 		dup2(dup(data->fd_in), STDIN_FILENO);
@@ -152,8 +152,6 @@ void	execute_command(t_command *command, t_data *data, int input_fd, int output_
 	waitpid(command->pid, &g_return_code, 0);
 	if (WIFEXITED(g_return_code))
 		g_return_code = WEXITSTATUS(g_return_code);
-	// if (WIFSIGNALED(g_return_code))
-	// 	g_return_code = 128 + WTERMSIG(g_return_code);
 	dup2(dup(data->fd_in), STDIN_FILENO);
 	dup2(dup(data->fd_out), STDOUT_FILENO);
 }
@@ -241,7 +239,7 @@ int	wait_cmd_prompt(t_data *data)
 		// 	free(line);
 		// }
 		if (line == NULL)
-			ft_exit(data, data->env, "exit", g_return_code);
+			ft_exit(data->command_top, data, data->env, "exit");
 		if (ft_strlen(line) > 0)
 			add_history(line);
 		if (lexer(line, data) == 0)

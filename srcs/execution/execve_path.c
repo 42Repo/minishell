@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 00:16:17 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/01 21:19:49 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/02 15:52:15 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	put_error(char *str1, char *str2, char *str3)
 int	check_exec_command_path(char *path)
 {
 	struct stat	buf;
-	int test;
+	int		test; // TODO : a changer
 
 	test = stat(path, &buf);
 	if (test == -1)

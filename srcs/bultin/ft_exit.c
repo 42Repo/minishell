@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:30:00 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/02 14:03:01 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/02 16:08:24 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,24 @@ void	free_env(t_env *env)
 	}
 }
 
-void	ft_exit(t_data *data, t_env *env, char *exit_msg, int exit_code)
+void	ft_exit(t_command *command, t_data *data, t_env *env, char *exit_msg) // TODO : A clean + changer la logique
 {
 	int	i;
 
 	i = 0;
+	if (command && command->args && command->args[0] && command->args[1] && command->args[2])
+	{
+		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+		g_return_code = 1;
+		return ;
+	}
 	if (data->command_top)
 	{
 		if (data->command_top->args)
 		{
 			if (data->command_top->args[0] && data->command_top->args[1] && data->command_top->args[2])
 			{
-				ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+				// ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 				g_return_code = 1;
 				return ;
 			}
@@ -52,14 +58,16 @@ void	ft_exit(t_data *data, t_env *env, char *exit_msg, int exit_code)
 			{
 				if (!ft_isdigit(data->command_top->args[1][i]))
 				{
-					put_error("exit", data->command_top->args[1], "numeric argument required");
+					ft_putstr_fd("minishell: exit: ", 2);
+					ft_putstr_fd(data->command_top->args[1], 2);
+					ft_putstr_fd(": numeric argument required\n", 2);
 					g_return_code = 2;
 					return ;
 				}
 				i++;
 			}
-			if (data->command_top->args [1])
-				exit_code = ft_atoi(data->command_top->args[1]);
+			if (command->args[1])
+				g_return_code = ft_atoi(command->args[1]);
 		}
 	}
 	free_token_lst(data);
@@ -70,15 +78,15 @@ void	ft_exit(t_data *data, t_env *env, char *exit_msg, int exit_code)
 	free(data);
 	if (ft_strlen(exit_msg))
 		printf("%s\n", exit_msg);
-	if (exit_code >= 0 && exit_code <= 255)
-		exit(exit_code);
-	if (exit_code < 0)
-		exit(256 + exit_code);
-	if (exit_code > 255)
-		exit(exit_code % 256);
+	if (g_return_code >= 0 && g_return_code <= 255)
+		exit(g_return_code);
+	if (g_return_code < 0)
+		exit(256 + g_return_code);
+	if (g_return_code > 255)
+		exit(g_return_code % 256);
 	else
 	{
-		printf("minishell: exit: %d: numeric argument required\n", exit_code);
+		printf("minishell: exit: %d: numeric argument required\n", g_return_code);
 		exit(2);
 	}
 }
