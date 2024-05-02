@@ -6,15 +6,45 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/02 15:28:08 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/02 16:06:39 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	select_output(char *file, t_data *data, int mode, t_command *command)
+int	check_dir(char *file, t_command *command)
 {
-	(void) data;
+	int	i;
+	char *end;
+	char *dir;
+	struct stat sb;
+	
+	i = 0;
+	end = ft_strrchr(file, '/');
+	if (!end)
+		return 0;
+	while(&file[i] != end)
+		i++;
+	dir = ft_strndup(&file[0], i);
+	stat(dir, &sb);
+	if(access(dir, F_OK) == -1)
+	{
+		put_error("minishell: ", dir, ": No such file or directory\n");
+		g_return_code = 1;
+		command->fd_out = -1;
+		command->cmd = NULL;
+		free(dir);
+		return (1);
+	}
+	free(dir);
+	return 0;
+}
+
+
+void	select_output(char *file, int mode, t_command *command)
+{
+	struct stat sb;
+	
 	if (command->fd_out != 1)
 		close(command->fd_out);
 	if (command->fd_out != 1)
@@ -26,6 +56,16 @@ void	select_output(char *file, t_data *data, int mode, t_command *command)
 		command->cmd = NULL;
 		return ;
 	}
+	if (check_dir(file, command))
+		return ;
+	stat(file, &sb);
+	if (S_ISDIR(sb.st_mode))
+	{
+		put_error("minishell: ", file, ": Is a directory\n");
+		command->fd_out = -1;
+		g_return_code = 126;
+	}
+	// if (access())
 	if (mode == 1)
 		command->fd_out = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else
@@ -67,9 +107,9 @@ void	get_redir(t_token *selected, t_data *data, t_command *command)
 		if (selected->next && selected->next->type == WORD)
 		{
 			if (ft_strlen(selected->value) == 2 && selected->value[1] == '>')
-				select_output(selected->next->value, data, 2, command);
+				select_output(selected->next->value, 2, command);
 			else if (selected->value[0] == '>')
-				select_output(selected->next->value, data, 1, command);
+				select_output(selected->next->value, 1, command);
 			else if (ft_strlen(selected->value) == 2 && \
 					selected->value[1] == '<')
 				heredoc(selected->next->value, data, command);
