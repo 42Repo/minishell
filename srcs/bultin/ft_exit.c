@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:30:00 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/03 17:54:17 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/03 18:20:45 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,16 @@ void	ft_exit(t_command *command, t_data *data, t_env *env, char *exit_msg) // TO
 	int	i;
 
 	i = 0;
+	if (!command)
+	{
+		free_token_lst(data);
+		free_env(env);
+		rl_clear_history();
+		if (data->cmd_prompt)
+			free(data->cmd_prompt);
+		free(data);
+		exit(0);
+	}
 	while (command && command->args && command->args[0]
 		&& command->args[1] && (command->args[1][i] == ' ' || command->args[1][i] == '\t'
 		|| command->args[1][i] == '\n' || command->args[1][i] == '\v'
@@ -41,7 +51,7 @@ void	ft_exit(t_command *command, t_data *data, t_env *env, char *exit_msg) // TO
 	if (command && command->args && command->args[0] && command->args[1]
 		&& (command->args[1][i] == '+' || command->args[1][i] == '-'))
 		i++;
-	while (command->args && command->args[1] && command->args[1][i])
+	while (command && command->args && command->args[0] && command->args[1] && command->args[1][i])
 	{
 		if (!ft_isdigit(command->args[1][i]))
 		{

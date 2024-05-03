@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 00:16:17 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/02 15:52:15 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/03 18:03:23 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	check_exec_command_path(char *path)
 		put_error("minishell: ", path, ": Permission denied\n");
 		return (126);
 	}
-	return (127);
+	return (0);
 }
 
 int	check_exec_command(char *path)
