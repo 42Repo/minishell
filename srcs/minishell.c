@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/02 18:45:48 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/02 19:11:54 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,9 @@ void	execute_command_pipe(t_command *command, t_data *data, int input_fd, int ou
 
 void	execute_command(t_command *command, t_data *data, int input_fd, int output_fd)
 {
+	int fd_out;
+	int fd_in;
+
 	if (data->prompt_top->type == END || command == NULL || command->cmd == NULL)
 		return ;
 	if (input_fd != STDIN_FILENO)
@@ -152,8 +155,10 @@ void	execute_command(t_command *command, t_data *data, int input_fd, int output_
 	waitpid(command->pid, &g_return_code, 0);
 	if (WIFEXITED(g_return_code))
 		g_return_code = WEXITSTATUS(g_return_code);
-	dup2(dup(data->fd_in), STDIN_FILENO);
-	dup2(dup(data->fd_out), STDOUT_FILENO);
+	fd_in = dup(data->fd_in);
+	fd_out = dup(data->fd_out);
+	dup2(fd_in, STDIN_FILENO);
+	dup2(fd_out, STDOUT_FILENO);
 }
 
 void	choose_case(t_data *data)
