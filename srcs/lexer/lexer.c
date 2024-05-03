@@ -98,10 +98,40 @@ int	quote_management(int i, char c)
 // 	}
 // }
 
+char	*remove_dollard_quote(char *str)
+{
+	int		i;
+	int		j;
+	char	*new_str;
+	int		quote_state;
+	
+	quote_state = 0;
+	
+	i = 0;
+	j = 0;
+
+	new_str = ft_calloc(sizeof(char), ft_strlen(str) + 1);
+	if (!str || new_str == NULL)
+		return (NULL);	
+	while (str[i])
+	{
+		quote_state = quote_management(quote_state, str[i]);
+		if (str[i] == '$' && ((str[i + 1] == '"'  && quote_state != 2)|| (str[i + 1] == '\'' && quote_state != 1)) )
+			i++;
+		new_str[j] = str[i];
+		i++;
+		j++;
+	}
+	new_str[j] = '\0';
+	free(str);
+	return (new_str);
+}
+
 int	lexer(char *str, t_data *data)
 {
 	int		i;
 	int		j;
+	t_token	*token;
 
 	data->quote_state = 0;
 	i = 0;
@@ -116,13 +146,19 @@ int	lexer(char *str, t_data *data)
 	}
 	if (data->quote_state != 0)
 	{
-		printf("syntax error\n");
+		ft_putstr_fd("quote error\n", 2);
 		free_token_lst(data);
 		return (-1);
 	}
 	if (!ft_isnamespace(str[i]) && j < i)
 		add_token_to_list(data, &str[j], i - j, WORD);
 	add_token_to_list(data, ft_strdup("newline"), 7, END);
+	token = data->prompt_top;
+	while (token->type != END)
+	{
+		token->value = remove_dollard_quote(token->value);
+		token = token->next;
+	}
 	expander(data);
 	// printf_stack(data);
 	return (0);

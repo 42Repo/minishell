@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/03 18:15:01 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/03 19:19:19 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,17 +243,17 @@ int	wait_cmd_prompt(t_data *data)
 		if (data->cmd_prompt == NULL)
 			return (-1);
 		/////////////////////////// in testing
-		if (isatty(fileno(stdin)))
-			line = ft_strtrim_free(readline(data->cmd_prompt), " ");
-		else
-		{
-		char *line1;
-		line1 = get_next_line(fileno(stdin));
-		line = ft_strtrim(line1, "\n");
-		free(line1);
-		}
+		// if (isatty(fileno(stdin)))
+		// 	line = ft_strtrim_free(readline(data->cmd_prompt), " ");
+		// else
+		// {
+		// char *line1;
+		// line1 = get_next_line(fileno(stdin));
+		// line = ft_strtrim(line1, "\n");
+		// free(line1);
+		// }
 		////////////////////// in testing
-		// line = ft_strtrim_free(readline(data->cmd_prompt), " ");
+		line = ft_strtrim_free(readline(data->cmd_prompt), " ");
 		if (line == NULL)
 			ft_exit(data->command_top, data, data->env, "exit");
 		if (ft_strlen(line) > 0)

@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 15:18:00 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/02 19:04:04 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/03 20:04:08 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ void	remove_empty_tokens(t_data *data)
 	{
 		if (selected->type == WORD && ft_strlen(selected->value) == 0)
 		{
-			printf("REMOVED");
 			if (old)
 				old->next = selected->next;
 			else
