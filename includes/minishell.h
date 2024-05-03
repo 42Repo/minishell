@@ -28,7 +28,7 @@
 # include <limits.h>
 
 # define LLONG_MAX_STR "9223372036854775807"
-# define LLONG_MIN_STR "-9223372036854775808"
+# define LLONG_MIN_STR "9223372036854775808"
 
 /* STRUCTURES */
 typedef enum s_token_type

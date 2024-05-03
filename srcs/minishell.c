@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/03 16:28:11 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/03 17:50:05 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,6 @@ void	execute_command_pipe(t_command *command, t_data *data, int input_fd, int ou
 {
 	if (data->prompt_top->type == END || command == NULL || command->cmd == NULL)
 		return ;
-	if (ft_strcmp(command->cmd, "exit") == 0)
-		ft_exit(command, data, data->env, "exit");
 	command->pid = fork();
 	if (command->pid == -1)
 	{
@@ -103,6 +101,8 @@ void	execute_command_pipe(t_command *command, t_data *data, int input_fd, int ou
 			dup2(output_fd, STDOUT_FILENO);
 			close(output_fd);
 		}
+		if (ft_strcmp(command->cmd, "exit") == 0)
+			ft_exit(command, data, data->env, "");
 		if (execute_bultin(command, data->env, data) == 1)
 		{
 			ft_exit_fork(data, data->env);

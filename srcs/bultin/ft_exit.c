@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:30:00 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/03 16:56:12 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/03 17:54:17 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,6 @@ void	ft_exit(t_command *command, t_data *data, t_env *env, char *exit_msg) // TO
 	int	i;
 
 	i = 0;
-	if (command && command->args && command->args[0]
-		&& command->args[1] && command->args[2])
-	{
-		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
-		g_return_code = 1;
-		return ;
-	}
 	while (command && command->args && command->args[0]
 		&& command->args[1] && (command->args[1][i] == ' ' || command->args[1][i] == '\t'
 		|| command->args[1][i] == '\n' || command->args[1][i] == '\v'
@@ -60,17 +53,49 @@ void	ft_exit(t_command *command, t_data *data, t_env *env, char *exit_msg) // TO
 		}
 		i++;
 	}
-	if (ft_strlen(command->args[1]) > ft_strlen(LLONG_MAX_STR)
-		|| (ft_strlen(command->args[1]) == ft_strlen(LLONG_MAX_STR)
-			&& ft_strcmp(command->args[1], LLONG_MAX_STR) > 0)
-		|| (ft_strlen(command->args[1]) == ft_strlen(LLONG_MIN_STR)
-			&& ft_strcmp(command->args[1], LLONG_MIN_STR) < 0))
+	i = 0;
+	while (command->args && command->args[0] && command->args[1]
+		&& command->args[1][i] && (command->args[1][i] == ' ' || command->args[1][i] == '\t'
+		|| command->args[1][i] == '\n' || command->args[1][i] == '\v'
+		|| command->args[1][i] == '\f' || command->args[1][i] == '\r'))
+		i++;
+	if (command && command->args && command->args[0] && command->args[1]
+		&& command->args[1][i] == '-')
 	{
-		ft_putstr_fd("minishell: exit: ", 2);
-		ft_putstr_fd(command->args[1], 2);
-		ft_putstr_fd(": numeric argument required\n", 2);
-		g_return_code = 2;
-		exit(2);
+		i++;
+		if (ft_strlen(command->args[1] + i) > ft_strlen(LLONG_MAX_STR)
+			|| (ft_strlen(command->args[1] + i) == ft_strlen(LLONG_MIN_STR)
+				&& ft_strcmp(command->args[1] + i, LLONG_MIN_STR ) > 0))
+		{
+			ft_putstr_fd("minishell: exit: ", 2);
+			ft_putstr_fd(command->args[1], 2);
+			ft_putstr_fd(": numeric argument required\n", 2);
+			g_return_code = 2;
+			exit(2);
+		}
+	}
+	else
+	{
+		if (command && command->args && command->args[0] && command->args[1]
+			&& command->args[1][i] == '+')
+			i++;
+		if (ft_strlen(command->args[1] + i) > ft_strlen(LLONG_MAX_STR)
+			|| (ft_strlen(command->args[1] + i) == ft_strlen(LLONG_MAX_STR)
+				&& ft_strcmp(command->args[1] + i, LLONG_MAX_STR) > 0))
+		{
+			ft_putstr_fd("minishell: exit: ", 2);
+			ft_putstr_fd(command->args[1], 2);
+			ft_putstr_fd(": numeric argument required\n", 2);
+			g_return_code = 2;
+			exit(2);
+		}
+	}
+	if (command && command->args && command->args[0]
+		&& command->args[1] && command->args[2])
+	{
+		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+		g_return_code = 1;
+		return ;
 	}
 	g_return_code = ft_atoi(command->args[1]);
 	free_token_lst(data);
@@ -80,7 +105,10 @@ void	ft_exit(t_command *command, t_data *data, t_env *env, char *exit_msg) // TO
 		free(data->cmd_prompt);
 	free(data);
 	if (ft_strlen(exit_msg))
-		printf("%s\n", exit_msg);
+	{
+		ft_putstr_fd(exit_msg, 2);
+		ft_putstr_fd("\n", 2);
+	}
 	if (g_return_code >= 0 && g_return_code <= 255)
 		exit(g_return_code);
 	if (g_return_code < 0)
