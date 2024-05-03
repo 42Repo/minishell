@@ -156,7 +156,7 @@ void set_new_pwd(t_env *env, char *tmp)
 	free(tmp2);
 }
 
-int	ft_cd(t_command *command, t_env *env) // TODO : Ajouter le PWD dans l'env
+int	ft_cd(t_command *command, t_env *env) // TODO : PWD a fix dams l'env et OLDPWD a ne pas recree quand il est unset
 {
 	char	*tmp;
 	char	*tmp2;

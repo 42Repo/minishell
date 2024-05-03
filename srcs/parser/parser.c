@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/02 17:46:10 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/03 14:18:57 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,8 @@ int	check_dir(char *file, t_command *command)
 	stat(dir, &sb);
 	if (access(dir, F_OK))
 	{
-		put_error("minishell: ", "no such file or directory: ", dir);
-		ft_putstr_fd("\n", 2);
-		g_return_code = 126;
+		put_error("minishell: ",  dir, ": No such file or directory\n");
+		g_return_code = 1;
 		command->fd_out = -1;
 		command->cmd = NULL;
 		free(dir);
@@ -40,7 +39,7 @@ int	check_dir(char *file, t_command *command)
 	if (!(S_ISDIR(sb.st_mode)))
 	{
 		put_error("minishell: ", dir, ": Is a directory\n");
-		g_return_code = 126;
+		g_return_code = 1;
 		command->fd_out = -1;
 		command->cmd = NULL;
 		free(dir);

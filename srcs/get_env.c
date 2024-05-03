@@ -6,11 +6,29 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 18:49:35 by asuc              #+#    #+#             */
-/*   Updated: 2024/04/21 05:28:34 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/03 16:16:36 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+void	add_shlvl(t_env *env)
+{
+	int	i;
+
+	while (env)
+	{
+		if (ft_strcmp(env->name, "SHLVL") == 0)
+		{
+			i = ft_atoi(env->value);
+			i++;
+			free(env->value);
+			env->value = ft_itoa(i);
+			return ;
+		}
+		env = env->next;
+	}
+}
 
 void	get_env(t_env *env, char **envp)
 {
@@ -34,6 +52,7 @@ void	get_env(t_env *env, char **envp)
 		tmp->value = ft_strdup(ft_strchr(envp[i], '=') + 1);
 		tmp->next = NULL;
 	}
+	add_shlvl(env);
 }
 
 char	*get_env_value_string(t_env *env, char *name)

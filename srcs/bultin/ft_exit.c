@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:30:00 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/02 17:36:54 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/03 16:19:13 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,25 +40,27 @@ void	ft_exit(t_command *command, t_data *data, t_env *env, char *exit_msg) // TO
 		g_return_code = 1;
 		return ;
 	}
-	if (command && command->args && command->args[0] && command->args[1]
-		&& (command->args[1][0] == '+' || command->args[1][0] == '-'))
+	while (command && command->args && command->args[0]
+		&& command->args[1] && (command->args[1][i] == ' ' || command->args[1][i] == '\t'
+		|| command->args[1][i] == '\n' || command->args[1][i] == '\v'
+		|| command->args[1][i] == '\f' || command->args[1][i] == '\r'))
 		i++;
-	if (command && command->args && command->args[1])
+	if (command && command->args && command->args[0] && command->args[1]
+		&& (command->args[1][i] == '+' || command->args[1][i] == '-'))
+		i++;
+	while (command->args && command->args[1] && command->args[1][i])
 	{
-		while (command->args[1][i])
+		if (!ft_isdigit(command->args[1][i]))
 		{
-			if (!ft_isdigit(command->args[1][i]))
-			{
-				ft_putstr_fd("minishell: exit: ", 2);
-				ft_putstr_fd(command->args[1], 2);
-				ft_putstr_fd(": numeric argument required\n", 2);
-				g_return_code = 2;
-				exit(2);
-			}
-			i++;
+			ft_putstr_fd("minishell: exit: ", 2);
+			ft_putstr_fd(command->args[1], 2);
+			ft_putstr_fd(": numeric argument required\n", 2);
+			g_return_code = 2;
+			exit(2);
 		}
-		g_return_code = ft_atoi(command->args[1]);
+		i++;
 	}
+	g_return_code = ft_atoi(command->args[1]);
 	free_token_lst(data);
 	free_env(env);
 	rl_clear_history();

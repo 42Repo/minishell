@@ -25,6 +25,7 @@
 # include <sys/wait.h>
 # include <termios.h>
 # include <unistd.h>
+# include <limits.h>
 
 /* STRUCTURES */
 typedef enum s_token_type
@@ -356,7 +357,7 @@ char		*check_envar(char *str, t_data *data);
 char		**join_tab(char **tab, char *line);
 void		print_sorted_env(t_env *env);
 char		*expander(t_data *data);
-int			ft_env(t_env *env);
+int			ft_env(t_command *command, t_env *env);
 void		free_env(t_env *env);
 void		heredoc(char *file, t_data *data, t_command *command);
 

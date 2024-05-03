@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/02 19:11:54 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/03 16:28:11 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	  execute_bultin(t_command *command, t_env *env, t_data *data)
 	else if (ft_strcmp(command->cmd, "export") == 0)
 		ft_export(env, command->args);
 	else if (ft_strcmp(command->cmd, "env") == 0)
-		ft_env(env);
+		ft_env(command, env);
 	else if (ft_strcmp(command->cmd, "unset") == 0)
 		ft_unset(env, data);
 	else if (ft_strcmp(command->cmd, "echo") == 0)
@@ -215,8 +215,8 @@ void	choose_case(t_data *data)
 		waitpid(command->pid, &status, 0);
 		if (WIFEXITED(status))
 			g_return_code = WEXITSTATUS(status);
-		if (WIFSIGNALED(status))
-			g_return_code = 128 + WTERMSIG(status);
+		// if (WIFSIGNALED(status))
+		// 	g_return_code = 128 + WTERMSIG(status);
 		command = command->next;
 	}
 	command = data->command_top;
@@ -242,6 +242,17 @@ int	wait_cmd_prompt(t_data *data)
 		get_cmd_prompt(data, data->env);
 		if (data->cmd_prompt == NULL)
 			return (-1);
+		/////////////////////////// in testing
+		// if (isatty(fileno(stdin)))
+		// 	line = ft_strtrim_free(readline(data->cmd_prompt), " ");
+		// else
+		// {
+		// 	char *line1;
+		// 	line1 = get_next_line(fileno(stdin));
+		// 	line = ft_strtrim(line1, "\n");
+		// 	free(line1);
+		// }
+		////////////////////// in testing
 		line = ft_strtrim_free(readline(data->cmd_prompt), " ");
 		if (line == NULL)
 			ft_exit(data->command_top, data, data->env, "exit");

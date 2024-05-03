@@ -143,4 +143,21 @@ test : debug
 test2 : debug
 	@valgrind --error-limit=no --leak-check=full --show-leak-kinds=all --track-origins=yes -s ./$(NAME)
 
+tester : debug
+	@cd mini_test4 && ./tester
+	@python3 mini_test3/src/__main__.py /nfs/homes/asuc/Documents/42/AllProject/minishell
+	
+tester2 : debug
+	@ echo attention a changer le main de cette facon : 
+	@echo 	if (isatty(fileno(stdin)))
+	@echo		line = readline(data->cmd_prompt);
+	@echo	else
+	@echo	{
+	@echo		char *line1;
+	@echo		line1 = get_next_line(fileno(stdin));
+	@echo		line = ft_strtrim(line1, "\n");
+	@echo		free(line1);
+	@echo	}
+	@cd mini_test2 && bash m
+
 .PHONY: all fclean clean re banner
