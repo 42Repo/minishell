@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envar.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/01 17:33:47 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/03 16:42:19 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,8 @@ int	get_envar_len(char *str)
 char	*replace_envar(t_data *data, t_token *selected, int i)
 {
 	char	*str[3];
-	int		j;
 	int		k;
 
-	j = 0;
 	k = 0;
 	str[0] = ft_calloc(sizeof(char), i + 1);
 	ft_strlcpy(str[0], selected->value, i + 1);

@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:30:00 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/03 16:19:13 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/03 16:56:12 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,18 @@ void	ft_exit(t_command *command, t_data *data, t_env *env, char *exit_msg) // TO
 			exit(2);
 		}
 		i++;
+	}
+	if (ft_strlen(command->args[1]) > ft_strlen(LLONG_MAX_STR)
+		|| (ft_strlen(command->args[1]) == ft_strlen(LLONG_MAX_STR)
+			&& ft_strcmp(command->args[1], LLONG_MAX_STR) > 0)
+		|| (ft_strlen(command->args[1]) == ft_strlen(LLONG_MIN_STR)
+			&& ft_strcmp(command->args[1], LLONG_MIN_STR) < 0))
+	{
+		ft_putstr_fd("minishell: exit: ", 2);
+		ft_putstr_fd(command->args[1], 2);
+		ft_putstr_fd(": numeric argument required\n", 2);
+		g_return_code = 2;
+		exit(2);
 	}
 	g_return_code = ft_atoi(command->args[1]);
 	free_token_lst(data);
