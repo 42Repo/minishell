@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/03 19:55:24 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/04 14:10:33 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,15 @@ int	check_dir(char *file, t_command *command)
 	struct stat	sb;
 
 	i = 0;
+	stat(file, &sb);
+	if (S_ISDIR(sb.st_mode))
+	{
+		put_error("minishell: ", file, ": Is a directory\n");
+		g_return_code = 1;
+		command->fd_out = -1;
+		command->cmd = NULL;
+		return (1);
+	}
 	end = ft_strrchr(file, '/');
 	if (!end)
 		return (0);

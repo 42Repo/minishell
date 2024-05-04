@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/03 20:12:56 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/04 14:40:47 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	get_envar_len(char *str)
 	return (i);
 }
 
-char	*replace_envar(t_data *data, t_token *selected, int i)
+char	*replace_envar(t_data *data, t_token *selected, int i) // TODO - si on fait $T$E$S$T alors on change toute la string "$T$E$S$T" ai lieu de le faire jusqu;au prochaine $
 {
 	char	*str[3];
 	int		k;

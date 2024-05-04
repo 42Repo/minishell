@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:30:00 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/03 18:20:45 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/04 14:41:10 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	ft_exit(t_command *command, t_data *data, t_env *env, char *exit_msg) // TO
 		if (data->cmd_prompt)
 			free(data->cmd_prompt);
 		free(data);
-		exit(0);
+		exit(g_return_code);
 	}
 	while (command && command->args && command->args[0]
 		&& command->args[1] && (command->args[1][i] == ' ' || command->args[1][i] == '\t'
@@ -107,7 +107,8 @@ void	ft_exit(t_command *command, t_data *data, t_env *env, char *exit_msg) // TO
 		g_return_code = 1;
 		return ;
 	}
-	g_return_code = ft_atoi(command->args[1]);
+	if (command && command->args && command->args[1])
+		g_return_code = ft_atoi(command->args[1]);
 	free_token_lst(data);
 	free_env(env);
 	rl_clear_history();
