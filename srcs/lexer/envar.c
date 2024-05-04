@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envar.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/04 14:40:47 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/04 15:18:41 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ char	*replace_envar(t_data *data, t_token *selected, int i) // TODO - si on fait
 char	*expander(t_data *data)
 {
 	t_token	*selected;
+	t_token	*previous;
 	int		quote_state;
 	int		i;
 
@@ -87,6 +88,7 @@ char	*expander(t_data *data)
 	if (!data->prompt_top)
 		return (NULL);
 	selected = data->prompt_top;
+	previous = NULL;
 	while (selected->type != END)
 	{
 		i = 0;
@@ -94,14 +96,15 @@ char	*expander(t_data *data)
 		while (i < (int) ft_strlen(selected->value) && selected->value[i])
 		{
 			quote_state = quote_management(quote_state, selected->value[i]);
-			if ((int)ft_strlen(selected->value) >= i + 1 && \
+			if (((int)ft_strlen(selected->value) >= i + 1 && \
 				selected->value[i] == '$' \
 				&& (ft_isalpha(selected->value[i + 1]) || selected->value[i + 1] == '?' \
 				|| selected->value[i + 1] == '"' || selected->value[i + 1] == '\'') && \
-				 quote_state != 1 )
+				 quote_state != 1) && !(previous && previous->type == REDIR && previous->value[1] == '<'))
 				selected->value = replace_envar(data, selected, i);
 			i++;
 		}
+		previous = selected;
 		selected = selected->next;
 	}
 	return (NULL);
