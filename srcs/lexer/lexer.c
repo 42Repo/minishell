@@ -159,7 +159,6 @@ int	lexer(char *str, t_data *data)
 		token->value = remove_dollard_quote(token->value);
 		token = token->next;
 	}
-	expander(data);
 	// printf_stack(data);
 	return (0);
 }

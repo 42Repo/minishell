@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/04 17:32:36 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/04 17:48:35 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,6 +190,7 @@ int	parser(t_data *data)
 	selected = data->prompt_top;
 	command = data->command_top;
 	clear_token_quotes(data);
+	expander(data);
 	remove_empty_tokens(data);
 	error = parse_line(data, selected, command);
 	if (error)

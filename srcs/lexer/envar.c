@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/04 15:18:41 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/04 17:49:37 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*get_envar(char *str, int len, t_data *data)
 		return (ft_itoa(g_return_code));
 	tmp = data->env;
 	envar = NULL;
-	while (tmp && ft_strncmp(&str[1], tmp->name, len - 1))
+	while (tmp && ft_strcmp(&str[1], tmp->name))
 		tmp = tmp->next;
 	if (tmp)
 		envar = ft_strdup(tmp->value);
@@ -93,7 +93,7 @@ char	*expander(t_data *data)
 	{
 		i = 0;
 		quote_state = 0;
-		while (i < (int) ft_strlen(selected->value) && selected->value[i])
+		while (i < (int)ft_strlen(selected->value) && selected->value[i])
 		{
 			quote_state = quote_management(quote_state, selected->value[i]);
 			if (((int)ft_strlen(selected->value) >= i + 1 && \
