@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/04 17:03:32 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/04 17:23:17 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,6 +245,7 @@ int	wait_cmd_prompt(t_data *data)
 		/////////////////////////// in testing
 		// if (isatty(fileno(stdin)))
 		// 	line = ft_strtrim_free(readline(data->cmd_prompt), " ");
+			
 		// else
 		// {
 		// 	char *line1;

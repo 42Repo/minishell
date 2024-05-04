@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_token.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 15:22:03 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/02 16:15:45 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/04 17:25:26 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,11 @@
 void	parse_word(t_token *selected, t_command *command, \
 					char *tmp2, char **tmp)
 {
+	(void) tmp2;
+	(void) tmp;
 	selected->value = remove_quotes(selected->value);
-	tmp2 = ft_strdup(selected->value);
-	tmp = ft_split(tmp2, ' ');
-	command->cmd = ft_strdup(tmp[0]);
-	if (ft_tablen(tmp) > 2)
-		command->args = tmp;
-	if (ft_tablen(tmp) > 2)
-		selected = selected->next;
+	command->cmd = ft_strdup(selected->value);
+	selected = selected->next;
 }
 
 char	*parse_redir(t_token **selected, t_data *data, t_command *command)
