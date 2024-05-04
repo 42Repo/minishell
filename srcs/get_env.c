@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 18:49:35 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/03 16:16:36 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/04 14:59:10 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,20 +93,25 @@ t_env	*get_env_value_ptr(t_env *env, char *name)
 	char	*tmp_name;
 
 	tmp = env;
-	while (tmp)
+	tmp_name = ft_strchr(name, '=');
+	if (!tmp_name)
+		tmp_name = ft_strdup(name);
+	else
 	{
-		tmp_name = ft_strchr(name, '=');
-		if (!tmp_name)
-			tmp_name = ft_strdup(name);
+		if (*(tmp_name - 1) == '+')
+			tmp_name = ft_strndup(name, tmp_name - name - 1);
 		else
 			tmp_name = ft_strndup(name, tmp_name - name);
+	}
+	while (tmp)
+	{
 		if (ft_strcmp(tmp->name, tmp_name) == 0)
 		{
 			free(tmp_name);
 			return (tmp);
 		}
 		tmp = tmp->next;
-		free(tmp_name);
 	}
+	free(tmp_name);
 	return (NULL);
 }

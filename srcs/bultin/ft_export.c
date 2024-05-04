@@ -20,11 +20,16 @@ static int	is_valid_identifier(char *str)
 	if (!ft_isalpha(str[i]) && str[i] != '_')
 		return (0);
 	i++;
-	while (str[i] && str[i] != '=')
+	while (str[i] && str[i] != '=' && str[i] != '+')
 	{
 		if (!ft_isalnum(str[i]) && str[i] != '_')
 			return (0);
 		i++;
+	}
+	if (str[i] == '+')
+	{
+		if (str[i + 1] != '=')
+			return (0);
 	}
 	return (1);
 }
@@ -71,6 +76,7 @@ static void	add_new_env_variable(t_env *env, char *arg)
 static void	process_arg(t_env *env, char *arg)
 {
 	t_env	*tmp;
+	char	*value;
 
 	if (!is_valid_identifier(arg))
 	{
@@ -83,6 +89,13 @@ static void	process_arg(t_env *env, char *arg)
 	tmp = get_env_value_ptr(env, arg);
 	if (tmp)
 	{
+		if (ft_strchr(arg, '+') == ft_strchr(arg, '=') - 1)
+		{
+			value = ft_strjoin(tmp->value, ft_strchr(arg, '=') + 1);
+			free(tmp->value);
+			tmp->value = value;
+			return ;
+		}
 		free(tmp->value);
 		tmp->value = ft_strdup(ft_strchr(arg, '=') + 1);
 	}
