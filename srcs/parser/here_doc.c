@@ -3,25 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 16:30:08 by asuc              #+#    #+#             */
-/*   Updated: 2024/04/30 15:22:18 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/04 21:06:19 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	random_init(t_data *data)
+void	random_init(t_command *command)
 {
 	int			urandom_fd;
 	int			bytes_read;
 	char		buffer[2];
-	t_command	*command;
 	int			i;
 
 	i = 1;
-	command = data->command_top;
 	urandom_fd = open("/dev/urandom", O_RDONLY);
 	if (urandom_fd == -1)
 		return ;
@@ -56,12 +54,13 @@ void	heredoc(char *eof, t_data *data, t_command *command)
 	char	*line;
 	int		fd;
 
+	(void)data;
 	if (eof == NULL)
 		return ;
 	if (command->fd_in != 0)
 		close(command->fd_in);
 	if (command->random_name[0] == '\0')
-		random_init(data);
+		random_init(command);
 	fd = open(command->random_name, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd == -1)
 	{

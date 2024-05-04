@@ -147,10 +147,12 @@ int error_to_many_args(t_env *env)
 	return (-1);
 }
 
-void set_new_pwd(t_env *env, char *tmp)
+static void set_new_pwd(t_env *env)
 {
+	char	*tmp;
 	char	*tmp2;
 
+	tmp = getcwd(NULL, 0);
 	tmp2 = ft_strjoin("PWD=", tmp);
 	ft_export_single_arg(env, tmp2);
 	free(tmp2);
@@ -182,7 +184,7 @@ int	ft_cd(t_command *command, t_env *env) // TODO : PWD a fix dams l'env et OLDP
 		free(tmp);
 		return (error_cd(command->args[1], env, 0));
 	}
-	set_new_pwd(env, tmp);
+	set_new_pwd(env);
 	free(tmp);
 	return (0);
 }
