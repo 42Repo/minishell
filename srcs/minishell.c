@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/04 17:23:17 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/04 19:55:45 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	  execute_bultin(t_command *command, t_env *env, t_data *data)
 	else if (ft_strcmp(command->cmd, "env") == 0)
 		ft_env(command, env);
 	else if (ft_strcmp(command->cmd, "unset") == 0)
-		ft_unset(env, data);
+		ft_unset(env, command);
 	else if (ft_strcmp(command->cmd, "echo") == 0)
 		ft_echo(command);
 	else if (ft_strcmp(command->cmd, "pwd") == 0)
