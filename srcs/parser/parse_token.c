@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 15:22:03 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/04 17:25:26 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/04 17:32:20 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	parse_word(t_token *selected, t_command *command, \
 {
 	(void) tmp2;
 	(void) tmp;
-	selected->value = remove_quotes(selected->value);
+	// selected->value = remove_quotes(selected->value);
 	command->cmd = ft_strdup(selected->value);
 	selected = selected->next;
 }
