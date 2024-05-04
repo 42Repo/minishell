@@ -43,7 +43,7 @@ int	get_quote_type(char *str)
 	return (type);
 }
 
-char	*remove_quotes(char *str)
+char	*remove_quotes(char *str, int mode)
 {
 	int		i;
 	int		j;
@@ -68,7 +68,8 @@ char	*remove_quotes(char *str)
 		i++;
 	}
 	new_str[j] = '\0';
-	free(str);
+	if (mode == 1)
+		free(str);
 	return (new_str);
 }
 

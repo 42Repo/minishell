@@ -243,7 +243,7 @@ int			get_quote_type(char *str);
  *
  * @return the new and filtered str
  */
-char		*remove_quotes(char *str);
+char		*remove_quotes(char *str, int mode);
 
 /**
  * @brief knows if a char is in a single, double or no quote
