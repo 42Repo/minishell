@@ -21,7 +21,7 @@ static void	delete_env(t_env *env, char *name)
 	prev = NULL;
 	while (tmp)
 	{
-		if (!ft_strcmp(tmp->name, name))
+		if (tmp->name && !ft_strcmp(tmp->name, name))
 		{
 			if (prev)
 				prev->next = tmp->next;
@@ -37,16 +37,16 @@ static void	delete_env(t_env *env, char *name)
 	}
 }
 
-void	ft_unset(t_env *env, t_data *data)
+void	ft_unset(t_env *env, t_command *command)
 {
 	int		i;
 	char	*line;
 
 	i = 1;
 	g_return_code = 0;
-	while (data->command_top->args[i])
+	while (command->args[i])
 	{
-		line = data->command_top->args[i];
+		line = command->args[i];
 		delete_env(env, line);
 		i++;
 	}

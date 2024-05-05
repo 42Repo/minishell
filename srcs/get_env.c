@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 18:49:35 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/04 14:59:10 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/04 19:03:31 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,23 @@
 
 void	add_shlvl(t_env *env)
 {
-	int	i;
+	int		i;
+	t_env	*tmp;
 
-	while (env)
+	tmp = env;
+	while (tmp)
 	{
-		if (ft_strcmp(env->name, "SHLVL") == 0)
+		if (tmp->name && ft_strcmp(tmp->name, "SHLVL") == 0)
 		{
-			i = ft_atoi(env->value);
+			i = ft_atoi(tmp->value);
 			i++;
-			free(env->value);
-			env->value = ft_itoa(i);
+			free(tmp->value);
+			tmp->value = ft_itoa(i);
 			return ;
 		}
-		env = env->next;
+		tmp = tmp->next;
 	}
+	add_new_env_variable(env, "SHLVL=1");
 }
 
 void	get_env(t_env *env, char **envp)
@@ -37,7 +40,10 @@ void	get_env(t_env *env, char **envp)
 
 	i = 0;
 	if (!envp[i])
+	{
+		add_shlvl(env);
 		return ;
+	}
 	env->name = ft_strndup(envp[i], ft_strchr(envp[i], '=') - envp[i]);
 	env->value = ft_strdup(ft_strchr(envp[i], '=') + 1);
 	env->next = NULL;

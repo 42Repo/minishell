@@ -48,7 +48,7 @@ static int	ft_is_equal(char *str)
 	return (0);
 }
 
-static void	add_new_env_variable(t_env *env, char *arg)
+void	add_new_env_variable(t_env *env, char *arg)
 {
 	t_env	*new_env;
 

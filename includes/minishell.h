@@ -330,7 +330,7 @@ t_env		*get_env_value_ptr_by_name(t_env *env, char *name);
  * @param env the struct env list
  * @param line the name of the variable to delete, ex : "PATH" or "HOME"
  */
-void		ft_unset(t_env *env, t_data *data);
+void		ft_unset(t_env *env, t_command *command);
 
 /**
  * @brief print a string with or without a newline
@@ -363,5 +363,6 @@ char		*expander(t_data *data);
 int			ft_env(t_command *command, t_env *env);
 void		free_env(t_env *env);
 void		heredoc(char *file, t_data *data, t_command *command);
+void		add_new_env_variable(t_env *env, char *arg);
 
 #endif
