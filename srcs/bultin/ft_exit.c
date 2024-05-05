@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:30:00 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/04 16:44:03 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/05 15:42:49 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	ft_exit(t_command *command, t_data *data, t_env *env, char *exit_msg) // TO
 		exit(g_return_code);
 	}
 	while (command && command->args && command->args[0]
-		&& command->args[1] && (command->args[1][i] == ' ' || command->args[1][i] == '\t'
+		&& command->args[1] && (!ft_isnamespace(command->args[1][i]) || command->args[1][i] == '\t'
 		|| command->args[1][i] == '\n' || command->args[1][i] == '\v'
 		|| command->args[1][i] == '\f' || command->args[1][i] == '\r'))
 		i++;
@@ -65,7 +65,7 @@ void	ft_exit(t_command *command, t_data *data, t_env *env, char *exit_msg) // TO
 	}
 	i = 0;
 	while (command->args && command->args[0] && command->args[1]
-		&& command->args[1][i] && (command->args[1][i] == ' ' || command->args[1][i] == '\t'
+		&& command->args[1][i] && (!ft_isnamespace(command->args[1][i]) || command->args[1][i] == '\t'
 		|| command->args[1][i] == '\n' || command->args[1][i] == '\v'
 		|| command->args[1][i] == '\f' || command->args[1][i] == '\r'))
 		i++;

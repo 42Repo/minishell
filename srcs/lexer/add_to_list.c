@@ -18,7 +18,7 @@ void	add_token_to_list(t_data *data, char *str, int len, t_token_type type)
 	char	*tmp2;
 
 	tmp1 = set_token_str(str, len);
-	tmp2 = ft_strtrim(tmp1, " ");
+	tmp2 = ft_strtrim(tmp1, " \t\n\v\f\r");
 	free(tmp1);
 	if (ft_strlen(tmp2) == 0)
 	{
