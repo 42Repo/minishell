@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/05 15:46:02 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/05 16:57:14 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	get_envar_len(char *str)
 	return (i);
 }
 
-char	*replace_envar(t_data *data, t_token *selected, int i) // TODO - si on fait $T$E$S$T alors on change toute la string "$T$E$S$T" ai lieu de le faire jusqu;au prochaine $
+char	*replace_envar(t_data *data, t_token *selected, int i)
 {
 	char	*str[3];
 	int		k;
@@ -121,7 +121,10 @@ char	*expander(t_data *data)
 				&& (ft_isalpha(selected->value[i + 1]) || selected->value[i + 1] == '?' \
 				|| selected->value[i + 1] == '"' || selected->value[i + 1] == '\'') && \
 				 quote_state != 1) && !(previous && previous->type == REDIR && previous->value[1] == '<'))
-				selected->value = replace_envar(data, selected, i);
+				 {
+					selected->value = replace_envar(data, selected, i);
+					i--;
+				 }
 			i++;
 		}
 		previous = selected;
