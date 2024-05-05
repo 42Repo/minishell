@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/04 19:09:39 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/05 15:31:49 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,23 +18,32 @@ char	*get_envar(char *str, int len, t_data *data)
 {
 	t_env	*tmp;
 	char	*envar;
-	int		bool = 0;
-	
+	int		bool;
 	str = remove_quotes(str, 0);
 	if (len == 1)
 		return (ft_strdup("$"));
+	// if (str[1] == '"' || str[1] == '\'')
 	if ((ft_strlen(str) >= 2 && str[1] == '?'))
 		return (ft_itoa(g_return_code));
 	tmp = data->env;
 	envar = NULL;
+	// printf("&str[1] = %s\n", &str[1]);
+	// printf("len = %d\n", len);
 	bool = 0;
 	while (tmp && !bool)
 	{
-		if (!ft_strncmp(&str[1], tmp->name, len))
+		// tmp = tmp->next;
+		if (!ft_strncmp(&str[1], tmp->name, len - 1))
 		{
 			bool = 1;
+			// printf("FOUND %s\n", tmp->name);
+			// printf("tmp->name = %s\n", tmp->name);
+
 			if ((int)ft_strlen(tmp->name) != len - 1)
+			{
 				bool = 0;
+				// printf("INCORRECT %s\n", tmp->name);
+			}
 		}
 		if (!bool)
 			tmp = tmp->next;
@@ -68,12 +77,12 @@ char	*replace_envar(t_data *data, t_token *selected, int i) // TODO - si on fait
 	k = 0;
 	str[0] = ft_calloc(sizeof(char), i + 1);
 	ft_strlcpy(str[0], selected->value, i + 1);
-	str[1] = get_envar(remove_quotes(&selected->value[i], 0), \
-		get_envar_len(remove_quotes(&selected->value[i], 0)), data);
-	i += get_envar_len(remove_quotes(&selected->value[i], 0));
-	// str[1] = get_envar(&selected->value[i], \
-		// get_envar_len(&selected->value[i]), data);
-	// i += get_envar_len(&selected->value[i]);
+	// str[1] = get_envar(remove_quotes(&selected->value[i], 0), \
+		// get_envar_len(remove_quotes(&selected->value[i], 0)), data);
+	// i += get_envar_len(remove_quotes(&selected->value[i], 0));
+	str[1] = get_envar(&selected->value[i], \
+		get_envar_len(&selected->value[i]), data);
+	i += get_envar_len(&selected->value[i]);
 	str[2] = ft_calloc(sizeof(char), ft_strlen(&selected->value[i]) + 1);
 	while (selected->value[i])
 	{
