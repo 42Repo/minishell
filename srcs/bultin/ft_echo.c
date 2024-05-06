@@ -28,11 +28,11 @@ void	ft_echo(t_command *command)
 	}
 	while (command->args[i])
 	{
-		ft_putstr_fd(command->args[i], 1);
+		ft_putstr_fd(command->args[i], STDOUT_FILENO);
 		if (command->args[i + 1])
-			ft_putchar_fd(' ', 1);
+			ft_putchar_fd(' ', STDOUT_FILENO);
 		i++;
 	}
 	if (newline)
-		ft_putchar_fd('\n', 1);
+		ft_putchar_fd('\n', STDOUT_FILENO);
 }

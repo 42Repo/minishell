@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/06 16:15:12 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/06 17:16:34 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,72 +40,6 @@ void	ft_exit_fork(t_data *data, t_env *env, t_command *command) // TODO : A clea
 		free(data);
 		exit(g_return_code);
 	}
-	while (command && command->args && command->args[0]
-		&& command->args[1] && (!ft_isnamespace(command->args[1][i]) || command->args[1][i] == '\t'
-		|| command->args[1][i] == '\n' || command->args[1][i] == '\v'
-		|| command->args[1][i] == '\f' || command->args[1][i] == '\r'))
-		i++;
-	if (command && command->args && command->args[0] && command->args[1]
-		&& (command->args[1][i] == '+' || command->args[1][i] == '-'))
-		i++;
-	while (command && command->args && command->args[0] && command->args[1] && command->args[1][i])
-	{
-		if (!ft_isdigit(command->args[1][i]))
-		{
-			ft_putstr_fd("minishell: exit: ", 2);
-			ft_putstr_fd(command->args[1], 2);
-			ft_putstr_fd(": numeric argument required\n", 2);
-			g_return_code = 2;
-			exit(2);
-		}
-		i++;
-	}
-	i = 0;
-	while (command->args && command->args[0] && command->args[1]
-		&& command->args[1][i] && (!ft_isnamespace(command->args[1][i]) || command->args[1][i] == '\t'
-		|| command->args[1][i] == '\n' || command->args[1][i] == '\v'
-		|| command->args[1][i] == '\f' || command->args[1][i] == '\r'))
-		i++;
-	if (command && command->args && command->args[0] && command->args[1]
-		&& command->args[1][i] == '-')
-	{
-		i++;
-		if (ft_strlen(command->args[1] + i) > ft_strlen(LLONG_MAX_STR)
-			|| (ft_strlen(command->args[1] + i) == ft_strlen(LLONG_MIN_STR)
-				&& ft_strcmp(command->args[1] + i, LLONG_MIN_STR ) > 0))
-		{
-			ft_putstr_fd("minishell: exit: ", 2);
-			ft_putstr_fd(command->args[1], 2);
-			ft_putstr_fd(": numeric argument required\n", 2);
-			g_return_code = 2;
-			exit(2);
-		}
-	}
-	else
-	{
-		if (command && command->args && command->args[0] && command->args[1]
-			&& command->args[1][i] == '+')
-			i++;
-		if (ft_strlen(command->args[1] + i) > ft_strlen(LLONG_MAX_STR)
-			|| (ft_strlen(command->args[1] + i) == ft_strlen(LLONG_MAX_STR)
-				&& ft_strcmp(command->args[1] + i, LLONG_MAX_STR) > 0))
-		{
-			ft_putstr_fd("minishell: exit: ", 2);
-			ft_putstr_fd(command->args[1], 2);
-			ft_putstr_fd(": numeric argument required\n", 2);
-			g_return_code = 2;
-			exit(2);
-		}
-	}
-	if (command && command->args && command->args[0]
-		&& command->args[1] && command->args[2])
-	{
-		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
-		g_return_code = 1;
-		return ;
-	}
-	if (command && command->args && command->args[1])
-		g_return_code = ft_atoi(command->args[1]);
 	free_token_lst(data);
 	free_env(env);
 	rl_clear_history();
@@ -121,8 +55,9 @@ void	ft_exit_fork(t_data *data, t_env *env, t_command *command) // TODO : A clea
 	exit(1);
 }
 
-int	  execute_bultin(t_command *command, t_env *env, t_data *data)
+int	  execute_bultin(t_command *command, t_env *env, t_data *data, int fd_out)
 {
+	(void)fd_out;
 	if (data->prompt_top->type == END)
 		return (0);
 	else if (ft_strcmp(command->cmd, "cd") == 0)
@@ -144,7 +79,8 @@ int	  execute_bultin(t_command *command, t_env *env, t_data *data)
 
 void	execute_command_pipe(t_command *command, t_data *data, int input_fd, int output_fd)
 {
-	if (data->prompt_top->type == END || command == NULL || command->cmd == NULL)
+	if (data->prompt_top->type == END
+		|| command == NULL || command->cmd == NULL)
 		return ;
 	command->pid = fork();
 	if (command->pid == -1)
@@ -154,7 +90,7 @@ void	execute_command_pipe(t_command *command, t_data *data, int input_fd, int ou
 	}
 	if (command->pid == 0)
 	{
- 		if (input_fd != STDIN_FILENO)
+		if (input_fd != STDIN_FILENO)
 		{
 			dup2(input_fd, STDIN_FILENO);
 			close(input_fd);
@@ -165,12 +101,12 @@ void	execute_command_pipe(t_command *command, t_data *data, int input_fd, int ou
 			close(output_fd);
 		}
 		if (ft_strcmp(command->cmd, "exit") == 0)
-			ft_exit(command, data, data->env, "");
-		if (execute_bultin(command, data->env, data) == 1)
+			ft_exit_fork(data, data->env, command);
+		if (execute_bultin(command, data->env, data, output_fd) == 1)
 			ft_exit_fork(data, data->env, command);
 		if (command->pipe[1] == output_fd)
 			close(command->pipe[0]);
-		g_return_code = execve_path_env(command->cmd,	
+		g_return_code = execve_path_env(command->cmd,
 				command->args, data->env, data);
 		exit(g_return_code);
 	}
@@ -178,8 +114,8 @@ void	execute_command_pipe(t_command *command, t_data *data, int input_fd, int ou
 
 void	execute_command(t_command *command, t_data *data, int input_fd, int output_fd)
 {
-	int fd_out;
-	int fd_in;
+	int	fd_out;
+	int	fd_in;
 
 	if (data->prompt_top->type == END || command == NULL || command->cmd == NULL)
 		return ;
@@ -193,7 +129,7 @@ void	execute_command(t_command *command, t_data *data, int input_fd, int output_
 	}
 	if (ft_strcmp(command->cmd, "exit") == 0)
 		ft_exit(command, data, data->env, "exit");
-	if (execute_bultin(command, data->env, data) == 1)
+	if (execute_bultin(command, data->env, data, output_fd) == 1)
 	{
 		dup2(dup(data->fd_in), STDIN_FILENO);
 		dup2(dup(data->fd_out), STDOUT_FILENO);
@@ -304,18 +240,18 @@ int	wait_cmd_prompt(t_data *data)
 		if (data->cmd_prompt == NULL)
 			return (-1);
 		/////////////////////////// in testing
-		// if (isatty(fileno(stdin)))
-		// 	line = ft_strtrim_free(readline(data->cmd_prompt), " ");
+		if (isatty(fileno(stdin)))
+			line = ft_strtrim_free(readline(data->cmd_prompt), " ");
 			
-		// else
-		// {
-		// 	char *line1;
-		// 	line1 = get_next_line(fileno(stdin));
-		// 	line = ft_strtrim(line1, "\n");
-		// 	free(line1);
-		// }
+		else
+		{
+			char *line1;
+			line1 = get_next_line(fileno(stdin));
+			line = ft_strtrim(line1, "\n");
+			free(line1);
+		}
 		////////////////////// in testing
-		line = ft_strtrim_free(readline(data->cmd_prompt), " ");
+		// line = ft_strtrim_free(readline(data->cmd_prompt), " ");
 		if (line == NULL)
 			ft_exit(data->command_top, data, data->env, "exit");
 		if (ft_strlen(line) > 0)
