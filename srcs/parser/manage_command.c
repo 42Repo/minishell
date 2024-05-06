@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_command.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 15:18:00 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/03 20:04:08 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/06 16:21:17 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,10 @@ void	remove_empty_tokens(t_data *data)
 	{
 		if (selected->type == WORD && ft_strlen(selected->value) == 0)
 		{
+			if (selected == data->prompt_top)
+				data->prompt_top = selected->next;
+			else
+				old->next = selected->next;
 			if (old)
 				old->next = selected->next;
 			else
