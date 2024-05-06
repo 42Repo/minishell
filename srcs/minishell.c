@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/06 19:16:16 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/06 20:08:24 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,6 @@ void	init_data(t_data *data)
 
 void	ft_exit_fork(t_data *data, t_env *env, t_command *command) // TODO : A clean + changer la logique
 {
-	int	i;
-
-	i = 0;
 	if (!command)
 	{
 		free_token_lst(data);

@@ -364,5 +364,6 @@ int			ft_env(t_command *command, t_env *env);
 void		free_env(t_env *env);
 void		heredoc(char *file, t_data *data, t_command *command);
 void		add_new_env_variable(t_env *env, char *arg);
+char		**ft_split_quote_state(const char *str, char charset);
 
 #endif
