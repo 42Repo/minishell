@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/06 17:16:34 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/06 18:27:14 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	execute_command_pipe(t_command *command, t_data *data, int input_fd, int ou
 			close(output_fd);
 		}
 		if (ft_strcmp(command->cmd, "exit") == 0)
-			ft_exit_fork(data, data->env, command);
+			ft_exit(command, data, data->env, "");
 		if (execute_bultin(command, data->env, data, output_fd) == 1)
 			ft_exit_fork(data, data->env, command);
 		if (command->pipe[1] == output_fd)
@@ -240,18 +240,18 @@ int	wait_cmd_prompt(t_data *data)
 		if (data->cmd_prompt == NULL)
 			return (-1);
 		/////////////////////////// in testing
-		if (isatty(fileno(stdin)))
-			line = ft_strtrim_free(readline(data->cmd_prompt), " ");
+		// if (isatty(fileno(stdin)))
+		// 	line = ft_strtrim_free(readline(data->cmd_prompt), " ");
 			
-		else
-		{
-			char *line1;
-			line1 = get_next_line(fileno(stdin));
-			line = ft_strtrim(line1, "\n");
-			free(line1);
-		}
+		// else
+		// {
+		// 	char *line1;
+		// 	line1 = get_next_line(fileno(stdin));
+		// 	line = ft_strtrim(line1, "\n");
+		// 	free(line1);
+		// }
 		////////////////////// in testing
-		// line = ft_strtrim_free(readline(data->cmd_prompt), " ");
+		line = ft_strtrim_free(readline(data->cmd_prompt), " ");
 		if (line == NULL)
 			ft_exit(data->command_top, data, data->env, "exit");
 		if (ft_strlen(line) > 0)
