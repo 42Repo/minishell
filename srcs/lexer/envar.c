@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/06 20:34:50 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/06 20:58:33 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,8 @@ char	*expander(t_data *data)
 		quote_state = 0;
 		while (i < (int)ft_strlen(selected->value) && selected->value[i])
 		{
+
+			//TODO[] - Ajouter un strjoin pour avant et apres l'envar;
 			quote_state = quote_management(quote_state, selected->value[i]);
 			if (((int)ft_strlen(selected->value) >= i + 1 && \
 				selected->value[i] == '$' \
@@ -124,14 +126,15 @@ char	*expander(t_data *data)
 				|| selected->value[i + 1] == '"' || selected->value[i + 1] == '\'') && \
 				 quote_state != 1) && !(previous && previous->type == REDIR && previous->value[1] == '<'))
 				 {
-					tmp = ft_split_quote_state(get_envar(&selected->value[i], \
-						get_envar_len(&selected->value[i]), data), " \t\n\v\f\r");
+					tmp = ft_split(get_envar(&selected->value[i], \
+						get_envar_len(&selected->value[i]), data),' ');
 					selected->value = tmp[0];
 					int j = 1;
 					while (tmp[j])
 					{
 						
 						add_token_next(selected, tmp[j], ft_strlen(tmp[j]), WORD);
+						printf("selected->value = %s\n", selected->value);
 						selected = selected->next;
 						// printf("tmp[%d] = %s\n", j, tmp[j]);
 						j++;
