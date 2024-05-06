@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/06 18:27:14 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/06 19:16:16 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,103 @@ void	execute_command_pipe(t_command *command, t_data *data, int input_fd, int ou
 	}
 }
 
+int	ft_exit_command(t_data *data, t_env *env, t_command *command)
+{
+	int	i;
+
+	i = 0;
+	if (!command)
+	{
+		free_token_lst(data);
+		free_env(env);
+		rl_clear_history();
+		if (data->cmd_prompt)
+			free(data->cmd_prompt);
+		free(data);
+		exit(g_return_code);
+	}
+	while (command && command->args && command->args[0]
+		&& command->args[1] && (command->args[1][i] == ' ' || command->args[1][i] == '\t'
+		|| command->args[1][i] == '\n' || command->args[1][i] == '\v'
+		|| command->args[1][i] == '\f' || command->args[1][i] == '\r'))
+		i++;
+	if (command && command->args && command->args[0] && command->args[1]
+		&& (command->args[1][i] == '+' || command->args[1][i] == '-'))
+		i++;
+	while (command && command->args && command->args[0] && command->args[1] && command->args[1][i])
+	{
+		if (!ft_isdigit(command->args[1][i]))
+		{
+			ft_putstr_fd("minishell: exit: ", 2);
+			ft_putstr_fd(command->args[1], 2);
+			ft_putstr_fd(": numeric argument required\n", 2);
+			g_return_code = 2;
+			exit(2);
+		}
+		i++;
+	}
+	i = 0;
+	while (command->args && command->args[0] && command->args[1]
+		&& command->args[1][i] && (command->args[1][i] == ' ' || command->args[1][i] == '\t'
+		|| command->args[1][i] == '\n' || command->args[1][i] == '\v'
+		|| command->args[1][i] == '\f' || command->args[1][i] == '\r'))
+		i++;
+	if (command && command->args && command->args[0] && command->args[1]
+		&& command->args[1][i] == '-')
+	{
+		i++;
+		if (ft_strlen(command->args[1] + i) > ft_strlen(LLONG_MAX_STR)
+			|| (ft_strlen(command->args[1] + i) == ft_strlen(LLONG_MIN_STR)
+				&& ft_strcmp(command->args[1] + i, LLONG_MIN_STR) > 0))
+		{
+			ft_putstr_fd("minishell: exit: ", 2);
+			ft_putstr_fd(command->args[1], 2);
+			ft_putstr_fd(": numeric argument required\n", 2);
+			g_return_code = 2;
+			exit(2);
+		}
+	}
+	else
+	{
+		if (command && command->args && command->args[0] && command->args[1]
+			&& command->args[1][i] == '+')
+			i++;
+		if (ft_strlen(command->args[1] + i) > ft_strlen(LLONG_MAX_STR)
+			|| (ft_strlen(command->args[1] + i) == ft_strlen(LLONG_MAX_STR)
+				&& ft_strcmp(command->args[1] + i, LLONG_MAX_STR) > 0))
+		{
+			ft_putstr_fd("minishell: exit: ", 2);
+			ft_putstr_fd(command->args[1], 2);
+			ft_putstr_fd(": numeric argument required\n", 2);
+			g_return_code = 2;
+			exit(2);
+		}
+	}
+	if (command && command->args && command->args[0]
+		&& command->args[1] && command->args[2])
+	{
+		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+		g_return_code = 1;
+		return (1);
+	}
+	if (command && command->args && command->args[1])
+		g_return_code = ft_atoi(command->args[1]);
+	free_token_lst(data);
+	free_env(env);
+	rl_clear_history();
+	if (data->cmd_prompt)
+		free(data->cmd_prompt);
+	free(data);
+	if (g_return_code >= 0 && g_return_code <= 255)
+		exit(g_return_code);
+	if (g_return_code < 0)
+		exit(256 + g_return_code);
+	if (g_return_code > 255)
+		exit(g_return_code % 256);
+	exit(1);
+	return (1);
+}
+
 void	execute_command(t_command *command, t_data *data, int input_fd, int output_fd)
 {
 	int	fd_out;
@@ -128,7 +225,10 @@ void	execute_command(t_command *command, t_data *data, int input_fd, int output_
 		dup2(output_fd, STDOUT_FILENO);
 	}
 	if (ft_strcmp(command->cmd, "exit") == 0)
-		ft_exit(command, data, data->env, "exit");
+	{
+		if (ft_exit_command(data, data->env, command) == 1)
+			return ;
+	}
 	if (execute_bultin(command, data->env, data, output_fd) == 1)
 	{
 		dup2(dup(data->fd_in), STDIN_FILENO);

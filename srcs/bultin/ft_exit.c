@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:30:00 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/06 18:43:12 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/06 19:03:11 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	ft_exit(t_command *command, t_data *data, t_env *env, char *exit_msg) // TO
 		&& command->args[1][i] == '-')
 	{
 		i++;
-		if (ft_strlen(command->args[1]) > ft_strlen(LLONG_MAX_STR)
+		if (ft_strlen(command->args[1] + i) > ft_strlen(LLONG_MAX_STR)
 			|| (ft_strlen(command->args[1] + i) == ft_strlen(LLONG_MIN_STR)
 				&& ft_strcmp(command->args[1] + i, LLONG_MIN_STR) > 0))
 		{
@@ -89,7 +89,7 @@ void	ft_exit(t_command *command, t_data *data, t_env *env, char *exit_msg) // TO
 		if (command && command->args && command->args[0] && command->args[1]
 			&& command->args[1][i] == '+')
 			i++;
-		if (ft_strlen(command->args[1]) > ft_strlen(LLONG_MAX_STR)
+		if (ft_strlen(command->args[1] + i) > ft_strlen(LLONG_MAX_STR)
 			|| (ft_strlen(command->args[1] + i) == ft_strlen(LLONG_MAX_STR)
 				&& ft_strcmp(command->args[1] + i, LLONG_MAX_STR) > 0))
 		{
