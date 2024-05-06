@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/05 16:57:14 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/06 16:05:38 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,9 @@ char	*expander(t_data *data)
 	t_token	*previous;
 	int		quote_state;
 	int		i;
+	char	*tmp;
 
+	tmp = NULL;
 	quote_state = 0;
 	if (!data->prompt_top)
 		return (NULL);
@@ -122,8 +124,19 @@ char	*expander(t_data *data)
 				|| selected->value[i + 1] == '"' || selected->value[i + 1] == '\'') && \
 				 quote_state != 1) && !(previous && previous->type == REDIR && previous->value[1] == '<'))
 				 {
+					tmp = get_envar(&selected->value[i], \
+						get_envar_len(&selected->value[i]), data);
 					selected->value = replace_envar(data, selected, i);
-					i--;
+					// if (ft_strlen(tmp) < 1)
+						// printf("%zu\n", ft_strlen(tmp));
+					if (ft_strlen(tmp) < 1)
+						i--;
+					free(tmp);
+					// if (selected->value[i] == '$')
+						// printf("C'EST NON SALE BATARD DE MERDE %c%c\n", selected->value[i], selected->value[i+1]);
+					// if (selected->value[i] == '$')
+						// i--;
+					// i++;
 				 }
 			i++;
 		}
