@@ -34,7 +34,18 @@ static int	is_quote(char c)
 	return (c == '"' || c == '\'');
 }
 
-static char	*ft_strdup_split_quote(const char *src, char charset)
+static int	is_delimiter(char c, const char *charset)
+{
+	while (*charset)
+	{
+		if (c == *charset)
+			return (1);
+		charset++;
+	}
+	return (0);
+}
+
+static char	*ft_strdup_split_quote(const char *src, const char *charset)
 {
 	char	*tab;
 	int		i;
@@ -44,7 +55,7 @@ static char	*ft_strdup_split_quote(const char *src, char charset)
 	i = 0;
 	in_quote = 0;
 	current_quote = 0;
-	while (src[i] && (src[i] != charset || in_quote))
+	while (src[i] && (!is_delimiter(src[i], charset) || in_quote))
 	{
 		if (is_quote(src[i]))
 		{
@@ -65,7 +76,7 @@ static char	*ft_strdup_split_quote(const char *src, char charset)
 		return (NULL);
 	i = 0;
 	in_quote = 0;
-	while (src[i] && (src[i] != charset || in_quote))
+	while (src[i] && (!is_delimiter(src[i], charset) || in_quote))
 	{
 		if (is_quote(src[i]))
 		{
@@ -86,7 +97,7 @@ static char	*ft_strdup_split_quote(const char *src, char charset)
 	return (tab);
 }
 
-static int	count_words_quote(const char *str, char charset)
+static int	count_words_quote(const char *str, const char *charset)
 {
 	int		count;
 	int		in_quote;
@@ -111,7 +122,7 @@ static int	count_words_quote(const char *str, char charset)
 				in_quote = 0;
 			}
 		}
-		if (*str != charset || in_quote)
+		if (!is_delimiter(*str, charset) || in_quote)
 		{
 			if (bol == 1)
 			{
@@ -128,7 +139,7 @@ static int	count_words_quote(const char *str, char charset)
 	return (count);
 }
 
-char	**ft_split_quote_state(const char *str, char charset)
+char	**ft_split_quote_state(const char *str, const char *charset)
 {
 	int		words;
 	char	**ret;
@@ -137,24 +148,24 @@ char	**ft_split_quote_state(const char *str, char charset)
 	int		in_quote;
 	char	current_quote;
 
+	if (!str || !charset)
+		return (NULL);
+	words = count_words_quote(str, charset);
+	ret = malloc(sizeof(char *) * (words + 1));
+	if (ret == NULL)
+		return (NULL);
 	i = 0;
 	j = 0;
 	in_quote = 0;
 	current_quote = 0;
-	words = count_words_quote(str, charset);
-	ret = malloc(sizeof(char *) * (words + 1));
-	if (!str)
-		return (NULL);
-	if (ret == NULL)
-		return (NULL);
 	while (i < words)
 	{
-		while ((str[j] == charset && !in_quote) && str[j] != '\0')
+		while ((is_delimiter(str[j], charset) && !in_quote) && str[j] != '\0')
 		{
 			j++;
 		}
 		ret[i] = ft_strdup_split_quote(str + j, charset);
-		while ((str[j] != charset || in_quote) && str[j] != '\0')
+		while ((!is_delimiter(str[j], charset) || in_quote) && str[j] != '\0')
 		{
 			if (is_quote(str[j]))
 			{
