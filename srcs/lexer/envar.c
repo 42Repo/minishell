@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envar.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/06 16:05:38 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/06 19:29:51 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	get_envar_len(char *str)
 		return (2);
 	// if (str[i] == '"' || str[i] == '\'')
 		// return (2);
-	while (str[i] && ft_isalnum(str[i]))
+	while (str[i] && ft_isalnum(str[i]) && str[i] != '_')
 		i++;
 	return (i);
 }
