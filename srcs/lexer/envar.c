@@ -6,14 +6,12 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/08 16:41:54 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/08 16:42:47 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-extern int	g_return_code;
-	
 char	*get_envar(char *str, int len, t_data *data)
 {
 	t_env	*tmp;
