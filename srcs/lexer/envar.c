@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/08 16:42:47 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/08 16:43:27 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ char	*expander(t_data *data)
 	t_token	*previous;
 	int		quote_state;
 	int		i;
-	int		j;
+	// int		j;
 	char	**tmp;
 
 	tmp = NULL;
