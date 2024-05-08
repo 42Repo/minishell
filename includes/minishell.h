@@ -86,6 +86,7 @@ typedef struct s_data
 	char		*cmd_prompt;
 	int			fd_in;
 	int			fd_out;
+	struct termios	*term;
 }	t_data;
 
 typedef struct s_parser

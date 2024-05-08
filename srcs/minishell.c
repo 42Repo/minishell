@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/08 16:27:45 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/08 23:13:53 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	init_data(t_data *data)
 	data->command_top = NULL;
 	data->fd_out = dup(STDOUT_FILENO);
 	data->fd_in = dup(STDIN_FILENO);
+	data->term = ft_calloc(sizeof(struct termios), 1);
+	tcgetattr(STDIN_FILENO, data->term);
 }
 
 void	ft_exit_fork(t_data *data, t_env *env, t_command *command) // TODO : A clean + changer la logique
