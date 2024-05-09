@@ -25,10 +25,7 @@ static char	*get_cwd(t_env *env)
 
 	tmp = getcwd(NULL, 0);
 	if (tmp == NULL)
-	{
-		perror("getcwd failed");
 		return (NULL);
-	}
 	if (get_env_value_string(env, "HOME") != NULL && ft_strncmp(tmp,
 			get_env_value_string(env, "HOME"),
 			ft_strlen(get_env_value_string(env, "HOME"))) == 0)
@@ -47,6 +44,9 @@ static int	set_prompt_top(t_data *data, t_env *env)
 {
 	char	*tmp;
 
+	tmp = get_cwd(env);
+	if (tmp == NULL)
+		return (EXIT_FAILURE);
 	if (data->cmd_prompt)
 	{
 		free(data->cmd_prompt);
@@ -55,7 +55,6 @@ static int	set_prompt_top(t_data *data, t_env *env)
 	data->cmd_prompt = ft_strdup("\001\033[1;32m\002");
 	if (data->cmd_prompt == NULL)
 		return (error_free("ft_strdup failed"));
-	tmp = get_cwd(env);
 	data->cmd_prompt = ft_strjoin_free(data->cmd_prompt, tmp);
 	free(tmp);
 	tmp = NULL;
