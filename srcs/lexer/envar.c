@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/09 16:16:33 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/09 16:55:11 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,11 @@ char	*get_envar(char *str, int len, t_data *data)
 	t_env	*tmp;
 	char	*envar;
 	int		bool;
-	str = remove_quotes(str, 0);
-	if (len == 1)
+	if (len == -1)
 		return (ft_strdup("$"));
+	if (len == 1)
+		return (ft_strdup(""));
+	str = remove_quotes(str, 0);
 	// if (str[1] == '"' || str[1] == '\'')
 	if ((ft_strlen(str) >= 2 && str[1] == '?'))
 		return (ft_itoa(g_return_code));
@@ -60,6 +62,8 @@ int	get_envar_len(char *str)
 	int	i;
 
 	i = 1;
+	if (str[i] == '\0')
+		return (-1);
 	if (str[i] == '?')
 		return (2);
 	// if (str[i] == '"' || str[i] == '\'')
@@ -117,9 +121,10 @@ char	*replace_envar(t_data *data, t_token *selected, int i)
 		while (selected->value[i] && !((int)ft_strlen(selected->value) >= i + 1 && \
 				selected->value[i] == '$' \
 				&& (ft_isalpha(selected->value[i + 1]) || selected->value[i + 1] == '?' \
-				|| selected->value[i + 1] == '"' || selected->value[i + 1] == '\'') && \
+				|| (selected->value[i + 1] == '"' && quote_state != 2) || selected->value[i + 1] == '\'' ) && \
 				 quote_state != 1))
 		{
+			// printf("selected->value[%d] = %c\n", i, selected->value[i]);
 			quote_state = quote_management(quote_state, selected->value[i]);
 			i++;
 			j++;
