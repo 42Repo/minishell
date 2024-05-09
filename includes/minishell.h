@@ -78,14 +78,14 @@ typedef struct s_next
 
 typedef struct s_data
 {
-	t_token		*prompt_top;
-	t_token		*selected;
-	t_command	*command_top;
-	t_env		*env;
-	int			quote_state;
-	char		*cmd_prompt;
-	int			fd_in;
-	int			fd_out;
+	t_token			*prompt_top;
+	t_token			*selected;
+	t_command		*command_top;
+	t_env			*env;
+	int				quote_state;
+	char			*cmd_prompt;
+	int				fd_in;
+	int				fd_out;
 	struct termios	*term;
 }	t_data;
 
@@ -365,8 +365,9 @@ int			ft_env(t_command *command, t_env *env);
 void		free_env(t_env *env);
 void		heredoc(char *file, t_data *data, t_command *command);
 void		add_new_env_variable(t_env *env, char *arg);
-char	**ft_split_quote_state(const char *str, const char *charset);
-void		add_token_next(t_token *token, char *str, int len, t_token_type type);
+char		**ft_split_quote_state(const char *str, const char *charset);
+void		add_token_next(t_token *token, char *str, int len,
+				t_token_type type);
 t_token		*ms_lstadd_next(t_token *token, t_token *new);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/05 15:59:28 by asuc              #+#    #+#             */
-/*   Updated: 2024/04/05 15:59:28 by asuc             ###   ########.fr       */
+/*   Created: 2024/05/09 15:05:01 by asuc              #+#    #+#             */
+/*   Updated: 2024/05/09 15:05:01 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ static int	old_cd(t_env *env)
 	return (0);
 }
 
-int error_to_many_args(t_env *env)
+static int	error_to_many_args(t_env *env)
 {
 	put_program_name(env);
 	ft_putstr_fd(": cd: ", 2);
@@ -147,7 +147,7 @@ int error_to_many_args(t_env *env)
 	return (-1);
 }
 
-static void set_new_pwd(t_env *env)
+static void	set_new_pwd(t_env *env)
 {
 	char	*tmp;
 	char	*tmp2;
@@ -158,7 +158,7 @@ static void set_new_pwd(t_env *env)
 	free(tmp2);
 }
 
-int	ft_cd(t_command *command, t_env *env) // TODO : PWD a fix dams l'env et OLDPWD a ne pas recree quand il est unset
+int	ft_cd(t_command *command, t_env *env)
 {
 	char	*tmp;
 	char	*tmp2;

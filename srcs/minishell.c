@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/08 23:13:53 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/09 16:46:31 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -386,6 +386,20 @@ int	main(int argc __attribute__((unused)), char *argv[] __attribute__((unused)),
 	// printf("\033c");
 	init_data(data);
 	get_env(data->env, envp);
+	wait_cmd_prompt(data);
+	wait_cmd_prompt(data);
+	wait_cmd_prompt(data);
+	wait_cmd_prompt(data);
+	wait_cmd_prompt(data);
+	wait_cmd_prompt(data);
+	wait_cmd_prompt(data);
+	wait_cmd_prompt(data);
+	wait_cmd_prompt(data);
+	wait_cmd_prompt(data);
+	wait_cmd_prompt(data);
+	wait_cmd_prompt(data);
+	wait_cmd_prompt(data);
+	wait_cmd_prompt(data);
 	wait_cmd_prompt(data);
 	return (0);
 }
