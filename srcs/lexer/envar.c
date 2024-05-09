@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/09 17:14:03 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/09 17:30:35 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ char	*replace_envar(t_data *data, t_token *selected, int i)
 		while (selected->value[i] && !((int)ft_strlen(selected->value) >= i + 1 && \
 				selected->value[i] == '$' \
 				&& (ft_isalpha(selected->value[i + 1]) || selected->value[i + 1] == '?' \
-				|| (selected->value[i + 1] == '"' && quote_state != 2) || selected->value[i + 1] == '\'' ) && \
+				|| (selected->value[i + 1] == '"' && quote_state != 2) || selected->value[i + 1] == '\'') && \
 				 quote_state != 1))
 		{
 			// printf("selected->value[%d] = %c\n", i, selected->value[i]);
@@ -129,7 +129,7 @@ char	*replace_envar(t_data *data, t_token *selected, int i)
 			i++;
 			j++;
 		}
-		if (quote_state == 2 && selected->value[i + 1] == '"')
+		if ((quote_state == 2 && selected->value[i + 1] == '"') || (quote_state == 1 && selected->value[i + 1] == '\''))
 		{
 			quote_state = 0;
 			i++;
