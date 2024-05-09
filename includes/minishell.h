@@ -64,6 +64,7 @@ typedef struct s_command
 	struct s_command	*next;
 	int					fd_in;
 	int					fd_out;
+	int					fd_heredoc;
 	pid_t				pid;
 	char				random_name[21];
 	int					pipe[2];

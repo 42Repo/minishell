@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 15:18:00 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/08 19:57:12 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/09 20:44:26 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ t_command	*init_command(void)
 	command->next = NULL;
 	command->fd_in = 0;
 	command->fd_out = 1;
+	command->fd_heredoc = -1;
 	command->random_name[0] = '\0';
 	command->pid = 0;
 	return (command);

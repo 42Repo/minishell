@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/09 18:53:08 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/09 23:10:38 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,11 +131,16 @@ void	get_redir(t_token *selected, t_data *data, t_command *command)
 				select_output(selected->next->value, 2, command);
 			else if (selected->value[0] == '>')
 				select_output(selected->next->value, 1, command);
-			else if (ft_strlen(selected->value) == 2 && \
-					selected->value[1] == '<')
-				heredoc(selected->next->value, data, command);
+			else if (ft_strcmp(selected->value, "<<") == 0)
+			{
+				printf("mange ma merde\n");
+				return ;
+			}
 			else if (selected->value[0] == '<')
+			{
+				printf("non toi\n");
 				select_input(selected->next->value, data, command);
+			}
 		}
 		else
 		{
@@ -160,7 +165,7 @@ char	*parse_line(t_data *data, t_token *selected, t_command *command)
 		command->next = NULL;
 		while (selected && selected->type != PIPE)
 		{
-			if (command->fd_out != -1 && command->fd_in != -1)
+			if (command->fd_out != -1 && command->fd_in != -1 && command->fd_heredoc != -2)
 				parser.error = parse_misc(&selected, data, command, &parser);
 			else
 			{
@@ -180,6 +185,59 @@ char	*parse_line(t_data *data, t_token *selected, t_command *command)
 	return (NULL);
 }
 
+void	open_heredoc(t_data *data)
+{
+	t_token	*selected;
+	t_token	*tmp;
+	t_command	*command;
+	
+	command = data->command_top;
+	selected = data->prompt_top;
+	while (selected)
+	{
+		if (selected->type == REDIR && selected->next && \
+			ft_strlen(selected->value) == 2 && selected->value[1] == '<')
+		{
+			if (selected->type == PIPE)
+				command = command->next;
+			tmp = selected->next;
+			if (tmp->type == WORD)
+			{
+				heredoc(tmp->value, data, command);
+				tmp = tmp->next;
+			}
+		}
+		selected = selected->next;
+	}
+}
+
+void	set_fd_in(t_command *command, t_token *token)
+{
+	t_token	*tmp;
+	t_token	*last_redir;
+	t_command *selected;
+	
+	selected = command;
+	tmp = token;
+	last_redir = NULL;
+	while (selected)
+	{	
+		while (tmp->type != END && tmp->type != PIPE)
+		{
+			if (tmp->type == REDIR)
+				last_redir = tmp;
+				
+			tmp = tmp->next;
+		}
+		if(last_redir && !ft_strcmp(last_redir->value, "<<") && selected->fd_heredoc != -1)
+			selected->fd_in = selected->fd_heredoc;
+		if (tmp->type != END)
+			tmp = tmp->next;
+		// printf("fd_in : %d\n", selected->fd_in);
+		selected= selected->next;
+	}
+}
+
 int	parser(t_data *data)
 {
 	t_token		*selected;
@@ -189,6 +247,7 @@ int	parser(t_data *data)
 	data->command_top = init_command();
 	selected = data->prompt_top;
 	command = data->command_top;
+	open_heredoc(data);
 	expander(data);
 	clear_token_quotes(data);
 	// remove_empty_tokens(data);
@@ -201,5 +260,11 @@ unexpected token `", error, "'\n");
 		return (-1);
 	}
 	command = data->command_top;
+	
+	set_fd_in(data->command_top, data->prompt_top);
+	// printf("fd_in : %d\n", data->command_top->fd_in);
+	// printf("fd_out : %d\n", data->command_top->fd_out);
+
 	return (0);
+	// ! mettre le bon fd , soit garder fdin, soit close fdin et mettre fdheredoc a la place
 }
