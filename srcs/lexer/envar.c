@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/09 15:44:13 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/09 16:16:33 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ char	*replace_envar(t_data *data, t_token *selected, int i)
 	(void) data;
 	// char	*tmp;
 	char	**tab = ft_calloc(sizeof(char *), 2);
-	int		j;
+	int		j = 0;
 	int z = 0;  // ! DEBUG
 	// int 	bol = 0;
 	int		quote_state = 0;
