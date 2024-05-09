@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/09 16:46:31 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/09 18:31:29 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,10 +251,19 @@ void	execute_command(t_command *command, t_data *data, int input_fd, int output_
 	waitpid(command->pid, &g_return_code, 0);
 	if (WIFEXITED(g_return_code))
 		g_return_code = WEXITSTATUS(g_return_code);
+	if (WIFSIGNALED(g_return_code))
+		g_return_code = 128 + WTERMSIG(g_return_code);
+	if (g_return_code == 130)
+			printf("\n");
 	fd_in = dup(data->fd_in);
 	fd_out = dup(data->fd_out);
 	dup2(fd_in, STDIN_FILENO);
 	dup2(fd_out, STDOUT_FILENO);
+}
+
+void useless(int sig)
+{
+	(void)sig;
 }
 
 void	choose_case(t_data *data)
@@ -263,6 +272,8 @@ void	choose_case(t_data *data)
 	int			prev_fd;
 	int			status;
 
+	signal(SIGINT, useless);
+	signal(SIGQUIT, useless);
 	status = 0;
 	command = data->command_top;
 	prev_fd = command->fd_in;
@@ -311,6 +322,8 @@ void	choose_case(t_data *data)
 		waitpid(command->pid, &status, 0);
 		if (WIFEXITED(status))
 			g_return_code = WEXITSTATUS(status);
+		if (g_return_code == 130)
+			printf("\n");
 		// if (WIFSIGNALED(status))
 		// 	g_return_code = 128 + WTERMSIG(status);
 		command = command->next;
@@ -334,6 +347,8 @@ int	wait_cmd_prompt(t_data *data)
 	g_return_code = 0;
 	while (1)
 	{
+		signal(SIGINT, sig_handler);
+		signal(SIGQUIT, sig_handler);
 		if (data->prompt_top)
 			free_token_lst(data);
 		if (data->command_top)
@@ -386,20 +401,6 @@ int	main(int argc __attribute__((unused)), char *argv[] __attribute__((unused)),
 	// printf("\033c");
 	init_data(data);
 	get_env(data->env, envp);
-	wait_cmd_prompt(data);
-	wait_cmd_prompt(data);
-	wait_cmd_prompt(data);
-	wait_cmd_prompt(data);
-	wait_cmd_prompt(data);
-	wait_cmd_prompt(data);
-	wait_cmd_prompt(data);
-	wait_cmd_prompt(data);
-	wait_cmd_prompt(data);
-	wait_cmd_prompt(data);
-	wait_cmd_prompt(data);
-	wait_cmd_prompt(data);
-	wait_cmd_prompt(data);
-	wait_cmd_prompt(data);
 	wait_cmd_prompt(data);
 	return (0);
 }

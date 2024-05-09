@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 16:30:08 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/08 23:15:05 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/09 18:23:30 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,7 @@ void	heredoc(char *eof, t_data *data, t_command *command)
 	}
 	read_heredoc(fd, eof, command);
 	close(fd);
+	
 	tcsetattr(0, TCSANOW, data->term);
 	signal(SIGINT, sig_handler);
 	signal(SIGQUIT, sig_handler);
