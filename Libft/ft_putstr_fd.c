@@ -28,10 +28,6 @@ int	ft_putstr_fd(char *str, int fd)
 		}
 		return (ret);
 	}
-	while (str[i])
-	{
-		ret += ft_putchar_fd(str[i], fd);
-		i++;
-	}
+	write(fd, str, ft_strlen(str));
 	return (ret);
 }

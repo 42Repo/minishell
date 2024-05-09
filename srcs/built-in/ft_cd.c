@@ -84,6 +84,8 @@ static char	*ft_export_single_arg(t_env *env, char *name)
 {
 	t_env	*tmp;
 
+	if (name == NULL)
+		return (NULL);
 	tmp = get_env_value_ptr(env, name);
 	if (tmp)
 	{
@@ -163,6 +165,8 @@ int	ft_cd(t_command *command, t_env *env)
 	char	*tmp;
 	char	*tmp2;
 
+	tmp = NULL;
+	tmp2 = NULL;
 	g_return_code = 0;
 	if (command == NULL || (command->args[1] != NULL
 			&& command->args[2] != NULL))
@@ -171,20 +175,15 @@ int	ft_cd(t_command *command, t_env *env)
 		&& ft_strcmp(command->args[1], "-") == 0)
 		return (old_cd(env));
 	tmp2 = getcwd(NULL, 0);
-	tmp = ft_strjoin("OLDPWD=", tmp2);
+	if (tmp2)
+		tmp = ft_strjoin("OLDPWD=", tmp2);
 	ft_export_single_arg(env, tmp);
 	free(tmp2);
 	free(tmp);
 	if (other_case_cd(command, env) == 0)
 		return (0);
-	tmp = ft_strjoin_free(ft_strjoin_free(getcwd(NULL, 0), "/"),
-			command->args[1]);
-	if (chdir(tmp) != 0)
-	{
-		free(tmp);
+	if (chdir(command->args[1]) != 0)
 		return (error_cd(command->args[1], env, 0));
-	}
 	set_new_pwd(env);
-	free(tmp);
 	return (0);
 }
