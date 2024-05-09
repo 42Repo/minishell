@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 16:30:08 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/09 18:23:30 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/09 19:30:23 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,7 @@ void	heredoc(char *eof, t_data *data, t_command *command)
 		return ;
 	}
 	read_heredoc(fd, eof, command);
+	unlink(command->random_name);
 	close(fd);
 	
 	tcsetattr(0, TCSANOW, data->term);
@@ -151,7 +152,6 @@ void	heredoc(char *eof, t_data *data, t_command *command)
 	command->fd_in = open(command->random_name, O_RDONLY);
 	if (g_return_code == 130)
 	{
-		unlink(command->random_name);
 		command->random_name[0] = '\0';
 		close(command->fd_in);
 		command->fd_in = -1;

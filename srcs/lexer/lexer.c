@@ -117,9 +117,7 @@ char	*remove_dollard_quote(char *str)
 	while (str[i])
 	{
 		quote_state = quote_management(quote_state, str[i]);
-		new_str[j] = str[i];
-		i++;
-		j++;
+		new_str[j++] = str[i++];
 	}
 	new_str[j] = '\0';
 	free(str);

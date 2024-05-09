@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/09 18:31:29 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/09 20:09:02 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -372,6 +372,11 @@ int	wait_cmd_prompt(t_data *data)
 			ft_exit(data->command_top, data, data->env, "exit");
 		if (ft_strlen(line) > 0)
 			add_history(line);
+		// if (lexer(line, data))
+		// {
+		// 	free_token_lst(data);
+		// 	ft_exit();
+		// }
 		if (lexer(line, data) == 0)
 		{
 			if (parser(data) == 0)

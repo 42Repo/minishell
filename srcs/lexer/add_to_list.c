@@ -29,7 +29,6 @@ void	add_token_to_list(t_data *data, char *str, int len, t_token_type type)
 		ms_lstnew(type, tmp2), data);
 }
 
-
 void	add_token_next(t_token *token, char *str, int len, t_token_type type)
 {
 	char	*tmp1;
