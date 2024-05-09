@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/09 17:30:35 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/09 23:33:04 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	get_envar_len(char *str)
 		return (2);
 	// if (str[i] == '"' || str[i] == '\'')
 		// return (2);
-	while (str[i] && ft_isalnum(str[i]) && str[i] != '_')
+	while (str[i] && (ft_isalnum(str[i]) || str[i] == '_'))
 		i++;
 	return (i);
 }
@@ -120,7 +120,7 @@ char	*replace_envar(t_data *data, t_token *selected, int i)
 		// quote_state = quote_management(quote_state, selected->value[i]);
 		while (selected->value[i] && !((int)ft_strlen(selected->value) >= i + 1 && \
 				selected->value[i] == '$' \
-				&& (ft_isalpha(selected->value[i + 1]) || selected->value[i + 1] == '?' \
+				&& (ft_isalpha(selected->value[i + 1]) || selected->value[i + 1] == '_' || selected->value[i + 1] == '?' \
 				|| (selected->value[i + 1] == '"' && quote_state != 2) || selected->value[i + 1] == '\'') && \
 				 quote_state != 1))
 		{
@@ -261,7 +261,7 @@ char	*expander(t_data *data)
 			quote_state = quote_management(quote_state, selected->value[i]);
 			if (((int)ft_strlen(selected->value) >= i + 1 && \
 				selected->value[i] == '$' \
-				&& (ft_isalpha(selected->value[i + 1]) || selected->value[i + 1] == '?' \
+				&& (ft_isalpha(selected->value[i + 1]) || selected->value[i + 1] == '_' || selected->value[i + 1] == '?' \
 				|| selected->value[i + 1] == '"' || selected->value[i + 1] == '\'') && \
 				 quote_state != 1) && !(previous && previous->type == REDIR && previous->value[1] == '<'))
 				 {
