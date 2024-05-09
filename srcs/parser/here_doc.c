@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 16:30:08 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/08 16:41:06 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/08 23:15:05 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,27 +53,74 @@ static int	test_open(t_command *command)
 	return (0);
 }
 
-void	read_heredoc(int fd, char *eof, t_command *command)
+void	sig_child_handler(int sig)
 {
-	char	*line;
-
-	line = readline("> ");
-	while (line && ft_strcmp(line, eof) != 0)
+	if (sig == SIGINT)
 	{
-		if (test_open(command) == -1)
-			return ;
-		write(fd, line, ft_strlen(line));
-		write(fd, "\n", 1);
-		free(line);
-		line = NULL;
-		line = readline("> ");
+		write(1, "\n", 1);
+		exit(130);
 	}
 }
 
-// // quitte le heredoc et revient au prompt
-// void	sig_heredoc(int sig)
-// {
-	
+void	sig_heredoc_handler(int sig)
+{
+	(void)sig;
+}
+
+void	read_heredoc(int fd, char *eof, t_command *command)
+{
+	char	*line;
+	pid_t	pid;
+	int		status;
+
+	pid = fork();
+	if (pid == -1)
+	{
+		perror("fork");
+		return ;
+	}
+	if (pid == 0)
+	{
+		signal(SIGINT, sig_child_handler);
+		signal(SIGQUIT, sig_child_handler);
+		rl_catch_signals = 0;
+		line = readline("> ");
+		if (line == NULL)
+		{
+			ft_putstr_fd("minishell: warning: here-document delimited by end-of-file (wanted `", 1);
+			ft_putstr_fd(eof, 1);
+			ft_putstr_fd("')\n", 1);
+			close(fd);
+			exit(130);
+		}
+		while (line && ft_strcmp(line, eof) != 0)
+		{
+			if (test_open(command) == -1)
+				break ;
+			write(fd, line, ft_strlen(line));
+			write(fd, "\n", 1);
+			free(line);
+			line = NULL;
+			line = readline("> ");
+			if (line == NULL)
+			{
+				ft_putstr_fd("minishell: warning: here-document delimited by end-of-file (wanted `", 1);
+				ft_putstr_fd(eof, 1);
+				ft_putstr_fd("')\n", 1);
+				close(fd);
+				exit(130);
+			}
+		}
+		free(line);
+		close(fd);
+		exit(g_return_code);
+	}
+	waitpid(pid, &status, 0);
+	if (WIFSIGNALED(status))
+		g_return_code = 128 + WTERMSIG(status);
+	if (WIFEXITED(status))
+		g_return_code = WEXITSTATUS(status);
+}
 
 void	heredoc(char *eof, t_data *data, t_command *command)
 {
@@ -86,6 +133,8 @@ void	heredoc(char *eof, t_data *data, t_command *command)
 		close(command->fd_in);
 	if (command->random_name[0] == '\0')
 		random_init(command);
+	signal(SIGINT, sig_heredoc_handler);
+	signal(SIGQUIT, sig_heredoc_handler);
 	fd = open(command->random_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd == -1)
 	{
@@ -93,8 +142,17 @@ void	heredoc(char *eof, t_data *data, t_command *command)
 		eof = NULL;
 		return ;
 	}
-	signal(SIGINT, SIG_IGN);
 	read_heredoc(fd, eof, command);
 	close(fd);
+	tcsetattr(0, TCSANOW, data->term);
+	signal(SIGINT, sig_handler);
+	signal(SIGQUIT, sig_handler);
 	command->fd_in = open(command->random_name, O_RDONLY);
+	if (g_return_code == 130)
+	{
+		unlink(command->random_name);
+		command->random_name[0] = '\0';
+		close(command->fd_in);
+		command->fd_in = -1;
+	}
 }
