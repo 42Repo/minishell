@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/09 16:55:11 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/09 17:14:03 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*get_envar(char *str, int len, t_data *data)
 		return (ft_strdup("$"));
 	if (len == 1)
 		return (ft_strdup(""));
-	str = remove_quotes(str, 0);
+	// str = remove_quotes(str, 0);
 	// if (str[1] == '"' || str[1] == '\'')
 	if ((ft_strlen(str) >= 2 && str[1] == '?'))
 		return (ft_itoa(g_return_code));
@@ -129,7 +129,13 @@ char	*replace_envar(t_data *data, t_token *selected, int i)
 			i++;
 			j++;
 		}
-		if (j > 1)
+		if (quote_state == 2 && selected->value[i + 1] == '"')
+		{
+			quote_state = 0;
+			i++;
+			j++;
+		}
+		if (j > 0)
 		{
 			if (!tab[0])
 				tab[0] = ft_strndup(&selected->value[i-j], j);
