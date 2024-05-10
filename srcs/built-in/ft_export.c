@@ -52,6 +52,15 @@ void	add_new_env_variable(t_env *env, char *arg)
 {
 	t_env	*new_env;
 
+	if (!env)
+		return ;
+	if (!env->name)
+	{
+		env->name = ft_strndup(arg, ft_strchr(arg, '=') - arg);
+		env->value = ft_strdup(ft_strchr(arg, '=') + 1);
+		env->next = NULL;
+		return ;
+	}
 	new_env = ft_calloc(sizeof(t_env), 1);
 	if (!new_env)
 		return ;

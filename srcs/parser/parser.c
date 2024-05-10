@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/09 23:10:38 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/09 23:21:24 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,12 +133,10 @@ void	get_redir(t_token *selected, t_data *data, t_command *command)
 				select_output(selected->next->value, 1, command);
 			else if (ft_strcmp(selected->value, "<<") == 0)
 			{
-				printf("mange ma merde\n");
 				return ;
 			}
 			else if (selected->value[0] == '<')
 			{
-				printf("non toi\n");
 				select_input(selected->next->value, data, command);
 			}
 		}

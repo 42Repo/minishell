@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 18:49:35 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/04 19:03:31 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/09 22:06:36 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	add_shlvl(t_env *env)
 	t_env	*tmp;
 
 	tmp = env;
-	while (tmp)
+	while (tmp && tmp->next && tmp->name)
 	{
 		if (tmp->name && ft_strcmp(tmp->name, "SHLVL") == 0)
 		{
