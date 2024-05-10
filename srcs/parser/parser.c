@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/09 23:10:38 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/10 16:35:10 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,7 +199,10 @@ void	open_heredoc(t_data *data)
 			ft_strlen(selected->value) == 2 && selected->value[1] == '<')
 		{
 			if (selected->type == PIPE)
+			{
+				command->next = init_command();
 				command = command->next;
+			}
 			tmp = selected->next;
 			if (tmp->type == WORD)
 			{
@@ -220,21 +223,28 @@ void	set_fd_in(t_command *command, t_token *token)
 	selected = command;
 	tmp = token;
 	last_redir = NULL;
-	while (selected)
+	while (selected && tmp->type != END)
 	{	
 		while (tmp->type != END && tmp->type != PIPE)
 		{
+			
 			if (tmp->type == REDIR)
 				last_redir = tmp;
-				
 			tmp = tmp->next;
+			printf("skibidi\n");
 		}
+			printf("toilet\n");
 		if(last_redir && !ft_strcmp(last_redir->value, "<<") && selected->fd_heredoc != -1)
 			selected->fd_in = selected->fd_heredoc;
-		if (tmp->type != END)
-			tmp = tmp->next;
 		// printf("fd_in : %d\n", selected->fd_in);
-		selected= selected->next;
+		if (tmp->type == PIPE)
+		{
+			printf("selected->value : %s\n", selected->cmd);
+			printf("selected->fd_in : %d\n", selected->fd_in);
+			tmp = tmp->next;
+			selected= selected->next;
+			last_redir = NULL;
+		}
 	}
 }
 
