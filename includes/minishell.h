@@ -39,6 +39,7 @@ typedef enum s_token_type
 	END
 }	t_token_type;
 
+
 /**
  * @brief type 0 -> any other char str / type 1 -> pipe / type 2 -> redirect
  *
@@ -99,28 +100,311 @@ typedef struct s_parser
 
 extern int	g_return_code;
 
-/* FUNCTIONS */
+/*  FUNCTIONS  */
+
+
+
+/**
+ * @brief the main parsing function
+ *
+ * @param data the main struct
+ */
 int			parser(t_data *data);
+
+/**
+ * @brief the main parsing the command
+ *
+ * @param selected the selected token
+ * @param data the main struct
+ * @param command the command struct
+ * @param parser the parser struct
+ *
+ * @return the error message
+ */
 char		*parse_misc(t_token **selected, t_data *data, \
 			t_command *command, t_parser *parser);
+
+/**
+ * @brief free the t_command linked list
+ * 
+ * @param data the main struct
+ */
 void		free_command(t_data *data);
+
+/**
+ * @brief get the redirections and calls the right 
+ * functions to change in and out fd
+ * 
+ * @param selected 
+ * @param data 
+ * @param command 
+ */
 void		get_redir(t_token *selected, t_data *data, t_command *command);
+
+/**
+ * @brief a function to free a char ** tab
+ * 
+ * @param tab the tab you want to free
+ */
 void		free_tab(char **tab);
+
+/**
+ * @brief 
+ * 
+ * @param cmd 
+ * @param args 
+ * @param env 
+ * @param data 
+ * @return int 
+ */
 int			execve_path_env(char *cmd, char **args, t_env *env, t_data *data);
+
+/**
+ * @brief alocate memory for a new command struct and set values to NULL
+ * 
+ * @return t_command* 
+ */
 t_command	*init_command(void);
+
+/**
+ * @brief fin the path in env
+ * 
+ * @param env 
+ * @return path
+ */
 char		*get_path(t_env *env);
-void		parse_word(t_token *selected, t_command *command, \
-				char *tmp2, char **tmp);
+
+/**
+ * @brief set the command->cmd to the selected token value
+ * 
+ * @param selected the selected token
+ * @param command the command struct
+ */
+void		parse_word(t_token *selected, t_command *command);
+
+/**
+ * @brief removes every quotes from the tokenized list
+ * 
+ * @param data the main struct
+ */
 void		clear_token_quotes(t_data *data);
+
+/**
+ * @brief 
+ * 
+ * @param cmd 
+ * @param path_env 
+ * @return char* 
+ */
 char		*find_cmd_path(char *cmd, char *path_env);
+
+/**
+ * @brief check if the redir is valid
+ * 
+ * @param selected the selected token
+ * @param data the main struct
+ * @param command the command struct
+ * @return if NULL -> no error, else -> error message
+ */
 char		*parse_redir(t_token **selected, t_data *data, t_command *command);
+
+/**
+ * @brief takes 3 str and print them in the error fd
+ * 
+ * @param str1 1st str
+ * @param str2 2nd str
+ * @param str3 3rd str
+ */
 void		put_error(char *str1, char *str2, char *str3);
+
+/**
+ * @brief removes every token with a strlen(value) == 0
+ * 
+ * @param data the main struct
+ */
 void		remove_empty_tokens(t_data *data);
+
+/**
+ * @brief check if the pipe is valid, and set the next command
+ * 
+ * @param selected the pipe token
+ * @param command the command struct
+ * @return if NULL -> no error, else -> error message
+ */
 char		*parse_pipe(t_token **selected, t_command **command);
+
+/**
+ * @brief set the fd_in of the command struct
+ * 
+ * @param command the command struct
+ * @param selected the selected token
+ */
 int			check_exec_command_path(char *path);
+
+/**
+ * @brief calls ft_strtrim and free the input str
+ * 
+ * @param s1 the str to trim
+ * @param set the charset you trim from s1
+ * @return the trimmed str
+ */
 char		*ft_strtrim_free(char *s1, char *set);
+
+/**
+ * @brief 
+ * 
+ * @param path 
+ * @return int 
+ */
 int			execve_error(char *path);
+
+/**
+ * @brief put the t_env list in a char ** tab
+ * 
+ * @param env the struct env list
+ * @return the char ** env
+ */
 char		**env_to_tab(t_env *env);
+
+/**
+ * @brief exits quoicoushell
+ * 
+ * @param cmd 1st struct of the command linked list
+ * @param data the main struct
+ * @param env the env list
+ * @param exit_msg the message to print before exiting
+ */
+void		ft_exit(t_command *command, t_data *data,
+				t_env *env, char *exit_msg);
+
+/**
+ * @brief get the len of a char ** tab
+ * 
+ * @param tab the tab you want to get the len
+ * @return len
+ */
+int			ft_tablen(char **tab);
+
+/**
+ * @brief manage the signals
+ * 
+ * @param num signal number
+ */
+void		sig_handler(int num);
+
+/**
+ * @brief the main function of the minishell
+ * 
+ * @param data the main struct
+ */
+void		wait_cmd_prompt(t_data *data);
+
+/**
+ * @brief get the value of the environment variable
+ * 
+ * @param str the str where there is the name of the variable
+ * @param len the len of the name
+ * @param data the main struct
+ * @return the value of the variable 
+ */
+char		*get_envar(char *str, int len, t_data *data);
+
+/**
+ * @brief replace every environment variable in a token->value
+ * 
+ * @param data the main struct
+ * @param selected the selected token
+ * @param i the index of the token
+ * @return the new value of the token
+ */
+char		*replace_envar(t_data *data, t_token *selected, int i);
+
+/**
+ * @brief add a char * to a char ** tab
+ * 
+ * @param tab the tab you want to add the str
+ * @param line the line to add
+ * @return the new tab
+ */
+char		**join_tab(char **tab, char *line);
+
+/**
+ * @brief print the env alphabetically sorted
+ * 
+ * @param env 
+ */
+void		print_sorted_env(t_env *env);
+
+/**
+ * @brief the envar replacement function
+ * 
+ * @param data the main struct
+ * @return if NULL -> no error, else -> error message
+ */
+char		*expander(t_data *data);
+
+/**
+ * @brief 
+ * 
+ * @param command 
+ * @param env 
+ * @return int 
+ */
+int			ft_env(t_command *command, t_env *env);
+
+/**
+ * @brief free the env list
+ * 
+ * @param env 
+ */
+void		free_env(t_env *env);
+
+/**
+ * @brief open the heredoc files
+ * 
+ * @param file the EOF str
+ * @param data 
+ * @param command 
+ */
+void		heredoc(char *file, t_data *data, t_command *command);
+
+/**
+ * @brief 
+ * 
+ * @param env 
+ * @param arg	
+ */
+void		add_new_env_variable(t_env *env, char *arg);
+
+/**
+ * @brief a ft_strsplit that doesn't split if the char is in a quote
+ * 
+ * @param str the str to split
+ * @param charset the charset to split with
+ * @return char** the splited string
+ */
+char		**ft_split_quote_state(const char *str, const char *charset);
+
+/**
+ * @brief create a new token and add it next to the selected token
+ * 
+ * @param token the selected token
+ * @param str the value of the new token
+ * @param len the len of the value
+ * @param type the type of the new token
+ */
+void		add_token_next(t_token *token, char *str, int len,
+				t_token_type type);
+
+/**
+ * @brief add a token to the list next to the selected token
+ * 
+ * @param token the selected token
+ * @param new the new one
+ * @return t_token* 
+ */
+t_token		*ms_lstadd_next(t_token *token, t_token *new);
+
 /**
  * @brief turn a str input into a tokenized chained list
  *
@@ -128,13 +412,6 @@ char		**env_to_tab(t_env *env);
  * @param data the main struct
  */
 int			lexer(char *str, t_data *data);
-
-/**
- * @brief [DEBUG] - print a tokenized chained list
- *
- * @param node the top node of the list
- */
-void		print_stack(t_token *node);
 
 /**
  * @brief addapted version of the libft's ft_lstadd_back
@@ -273,6 +550,7 @@ void		free_token_lst(t_data *data);
  * @return int 0 if success, 1 if error
  */
 int			ft_cd(t_command *command, t_env *env);
+
 /**
  * @brief initialize the prompt of shell
  *
@@ -348,27 +626,4 @@ void		ft_echo(t_command *command);
  * @param env the struct env list
  */
 void		ft_pwd(t_env *env);
-
-int			execve_path_env(char *cmd, char **args, t_env *env, t_data *data);
-void		ft_exit(t_command *command, t_data *data,
-				t_env *env, char *exit_msg);
-int			ft_tablen(char **tab);
-void		sig_handler(int num);
-int			wait_cmd_prompt(t_data *data);
-char		*get_envar(char *str, int len, t_data *data);
-char		*envar_remover(char *str, char *envar, char *new_str, int *i);
-char		*replace_envar(t_data *data, t_token *selected, int i);
-char		*check_envar(char *str, t_data *data);
-char		**join_tab(char **tab, char *line);
-void		print_sorted_env(t_env *env);
-char		*expander(t_data *data);
-int			ft_env(t_command *command, t_env *env);
-void		free_env(t_env *env);
-void		heredoc(char *file, t_data *data, t_command *command);
-void		add_new_env_variable(t_env *env, char *arg);
-char		**ft_split_quote_state(const char *str, const char *charset);
-void		add_token_next(t_token *token, char *str, int len,
-				t_token_type type);
-t_token		*ms_lstadd_next(t_token *token, t_token *new);
-
 #endif

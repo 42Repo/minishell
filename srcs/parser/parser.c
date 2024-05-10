@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/10 18:24:25 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/10 19:48:09 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,9 +132,7 @@ void	get_redir(t_token *selected, t_data *data, t_command *command)
 			else if (selected->value[0] == '>')
 				select_output(selected->next->value, 1, command);
 			else if (ft_strcmp(selected->value, "<<") == 0)
-			{
 				return ;
-			}
 			else if (selected->value[0] == '<')
 			{
 				select_input(selected->next->value, data, command);

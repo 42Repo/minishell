@@ -6,17 +6,15 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 15:22:03 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/10 17:02:32 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/10 19:52:31 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	parse_word(t_token *selected, t_command *command, \
-					char *tmp2, char **tmp)
+void	parse_word(t_token *selected, t_command *command)
 {
-	(void) tmp2;
-	(void) tmp;
+
 	// selected->value = remove_quotes(selected->value);
 	command->cmd = ft_strdup(selected->value);
 	selected = selected->next;
