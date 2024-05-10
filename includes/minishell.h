@@ -102,10 +102,48 @@ extern int	g_return_code;
 
 /*  FUNCTIONS  */
 
+/**
+ * @brief 
+ * 
+ * @param selected 
+ * @param i 
+ * @param quote_state 
+ * @return int 
+ */
 int	check_envar(t_token *selected, int i, int quote_state);
+
+/**
+ * @brief 
+ * 
+ * @param tab 
+ * @return char* 
+ */
 char	*join_replaced(char **tab);
+
+/**
+ * @brief Get the envar object
+ * 
+ * @param str 
+ * @param len 
+ * @param data 
+ * @return char* 
+ */
 char	*get_envar(char *str, int len, t_data *data);
+
+/**
+ * @brief Get the envar len object
+ * 
+ * @param str 
+ * @return int 
+ */
 int	get_envar_len(char *str);
+
+/**
+ * @brief Set the envar object
+ * 
+ * @param data 
+ * @param selected 
+ */
 void	set_envar(t_data *data, t_token *selected);
 
 /**
