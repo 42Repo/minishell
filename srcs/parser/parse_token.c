@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 15:22:03 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/09 19:06:19 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/10 17:02:32 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*parse_pipe(t_token **selected, t_command **command)
 {
 	if ((*selected)->next->type != WORD && (*selected)->next->type != REDIR)
 		return ((*selected)->value);
-	(*command)->next = init_command();
+	// (*command)->next = init_command();
 	(*command) = (*command)->next;
 	(*selected) = (*selected)->next;
 	return (NULL);

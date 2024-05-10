@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:30:00 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/09 19:10:38 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/10 18:29:32 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	ft_exit(t_command *command, t_data *data, t_env *env, char *exit_msg) // TO
 		if (command && command->args && command->args[0] && command->args[1]
 			&& command->args[1][i] == '+')
 			i++;
-		if (ft_strlen(command->args[1] + i) > ft_strlen(LLONG_MAX_STR)
+		if ((command && command->args && command->args[0] && command->args[1] && command->args[1] + i && ft_strlen(command->args[1] + i) > ft_strlen(LLONG_MAX_STR))
 			|| (ft_strlen(command->args[1] + i) == ft_strlen(LLONG_MAX_STR)
 				&& ft_strcmp(command->args[1] + i, LLONG_MAX_STR) > 0))
 		{
