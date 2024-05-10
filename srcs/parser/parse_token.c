@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 15:22:03 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/10 19:52:31 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/10 20:39:01 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	*parse_misc(t_token **selected, t_data *data, \
 		t_command *command, t_parser *parser)
 {
 	if ((*selected)->type == WORD && !command->cmd)
-		parse_word((*selected), command, parser->tmp2, parser->tmp);
+		parse_word((*selected), command);
 	if ((*selected)->type == WORD)
 		command->args = join_tab(command->args, ft_strdup((*selected)->value));
 	else if ((*selected)->type == REDIR)

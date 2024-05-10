@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/10 20:29:50 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/10 20:39:35 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -355,7 +355,7 @@ void	wait_cmd_prompt(t_data *data)
 			free_command(data);
 		get_cmd_prompt(data, data->env);
 		if (data->cmd_prompt == NULL)
-			return (-1);
+			return ;
 		/////////////////////////// in testing
 		// if (isatty(fileno(stdin)))
 		// 	line = ft_strtrim_free(readline(data->cmd_prompt), " ");
