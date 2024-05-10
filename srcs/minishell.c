@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/09 21:51:01 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/09 23:24:31 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,10 +249,10 @@ void	execute_command(t_command *command, t_data *data, int input_fd, int output_
 		exit(g_return_code);
 	}
 	waitpid(command->pid, &g_return_code, 0);
-	if (WIFEXITED(g_return_code))
-		g_return_code = WEXITSTATUS(g_return_code);
 	if (WIFSIGNALED(g_return_code))
 		g_return_code = 128 + WTERMSIG(g_return_code);
+	if (WIFEXITED(g_return_code))
+		g_return_code = WEXITSTATUS(g_return_code);
 	if (g_return_code == 130)
 			printf("\n");
 	fd_in = dup(data->fd_in);

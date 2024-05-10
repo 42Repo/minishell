@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 16:30:08 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/09 22:58:25 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/09 23:47:39 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,6 @@ void	heredoc(char *eof, t_data *data, t_command *command)
 	fd2 = open(command->random_name, O_RDONLY);
 	unlink(command->random_name);
 	close(fd);
-
 	tcsetattr(0, TCSANOW, data->term);
 	signal(SIGINT, sig_handler);
 	signal(SIGQUIT, sig_handler);
