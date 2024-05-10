@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 00:16:17 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/09 18:06:18 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/11 00:49:06 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,12 @@ void	free_tab(char **tab)
 
 char	*find_cmd_path(char *cmd, char *path_env)
 {
-	char	**path_tab;
-	int		i;
-	char	*path;
+	char		**path_tab;
+	int			i;
+	char		*path;
+	struct stat	buf;
 
+	stat(cmd, &buf);
 	path_tab = ft_split(path_env, ':');
 	if (!path_tab)
 		return (NULL);
@@ -82,16 +84,18 @@ char	*find_cmd_path(char *cmd, char *path_env)
 		path = ft_strjoin_free(path, cmd);
 		if (!access(path, F_OK))
 		{
-			if (!access(path, X_OK))
+			if (!access(path, X_OK) && !S_ISDIR(buf.st_mode))
 			{
 				free_tab(path_tab);
+				errno = 0;
 				return (path);
 			}
 			else
 			{
-				errno = EACCES;
-				free_tab(path_tab);
-				return (NULL);
+				if (S_ISDIR(buf.st_mode))
+					errno = EISDIR;
+				else
+					errno = EACCES;
 			}
 		}
 		free(path);

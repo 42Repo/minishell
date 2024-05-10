@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 00:16:17 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/10 22:57:21 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/11 01:04:40 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,15 +89,19 @@ int	has_slash(char *cmd)
 
 int	check_cmd(char *cmd)
 {
+	struct stat	buf;
+
+	stat(cmd, &buf);
 	if (access(cmd, F_OK) == 0)
 	{
 		if (access(cmd, X_OK) == 0)
-			return (0);
-		else
 		{
-			put_error("minishell: ", cmd, ": Permission denied\n");
-			return (126);
+			if (S_ISDIR(buf.st_mode))
+				return (126);
+			return (0);
 		}
+		else
+			return (126);
 	}
 	return (1);
 }
@@ -172,7 +176,6 @@ int	execve_path_env(char *cmd, char **args, t_env *env, t_data *data)
 	close(data->fd_in);
 	close(data->fd_out);
 	execve(path, args, envp);
-	perror("minishell");
 	free_tab(envp);
 	free(path);
 	return (127);
