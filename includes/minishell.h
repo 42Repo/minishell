@@ -309,7 +309,7 @@ char		*get_envar(char *str, int len, t_data *data);
  * @param i the index of the token
  * @return the new value of the token
  */
-char	*replace_envar(t_data *data, t_token *selected, int i, char ***tab);
+char		*replace_envar(t_data *data, t_token *selected, int i, char ***tab);
 
 /**
  * @brief add a char * to a char ** tab
