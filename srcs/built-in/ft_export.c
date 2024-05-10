@@ -48,10 +48,32 @@ static int	ft_is_equal(char *str)
 	return (0);
 }
 
-void	add_new_env_variable(t_env *env, char *arg)
+void	create_env_node(char *arg, int has_equal, t_env *env)
 {
 	t_env	*new_env;
 
+	new_env = ft_calloc(sizeof(t_env), 1);
+	if (!new_env)
+		return ;
+	if (has_equal == 0)
+	{
+		new_env->name = ft_strdup(arg);
+		new_env->value = NULL;
+		new_env->next = NULL;
+	}
+	else
+	{
+		new_env->name = ft_strndup(arg, ft_strchr(arg, '=') - arg);
+		new_env->value = ft_strdup(ft_strchr(arg, '=') + 1);
+		new_env->next = NULL;
+	}
+	while (env->next)
+		env = env->next;
+	env->next = new_env;
+}
+
+void	add_new_env_variable(t_env *env, char *arg)
+{
 	if (!env)
 		return ;
 	if (!env->name)
@@ -61,25 +83,10 @@ void	add_new_env_variable(t_env *env, char *arg)
 		env->next = NULL;
 		return ;
 	}
-	new_env = ft_calloc(sizeof(t_env), 1);
-	if (!new_env)
-		return ;
-	if (!(ft_is_equal(arg)))
-	{
-		new_env->name = ft_strdup(arg);
-		new_env->value = NULL;
-		new_env->next = NULL;
-		while (env->next)
-			env = env->next;
-		env->next = new_env;
-		return ;
-	}
-	new_env->name = ft_strndup(arg, ft_strchr(arg, '=') - arg);
-	new_env->value = ft_strdup(ft_strchr(arg, '=') + 1);
-	new_env->next = NULL;
-	while (env->next)
-		env = env->next;
-	env->next = new_env;
+	if (ft_is_equal(arg) == 1)
+		create_env_node(arg, 1, env);
+	else
+		create_env_node(arg, 0, env);
 }
 
 static void	process_arg(t_env *env, char *arg)
@@ -89,9 +96,7 @@ static void	process_arg(t_env *env, char *arg)
 
 	if (!is_valid_identifier(arg))
 	{
-		ft_putstr_fd("bash: export: `", 2);
-		ft_putstr_fd(arg, 2);
-		ft_putstr_fd("': not a valid identifier\n", 2);
+		put_error("minishell: export: `", arg, "': not a valid identifier\n");
 		g_return_code = 1;
 		return ;
 	}

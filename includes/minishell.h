@@ -167,14 +167,6 @@ int			execve_path_env(char *cmd, char **args, t_env *env, t_data *data);
 t_command	*init_command(void);
 
 /**
- * @brief fin the path in env
- * 
- * @param env 
- * @return path
- */
-char		*get_path(t_env *env);
-
-/**
  * @brief set the command->cmd to the selected token value
  * 
  * @param selected the selected token

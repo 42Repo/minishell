@@ -37,7 +37,6 @@ void	ft_echo(t_command *command)
 	newline = 1;
 	i = 1;
 	g_return_code = 0;
-
 	while (command->args[i] && is_arg_option(command->args[i]))
 		i++;
 	newline = (i == 1);

@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:30:00 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/10 20:37:26 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/10 20:44:22 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,4 +124,3 @@ void	ft_exit(t_command *command, t_data *data, t_env *env, char *exit_msg)
 		exit(g_return_code % 256);
 	exit(EXIT_SUCCESS);
 }
-
