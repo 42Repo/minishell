@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/11 01:01:27 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/11 01:05:57 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,11 +117,11 @@ void check_quote_state(t_token *tmp, int *quote_state, int *i, int *j)
 {
 	if ((((*quote_state) == 2 && tmp->value[(*i) + 1] == '"')
 			|| ((*quote_state) == 1 && tmp->value[(*i) + 1] == '\'')))
-		{
-			(*quote_state) = 0;
-			(*j)++;
-			(*i)++;
-		}
+	{
+		(*quote_state) = 0;
+		(*j)++;
+		(*i)++;
+	}
 }
 
 char	*replace_envar(t_data *data, t_token *tmp, int i, char ***tab)
