@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/10 19:48:09 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/10 22:30:33 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,6 @@ void	select_input(char *file, t_data *data, t_command *command)
 	if (command->fd_in == -1)
 		command->fd_in = 0;
 }
-	// gerer erreurs
 
 void	get_redir(t_token *selected, t_data *data, t_command *command)
 {

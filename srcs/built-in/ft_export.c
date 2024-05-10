@@ -55,7 +55,7 @@ void	create_env_node(char *arg, int has_equal, t_env *env)
 	new_env = ft_calloc(sizeof(t_env), 1);
 	if (!new_env)
 		return ;
-	if (1 == has_equal)
+	if (has_equal == 0)
 	{
 		new_env->name = ft_strdup(arg);
 		new_env->value = NULL;

@@ -109,10 +109,19 @@ static char	*ft_export_single_arg(t_env *env, char *name)
 	return (NULL);
 }
 
+static void	update_env(t_env *env, char *new_value)
+{
+	char	*tmp2;
+
+	tmp2 = ft_strjoin("OLDPWD=", new_value);
+	free(new_value);
+	ft_export_single_arg(env, tmp2);
+	free(tmp2);
+}
+
 static int	old_cd(t_env *env)
 {
 	char	*tmp;
-	char	*tmp2;
 
 	if (get_env_value_string(env, "OLDPWD") == NULL)
 	{
@@ -123,20 +132,13 @@ static int	old_cd(t_env *env)
 	tmp = getcwd(NULL, 0);
 	if (chdir(get_env_value_string(env, "OLDPWD")) != 0)
 	{
-		tmp2 = (tmp);
-		tmp = ft_strjoin("OLDPWD=", tmp2);
-		free(tmp2);
-		ft_export_single_arg(env, tmp);
-		free(tmp);
+		update_env(env, tmp);
 		printf("%s\n", get_env_value_string(env, "OLDPWD"));
 		g_return_code = 1;
 		return (0);
 	}
 	printf("%s\n", get_env_value_string(env, "OLDPWD"));
-	tmp2 = ft_strjoin("OLDPWD=", tmp);
-	ft_export_single_arg(env, tmp2);
-	free(tmp2);
-	free(tmp);
+	update_env(env, tmp);
 	return (0);
 }
 

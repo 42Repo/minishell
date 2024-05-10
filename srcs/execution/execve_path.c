@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 00:16:17 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/09 19:15:29 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/10 22:57:21 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,8 @@ void	put_error(char *str1, char *str2, char *str3)
 int	check_exec_command_path(char *path)
 {
 	struct stat	buf;
-	int		test; // TODO : a changer
 
-	test = stat(path, &buf);
-	if (test == -1)
+	if (stat(path, &buf) == -1)
 	{
 		if (errno == ENOENT)
 		{
@@ -51,10 +49,8 @@ int	check_exec_command_path(char *path)
 int	check_exec_command(char *path)
 {
 	struct stat	buf;
-	int test;
 
-	test = stat(path, &buf);
-	if (test == -1)
+	if (stat(path, &buf) == -1)
 	{
 		if (errno == ENOENT)
 		{
@@ -104,10 +100,24 @@ int	check_cmd(char *cmd)
 		}
 	}
 	return (1);
-}	
+}
+
+static char	*get_path(t_env *env)
+{
+	t_env	*tmp;
+
+	tmp = env;
+	while (tmp)
+	{
+		if (!ft_strcmp(tmp->name, "PATH"))
+			return (tmp->value);
+		tmp = tmp->next;
+	}
+	return (NULL);
+}
 
 int	execve_path_env(char *cmd, char **args, t_env *env, t_data *data)
-{		
+{
 	char	**envp;
 	char	*path;
 
@@ -141,7 +151,6 @@ int	execve_path_env(char *cmd, char **args, t_env *env, t_data *data)
 				g_return_code = 127;
 			}
 		}
-
 	}
 	else
 	{
@@ -167,18 +176,4 @@ int	execve_path_env(char *cmd, char **args, t_env *env, t_data *data)
 	free_tab(envp);
 	free(path);
 	return (127);
-}
-
-char	*get_path(t_env *env)
-{
-	t_env	*tmp;
-
-	tmp = env;
-	while (tmp)
-	{
-		if (!ft_strcmp(tmp->name, "PATH"))
-			return (tmp->value);
-		tmp = tmp->next;
-	}
-	return (NULL);
 }
