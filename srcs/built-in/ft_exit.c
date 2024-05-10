@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:30:00 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/10 20:04:25 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/10 20:37:26 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,59 +26,57 @@ void	free_env(t_env *env)
 	}
 }
 
-void	handle_exit_error(char *arg, char *message)
+void	exit_with_error(char *arg, char *message, int error_code)
 {
 	ft_putstr_fd("minishell: exit: ", 2);
 	ft_putstr_fd(arg, 2);
 	ft_putstr_fd(message, 2);
+	g_return_code = error_code;
+	exit(error_code);
 }
 
-int	check_arg_exit(t_command *command)
+int	is_within_longlong_limits(const char *num, int is_negative)
+{
+	if (is_negative)
+	{
+		return (ft_strlen(num) < ft_strlen(LLONG_MIN_STR)
+			|| (ft_strlen(num) == ft_strlen(LLONG_MIN_STR)
+				&& ft_strcmp(num, LLONG_MIN_STR) <= 0));
+	}
+	else
+	{
+		return (ft_strlen(num) < ft_strlen(LLONG_MAX_STR)
+			|| (ft_strlen(num) == ft_strlen(LLONG_MAX_STR)
+				&& ft_strcmp(num, LLONG_MAX_STR) <= 0));
+	}
+}
+
+int	check_numeric_and_boundaries(char *arg)
 {
 	int	i;
 	int	j;
 
 	i = 0;
-	while (command->args[1][i] && ft_isnamespace(command->args[1][i]) == 1)
+	while (arg[i] && ft_isnamespace(arg[i]))
+		i++;
+	if (arg[i] == '-' || arg[i] == '+')
 		i++;
 	j = i;
-	while (command->args[1][j])
+	while (arg[j])
 	{
-		if (!ft_isdigit(command->args[1][j]))
-		{
-			ft_putstr_fd("minishell: exit: ", 2);
-			ft_putstr_fd(command->args[1], 2);
-			ft_putstr_fd(": numeric argument required\n", 2);
-			g_return_code = 2;
-			exit(2);
-		}
+		if (!ft_isdigit(arg[j]))
+			return (0);
 		j++;
 	}
-	if (command->args[1][i] == '-')
-	{
-		i++;
-		if (ft_strlen(command->args[1] + i) > ft_strlen(LLONG_MAX_STR)
-			|| (ft_strlen(command->args[1] + i) == ft_strlen(LLONG_MIN_STR)
-				&& ft_strcmp(command->args[1] + i, LLONG_MIN_STR) > 0))
-		{
-			handle_exit_error(command->args[1], ": numeric argument required\n");
-			g_return_code = 2;
-			exit(2);
-		}
-	}
-	else
-	{
-		if (command->args[1][i] == '+')
-			i++;
-		if ((command && command->args && command->args[0] && command->args[1] && command->args[1] + i && ft_strlen(command->args[1] + i) > ft_strlen(LLONG_MAX_STR))
-			|| (ft_strlen(command->args[1] + i) == ft_strlen(LLONG_MAX_STR)
-				&& ft_strcmp(command->args[1] + i, LLONG_MAX_STR) > 0))
-		{
-			handle_exit_error(command->args[1], ": numeric argument required\n");
-			g_return_code = 2;
-			exit(2);
-		}
-	}
+	if (is_within_longlong_limits(arg + i, arg[i - 1] == '-'))
+		return (1);
+	return (0);
+}
+
+int	check_arg_exit(t_command *command)
+{
+	if (!check_numeric_and_boundaries(command->args[1]))
+		exit_with_error(command->args[1], ": numeric argument required\n", 2);
 	if (command->args[2])
 	{
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
@@ -90,16 +88,21 @@ int	check_arg_exit(t_command *command)
 	return (EXIT_SUCCESS);
 }
 
-void	ft_exit(t_command *command, t_data *data, t_env *env, char *exit_msg) // TODO : A clean + changer la logique
+void	free_resources(t_data *data, t_env *env)
+{
+	free_token_lst(data);
+	free_env(env);
+	rl_clear_history();
+	if (data->cmd_prompt)
+		free(data->cmd_prompt);
+	free(data);
+}
+
+void	ft_exit(t_command *command, t_data *data, t_env *env, char *exit_msg)
 {
 	if (!command)
 	{
-		free_token_lst(data);
-		free_env(env);
-		rl_clear_history();
-		if (data->cmd_prompt)
-			free(data->cmd_prompt);
-		free(data);
+		free_resources(data, env);
 		exit(g_return_code);
 	}
 	if (command->args && command->args[1])
@@ -107,12 +110,7 @@ void	ft_exit(t_command *command, t_data *data, t_env *env, char *exit_msg) // TO
 		if (check_arg_exit(command) == EXIT_FAILURE)
 			return ;
 	}
-	free_token_lst(data);
-	free_env(env);
-	rl_clear_history();
-	if (data->cmd_prompt)
-		free(data->cmd_prompt);
-	free(data);
+	free_resources(data, env);
 	if (ft_strlen(exit_msg))
 	{
 		ft_putstr_fd(exit_msg, 2);
