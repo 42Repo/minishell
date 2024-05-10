@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/09 23:21:24 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/10 18:24:25 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,7 +160,6 @@ char	*parse_line(t_data *data, t_token *selected, t_command *command)
 	while (selected)
 	{
 		command->args = ft_calloc(sizeof(char **), 1);
-		command->next = NULL;
 		while (selected && selected->type != PIPE)
 		{
 			if (command->fd_out != -1 && command->fd_in != -1 && command->fd_heredoc != -2)
@@ -185,54 +184,65 @@ char	*parse_line(t_data *data, t_token *selected, t_command *command)
 
 void	open_heredoc(t_data *data)
 {
-	t_token	*selected;
-	t_token	*tmp;
+	t_token		*selected;
 	t_command	*command;
 	
 	command = data->command_top;
 	selected = data->prompt_top;
-	while (selected)
+	while (selected && selected->type != END)
 	{
-		if (selected->type == REDIR && selected->next && \
-			ft_strlen(selected->value) == 2 && selected->value[1] == '<')
+		if (selected->type == PIPE)
 		{
-			if (selected->type == PIPE)
-				command = command->next;
-			tmp = selected->next;
-			if (tmp->type == WORD)
-			{
-				heredoc(tmp->value, data, command);
-				tmp = tmp->next;
-			}
+			command->next = init_command();
+			command = command->next;
 		}
+		else if (selected->type == REDIR && selected->next && selected->next->type == WORD && !ft_strcmp(selected->value, "<<"))
+			heredoc(selected->next->value, data, command);
 		selected = selected->next;
 	}
 }
 
-void	set_fd_in(t_command *command, t_token *token)
+void	set_fd_in(t_command *command, t_token *selected)
 {
-	t_token	*tmp;
 	t_token	*last_redir;
-	t_command *selected;
 	
-	selected = command;
-	tmp = token;
 	last_redir = NULL;
-	while (selected)
-	{	
-		while (tmp->type != END && tmp->type != PIPE)
+	while(selected)
+	{
+		if (selected->type == REDIR && selected->value[0] == '<')
+				last_redir = selected;
+		if (selected->type == PIPE)
 		{
-			if (tmp->type == REDIR)
-				last_redir = tmp;
-				
-			tmp = tmp->next;
-		}
-		if(last_redir && !ft_strcmp(last_redir->value, "<<") && selected->fd_heredoc != -1)
-			selected->fd_in = selected->fd_heredoc;
-		if (tmp->type != END)
-			tmp = tmp->next;
-		// printf("fd_in : %d\n", selected->fd_in);
-		selected= selected->next;
+			if (last_redir && ft_strcmp(last_redir->value, "<<") == 0)
+			{
+				command->fd_in = command->fd_heredoc;
+				last_redir = NULL;
+			}
+			command = command->next;
+		}	
+		selected = selected->next;
+	}
+	if (last_redir && ft_strcmp(last_redir->value, "<<") == 0)
+		command->fd_in = command->fd_heredoc;
+}
+
+void count_heredoc(t_data *data)
+{
+	t_token		*selected;
+	int			count;
+	
+	count = 0;
+	selected = data->prompt_top;
+	while (selected)
+	{
+		if (selected->type == REDIR && selected->next && selected->next->type == WORD && !ft_strcmp(selected->value, "<<"))
+			count++;
+		selected = selected->next;
+	}
+	if (count >= 16)
+	{
+		g_return_code = 2;
+		ft_exit(data->command_top, data, data->env, "minishell: error: too many here documents");
 	}
 }
 
@@ -245,6 +255,7 @@ int	parser(t_data *data)
 	data->command_top = init_command();
 	selected = data->prompt_top;
 	command = data->command_top;
+	count_heredoc(data);
 	open_heredoc(data);
 	expander(data);
 	clear_token_quotes(data);

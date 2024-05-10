@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:30:00 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/10 20:04:05 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/10 20:04:25 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	check_arg_exit(t_command *command)
 	{
 		if (command->args[1][i] == '+')
 			i++;
-		if (ft_strlen(command->args[1] + i) > ft_strlen(LLONG_MAX_STR)
+		if ((command && command->args && command->args[0] && command->args[1] && command->args[1] + i && ft_strlen(command->args[1] + i) > ft_strlen(LLONG_MAX_STR))
 			|| (ft_strlen(command->args[1] + i) == ft_strlen(LLONG_MAX_STR)
 				&& ft_strcmp(command->args[1] + i, LLONG_MAX_STR) > 0))
 		{
