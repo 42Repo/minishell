@@ -102,7 +102,11 @@ extern int	g_return_code;
 
 /*  FUNCTIONS  */
 
-
+int	check_envar(t_token *selected, int i, int quote_state);
+char	*join_replaced(char **tab);
+char	*get_envar(char *str, int len, t_data *data);
+int	get_envar_len(char *str);
+void	set_envar(t_data *data, t_token *selected);
 
 /**
  * @brief the main parsing function
