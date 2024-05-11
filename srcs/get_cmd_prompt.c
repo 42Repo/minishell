@@ -60,7 +60,7 @@ static int	set_prompt_top(t_data *data, t_env *env)
 	tmp = NULL;
 	if (data->cmd_prompt == NULL)
 		return (error_free("ft_strjoin_free failed"));
-	data->cmd_prompt = ft_strjoin_free(data->cmd_prompt, "\001\033[0m$\002 ");
+	data->cmd_prompt = ft_strjoin_free(data->cmd_prompt, "\001\033[0m\002$ ");
 	if (data->cmd_prompt == NULL)
 		return (error_free("ft_strjoin_free failed"));
 	return (EXIT_SUCCESS);
@@ -68,7 +68,5 @@ static int	set_prompt_top(t_data *data, t_env *env)
 
 int	get_cmd_prompt(t_data *data, t_env *env)
 {
-	if (set_prompt_top(data, env) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
+	return (set_prompt_top(data, env));
 }
