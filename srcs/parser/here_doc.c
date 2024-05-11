@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 16:30:08 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/10 17:06:01 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/11 02:37:06 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ void	heredoc(char *eof, t_data *data, t_command *command)
 	int		fd2;
 
 	(void)data;
+	eof = remove_quotes(eof, 0);
 	if (eof == NULL)
 		return ;
 	if (command->fd_heredoc != 0)
