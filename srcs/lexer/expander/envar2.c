@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   envar copy 2.c                                     :+:      :+:    :+:   */
+/*   envar2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/11 01:17:17 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/11 19:07:42 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	add_non_env(t_token *tmp, int i, int j, char ***tab)
 
 void skip_not_envar(t_token *tmp, int *i, int *j, int *quote_state)
 {
-	while (check_envar(tmp, (*i), (*quote_state)))
+	while (check_envar(tmp->value, (*i), (*quote_state)))
 	{
 		(*quote_state) = quote_management((*quote_state), tmp->value[(*i)]);
 		(*i)++;

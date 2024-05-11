@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/11 01:25:09 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/11 19:44:37 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,16 +82,16 @@ char	*join_replaced(char **tab)
 	return (tmp);
 }
 
-int	check_envar(t_token *selected, int i, int quote_state)
+int	check_envar(char *str, int i, int quote_state)
 {
-	return (selected->value[i]
-		&& !((int)ft_strlen(selected->value) >= i + 1
-			&& selected->value[i] == '$'
-			&& (ft_isalpha(selected->value[i + 1])
-				|| selected->value[i + 1] == '_'
-				|| selected->value[i + 1] == '?'
-				|| (selected->value[i + 1] == '"' && quote_state != 2)
-				|| selected->value[i + 1] == '\'')
+	return (str[i]
+		&& !((int)ft_strlen(str) >= i + 1
+			&& str[i] == '$'
+			&& (ft_isalpha(str[i + 1])
+				|| str[i + 1] == '_'
+				|| str[i + 1] == '?'
+				|| (str[i + 1] == '"' && quote_state != 2)
+				|| str[i + 1] == '\'')
 			&& quote_state != 1));
 }
 

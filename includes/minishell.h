@@ -109,7 +109,7 @@ extern int	g_return_code;
  * @param quote_state 
  * @return int 
  */
-int			check_envar(t_token *selected, int i, int quote_state);
+int			check_envar(char *str, int i, int quote_state);
 
 /**
  * @brief 

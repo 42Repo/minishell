@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 16:30:08 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/11 18:01:09 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/11 19:44:25 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,50 @@ void	sig_heredoc_handler(int sig)
 	(void)sig;
 }
 
-void	read_heredoc(int fd, char *eof, t_command *command)
+char	*expand_heredoc(char *str, t_data *data)
+{
+	int i =0;
+	int j =0;
+	char **tab;
+	tab = ft_calloc(sizeof(char *), 2);
+	
+	while (str[i])
+	{
+		while(check_envar(str, i, 0))
+		{
+			i++;
+			j++;
+		}
+		if (j > 0)
+		{
+			if (!tab[0])
+				tab[0] = ft_strndup(&str[i-j], j);
+			else
+				tab = join_tab(tab, ft_strndup(&str[i-j], j));
+			j = 0;
+			if (!str[i])
+				j = -1;
+		}
+		if (j < 0)
+			break ;
+		if (str[i] == '$')
+		{
+			tab = join_tab(tab, get_envar(&str[i],
+						get_envar_len(&str[i]), data));
+			i += get_envar_len(&str[i]);
+			j = 0;
+		}
+	}
+	if(!ft_strlen(tab[0]))
+	{
+		printf("str: %s\n", str);
+		return (str);
+	}
+	// join_tab(tab, ft_strdup("\n"));
+	return (join_replaced(tab));
+}
+
+void	read_heredoc(int fd, char *eof, t_command *command, t_data *data)
 {
 	char	*line;
 	pid_t	pid;
@@ -84,7 +127,7 @@ void	read_heredoc(int fd, char *eof, t_command *command)
 		signal(SIGINT, sig_child_handler);
 		signal(SIGQUIT, sig_child_handler);
 		rl_catch_signals = 0;
-		line = readline("> ");
+		line = expand_heredoc(readline("> "), data);
 		if (line == NULL)
 		{
 			ft_putstr_fd("minishell: warning: here-document delimited by end-of-file (wanted `", 1);
@@ -101,7 +144,7 @@ void	read_heredoc(int fd, char *eof, t_command *command)
 			write(fd, "\n", 1);
 			free(line);
 			line = NULL;
-			line = readline("> ");
+			line = expand_heredoc(readline("> "), data);
 			if (line == NULL)
 			{
 				ft_putstr_fd("minishell: warning: here-document delimited by end-of-file (wanted `", 1);
@@ -144,7 +187,7 @@ void	heredoc(char *eof, t_data *data, t_command *command)
 		eof = NULL;
 		return ;
 	}
-	read_heredoc(fd, eof, command);
+	read_heredoc(fd, eof, command, data);
 	fd2 = open(command->random_name, O_RDONLY);
 	unlink(command->random_name);
 	close(fd);

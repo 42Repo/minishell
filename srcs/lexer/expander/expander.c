@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/11 01:44:25 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/11 19:06:55 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*expander(t_data *data)
 		while (selected->value[i])
 		{
 			quote_state = quote_management(quote_state, selected->value[i]);
-			if (check_envar(selected, i, quote_state))
+			if (check_envar(selected->value, i, quote_state))
 			{
 				set_envar(data, selected);
 				break ;
