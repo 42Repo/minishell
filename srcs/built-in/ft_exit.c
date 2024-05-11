@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:30:00 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/11 20:44:18 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/11 22:46:05 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ static int	check_numeric_and_boundaries(char *arg)
 	int	j;
 
 	i = 0;
-	// si il n'y a que "" alors c'est une erreur 
 	if (arg[i] == '\0')
 		return (0);
 	while (arg[i] && ft_isnamespace(arg[i]))
@@ -93,6 +92,8 @@ static int	check_arg_exit(t_command *command)
 
 static void	free_resources(t_data *data, t_env *env)
 {
+	(void)env;
+	(void)data;
 	free_token_lst(data);
 	free_env(env);
 	rl_clear_history();
@@ -119,6 +120,9 @@ static void	free_resources(t_data *data, t_env *env)
 void	ft_exit(t_command *command, t_data *data, t_env *env, char *exit_msg)
 {
 	(void)exit_msg;
+	(void)command;
+	(void)data;
+	(void)env;
 	if (!command)
 	{
 		// display_message(exit_msg);

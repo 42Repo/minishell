@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/11 01:06:58 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/11 22:15:37 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int	check_dir(char *file, t_command *command)
 			put_error("minishell: ", file, ": Is a directory\n");
 			g_return_code = 1;
 			command->fd_out = -1;
+			if (command->cmd)
+				free(command->cmd);
 			command->cmd = NULL;
 			return (1);
 		}
@@ -36,6 +38,8 @@ int	check_dir(char *file, t_command *command)
 			put_error("minishell: ", file, ": Permission denied\n");
 			g_return_code = 1;
 			command->fd_out = -1;
+			if (command->cmd)
+				free(command->cmd);
 			command->cmd = NULL;
 			return (1);
 		}
@@ -52,6 +56,8 @@ int	check_dir(char *file, t_command *command)
 		put_error("minishell: ",  dir, ": No such file or directory\n");
 		g_return_code = 1;
 		command->fd_out = -1;
+		if (command->cmd)
+			free(command->cmd);
 		command->cmd = NULL;
 		free(dir);
 		return (1);
@@ -61,6 +67,8 @@ int	check_dir(char *file, t_command *command)
 		put_error("minishell: ", dir, ": Is a directory\n");
 		g_return_code = 1;
 		command->fd_out = -1;
+		if (command->cmd)
+			free(command->cmd);
 		command->cmd = NULL;
 		free(dir);
 		return (1);
@@ -81,6 +89,8 @@ void	select_output(char *file, int mode, t_command *command)
 		put_error("minishell: ", file, ": Permission denied\n");
 		command->fd_out = -1;
 		g_return_code = 1;
+		if (command->cmd)
+			free(command->cmd);
 		command->cmd = NULL;
 		return ;
 	}
@@ -102,6 +112,8 @@ void	select_input(char *file, t_data *data, t_command *command)
 	if (access(file, F_OK) == -1)
 	{
 		put_error("minishell: ", file, ": No such file or directory\n");
+		if (command->cmd)
+			free(command->cmd);
 		command->cmd = NULL;
 		command->fd_out = -1;
 		g_return_code = 1;
@@ -112,6 +124,8 @@ void	select_input(char *file, t_data *data, t_command *command)
 		put_error("minishell: ", file, ": Permission denied\n");
 		g_return_code = 126;
 		command->fd_out = -1;
+		if (command->cmd)
+			free(command->cmd);
 		command->cmd = NULL;
 		return ;
 	}
@@ -141,6 +155,8 @@ void	get_redir(t_token *selected, t_data *data, t_command *command)
 		{
 			ft_putstr_fd("minishell: syntax error near unexpected \
 'HAHAHA'\n", 2);
+			if (command->cmd)
+				free(command->cmd);
 			command->cmd = NULL;
 		}
 	}

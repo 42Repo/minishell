@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_command.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 15:18:00 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/09 20:44:26 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/11 22:45:07 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,6 @@ void	free_command(t_data *data)
 		{
 			free_tab(selected->args);
 			selected->args = NULL;
-		}
-		if (selected->random_name[0])
-		{
-			unlink(selected->random_name);
-			selected->random_name[0] = '\0';
 		}
 		if (selected->fd_in > 2)
 			close(selected->fd_in);

@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 16:30:08 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/11 21:25:20 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/11 22:59:00 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,8 @@ char	*expand_heredoc(char *str, t_data *data)
 	int		j;
 	char	**tab;
 
-	if (!str)
-		return (NULL);
+	// if (!str)
+	// 	return (NULL);
 	i = 0;
 	j = 0;
 	tab = ft_calloc(sizeof(char *), 2);
@@ -199,7 +199,7 @@ void	heredoc(char *eof, t_data *data, t_command *command)
 	tcsetattr(0, TCSANOW, data->term);
 	signal(SIGINT, sig_handler);
 	signal(SIGQUIT, sig_handler);
-	command->fd_heredoc = fd2;
+	command->fd_heredoc = fd2; // TODO - Fix this
 	if (g_return_code == 130)
 	{
 		command->random_name[0] = '\0';

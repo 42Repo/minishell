@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/11 20:43:49 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/11 21:46:03 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	ft_exit_fork(t_data *data, t_env *env, t_command *command) // TODO : A clea
 		rl_clear_history();
 		if (data->cmd_prompt)
 			free(data->cmd_prompt);
+		free(data->term);
 		free(data);
 		exit(g_return_code);
 	}
@@ -49,6 +50,7 @@ void	ft_exit_fork(t_data *data, t_env *env, t_command *command) // TODO : A clea
 	rl_clear_history();
 	if (data->cmd_prompt)
 		free(data->cmd_prompt);
+	free(data->term);
 	free(data);
 	if (g_return_code >= 0 && g_return_code <= 255)
 		exit(g_return_code);
