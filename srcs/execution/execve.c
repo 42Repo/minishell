@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 00:16:17 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/11 00:49:06 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/11 01:41:15 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ char	*find_cmd_path(char *cmd, char *path_env)
 	char		*path;
 	struct stat	buf;
 
-	stat(cmd, &buf);
+	buf.st_mode = 0;
 	path_tab = ft_split(path_env, ':');
 	if (!path_tab)
 		return (NULL);
@@ -82,6 +82,7 @@ char	*find_cmd_path(char *cmd, char *path_env)
 	{
 		path = ft_strjoin(path_tab[i], "/");
 		path = ft_strjoin_free(path, cmd);
+		stat(path, &buf);
 		if (!access(path, F_OK))
 		{
 			if (!access(path, X_OK) && !S_ISDIR(buf.st_mode))

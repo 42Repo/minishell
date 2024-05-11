@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/11 01:27:25 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/11 01:44:25 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,9 @@ char	**join_tab(char **tab, char *line)
 char	*expander(t_data *data)
 {
 	t_token	*selected;
-	t_token	*previous;
 	int		quote_state;
 	int		i;
 
-	previous = NULL;
 	selected = data->prompt_top;
 	quote_state = 0;
 	while (selected->type != END)
