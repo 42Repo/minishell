@@ -149,7 +149,7 @@ int	lexer(char *str, t_data *data)
 	}
 	if (!ft_isnamespace(str[i]) && j < i)
 		add_token_to_list(data, &str[j], i - j, WORD);
-	add_token_to_list(data, ft_strdup("newline"), 7, END);
+	add_token_to_list(data, "newline", 7, END);
 	token = data->prompt_top;
 	while (token->type != END)
 	{

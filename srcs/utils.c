@@ -139,7 +139,7 @@ static int	count_words_quote(const char *str, const char *charset)
 	return (count);
 }
 
-char	**ft_split_quote_state(const char *str, const char *charset)
+char	**ft_split_quote_state(char *str, const char *charset)
 {
 	int		words;
 	char	**ret;
@@ -183,6 +183,7 @@ char	**ft_split_quote_state(const char *str, const char *charset)
 		}
 		i++;
 	}
+	free(str);
 	ret[i] = NULL;
 	return (ret);
 }

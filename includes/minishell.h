@@ -416,7 +416,7 @@ void		add_new_env_variable(t_env *env, char *arg);
  * @param charset the charset to split with
  * @return char** the splited string
  */
-char		**ft_split_quote_state(const char *str, const char *charset);
+char		**ft_split_quote_state(char *str, const char *charset);
 
 /**
  * @brief create a new token and add it next to the selected token
