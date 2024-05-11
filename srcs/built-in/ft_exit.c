@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:30:00 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/11 18:44:02 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/11 18:58:26 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,8 @@ static void	free_resources(t_data *data, t_env *env)
 // {
 // 	if (ft_strlen(exit_msg))
 // 	{
-// 		ft_putstr_fd(exit_msg, 1);
-// 		ft_putstr_fd("\n", 1);
+// 		ft_putstr_fd(exit_msg, 2);
+// 		ft_putstr_fd("\n", 2);
 // 	}
 // }
 

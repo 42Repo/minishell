@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/11 18:39:23 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/11 19:22:20 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,6 +208,16 @@ int	ft_exit_command(t_data *data, t_env *env, t_command *command)
 	return (1);
 }
 
+int	is_builtin(char *cmd)
+{
+	if (ft_strcmp(cmd, "cd") == 0 || ft_strcmp(cmd, "export") == 0
+		|| ft_strcmp(cmd, "env") == 0 || ft_strcmp(cmd, "unset") == 0
+		|| ft_strcmp(cmd, "echo") == 0 || ft_strcmp(cmd, "pwd") == 0
+		|| ft_strcmp(cmd, "exit") == 0)
+		return (1);
+	return (0);
+}
+
 void	execute_command(t_command *command, t_data *data, int input_fd, int output_fd)
 {
 	int	fd_out;
@@ -215,34 +225,35 @@ void	execute_command(t_command *command, t_data *data, int input_fd, int output_
 
 	if (data->prompt_top->type == END || command == NULL || command->cmd == NULL)
 		return ;
-	if (input_fd != STDIN_FILENO)
+	if (is_builtin(command->cmd))
 	{
-		dup2(input_fd, STDIN_FILENO);
-	}
-	if (output_fd != STDOUT_FILENO)
-	{
-		dup2(output_fd, STDOUT_FILENO);
-	}
-	if (ft_strcmp(command->cmd, "exit") == 0)
-	{
-		return (ft_exit(command, data, data->env, "exit"));
-	}
-	if (execute_bultin(command, data->env, data, output_fd) == 1)
-	{
-		dup2(dup(data->fd_in), STDIN_FILENO);
-		dup2(dup(data->fd_out), STDOUT_FILENO);
+		if (input_fd != STDIN_FILENO)
+			dup2(input_fd, STDIN_FILENO);
+		if (output_fd != STDOUT_FILENO)
+			dup2(output_fd, STDOUT_FILENO);
+		if (ft_strcmp(command->cmd, "exit") == 0)
+			return (ft_exit(command, data, data->env, "exit"));
+		if (execute_bultin(command, data->env, data, output_fd) == 1)
+		{
+			fd_in = dup(data->fd_in);
+			fd_out = dup(data->fd_out);
+			dup2(fd_in, STDIN_FILENO);
+			dup2(fd_out, STDOUT_FILENO);
+		}
 		return ;
 	}
 	command->pid = fork();
 	if (command->pid == -1)
 	{
-		dup2(dup(data->fd_in), STDIN_FILENO);
-		dup2(dup(data->fd_out), STDOUT_FILENO);
 		perror("fork");
 		return ;
 	}
 	if (command->pid == 0)
 	{
+		if (input_fd != STDIN_FILENO)
+			dup2(input_fd, STDIN_FILENO);
+		if (output_fd != STDOUT_FILENO)
+			dup2(output_fd, STDOUT_FILENO);
 		g_return_code = execve_path_env(command->cmd, command->args,
 				data->env, data);
 		exit(g_return_code);
@@ -254,10 +265,6 @@ void	execute_command(t_command *command, t_data *data, int input_fd, int output_
 		g_return_code = WEXITSTATUS(g_return_code);
 	if (g_return_code == 130)
 			printf("\n");
-	fd_in = dup(data->fd_in);
-	fd_out = dup(data->fd_out);
-	dup2(fd_in, STDIN_FILENO);
-	dup2(fd_out, STDOUT_FILENO);
 }
 
 void useless(int sig)
@@ -371,13 +378,10 @@ void	wait_cmd_prompt(t_data *data)
 			ft_exit(data->command_top, data, data->env, "exit");
 		if (ft_strlen(line) > 0)
 			add_history(line);
-		// if (lexer(line, data))
-		// {
-		// 	free_token_lst(data);
-		// 	ft_exit();
-		// }
 		if (lexer(line, data) == 0)
 		{
+			free(line);
+			line = NULL;
 			if (parser(data) == 0)
 				choose_case(data);
 			else
