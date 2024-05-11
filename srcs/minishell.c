@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/11 19:22:20 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/11 20:12:17 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,6 +239,8 @@ void	execute_command(t_command *command, t_data *data, int input_fd, int output_
 			fd_out = dup(data->fd_out);
 			dup2(fd_in, STDIN_FILENO);
 			dup2(fd_out, STDOUT_FILENO);
+			close(fd_in);
+			close(fd_out);
 		}
 		return ;
 	}
