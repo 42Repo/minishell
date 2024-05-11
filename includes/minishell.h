@@ -39,7 +39,6 @@ typedef enum s_token_type
 	END
 }	t_token_type;
 
-
 /**
  * @brief type 0 -> any other char str / type 1 -> pipe / type 2 -> redirect
  *
@@ -110,7 +109,7 @@ extern int	g_return_code;
  * @param quote_state 
  * @return int 
  */
-int	check_envar(t_token *selected, int i, int quote_state);
+int			check_envar(t_token *selected, int i, int quote_state);
 
 /**
  * @brief 
@@ -118,7 +117,7 @@ int	check_envar(t_token *selected, int i, int quote_state);
  * @param tab 
  * @return char* 
  */
-char	*join_replaced(char **tab);
+char		*join_replaced(char **tab);
 
 /**
  * @brief Get the envar object
@@ -128,7 +127,7 @@ char	*join_replaced(char **tab);
  * @param data 
  * @return char* 
  */
-char	*get_envar(char *str, int len, t_data *data);
+char		*get_envar(char *str, int len, t_data *data);
 
 /**
  * @brief Get the envar len object
@@ -136,7 +135,7 @@ char	*get_envar(char *str, int len, t_data *data);
  * @param str 
  * @return int 
  */
-int	get_envar_len(char *str);
+int			get_envar_len(char *str);
 
 /**
  * @brief Set the envar object
@@ -144,7 +143,7 @@ int	get_envar_len(char *str);
  * @param data 
  * @param selected 
  */
-void	set_envar(t_data *data, t_token *selected);
+void		set_envar(t_data *data, t_token *selected);
 
 /**
  * @brief the main parsing function

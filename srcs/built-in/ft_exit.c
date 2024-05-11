@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:30:00 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/11 02:12:21 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/11 18:44:02 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	free_env(t_env *env)
 	}
 }
 
-void	exit_with_error(char *arg, char *message, int error_code)
+static void	exit_with_error(char *arg, char *message, int error_code)
 {
 	ft_putstr_fd("minishell: exit: ", 2);
 	ft_putstr_fd(arg, 2);
@@ -35,7 +35,7 @@ void	exit_with_error(char *arg, char *message, int error_code)
 	exit(error_code);
 }
 
-int	is_within_longlong_limits(const char *num, int is_negative)
+static int	is_within_longlong_limits(const char *num, int is_negative)
 {
 	if (is_negative)
 	{
@@ -51,12 +51,15 @@ int	is_within_longlong_limits(const char *num, int is_negative)
 	}
 }
 
-int	check_numeric_and_boundaries(char *arg)
+static int	check_numeric_and_boundaries(char *arg)
 {
 	int	i;
 	int	j;
 
 	i = 0;
+	// si il n'y a que "" alors c'est une erreur 
+	if (arg[i] == '\0')
+		return (0);
 	while (arg[i] && ft_isnamespace(arg[i]))
 		i++;
 	if (arg[i] == '-' || arg[i] == '+')
@@ -73,7 +76,7 @@ int	check_numeric_and_boundaries(char *arg)
 	return (0);
 }
 
-int	check_arg_exit(t_command *command)
+static int	check_arg_exit(t_command *command)
 {
 	if (!check_numeric_and_boundaries(command->args[1]))
 		exit_with_error(command->args[1], ": numeric argument required\n", 2);
@@ -88,7 +91,7 @@ int	check_arg_exit(t_command *command)
 	return (EXIT_SUCCESS);
 }
 
-void	free_resources(t_data *data, t_env *env)
+static void	free_resources(t_data *data, t_env *env)
 {
 	free_token_lst(data);
 	free_env(env);
@@ -98,10 +101,21 @@ void	free_resources(t_data *data, t_env *env)
 	free(data);
 }
 
+// static void display_message(char *exit_msg)
+// {
+// 	if (ft_strlen(exit_msg))
+// 	{
+// 		ft_putstr_fd(exit_msg, 1);
+// 		ft_putstr_fd("\n", 1);
+// 	}
+// }
+
 void	ft_exit(t_command *command, t_data *data, t_env *env, char *exit_msg)
 {
+	(void)exit_msg;
 	if (!command)
 	{
+		// display_message(exit_msg);
 		free_resources(data, env);
 		exit(g_return_code);
 	}
@@ -110,12 +124,8 @@ void	ft_exit(t_command *command, t_data *data, t_env *env, char *exit_msg)
 		if (check_arg_exit(command) == EXIT_FAILURE)
 			return ;
 	}
+	// display_message(exit_msg);
 	free_resources(data, env);
-	if (ft_strlen(exit_msg))
-	{
-		ft_putstr_fd(exit_msg, 2);
-		ft_putstr_fd("\n", 2);
-	}
 	if (g_return_code >= 0 && g_return_code <= 255)
 		exit(g_return_code);
 	if (g_return_code < 0)

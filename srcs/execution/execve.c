@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 00:16:17 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/11 01:41:15 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/11 18:49:22 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,25 @@ void	free_tab(char **tab)
 	tab = NULL;
 }
 
+static int	check_executable(const char *path, struct stat *buf)
+{
+	if (!access(path, F_OK))
+	{
+		stat(path, buf);
+		if (!access(path, X_OK) && !S_ISDIR(buf->st_mode))
+			return (1);
+		else
+		{
+			if (S_ISDIR(buf->st_mode))
+				errno = EISDIR;
+			else
+				errno = EACCES;
+			return (0);
+		}
+	}
+	return (0);
+}
+
 char	*find_cmd_path(char *cmd, char *path_env)
 {
 	char		**path_tab;
@@ -82,22 +101,11 @@ char	*find_cmd_path(char *cmd, char *path_env)
 	{
 		path = ft_strjoin(path_tab[i], "/");
 		path = ft_strjoin_free(path, cmd);
-		stat(path, &buf);
-		if (!access(path, F_OK))
+		if (check_executable(path, &buf))
 		{
-			if (!access(path, X_OK) && !S_ISDIR(buf.st_mode))
-			{
-				free_tab(path_tab);
-				errno = 0;
-				return (path);
-			}
-			else
-			{
-				if (S_ISDIR(buf.st_mode))
-					errno = EISDIR;
-				else
-					errno = EACCES;
-			}
+			free_tab(path_tab);
+			errno = 0;
+			return (path);
 		}
 		free(path);
 		i++;
