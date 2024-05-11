@@ -1,8 +1,6 @@
 # Project Name
 Minishell Project
 
-TODO [] - Fix error env -i
-TODO [] - Fix enelver le unlink dans l'execution juste direct dans les heredoc
 TODO [] - Fix dans le heredoc changer les $USER en asuc, ect..
 
 
