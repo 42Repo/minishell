@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/11 20:32:34 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/11 20:43:49 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,10 @@ void	ft_exit_fork(t_data *data, t_env *env, t_command *command) // TODO : A clea
 	free_token_lst(data);
 	free_env(env);
 	free_command(data);
-	close(data->fd_in);
-	close(data->fd_out);
+	if (data->fd_in > 2)
+		close(data->fd_in);
+	if (data->fd_out > 2)
+		close(data->fd_out);
 	rl_clear_history();
 	if (data->cmd_prompt)
 		free(data->cmd_prompt);
@@ -242,8 +244,10 @@ void	execute_command(t_command *command, t_data *data, int input_fd, int output_
 			fd_out = dup(data->fd_out);
 			dup2(fd_in, STDIN_FILENO);
 			dup2(fd_out, STDOUT_FILENO);
-			close(fd_in);
-			close(fd_out);
+			if (fd_in > 2)
+				close(fd_in);
+			if (fd_out > 2)
+				close(fd_out);
 		}
 		return ;
 	}
@@ -316,7 +320,8 @@ void	choose_case(t_data *data)
 			execute_command_pipe(command, data, prev_fd, command->fd_out);
 		if (prev_fd != STDIN_FILENO)
 		{
-			close(prev_fd);
+			if (prev_fd > 2)
+				close(prev_fd);
 			prev_fd = STDIN_FILENO;
 		}
 		if (command->next)

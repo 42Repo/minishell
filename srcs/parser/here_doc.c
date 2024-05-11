@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 16:30:08 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/11 19:44:25 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/11 20:49:11 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	sig_child_handler(int sig)
 	if (sig == SIGINT)
 	{
 		write(1, "\n", 1);
-		exit(130);
+		g_return_code = 130;
 	}
 }
 
@@ -73,7 +73,7 @@ char	*expand_heredoc(char *str, t_data *data)
 	int j =0;
 	char **tab;
 	tab = ft_calloc(sizeof(char *), 2);
-	
+
 	while (str[i])
 	{
 		while(check_envar(str, i, 0))
@@ -174,7 +174,7 @@ void	heredoc(char *eof, t_data *data, t_command *command)
 	eof = remove_quotes(eof, 0);
 	if (eof == NULL)
 		return ;
-	if (command->fd_heredoc != 0)
+	if (command->fd_heredoc > 2)
 		close(command->fd_heredoc);
 	if (command->random_name[0] == '\0')
 		random_init(command);
@@ -190,7 +190,8 @@ void	heredoc(char *eof, t_data *data, t_command *command)
 	read_heredoc(fd, eof, command, data);
 	fd2 = open(command->random_name, O_RDONLY);
 	unlink(command->random_name);
-	close(fd);
+	if (fd > 2)
+		close(fd);
 	tcsetattr(0, TCSANOW, data->term);
 	signal(SIGINT, sig_handler);
 	signal(SIGQUIT, sig_handler);
@@ -198,7 +199,8 @@ void	heredoc(char *eof, t_data *data, t_command *command)
 	if (g_return_code == 130)
 	{
 		command->random_name[0] = '\0';
-		close(command->fd_heredoc);
+		if (command->fd_heredoc > 2)
+			close(command->fd_heredoc);
 		command->fd_heredoc = -1;
 	}
 }

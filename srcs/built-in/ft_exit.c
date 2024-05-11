@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:30:00 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/11 20:08:28 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/11 20:44:18 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,10 @@ static void	free_resources(t_data *data, t_env *env)
 	rl_clear_history();
 	if (data->cmd_prompt)
 		free(data->cmd_prompt);
-	close(data->fd_in);
-	close(data->fd_out);
+	if (data->fd_in > 2)
+		close(data->fd_in);
+	if (data->fd_out > 2)
+		close(data->fd_out);
 	free(data->term);
 	free_command(data);
 	free(data);
