@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/11 19:44:37 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/11 20:53:18 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,9 @@ char	*join_replaced(char **tab)
 	while (tab[i])
 	{
 		tmp = ft_strjoin_free(tmp, tab[i]);
-		free(tab[i]);
 		i++;
 	}
+	free_tab(tab);
 	return (tmp);
 }
 

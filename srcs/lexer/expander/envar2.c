@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/11 20:14:20 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/11 20:58:44 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,5 @@ void	set_envar(t_data *data, t_token *selected)
 		selected = selected->next;
 		j++;
 	}
+	free(tmp);
 }
