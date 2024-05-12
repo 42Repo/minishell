@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/12 16:38:09 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/12 23:59:45 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ void skip_not_envar(t_token *tmp, int *i, int *j, int *quote_state)
 
 void check_quote_state(t_token *tmp, int *quote_state, int *i, int *j)
 {
-	if ((((*quote_state) == 2 && tmp->value[(*i) + 1] == '"')
+	// printf("je lis ca : %c dans ca : %s\n", tmp->value[(*i)], tmp->value);
+	if (tmp && tmp->value && tmp->value[(*i)] && tmp->value[(*i)] + 1 && (((*quote_state) == 2 && tmp->value[(*i) + 1] == '"')
 			|| ((*quote_state) == 1 && tmp->value[(*i) + 1] == '\'')))
 	{
 		(*quote_state) = 0;
@@ -83,6 +84,7 @@ void	set_envar(t_data *data, t_token *selected)
 	while (tmp && *tmp && tmp[j])
 	{
 		add_token_next(selected, tmp[j], ft_strlen(tmp[j]), WORD);
+		free (tmp[j]);
 		selected = selected->next;
 		j++;
 	}
