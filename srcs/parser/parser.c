@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/11 22:15:37 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/12 15:43:43 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,6 +237,7 @@ void	set_fd_in(t_command *command, t_token *selected)
 	}
 	if (last_redir && ft_strcmp(last_redir->value, "<<") == 0)
 		command->fd_in = command->fd_heredoc;
+	command->fd_heredoc = -1;
 }
 
 void count_heredoc(t_data *data)
