@@ -158,6 +158,7 @@ static void	set_new_pwd(t_env *env)
 
 	tmp = getcwd(NULL, 0);
 	tmp2 = ft_strjoin("PWD=", tmp);
+	free(tmp);
 	ft_export_single_arg(env, tmp2);
 	free(tmp2);
 }

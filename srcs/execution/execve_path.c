@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 00:16:17 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/11 20:44:36 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/12 17:52:40 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,11 +129,9 @@ int	execve_path_env(char *cmd, char **args, t_env *env, t_data *data)
 		return (1);
 	g_return_code = 0;
 	envp = env_to_tab(env);
-	path = get_path(env);
-	if (!path)
-		path = ft_strdup(cmd);
 	if (!envp)
 		return (1);
+	path = get_path(env);
 	if (has_slash(cmd) != 1)
 	{
 		g_return_code = check_cmd(cmd);

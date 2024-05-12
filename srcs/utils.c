@@ -161,9 +161,7 @@ char	**ft_split_quote_state(char *str, const char *charset)
 	while (i < words)
 	{
 		while ((is_delimiter(str[j], charset) && !in_quote) && str[j] != '\0')
-		{
 			j++;
-		}
 		ret[i] = ft_strdup_split_quote(str + j, charset);
 		while ((!is_delimiter(str[j], charset) || in_quote) && str[j] != '\0')
 		{
@@ -175,9 +173,7 @@ char	**ft_split_quote_state(char *str, const char *charset)
 					current_quote = str[j];
 				}
 				else if (str[j] == current_quote)
-				{
 					in_quote = 0;
-				}
 			}
 			j++;
 		}
