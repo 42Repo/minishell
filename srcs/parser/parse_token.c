@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_token.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 15:22:03 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/11 01:50:53 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/12 16:44:42 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,12 @@ void	clear_token_quotes(t_data *data)
 	while (token->type != END)
 	{
 		if (token->type == WORD && !(token == data->prompt_top && (!ft_strcmp(token->value, "\"\"") || !ft_strcmp(token->value, "''"))))
+		{
+			printf("je remove les quotes de %s\n", token->value);
 			token->value = remove_quotes(token->value, 1);
+		}
+		printf("token->value: %s\n", token->value);
+		printf("&token->value: %p\n\n", &token->value);
 		token = token->next;
 	}
 }

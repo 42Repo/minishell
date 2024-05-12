@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envar2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/12 15:54:14 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/12 16:38:09 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ void	set_envar(t_data *data, t_token *selected)
 		j++;
 	}
 	free(tmp);
+	tmp = NULL;
 }
 
 

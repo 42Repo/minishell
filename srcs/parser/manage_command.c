@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_command.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 15:18:00 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/11 22:45:07 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/12 16:53:02 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,33 +73,3 @@ t_command	*init_command(void)
 	return (command);
 }
 
-void	remove_empty_tokens(t_data *data)
-{
-	t_token	*selected;
-	t_token	*old;
-
-	old = NULL;
-	selected = data->prompt_top;
-	while (selected)
-	{
-		if (selected->type == WORD && ft_strlen(selected->value) == 0)
-		{
-			if (selected == data->prompt_top)
-				data->prompt_top = selected->next;
-			else
-				old->next = selected->next;
-			if (old)
-				old->next = selected->next;
-			else
-				data->prompt_top = selected->next;
-			if (selected->value)
-				free(selected->value);
-			if (selected)
-				free(selected);
-			if (old)
-				selected = old;
-		}
-		old = selected;
-		selected = selected->next;
-	}
-}
