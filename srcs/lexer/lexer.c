@@ -147,7 +147,7 @@ int	lexer(char *str, t_data *data)
 	}
 	if (data->quote_state != 0)
 	{
-		ft_putstr_fd("quote error\n", 2);
+		ft_putstr_fd("minishell: error: missing quote\n", 2);
 		free_token_lst(data);
 		return (-1);
 	}
