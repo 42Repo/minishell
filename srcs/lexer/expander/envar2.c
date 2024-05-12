@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/11 22:16:00 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/12 15:54:14 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	set_envar(t_data *data, t_token *selected)
 	free(selected->value);
 	selected->value = tmp[0];
 	j = 1;
-	while (tmp[j])
+	while (tmp && *tmp && tmp[j])
 	{
 		add_token_next(selected, tmp[j], ft_strlen(tmp[j]), WORD);
 		selected = selected->next;

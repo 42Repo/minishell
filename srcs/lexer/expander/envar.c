@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/11 22:18:33 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/12 15:50:53 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ char	*join_replaced(char **tab)
 	tmp = ft_strdup("");
 	while (tab[i])
 	{
-		printf("tab[%d] = %s\n", i, tab[i]);
 		tmp = ft_strjoin_free(tmp, tab[i]);
 		i++;
 	}
