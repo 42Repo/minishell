@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/12 15:38:41 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/12 15:49:01 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,6 +239,7 @@ void	set_fd_in(t_command *command, t_token *selected)
 	}
 	if (last_redir && ft_strcmp(last_redir->value, "<<") == 0)
 		command->fd_in = command->fd_heredoc;
+	command->fd_heredoc = -1;
 }
 
 void count_heredoc(t_data *data)

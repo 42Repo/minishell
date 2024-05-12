@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/11 20:43:49 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/12 15:42:42 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	ft_exit_fork(t_data *data, t_env *env, t_command *command) // TODO : A clea
 		rl_clear_history();
 		if (data->cmd_prompt)
 			free(data->cmd_prompt);
+		free(data->term);
 		free(data);
 		exit(g_return_code);
 	}
@@ -49,6 +50,7 @@ void	ft_exit_fork(t_data *data, t_env *env, t_command *command) // TODO : A clea
 	rl_clear_history();
 	if (data->cmd_prompt)
 		free(data->cmd_prompt);
+	free(data->term);
 	free(data);
 	if (g_return_code >= 0 && g_return_code <= 255)
 		exit(g_return_code);
@@ -251,7 +253,7 @@ void	execute_command(t_command *command, t_data *data, int input_fd, int output_
 		}
 		return ;
 	}
-	command->pid = fork();
+	command->pid = fork(); 
 	if (command->pid == -1)
 	{
 		perror("fork");
@@ -260,9 +262,15 @@ void	execute_command(t_command *command, t_data *data, int input_fd, int output_
 	if (command->pid == 0)
 	{
 		if (input_fd != STDIN_FILENO)
+		{
 			dup2(input_fd, STDIN_FILENO);
+			close(input_fd);
+		}
 		if (output_fd != STDOUT_FILENO)
+		{
 			dup2(output_fd, STDOUT_FILENO);
+			close(output_fd);
+		}
 		g_return_code = execve_path_env(command->cmd, command->args,
 				data->env, data);
 		exit(g_return_code);

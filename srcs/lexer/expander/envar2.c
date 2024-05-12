@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envar2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/11 20:58:44 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/11 22:16:00 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,3 +88,25 @@ void	set_envar(t_data *data, t_token *selected)
 	}
 	free(tmp);
 }
+
+
+// void	set_envar(t_data *data, t_token *selected)
+// {
+// 	int		j;
+// 	char	**tmp;
+
+// 	tmp = ft_calloc(sizeof(char *), 2);
+// 	tmp = ft_split_quote_state(replace_envar(data, selected, 0, &tmp), " \t\n");
+// 	free(selected->value);
+// 	selected->value = tmp[0];
+// 	j = 1;
+// 	while (tmp && *tmp && tmp[j])
+// 	{
+// 		printf("tmp[%d] = %s\n", j, tmp[j]);
+// 		add_token_next(selected, tmp[j], ft_strlen(tmp[j]), WORD);
+// 		selected = selected->next;
+// 		j++;
+// 	}
+// 	if (tmp)
+// 		free(tmp);
+// }
