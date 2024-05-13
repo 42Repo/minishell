@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:30:00 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/13 19:16:33 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/13 22:11:05 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,22 +51,22 @@ static void	free_resources(t_data *data, t_env *env)
 // 	}
 // }
 
-void	ft_exit(t_command *command, t_data *data, t_env *env, char *exit_msg)
+void	ft_exit(t_command *command, t_data *data, char *exit_msg, int check_arg)
 {
 	(void)exit_msg;
 	if (!command)
 	{
 		// display_message(exit_msg);
-		free_resources(data, env);
+		free_resources(data, data->env);
 		exit(g_return_code);
 	}
-	if (command->args && command->args[1])
+	if (command->args && command->args[1] && check_arg == 0)
 	{
 		if (check_arg_exit(command) == EXIT_FAILURE)
 			return ;
 	}
 	// display_message(exit_msg);
-	free_resources(data, env);
+	free_resources(data, data->env);
 	if (g_return_code >= 0 && g_return_code <= 255)
 		exit(g_return_code);
 	if (g_return_code < 0)

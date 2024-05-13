@@ -307,8 +307,8 @@ char		**env_to_tab(t_env *env);
  * @param env the env list
  * @param exit_msg the message to print before exiting
  */
-void		ft_exit(t_command *command, t_data *data,
-				t_env *env, char *exit_msg);
+void		ft_exit(t_command *command, t_data *data, char *exit_msg,
+				int check_arg);
 
 /**
  * @brief get the len of a char ** tab
@@ -685,5 +685,15 @@ int			is_valid_identifier(char *str);
  * @param arg	
  */
 void		add_new_env_variable(t_env *env, char *arg);
+
+// heredoc 
+char		*expand_heredoc(char *str, t_data *data);
+void		sig_child_handler(int sig);
+void		sig_heredoc_handler(int sig);
+void		set_signals(void (*handler));
+int			test_open(t_command *command);
+void		random_init(t_command *command);
+void		handle_child_process(int fd, char *eof,
+				t_command *command, t_data *data);
 
 #endif // MINISHELL_H
