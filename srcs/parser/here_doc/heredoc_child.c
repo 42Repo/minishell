@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 21:34:54 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/13 21:35:19 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/13 22:09:23 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ by end-of-file (wanted `", 1);
 	g_return_code = 1;
 	close(fd);
 	free(eof);
-	ft_exit(command, data, data->env, "");
+	ft_exit(command, data, "", 1);
 }
 
 void	handle_child_process(int fd, char *eof,
@@ -50,6 +50,6 @@ void	handle_child_process(int fd, char *eof,
 	free(line);
 	close(fd);
 	free(eof);
-	ft_exit(command, data, data->env, "");
+	ft_exit(command, data, "", 1);
 	exit(g_return_code);
 }

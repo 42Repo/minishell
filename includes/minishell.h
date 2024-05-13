@@ -307,8 +307,8 @@ char		**env_to_tab(t_env *env);
  * @param env the env list
  * @param exit_msg the message to print before exiting
  */
-void		ft_exit(t_command *command, t_data *data,
-				t_env *env, char *exit_msg);
+void		ft_exit(t_command *command, t_data *data, char *exit_msg,
+				int check_arg);
 
 /**
  * @brief get the len of a char ** tab
