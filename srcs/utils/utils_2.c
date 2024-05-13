@@ -12,12 +12,12 @@
 
 #include "../../includes/minishell.h"
 
-void	set_split_var(int *i, int *j, int *in_qt, char *current_quote)
+void		set_split_var(int *a, int *b, int *c, char *str)
 {
-	(*i) = 0;
-	(*j) = 0;
-	(*in_qt) = 0;
-	(*current_quote) = 0;
+	(*a) = 0;
+	(*b) = 0;
+	(*c) = 0;
+	(*str) = 0;
 }
 
 char	*ft_strdup_split_quote(const char *src, const char *charset)

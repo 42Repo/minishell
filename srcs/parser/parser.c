@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/12 15:49:01 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/13 17:30:56 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -275,7 +275,6 @@ int	parser(t_data *data)
 	open_heredoc(data);
 	expander(data);
 	clear_token_quotes(data);
-	// remove_empty_tokens(data);
 	error = parse_line(data, selected, command);
 	if (error)
 	{
@@ -285,11 +284,6 @@ unexpected token `", error, "'\n");
 		return (-1);
 	}
 	command = data->command_top;
-	
 	set_fd_in(data->command_top, data->prompt_top);
-	// printf("fd_in : %d\n", data->command_top->fd_in);
-	// printf("fd_out : %d\n", data->command_top->fd_out);
-
 	return (0);
-	// ! mettre le bon fd , soit garder fdin, soit close fdin et mettre fdheredoc a la place
 }

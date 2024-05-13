@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   envar.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/12 15:50:53 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/13 03:31:19 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-char *special_case_envar(int len, char *str)
+char	*special_case_envar(int len, char *str)
 {
 	if (len == -1)
 		return (ft_strdup("$"));
@@ -94,4 +94,3 @@ int	check_envar(char *str, int i, int quote_state)
 				|| str[i + 1] == '\'')
 			&& quote_state != 1));
 }
-
