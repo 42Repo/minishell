@@ -654,9 +654,15 @@ void		if_case_quote(int *in_quote, char *current_quote, char str);
 int			count_words_quote(const char *str, const char *charset);
 void		if_quote_case(int *in_quote, char *current_quote, char *str, int j);
 char		**ft_split_quote_state(char *str, const char *charset);
+void	select_output(char *file, int mode, t_command *command);
+void	select_input(char *file, t_data *data, t_command *command);
 char		*get_path(t_env *env);
 int			has_slash(char *cmd);
+char	*skip_pipe(t_command **command, t_token **selected,
+	t_parser *parser, t_data *data);
 int			handle_path_error(char *cmd);
+void count_heredoc(t_data *data);
+void	get_redir(t_token *selected, t_data *data, t_command *command);
 int			check_executable(const char *path, struct stat *buf);
 
 /* BUILT-IN */
