@@ -41,7 +41,7 @@ int	is_delimiter(char c, const char *charset)
 int	get_strdup_len(const char *src, const char *charset, char *current_quote)
 {
 	int	i;
-	int in_quote;
+	int	in_quote;
 
 	in_quote = 0;
 	i = 0;

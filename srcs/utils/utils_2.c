@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-void		set_split_var(int *a, int *b, int *c, char *str)
+void	set_split_var(int *a, int *b, int *c, char *str)
 {
 	(*a) = 0;
 	(*b) = 0;
