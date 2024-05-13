@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/13 22:19:47 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/13 23:09:36 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,20 @@ int	execute_bultin(t_command *command, t_env *env, t_data *data, int fd_out)
 	return (1);
 }
 
+void	setup_redirections(int input_fd, int output_fd)
+{
+	if (input_fd != STDIN_FILENO)
+	{
+		dup2(input_fd, STDIN_FILENO);
+		close(input_fd);
+	}
+	if (output_fd != STDOUT_FILENO)
+	{
+		dup2(output_fd, STDOUT_FILENO);
+		close(output_fd);
+	}
+}
+
 void	execute_command_pipe(t_command *command, t_data *data, int input_fd,
 			int output_fd)
 {
@@ -63,16 +77,7 @@ void	execute_command_pipe(t_command *command, t_data *data, int input_fd,
 	}
 	if (command->pid == 0)
 	{
-		if (input_fd != STDIN_FILENO)
-		{
-			dup2(input_fd, STDIN_FILENO);
-			close(input_fd);
-		}
-		if (output_fd != STDOUT_FILENO)
-		{
-			dup2(output_fd, STDOUT_FILENO);
-			close(output_fd);
-		}
+		setup_redirections(input_fd, output_fd);
 		if (command->pipe[1] == output_fd)
 			close(command->pipe[0]);
 		if (ft_strcmp(command->cmd, "exit") == 0)
@@ -95,14 +100,12 @@ int	is_builtin(char *cmd)
 	return (0);
 }
 
-void	execute_command(t_command *command, t_data *data, int input_fd,
-			int output_fd)
+int	handle_builtin(t_command *command, t_data *data, int output_fd,
+		int input_fd)
 {
-	int	fd_out;
 	int	fd_in;
+	int	fd_out;
 
-	if (command == NULL || command->cmd == NULL)
-		return ;
 	if (is_builtin(command->cmd))
 	{
 		if (input_fd != STDIN_FILENO)
@@ -110,21 +113,31 @@ void	execute_command(t_command *command, t_data *data, int input_fd,
 		if (output_fd != STDOUT_FILENO)
 			dup2(output_fd, STDOUT_FILENO);
 		if (ft_strcmp(command->cmd, "exit") == 0)
-			return (ft_exit(command, data, "exit", 0));
-		if (execute_bultin(command, data->env, data, output_fd) == 1)
-		{
-			fd_in = dup(data->fd_in);
-			fd_out = dup(data->fd_out);
-			dup2(fd_in, STDIN_FILENO);
-			dup2(fd_out, STDOUT_FILENO);
-			if (fd_in > 2)
-				close(fd_in);
-			if (fd_out > 2)
-				close(fd_out);
-		}
-		return ;
+			ft_exit(command, data, "exit", 0);
+		if (ft_strcmp(command->cmd, "exit") == 0)
+			return (1);
+		execute_bultin(command, data->env, data, output_fd);
+		fd_in = dup(data->fd_in);
+		fd_out = dup(data->fd_out);
+		dup2(fd_in, STDIN_FILENO);
+		dup2(fd_out, STDOUT_FILENO);
+		if (fd_in > 2)
+			close(fd_in);
+		if (fd_out > 2)
+			close(fd_out);
+		return (1);
 	}
-	command->pid = fork(); 
+	return (0);
+}
+
+void	execute_command(t_command *command, t_data *data, int input_fd,
+			int output_fd)
+{
+	if (command == NULL || command->cmd == NULL)
+		return ;
+	if (handle_builtin(command, data, output_fd, input_fd) == 1)
+		return ;
+	command->pid = fork();
 	if (command->pid == -1)
 	{
 		perror("fork");
@@ -132,16 +145,7 @@ void	execute_command(t_command *command, t_data *data, int input_fd,
 	}
 	if (command->pid == 0)
 	{
-		if (input_fd != STDIN_FILENO)
-		{
-			dup2(input_fd, STDIN_FILENO);
-			close(input_fd);
-		}
-		if (output_fd != STDOUT_FILENO)
-		{
-			dup2(output_fd, STDOUT_FILENO);
-			close(output_fd);
-		}
+		setup_redirections(input_fd, output_fd);
 		g_return_code = execve_path_env(command->cmd, command->args,
 				data->env, data);
 		exit(g_return_code);
@@ -155,62 +159,21 @@ void	execute_command(t_command *command, t_data *data, int input_fd,
 		printf("\n");
 }
 
-void useless(int sig)
+void	useless(int sig)
 {
 	(void)sig;
 }
 
-void	choose_case(t_data *data)
+void	setup_signals(void *handler)
 {
-	t_command	*command;
-	int			prev_fd;
-	int			status;
+	signal(SIGINT, handler);
+	signal(SIGQUIT, handler);
+}
 
-	signal(SIGINT, useless);
-	signal(SIGQUIT, useless);
-	status = 0;
-	command = data->command_top;
-	prev_fd = command->fd_in;
-	if (command && command->next == NULL)
-	{
-		execute_command(command, data, prev_fd, command->fd_out);
-		return ;
-	}
-	while (command)
-	{
-		if (command->fd_in != STDIN_FILENO)
-		{
-			prev_fd = command->fd_in;
-			command->fd_in = STDIN_FILENO;
-		}
-		if (command->next && pipe(command->pipe) == -1)
-		{
-			perror("pipe");
-			return ;
-		}
-		if (command->fd_out != -1 && command->fd_in != -1 && command->next)
-		{
-			if (command->fd_out != STDOUT_FILENO)
-				execute_command_pipe(command, data, prev_fd, command->fd_out);
-			else
-				execute_command_pipe(command, data, prev_fd, command->pipe[1]);
-		}
-		else if (command->fd_out != -1 && command->fd_in != -1)
-			execute_command_pipe(command, data, prev_fd, command->fd_out);
-		if (prev_fd != STDIN_FILENO)
-		{
-			if (prev_fd > 2)
-				close(prev_fd);
-			prev_fd = STDIN_FILENO;
-		}
-		if (command->next)
-		{
-			prev_fd = dup(command->pipe[0]);
-			close(command->pipe[0]);
-			close(command->pipe[1]);
-		}
-		command = command->next;
-	}
+void	wait_for_commands(t_command *command, t_data *data)
+{
+	int	status;
+
 	command = data->command_top;
 	while (command)
 	{
@@ -226,10 +189,105 @@ void	choose_case(t_data *data)
 	command = data->command_top;
 	while (command)
 	{
-		if (command->next == NULL && (command->fd_out == -1 || command->fd_in == -1))
+		if (command->next == NULL && (command->fd_out == -1
+				|| command->fd_in == -1))
 			g_return_code = 1;
 		command = command->next;
 	}
+}
+
+void	setup_command_execution(t_command *command, int *prev_fd)
+{
+	if (command->fd_in != STDIN_FILENO)
+	{
+		(*prev_fd) = command->fd_in;
+		command->fd_in = STDIN_FILENO;
+	}
+	if (command->next && pipe(command->pipe) == -1)
+	{
+		perror("pipe");
+		return ;
+	}
+}
+
+void	execute_pipes(t_command *command, t_data *data, int prev_fd)
+{
+	if (command->fd_out != -1 && command->fd_in != -1 && command->next)
+	{
+		if (command->fd_out != STDOUT_FILENO)
+			execute_command_pipe(command, data, prev_fd, command->fd_out);
+		else
+			execute_command_pipe(command, data, prev_fd, command->pipe[1]);
+	}
+	else if (command->fd_out != -1 && command->fd_in != -1)
+		execute_command_pipe(command, data, prev_fd, command->fd_out);
+}
+
+void	close_and_dup_pipes(t_command *command, int *prev_fd)
+{
+	if ((*prev_fd) != STDIN_FILENO)
+	{
+		if ((*prev_fd) > 2)
+			close((*prev_fd));
+		(*prev_fd) = STDIN_FILENO;
+	}
+	if (command->next)
+	{
+		(*prev_fd) = dup(command->pipe[0]);
+		close(command->pipe[0]);
+		close(command->pipe[1]);
+	}
+}
+
+void	choose_case(t_data *data)
+{
+	t_command	*command;
+	int			prev_fd;
+
+	setup_signals(&useless);
+	command = data->command_top;
+	prev_fd = command->fd_in;
+	if (command && command->next == NULL)
+	{
+		execute_command(command, data, prev_fd, command->fd_out);
+		return ;
+	}
+	while (command)
+	{
+		setup_command_execution(command, &prev_fd);
+		execute_pipes(command, data, prev_fd);
+		close_and_dup_pipes(command, &prev_fd);
+		command = command->next;
+	}
+	wait_for_commands(command, data);
+}
+
+void	setup_loop(t_data *data)
+{
+	setup_signals(&sig_handler);
+	if (data->prompt_top)
+		free_token_lst(data);
+	if (data->command_top)
+		free_command(data);
+	get_cmd_prompt(data, data->env);
+}
+
+void	execute_loop(t_data *data, char **line)
+{
+	if (lexer((*line), data) == 0)
+	{
+		free((*line));
+		(*line) = NULL;
+		if (parser(data) == 0)
+			choose_case(data);
+		else
+		{
+			free_token_lst(data);
+			free_command(data);
+		}
+	}
+	else
+		free_token_lst(data);
 }
 
 void	wait_cmd_prompt(t_data *data)
@@ -237,18 +295,18 @@ void	wait_cmd_prompt(t_data *data)
 	char	*line;
 
 	g_return_code = 0;
+	line = NULL;
 	while (1)
 	{
-		signal(SIGINT, sig_handler);
-		signal(SIGQUIT, sig_handler);
+		setup_loop(data);
 		if (data->prompt_top)
 			free_token_lst(data);
 		if (data->command_top)
 			free_command(data);
 		get_cmd_prompt(data, data->env);
 		if (data->cmd_prompt == NULL)
-			return ;
-		/////////////////////////// in testing
+			break ;
+		// line = ft_strtrim_free(readline(data->cmd_prompt), " ");
 		if (isatty(fileno(stdin)))
 			line = ft_strtrim_free(readline(data->cmd_prompt), " ");
 		else
@@ -258,26 +316,11 @@ void	wait_cmd_prompt(t_data *data)
 			line = ft_strtrim(line1, "\n");
 			free(line1);
 		}
-		////////////////////// in testing
-		// line = ft_strtrim_free(readline(data->cmd_prompt), " ");
 		if (line == NULL)
 			ft_exit(data->command_top, data, "exit", 1);
 		if (ft_strlen(line) > 0)
 			add_history(line);
-		if (lexer(line, data) == 0)
-		{
-			free(line);
-			line = NULL;
-			if (parser(data) == 0)
-				choose_case(data);
-			else
-			{
-				free_token_lst(data);
-				free_command(data);
-			}
-		}
-		else
-			free_token_lst(data);
+		execute_loop(data, &line);
 		if (line != NULL)
 			free(line);
 	}
