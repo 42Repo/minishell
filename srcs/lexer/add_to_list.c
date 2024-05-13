@@ -94,26 +94,3 @@ void	add_redir(char *str, int *i, int *j, t_data *data)
 		redir_outfile(str, i, j, data);
 	*j = *i + 1;
 }
-
-int	add_word_to_list(char *str, int *i, int *j, t_data *data)
-{
-	if (*j < *i)
-		add_token_to_list(data, &str[*j], *i - *j, WORD);
-	*j = *i + 1;
-	return (1);
-}
-
-void	check_pipe_redir(char *str, int *i, int *j, t_data *data)
-{
-	if (data->quote_state != 0)
-		return ;
-	if (str[*i] == '>' || str[*i] == '<')
-		add_redir(str, i, j, data);
-	else if (str[*i] == '|')
-	{
-		if (*j < *i)
-			add_token_to_list(data, &str[*j], *i - *j, WORD);
-		add_token_to_list(data, &str[*i], 1, PIPE);
-		*j = *i + 1;
-	}
-}

@@ -6,11 +6,34 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/11 19:06:55 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/13 17:30:45 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
+
+int	add_word_to_list(char *str, int *i, int *j, t_data *data)
+{
+	if (*j < *i)
+		add_token_to_list(data, &str[*j], *i - *j, WORD);
+	*j = *i + 1;
+	return (1);
+}
+
+void	check_pipe_redir(char *str, int *i, int *j, t_data *data)
+{
+	if (data->quote_state != 0)
+		return ;
+	if (str[*i] == '>' || str[*i] == '<')
+		add_redir(str, i, j, data);
+	else if (str[*i] == '|')
+	{
+		if (*j < *i)
+			add_token_to_list(data, &str[*j], *i - *j, WORD);
+		add_token_to_list(data, &str[*i], 1, PIPE);
+		*j = *i + 1;
+	}
+}
 
 char	**join_tab(char **tab, char *line)
 {

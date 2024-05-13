@@ -12,71 +12,6 @@
 
 #include "../../includes/minishell.h"
 
-char	*set_token_str(char *str, int len)
-{
-	char	*token;
-
-	token = ft_calloc(sizeof(char), len + 1);
-	if (token == NULL)
-		return (NULL);
-	ft_strlcpy(token, str, len + 1);
-	return (token);
-}
-
-int	get_quote_type(char *str)
-{
-	int		i;
-	int		type;
-
-	i = 0;
-	type = 0;
-	while (str[i])
-	{
-		if (str[i] == '\'')
-			type = 1;
-		if (str[i] == '"')
-			type = 2;
-		if (str[i] == '\'' || str[i] == '"')
-			break ;
-		i++;
-	}
-	return (type);
-}
-
-char	*remove_quotes(char *str, int mode)
-{
-	int		i;
-	int		j;
-	char	*new_str;
-	int		local_quote;
-
-	i = 0;
-	j = 0;
-	if (!str)
-		return (NULL);
-	if (!*str)
-		return (str);
-	new_str = ft_calloc(sizeof(char), ft_strlen(str) + 1);
-	if (!new_str)
-		return (NULL);
-	local_quote = 0;
-	while (str[i])
-	{
-		if (!((str[i] == '\'' && (local_quote == 0 || local_quote == 1)) \
-				|| (str[i] == '"' && (local_quote == 0 || local_quote == 2))))
-			new_str[j] = str[i];
-		if (!((str[i] == '\'' && (local_quote == 0 || local_quote == 1)) \
-			|| (str[i] == '"' && (local_quote == 0 || local_quote == 2))))
-			j++;
-		local_quote = quote_management(local_quote, str[i]);
-		i++;
-	}
-	new_str[j] = '\0';
-	if (mode == 1)
-		free(str);
-	return (new_str);
-}
-
 int	quote_management(int i, char c)
 {
 	if (i == 0 && c == '\'')
@@ -88,36 +23,19 @@ int	quote_management(int i, char c)
 	return (i);
 }
 
-		// if (i > 1 && str[i] == '>' && str[i - 1] == '>')
-		// 	i++;
-
-// void printf_stack(t_data *data)
-// {
-// 	t_token	*token;
-
-// 	token = data->prompt_top;
-// 	while (token)
-// 	{
-// 		printf("type = %d, value = %s\n", token->type, token->value);
-// 		token = token->next;
-// 	}
-// }
-
 char	*remove_dollard_quote(char *str)
 {
 	int		i;
 	int		j;
 	char	*new_str;
 	int		quote_state;
-	
+
 	quote_state = 0;
-	
 	i = 0;
 	j = 0;
-
 	new_str = ft_calloc(sizeof(char), ft_strlen(str) + 1);
 	if (!str || new_str == NULL)
-		return (NULL);	
+		return (NULL);
 	while (str[i])
 	{
 		quote_state = quote_management(quote_state, str[i]);
@@ -126,6 +44,22 @@ char	*remove_dollard_quote(char *str)
 	new_str[j] = '\0';
 	free(str);
 	return (new_str);
+}
+
+int	lexer_error(t_data *data)
+{
+	ft_putstr_fd("minishell: syntax error\n", 2);
+	free_token_lst(data);
+	return (-1);
+}
+
+void	lexer_loop(char *str, int *i, int *j, t_data *data)
+{
+	data->quote_state = quote_management(data->quote_state, str[(*i)]);
+	if (ft_isnamespace(str[(*i)]) && (*j) < (*i) && data->quote_state == 0)
+		add_word_to_list(str, i, j, data);
+	check_pipe_redir(str, i, j, data);
+	(*i)++;
 }
 
 int	lexer(char *str, t_data *data)
@@ -138,19 +72,9 @@ int	lexer(char *str, t_data *data)
 	i = 0;
 	j = 0;
 	while (str[i])
-	{
-		data->quote_state = quote_management(data->quote_state, str[i]);
-		if (ft_isnamespace(str[i]) && j < i && data->quote_state == 0)
-			add_word_to_list(str, &i, &j, data);
-		check_pipe_redir(str, &i, &j, data);
-		i++;
-	}
+		lexer_loop(str, &i, &j, data);
 	if (data->quote_state != 0)
-	{
-		ft_putstr_fd("minishell: error: missing quote\n", 2);
-		free_token_lst(data);
-		return (-1);
-	}
+		return (lexer_error(data));
 	if (!ft_isnamespace(str[i]) && j < i)
 		add_token_to_list(data, &str[j], i - j, WORD);
 	add_token_to_list(data, "newline", 7, END);
@@ -160,6 +84,5 @@ int	lexer(char *str, t_data *data)
 		token->value = remove_dollard_quote(token->value);
 		token = token->next;
 	}
-	// printf_stack(data);
 	return (0);
 }

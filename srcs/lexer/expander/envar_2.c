@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   envar2.c                                           :+:      :+:    :+:   */
+/*   envar_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/12 23:59:45 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/13 17:30:34 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	add_non_env(t_token *tmp, int i, int j, char ***tab)
 		(*tab) = join_tab((*tab), ft_strndup(&tmp->value[i], j));
 }
 
-void skip_not_envar(t_token *tmp, int *i, int *j, int *quote_state)
+void	skip_not_envar(t_token *tmp, int *i, int *j, int *quote_state)
 {
 	while (check_envar(tmp->value, (*i), (*quote_state)))
 	{
@@ -30,10 +30,11 @@ void skip_not_envar(t_token *tmp, int *i, int *j, int *quote_state)
 	}
 }
 
-void check_quote_state(t_token *tmp, int *quote_state, int *i, int *j)
+void	check_quote_state(t_token *tmp, int *quote_state, int *i, int *j)
 {
-	// printf("je lis ca : %c dans ca : %s\n", tmp->value[(*i)], tmp->value);
-	if (tmp && tmp->value && tmp->value[(*i)] && tmp->value[(*i)] + 1 && (((*quote_state) == 2 && tmp->value[(*i) + 1] == '"')
+	if (tmp && tmp->value && tmp->value[(*i)]
+		&& tmp->value[(*i)] + 1 && (((*quote_state) == 2
+				&& tmp->value[(*i) + 1] == '"')
 			|| ((*quote_state) == 1 && tmp->value[(*i) + 1] == '\'')))
 	{
 		(*quote_state) = 0;
@@ -91,25 +92,3 @@ void	set_envar(t_data *data, t_token *selected)
 	free(tmp);
 	tmp = NULL;
 }
-
-
-// void	set_envar(t_data *data, t_token *selected)
-// {
-// 	int		j;
-// 	char	**tmp;
-
-// 	tmp = ft_calloc(sizeof(char *), 2);
-// 	tmp = ft_split_quote_state(replace_envar(data, selected, 0, &tmp), " \t\n");
-// 	free(selected->value);
-// 	selected->value = tmp[0];
-// 	j = 1;
-// 	while (tmp && *tmp && tmp[j])
-// 	{
-// 		printf("tmp[%d] = %s\n", j, tmp[j]);
-// 		add_token_next(selected, tmp[j], ft_strlen(tmp[j]), WORD);
-// 		selected = selected->next;
-// 		j++;
-// 	}
-// 	if (tmp)
-// 		free(tmp);
-// }
