@@ -28,32 +28,49 @@ CACHE_DIR	:=	$(addprefix $(shell pwd)/, .cache)
 MAKE		=	make --no-print-directory
 AUTHORS		=	asuc & mbuchs
 DEBUG		=	0
-# SRC			=	srcs/ft_cd.c \
-# 				srcs/deco.c \
-# 				srcs/utils.c \
-# 				srcs/get_cmd_prompt.c \
-# 				srcs/ft_export.c \
-# 				srcs/ft_unset.c \
-# 				srcs/get_env.c\
-# 				srcs/lexer/lexer.c\
-# 				srcs/ft_echo.c\
-# 				srcs/ft_pwd.c\
-# 				srcs/lexer/ms_lst.c\
-# 				srcs/lexer/add_to_list.c\
-# 				srcs/minishell.c\
-# 				srcs/parser/parser.c\
-# 				srcs/execve.c
-
-
-
-
-
-SRC = $(shell find srcs -name "*.c")
-
-
-
-
-
+SRC			=	srcs/signals.c \
+		srcs/signal.c \
+		srcs/get_env.c \
+		srcs/command_execution.c \
+		srcs/utils/split_quote_state_utils.c \
+		srcs/utils/utils.c \
+		srcs/utils/split_quote_state.c \
+		srcs/built-in/ft_exit.c \
+		srcs/built-in/ft_echo.c \
+		srcs/built-in/ft_cd_utils.c \
+		srcs/built-in/ft_env.c \
+		srcs/built-in/ft_export.c \
+		srcs/built-in/ft_export_utils.c \
+		srcs/built-in/ft_cd.c \
+		srcs/built-in/ft_export_args_less.c \
+		srcs/built-in/ft_unset.c \
+		srcs/built-in/ft_pwd.c \
+		srcs/built-in/ft_exit_utils.c \
+		srcs/data_initialization.c \
+		srcs/redirections.c \
+		srcs/parser/manage_command.c \
+		srcs/parser/here_doc/heredoc_expander.c \
+		srcs/parser/here_doc/signal_handlers.c \
+		srcs/parser/here_doc/heredoc_child.c \
+		srcs/parser/here_doc/random_name_generator.c \
+		srcs/parser/here_doc/here_doc.c \
+		srcs/parser/parse_token.c \
+		srcs/parser/parser_2.c \
+		srcs/parser/parser.c \
+		srcs/minishell.c \
+		srcs/builtin_handling.c \
+		srcs/execution/command_execution.c \
+		srcs/execution/environment_management.c \
+		srcs/execution/error_management.c \
+		srcs/execution/file_and_access_checks.c \
+		srcs/lexer/ms_lst.c \
+		srcs/lexer/lexer.c \
+		srcs/lexer/lexer_2.c \
+		srcs/lexer/add_to_list.c \
+		srcs/lexer/expander/envar_2.c \
+		srcs/lexer/expander/envar.c \
+		srcs/lexer/expander/expander.c \
+		srcs/get_cmd_prompt.c
 
 OBJ_DIR = $(CACHE_DIR)/$(NAME)/obj
 DEP_DIR = $(CACHE_DIR)/$(NAME)/dep
@@ -134,11 +151,8 @@ re : fclean all
 -include $(DEP)
 
 PWD = $(shell pwd)
-# Debugging
+
 test : debug
 	@valgrind --error-limit=no --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=$(PWD)/suppressions.supp -s --track-fds=yes --trace-children=yes --log-fd=2 ./$(NAME)
-
-test2 : debug
-	@valgrind --error-limit=no --leak-check=full --show-leak-kinds=all --track-origins=yes -s ./$(NAME)
 
 .PHONY: all fclean clean re banner

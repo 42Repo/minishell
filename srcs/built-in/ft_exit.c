@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:30:00 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/13 23:53:06 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/13 23:56:32 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ static void	display_message(char *exit_msg)
 
 void	ft_exit(t_command *command, t_data *data, char *exit_msg, int check_arg)
 {
-	(void)exit_msg;
 	if (!command)
 	{
 		display_message(exit_msg);
