@@ -1,6 +1,25 @@
 {
-   IgnoreAllReadlineRelatedLeaks
+   readline
    Memcheck:Leak
+   match-leak-kinds: reachable
    ...
-   obj:*libreadline*
+   fun:readline
+   ...
+}
+{
+   readline
+   Memcheck:Leak
+   match-leak-kinds: definite
+   ...
+   fun:readline
+   ...
+}
+{
+   readline-history
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:xmalloc
+   fun:add_history
+   ...
 }

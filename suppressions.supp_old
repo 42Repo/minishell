@@ -1,0 +1,6 @@
+{
+   IgnoreAllReadlineRelatedLeaks
+   Memcheck:Leak
+   ...
+   obj:*libreadline*
+}

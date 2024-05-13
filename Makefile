@@ -133,12 +133,10 @@ re : fclean all
 
 -include $(DEP)
 
-
-
-
+PWD = $(shell pwd)
 # Debugging
 test : debug
-	@valgrind --error-limit=no --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=suppressions.supp -s --track-fds=yes --trace-children=yes --log-fd=2 ./$(NAME)
+	@valgrind --error-limit=no --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=$(PWD)/suppressions.supp -s --track-fds=yes --trace-children=yes --log-fd=2 ./$(NAME)
 
 test2 : debug
 	@valgrind --error-limit=no --leak-check=full --show-leak-kinds=all --track-origins=yes -s ./$(NAME)

@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/24 00:16:17 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/12 17:52:40 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/13 16:35:21 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,6 +166,7 @@ int	execve_path_env(char *cmd, char **args, t_env *env, t_data *data)
 		free_token_lst(data);
 		free_env(env);
 		free_command(data);
+		rl_clear_history();
 		if (data->cmd_prompt)
 			free(data->cmd_prompt);
 		free(data->term);
@@ -181,6 +182,7 @@ int	execve_path_env(char *cmd, char **args, t_env *env, t_data *data)
 	if (data->fd_out > 2)
 		close(data->fd_out);
 	execve(path, args, envp);
+	rl_clear_history();
 	free(data->term);
 	free_tab(envp);
 	free(path);
