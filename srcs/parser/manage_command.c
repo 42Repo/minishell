@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_command.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 15:18:00 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/13 22:50:01 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/13 23:12:28 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ t_command	*init_command(void)
 	return (command);
 }
 
-void	get_redir(t_token *selected, t_data *data, t_command *command)
+void	get_redir(t_token *selected, t_command *command)
 {
 	if (selected->type == REDIR)
 	{

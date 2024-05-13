@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/13 22:49:01 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/13 23:16:25 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*parse_line(t_data *data, t_token *selected, t_command *command)
 		command->args = ft_calloc(sizeof(char **), 1);
 		while (selected && selected->type != PIPE)
 		{
-			parser.error = skip_pipe(&command, &selected, &parser, data);
+			parser.error = skip_pipe(&command, &selected, &parser);
 			if (parser.error)
 				return (parser.error);
 		}

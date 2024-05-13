@@ -162,7 +162,7 @@ int			parser(t_data *data);
  *
  * @return the error message
  */
-char		*parse_misc(t_token **selected, t_data *data, \
+char		*parse_misc(t_token **selected, \
 			t_command *command, t_parser *parser);
 
 /**
@@ -180,7 +180,7 @@ void		free_command(t_data *data);
  * @param data 
  * @param command 
  */
-void		get_redir(t_token *selected, t_data *data, t_command *command);
+void		get_redir(t_token *selected, t_command *command);
 
 /**
  * @brief a function to free a char ** tab
@@ -235,11 +235,10 @@ char		*find_cmd_path(char *cmd, char *path_env);
  * @brief check if the redir is valid
  * 
  * @param selected the selected token
- * @param data the main struct
  * @param command the command struct
  * @return if NULL -> no error, else -> error message
  */
-char		*parse_redir(t_token **selected, t_data *data, t_command *command);
+char		*parse_redir(t_token **selected, t_command *command);
 
 /**
  * @brief takes 3 str and print them in the error fd
@@ -655,14 +654,13 @@ int			count_words_quote(const char *str, const char *charset);
 void		if_quote_case(int *in_quote, char *current_quote, char *str, int j);
 char		**ft_split_quote_state(char *str, const char *charset);
 void		select_output(char *file, int mode, t_command *command);
-void		select_input(char *file, t_data *data, t_command *command);
+void		select_input(char *file, t_command *command);
 char		*get_path(t_env *env);
 int			has_slash(char *cmd);
 char		*skip_pipe(t_command **command, t_token **selected,
-				t_parser *parser, t_data *data);
+				t_parser *parser);
 int			handle_path_error(char *cmd);
 void		count_heredoc(t_data *data);
-void		get_redir(t_token *selected, t_data *data, t_command *command);
 int			check_executable(const char *path, struct stat *buf);
 
 /* BUILT-IN */
