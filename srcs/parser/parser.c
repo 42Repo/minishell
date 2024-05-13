@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/12 15:49:01 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/13 17:45:47 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,7 +197,7 @@ char	*parse_line(t_data *data, t_token *selected, t_command *command)
 	return (NULL);
 }
 
-void	open_heredoc(t_data *data)
+int	open_heredoc(t_data *data)
 {
 	t_token		*selected;
 	t_command	*command;
@@ -212,9 +212,13 @@ void	open_heredoc(t_data *data)
 			command = command->next;
 		}
 		else if (selected->type == REDIR && selected->next && selected->next->type == WORD && !ft_strcmp(selected->value, "<<"))
-			heredoc(selected->next->value, data, command);
+		{
+			if (heredoc(selected->next->value, data, command) == -1)
+				return (-1);
+		}
 		selected = selected->next;
 	}
+	return (0);
 }
 
 void	set_fd_in(t_command *command, t_token *selected)
@@ -272,7 +276,8 @@ int	parser(t_data *data)
 	selected = data->prompt_top;
 	command = data->command_top;
 	count_heredoc(data);
-	open_heredoc(data);
+	if (open_heredoc(data) == -1)
+		return (-1);
 	expander(data);
 	clear_token_quotes(data);
 	// remove_empty_tokens(data);

@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 16:30:08 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/11 22:59:00 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/13 17:46:54 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	sig_child_handler(int sig)
 {
 	if (sig == SIGINT)
 	{
-		write(1, "\n", 1);
+		write(1, "^C", 3);
 		rl_replace_line("", 0);
 		g_return_code = 130;
 		close(0);
@@ -75,8 +75,8 @@ char	*expand_heredoc(char *str, t_data *data)
 	int		j;
 	char	**tab;
 
-	// if (!str)
-	// 	return (NULL);
+	if (!str)
+		return (NULL);
 	i = 0;
 	j = 0;
 	tab = ft_calloc(sizeof(char *), 2);
@@ -110,7 +110,7 @@ char	*expand_heredoc(char *str, t_data *data)
 	return (join_replaced(tab));
 }
 
-void	read_heredoc(int fd, char *eof, t_command *command, t_data *data)
+void	read_heredoc(int fd, char *eof, t_command *command, t_data *data) // TODO - Fix ctrl + d
 {
 	char	*line;
 	pid_t	pid;
@@ -127,6 +127,7 @@ void	read_heredoc(int fd, char *eof, t_command *command, t_data *data)
 		signal(SIGINT, sig_child_handler);
 		signal(SIGQUIT, sig_child_handler);
 		rl_catch_signals = 0;
+		g_return_code = 0;
 		line = expand_heredoc(readline("> "), data);
 		if (line == NULL && g_return_code != 130)
 		{
@@ -134,8 +135,10 @@ void	read_heredoc(int fd, char *eof, t_command *command, t_data *data)
 			ft_putstr_fd(eof, 1);
 			ft_putstr_fd("')\n", 1);
 			close(fd);
+			g_return_code = 1;
+			free(eof);
 			ft_exit(command, data, data->env, "");
-			exit(130);
+			exit(g_return_code);
 		}
 		while (line && ft_strcmp(line, eof) != 0 && g_return_code != 130)
 		{
@@ -151,10 +154,13 @@ void	read_heredoc(int fd, char *eof, t_command *command, t_data *data)
 				ft_putstr_fd("minishell: warning: here-document delimited by end-of-file (wanted `", 1);
 				ft_putstr_fd(eof, 1);
 				ft_putstr_fd("')\n", 1);
+				g_return_code = 1;
+				free(eof);
 				close(fd);
-				exit(130);
+				ft_exit(command, data, data->env, "");
+				exit(g_return_code);
+				}
 			}
-		}
 		free(line);
 		close(fd);
 		free(eof);
@@ -162,13 +168,14 @@ void	read_heredoc(int fd, char *eof, t_command *command, t_data *data)
 		exit(g_return_code);
 	}
 	waitpid(pid, &status, 0);
-	if (WIFSIGNALED(status))
-		g_return_code = 128 + WTERMSIG(status);
 	if (WIFEXITED(status))
 		g_return_code = WEXITSTATUS(status);
+	if (WIFSIGNALED(status))
+		g_return_code = 128 + WTERMSIG(status);
+	// printf("g_return_code = %d\n", g_return_code);
 }
 
-void	heredoc(char *eof, t_data *data, t_command *command)
+int	heredoc(char *eof, t_data *data, t_command *command)
 {
 	int		fd;
 	int		fd2;
@@ -176,7 +183,7 @@ void	heredoc(char *eof, t_data *data, t_command *command)
 	(void)data;
 	eof = remove_quotes(eof, 0);
 	if (eof == NULL)
-		return ;
+		return (0);
 	if (command->fd_heredoc > 2)
 		close(command->fd_heredoc);
 	if (command->random_name[0] == '\0')
@@ -187,8 +194,9 @@ void	heredoc(char *eof, t_data *data, t_command *command)
 	if (fd == -1)
 	{
 		printf("minishell: %s: %s\n", command->random_name, strerror(errno));
+		free(eof);
 		eof = NULL;
-		return ;
+		return (-1);
 	}
 	read_heredoc(fd, eof, command, data);
 	free(eof);
@@ -199,12 +207,14 @@ void	heredoc(char *eof, t_data *data, t_command *command)
 	tcsetattr(0, TCSANOW, data->term);
 	signal(SIGINT, sig_handler);
 	signal(SIGQUIT, sig_handler);
-	command->fd_heredoc = fd2; // TODO - Fix this
+	command->fd_heredoc = fd2;
 	if (g_return_code == 130)
 	{
 		command->random_name[0] = '\0';
 		if (command->fd_heredoc > 2)
 			close(command->fd_heredoc);
-		command->fd_heredoc = -1;
+		command->fd_heredoc = 0;
+		return (-1);
 	}
+	return (0);
 }

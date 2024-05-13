@@ -399,7 +399,7 @@ void		free_env(t_env *env);
  * @param data 
  * @param command 
  */
-void		heredoc(char *file, t_data *data, t_command *command);
+int			heredoc(char *file, t_data *data, t_command *command);
 
 /**
  * @brief 

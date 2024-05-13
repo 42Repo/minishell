@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/13 00:03:43 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/13 17:43:12 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,7 +230,7 @@ void	execute_command(t_command *command, t_data *data, int input_fd, int output_
 	int	fd_out;
 	int	fd_in;
 
-	if (data->prompt_top->type == END || command == NULL || command->cmd == NULL)
+	if (command == NULL || command->cmd == NULL)
 		return ;
 	if (is_builtin(command->cmd))
 	{
