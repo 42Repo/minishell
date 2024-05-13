@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/13 21:45:12 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/13 22:49:49 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,10 @@ int	check_dir(char *file, t_command *command)
 	if (access(dir, F_OK))
 		return (error_output(dir, command, ": No such file or directory\n", 1));
 	if (!(S_ISDIR(sb.st_mode)))
-		return (error_output(dir, command, ": Is a directory\n",1 ));
+		return (error_output(dir, command, ": Is a directory\n", 1));
 	free(dir);
 	return (0);
 }
-
 
 void	select_output(char *file, int mode, t_command *command)
 {
@@ -88,16 +87,15 @@ void	select_output(char *file, int mode, t_command *command)
 		command->fd_out = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 }
 
-void	select_input(char *file, t_data *data, t_command *command)
+void	select_input(char *file, t_command *command)
 {
-	(void) data;
 	if (command->fd_in != 0)
 		close(command->fd_in);
 	if (command->fd_in != 0)
 		command->fd_in = 0;
 	if (access(file, F_OK) == -1)
 	{
-		error_input(file, command, ": No such file or directory\n",1);
+		error_input(file, command, ": No such file or directory\n", 1);
 		return ;
 	}
 	if (access(file, R_OK) == -1)
