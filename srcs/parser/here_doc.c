@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 16:30:08 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/13 17:47:56 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/13 18:17:09 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ char	*expand_heredoc(char *str, t_data *data)
 	return (join_replaced(tab));
 }
 
-void	read_heredoc(int fd, char *eof, t_command *command, t_data *data) // TODO - Fix ctrl + d
+void	read_heredoc(int fd, char *eof, t_command *command, t_data *data)
 {
 	char	*line;
 	pid_t	pid;
@@ -159,8 +159,8 @@ void	read_heredoc(int fd, char *eof, t_command *command, t_data *data) // TODO -
 				close(fd);
 				ft_exit(command, data, data->env, "");
 				exit(g_return_code);
-				}
 			}
+		}
 		free(line);
 		close(fd);
 		free(eof);
@@ -172,7 +172,6 @@ void	read_heredoc(int fd, char *eof, t_command *command, t_data *data) // TODO -
 		g_return_code = WEXITSTATUS(status);
 	if (WIFSIGNALED(status))
 		g_return_code = 128 + WTERMSIG(status);
-	// printf("g_return_code = %d\n", g_return_code);
 }
 
 int	heredoc(char *eof, t_data *data, t_command *command)

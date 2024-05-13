@@ -12,43 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-static int	is_valid_identifier(char *str)
-{
-	int	i;
-
-	i = 0;
-	if (!ft_isalpha(str[i]) && str[i] != '_')
-		return (0);
-	i++;
-	while (str[i] && str[i] != '=' && str[i] != '+')
-	{
-		if (!ft_isalnum(str[i]) && str[i] != '_')
-			return (0);
-		i++;
-	}
-	if (str[i] == '+')
-	{
-		if (str[i + 1] != '=')
-			return (0);
-	}
-	return (1);
-}
-
-static int	ft_is_equal(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == '=')
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-void	create_env_node(char *arg, int has_equal, t_env *env)
+static void	create_env_node(char *arg, int has_equal, t_env *env)
 {
 	t_env	*new_env;
 

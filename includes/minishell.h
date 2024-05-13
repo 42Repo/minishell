@@ -402,14 +402,6 @@ void		free_env(t_env *env);
 int			heredoc(char *file, t_data *data, t_command *command);
 
 /**
- * @brief 
- * 
- * @param env 
- * @param arg	
- */
-void		add_new_env_variable(t_env *env, char *arg);
-
-/**
  * @brief a ft_strsplit that doesn't split if the char is in a quote
  * 
  * @param str the str to split
@@ -474,15 +466,6 @@ t_token		*ms_lstlast(t_token *lst);
  * @brief print the startup header
  */
 void		put_header(void);
-
-/**
- * @brief Get the max len between a lenght of a str and a size_t
- *
- * @param str the string to check
- * @param nb the size_t to check
- * @return int the max len
- */
-int			max_len(char *str, size_t nb);
 
 /**
  * @brief add a token to the list, trimming spaces and then filtering quotes
@@ -659,16 +642,42 @@ void		ft_echo(t_command *command);
  * @param env the struct env list
  */
 void		ft_pwd(t_env *env);
-#endif
 
-int	max_len(char *str, size_t nb);
-char	*ft_strtrim_free(char *s1, char *set);
-int	is_quote(char c);
-int	is_delimiter(char c, const char *charset);
-int	get_strdup_len(const char *src, const char *charset, char *current_quote);
-void	set_split_var(int *i, int *j, int *in_qt, char *current_quote);
-char	*ft_strdup_split_quote(const char *src, const char *charset);
-void	if_case_quote(int *in_quote, char *current_quote, char str);
-int	count_words_quote(const char *str, const char *charset);
-void	if_quote_case(int *in_quote, char *current_quote, char *str, int j);
-char	**ft_split_quote_state(char *str, const char *charset);
+char		*ft_strtrim_free(char *s1, char *set);
+int			is_quote(char c);
+int			is_delimiter(char c, const char *charset);
+int			get_strdup_len(const char *src, const char *charset,
+				char *current_quote);
+void		set_split_var(int *i, int *j, int *in_qt, char *current_quote);
+char		*ft_strdup_split_quote(const char *src, const char *charset);
+void		if_case_quote(int *in_quote, char *current_quote, char str);
+int			count_words_quote(const char *str, const char *charset);
+void		if_quote_case(int *in_quote, char *current_quote, char *str, int j);
+char		**ft_split_quote_state(char *str, const char *charset);
+char		*get_path(t_env *env);
+int			has_slash(char *cmd);
+int			handle_path_error(char *cmd);
+int			check_executable(const char *path, struct stat *buf);
+
+/* BUILT-IN */
+// ft_cd
+char		*ft_export_single_arg(t_env *env, char *name);
+void		update_env(t_env *env, char *new_value);
+int			error_cd(char *path, t_env *env, int mode);
+int			error_to_many_args(t_env *env);
+
+// ft_exit
+int			check_arg_exit(t_command *command);
+
+// ft_export
+int			ft_is_equal(char *str);
+int			is_valid_identifier(char *str);
+/**
+ * @brief 
+ * 
+ * @param env 
+ * @param arg	
+ */
+void		add_new_env_variable(t_env *env, char *arg);
+
+#endif // MINISHELL_H

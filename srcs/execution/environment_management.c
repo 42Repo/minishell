@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execve.c                                           :+:      :+:    :+:   */
+/*   environment_management.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/24 00:16:17 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/11 18:49:22 by asuc             ###   ########.fr       */
+/*   Created: 2024/05/13 18:43:50 by asuc              #+#    #+#             */
+/*   Updated: 2024/05/13 18:47:56 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	execve_error(char *path)
+char	*get_path(t_env *env)
 {
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(path, 2);
-	ft_putstr_fd(": ", 2);
-	ft_putstr_fd(strerror(errno), 2);
-	ft_putstr_fd("\n", 2);
-	return (126);
+	t_env	*tmp;
+
+	tmp = env;
+	while (tmp)
+	{
+		if (!ft_strcmp(tmp->name, "PATH"))
+			return (tmp->value);
+		tmp = tmp->next;
+	}
+	return (NULL);
 }
 
 char	**env_to_tab(t_env *env)
@@ -64,25 +68,6 @@ void	free_tab(char **tab)
 	}
 	free(tab);
 	tab = NULL;
-}
-
-static int	check_executable(const char *path, struct stat *buf)
-{
-	if (!access(path, F_OK))
-	{
-		stat(path, buf);
-		if (!access(path, X_OK) && !S_ISDIR(buf->st_mode))
-			return (1);
-		else
-		{
-			if (S_ISDIR(buf->st_mode))
-				errno = EISDIR;
-			else
-				errno = EACCES;
-			return (0);
-		}
-	}
-	return (0);
 }
 
 char	*find_cmd_path(char *cmd, char *path_env)

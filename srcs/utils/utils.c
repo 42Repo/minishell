@@ -12,13 +12,6 @@
 
 #include "../../includes/minishell.h"
 
-int	max_len(char *str, size_t nb)
-{
-	if (ft_strlen(str) > nb)
-		return (ft_strlen(str));
-	return (nb);
-}
-
 char	*ft_strtrim_free(char *s1, char *set)
 {
 	char	*line;
