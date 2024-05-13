@@ -325,13 +325,6 @@ int			ft_tablen(char **tab);
 void		sig_handler(int num);
 
 /**
- * @brief the main function of the minishell
- * 
- * @param data the main struct
- */
-void		wait_cmd_prompt(t_data *data);
-
-/**
  * @brief get the value of the environment variable
  * 
  * @param str the str where there is the name of the variable
@@ -693,5 +686,22 @@ int			test_open(t_command *command);
 void		random_init(t_command *command);
 void		handle_child_process(int fd, char *eof,
 				t_command *command, t_data *data);
+
+// main
+void		setup_redirections(int input_fd, int output_fd);
+void		choose_case(t_data *data);
+void		setup_loop(t_data *data);
+int			execute_builtin(t_command *command, t_env *env, t_data *data);
+int			handle_builtin(t_command *command, t_data *data, int output_fd,
+				int input_fd);
+void		setup_signals(void *handler);
+void		useless(int sig);
+void		execute_command(t_command *command, t_data *data, int input_fd,
+				int output_fd);
+void		setup_command_execution(t_command *command, int *prev_fd);
+void		execute_pipes(t_command *command, t_data *data, int prev_fd);
+void		close_and_dup_pipes(t_command *command, int *prev_fd);
+void		wait_for_commands(t_command *command, t_data *data);
+void		init_data(t_data *data);
 
 #endif // MINISHELL_H

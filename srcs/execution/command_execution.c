@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:42:37 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/13 18:43:41 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/13 23:53:38 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ static int	handle_error_and_free_resources(char **envp, char *path,
 	return (g_return_code);
 }
 
-static void	execute_command(char *path, char **args, char **envp, t_data *data)
+static void	execute_command_here_doc(char *path, char **args, char **envp,
+		t_data *data)
 {
 	if (data->fd_in > 2)
 		close(data->fd_in);
@@ -102,6 +103,6 @@ int	execve_path_env(char *cmd, char **args, t_env *env, t_data *data)
 	path = prepare_path(cmd, env);
 	if (g_return_code != 0)
 		return (handle_error_and_free_resources(envp, path, data, env));
-	execute_command(path, args, envp, data);
+	execute_command_here_doc(path, args, envp, data);
 	return (127);
 }
