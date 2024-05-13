@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 15:18:00 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/13 22:37:13 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/13 22:50:01 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	ft_tablen(char **tab)
 	return (i);
 }
 
-void free_command_loop(t_command **selected, t_command **old)
+void	free_command_loop(t_command **selected, t_command **old)
 {
 	if ((*selected)->cmd)
 	{
@@ -79,8 +79,6 @@ t_command	*init_command(void)
 	return (command);
 }
 
-
-
 void	get_redir(t_token *selected, t_data *data, t_command *command)
 {
 	if (selected->type == REDIR)
@@ -94,7 +92,7 @@ void	get_redir(t_token *selected, t_data *data, t_command *command)
 			else if (ft_strcmp(selected->value, "<<") == 0)
 				return ;
 			else if (selected->value[0] == '<')
-				select_input(selected->next->value, data, command);
+				select_input(selected->next->value, command);
 		}
 		else
 		{
@@ -104,18 +102,5 @@ void	get_redir(t_token *selected, t_data *data, t_command *command)
 				free (command->cmd);
 			command->cmd = NULL;
 		}
-	}
-}
-
-char	*skip_pipe(t_command **command, t_token **selected,
-	t_parser *parser, t_data *data)
-{
-	if ((*command)->fd_out != -1 && (*command)->fd_in != -1
-		&& (*command)->fd_heredoc != -2)
-		return (parse_misc(selected, data, *command, parser));
-	else
-	{
-		(*selected) = (*selected)->next;
-		return (NULL);
 	}
 }

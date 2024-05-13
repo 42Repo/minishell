@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/13 22:42:18 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/13 22:49:01 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,8 @@ void	count_heredoc(t_data *data)
 	if (count >= 16)
 	{
 		g_return_code = 2;
-		ft_exit(data->command_top, data, "minishell: error: too many here documents", 1);
+		ft_exit(data->command_top, data,
+			"minishell: error: too many here documents", 1);
 	}
 }
 

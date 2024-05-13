@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 15:22:03 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/13 17:18:53 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/13 22:46:42 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 void	parse_word(t_token *selected, t_command *command)
 {
-
-	// selected->value = remove_quotes(selected->value);
 	command->cmd = ft_strdup(selected->value);
 	selected = selected->next;
 }
@@ -36,7 +34,6 @@ char	*parse_pipe(t_token **selected, t_command **command)
 {
 	if ((*selected)->next->type != WORD && (*selected)->next->type != REDIR)
 		return ((*selected)->value);
-	// (*command)->next = init_command();
 	(*command) = (*command)->next;
 	(*selected) = (*selected)->next;
 	return (NULL);
@@ -49,7 +46,9 @@ void	clear_token_quotes(t_data *data)
 	token = data->prompt_top;
 	while (token->type != END)
 	{
-		if (token->type == WORD && !(token == data->prompt_top && (!ft_strcmp(token->value, "\"\"") || !ft_strcmp(token->value, "''"))))
+		if (token->type == WORD && !(token == data->prompt_top
+				&& (!ft_strcmp(token->value, "\"\"")
+					|| !ft_strcmp(token->value, "''"))))
 			token->value = remove_quotes(token->value, 1);
 		token = token->next;
 	}

@@ -61,3 +61,16 @@ int	get_strdup_len(const char *src, const char *charset, char *current_quote)
 	}
 	return (i + 1);
 }
+
+char	*skip_pipe(t_command **command, t_token **selected,
+	t_parser *parser, t_data *data)
+{
+	if ((*command)->fd_out != -1 && (*command)->fd_in != -1
+		&& (*command)->fd_heredoc != -2)
+		return (parse_misc(selected, data, *command, parser));
+	else
+	{
+		(*selected) = (*selected)->next;
+		return (NULL);
+	}
+}
