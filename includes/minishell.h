@@ -688,7 +688,7 @@ void		handle_child_process(int fd, char *eof,
 				t_command *command, t_data *data);
 
 // main
-void		setup_redirections(int input_fd, int output_fd);
+void		setup_redirections(int *input_fd, int *output_fd);
 void		choose_case(t_data *data);
 void		setup_loop(t_data *data);
 int			execute_builtin(t_command *command, t_env *env, t_data *data);

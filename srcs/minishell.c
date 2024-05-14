@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/13 23:54:54 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/14 17:10:17 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,24 @@
 
 int	g_return_code = 0;
 
+void	close_all_fd(t_command *command)
+{
+	if (command->next == NULL && (command->fd_out == -1
+			|| command->fd_in == -1))
+	{
+		g_return_code = 1;
+	}
+	if (command->fd_in > 2)
+		close(command->fd_in);
+	if (command->fd_out > 2)
+		close(command->fd_out);
+}
+
 void	wait_for_commands(t_command *command, t_data *data)
 {
 	int	status;
 
+	status = 0;
 	command = data->command_top;
 	while (command)
 	{
@@ -33,9 +47,7 @@ void	wait_for_commands(t_command *command, t_data *data)
 	command = data->command_top;
 	while (command)
 	{
-		if (command->next == NULL && (command->fd_out == -1
-				|| command->fd_in == -1))
-			g_return_code = 1;
+		close_all_fd(command);
 		command = command->next;
 	}
 }

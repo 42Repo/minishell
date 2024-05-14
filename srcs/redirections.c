@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 23:41:19 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/13 23:45:00 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/14 17:07:50 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,17 @@ void	setup_loop(t_data *data)
 	get_cmd_prompt(data, data->env);
 }
 
-void	setup_redirections(int input_fd, int output_fd)
+void	setup_redirections(int *input_fd, int *output_fd)
 {
-	if (input_fd != STDIN_FILENO)
+	if ((*input_fd) != STDIN_FILENO)
 	{
-		dup2(input_fd, STDIN_FILENO);
-		close(input_fd);
+		dup2((*input_fd), STDIN_FILENO);
+		close((*input_fd));
 	}
-	if (output_fd != STDOUT_FILENO)
+	if ((*output_fd) != STDOUT_FILENO)
 	{
-		dup2(output_fd, STDOUT_FILENO);
-		close(output_fd);
+		dup2((*output_fd), STDOUT_FILENO);
+		close((*output_fd));
 	}
 }
 
