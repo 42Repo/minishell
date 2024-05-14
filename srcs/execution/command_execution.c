@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:42:37 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/13 23:53:38 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/14 14:20:06 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,11 @@ static int	check_cmd(char *cmd)
 	return (1);
 }
 
-static int	handle_error_and_free_resources(char **envp, char *path,
+static int	handle_error_and_free_resources(char ***envp, char **path,
 		t_data *data, t_env *env)
 {
-	free_tab(envp);
-	free(path);
+	free_tab((*envp));
+	free((*path));
 	free_token_lst(data);
 	free_env(env);
 	free_command(data);
@@ -51,17 +51,17 @@ static int	handle_error_and_free_resources(char **envp, char *path,
 	return (g_return_code);
 }
 
-static void	execute_command_here_doc(char *path, char **args, char **envp,
+static void	execute_command_here_doc(char *path, char **args, char ***envp,
 		t_data *data)
 {
 	if (data->fd_in > 2)
 		close(data->fd_in);
 	if (data->fd_out > 2)
 		close(data->fd_out);
-	execve(path, args, envp);
+	execve(path, args, (*envp));
 	rl_clear_history();
 	free(data->term);
-	free_tab(envp);
+	free_tab((*envp));
 	free(path);
 }
 
@@ -102,7 +102,7 @@ int	execve_path_env(char *cmd, char **args, t_env *env, t_data *data)
 		return (1);
 	path = prepare_path(cmd, env);
 	if (g_return_code != 0)
-		return (handle_error_and_free_resources(envp, path, data, env));
-	execute_command_here_doc(path, args, envp, data);
+		return (handle_error_and_free_resources(&envp, &path, data, env));
+	execute_command_here_doc(path, args, &envp, data);
 	return (127);
 }

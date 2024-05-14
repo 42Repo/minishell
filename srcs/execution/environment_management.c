@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:43:50 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/13 18:47:56 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/14 14:37:38 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,13 @@ char	**env_to_tab(t_env *env)
 		tmp = tmp->next;
 	}
 	envp = ft_calloc(sizeof(char *), (i + 1));
-	if (envp == NULL)
-		return (NULL);
 	tmp = env;
 	i = 0;
 	while (tmp)
 	{
 		envp[i] = ft_strjoin(tmp->name, "=");
-		envp[i] = ft_strjoin_free(envp[i], tmp->value);
+		if (tmp->value)
+			envp[i] = ft_strjoin_free(envp[i], tmp->value);
 		tmp = tmp->next;
 		i++;
 	}
