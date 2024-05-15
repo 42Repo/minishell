@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 13:13:40 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/15 13:15:02 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/15 17:15:41 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,17 @@ void	execute_command_pipe(t_command *cmd, t_data *data, int input_fd,
 		setup_redirections(&input_fd, &output_fd);
 		if (ft_strcmp(cmd->cmd, "exit") == 0)
 		{
+			close(0);
+			close(1);
+			close(2);
 			close_all_pipes(cmd);
 			ft_exit(cmd, data, "", 0);
 		}
 		if (execute_builtin(cmd, data->env, data) == 1)
 		{
+			close(0);
+			close(1);
+			close(2);
 			close_all_pipes(cmd);
 			ft_exit(cmd, data, "", 1);
 		}

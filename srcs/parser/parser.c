@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/15 14:45:06 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/15 17:55:17 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ void	count_heredoc(t_data *data)
 	if (count >= 16)
 	{
 		g_return_code = 2;
+		free(data->line);
 		ft_exit(data->command_top, data,
 			"minishell: error: too many here documents", 1);
 	}

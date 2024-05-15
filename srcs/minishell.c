@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/15 13:06:03 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/15 17:53:23 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,8 @@ void	execute_loop(t_data *data, char **line)
 
 void	loop(t_data *data)
 {
-	char	*line;
-
 	g_return_code = 0;
-	line = NULL;
+	data->line = NULL;
 	while (1)
 	{
 		setup_loop(data);
@@ -86,14 +84,14 @@ void	loop(t_data *data)
 		get_cmd_prompt(data, data->env);
 		if (data->cmd_prompt == NULL)
 			break ;
-		line = ft_strtrim_free(readline(data->cmd_prompt), " ");
-		if (line == NULL)
+		data->line = ft_strtrim_free(readline(data->cmd_prompt), " ");
+		if (data->line == NULL)
 			ft_exit(data->command_top, data, "exit", 1);
-		if (ft_strlen(line) > 0)
-			add_history(line);
-		execute_loop(data, &line);
-		if (line != NULL)
-			free(line);
+		if (ft_strlen(data->line) > 0)
+			add_history(data->line);
+		execute_loop(data, &data->line);
+		if (data->line != NULL)
+			free(data->line);
 	}
 }
 

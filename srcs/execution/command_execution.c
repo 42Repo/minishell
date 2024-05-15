@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:42:37 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/14 14:20:06 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/15 17:46:32 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,9 @@ static int	handle_error_and_free_resources(char ***envp, char **path,
 	if (data->fd_out > 2)
 		close(data->fd_out);
 	free(data);
+	close(0);
+	close(1);
+	close(2);
 	return (g_return_code);
 }
 
@@ -59,6 +62,9 @@ static void	execute_command_here_doc(char *path, char **args, char ***envp,
 	if (data->fd_out > 2)
 		close(data->fd_out);
 	execve(path, args, (*envp));
+	close(0);
+	close(1);
+	close(2);
 	rl_clear_history();
 	free(data->term);
 	free_tab((*envp));

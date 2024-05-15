@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:30:00 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/15 13:08:36 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/15 17:49:07 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,9 @@ static void	free_resources(t_data *data, t_env *env)
 	free(data->term);
 	free_command(data);
 	free(data);
+	close(0);
+	close(1);
+	close(2);
 }
 
 static void	display_message(char *exit_msg)
