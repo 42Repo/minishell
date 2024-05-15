@@ -703,5 +703,6 @@ void		execute_pipes(t_command *command, t_data *data, int prev_fd);
 void		close_and_dup_pipes(t_command *command, int *prev_fd);
 void		wait_for_commands(t_command *command, t_data *data);
 void		init_data(t_data *data);
+void		set_fd_in(t_command *command, t_token *selected);
 
 #endif // MINISHELL_H

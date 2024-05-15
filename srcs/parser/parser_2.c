@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/13 22:49:49 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/15 14:22:05 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,10 @@ void	error_input(char *file, t_command *command, char *error, int ret)
 	if (command->cmd)
 		free (command->cmd);
 	command->cmd = NULL;
+	if (command->fd_in > 2)
+		close(command->fd_in);
+	if (command->fd_out > 2)
+		close(command->fd_out);
 	command->fd_out = -1;
 	g_return_code = ret;
 }
@@ -65,10 +69,9 @@ int	check_dir(char *file, t_command *command)
 
 void	select_output(char *file, int mode, t_command *command)
 {
-	if (command->fd_out != 1)
+	if (command->fd_out > 2)
 		close(command->fd_out);
-	if (command->fd_out != 1)
-		command->fd_out = 1;
+	command->fd_out = 1;
 	if (access(file, F_OK) == 0 && access(file, W_OK) == -1)
 	{
 		put_error("minishell: ", file, ": Permission denied\n");

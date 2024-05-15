@@ -6,11 +6,35 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 21:34:54 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/13 22:09:23 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/15 13:14:45 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
+
+void	close_other_fd_heredoc(t_command *command, int fd)
+{
+	while (command)
+	{
+		if (command->fd_heredoc > 2)
+		{
+			close(command->fd_heredoc);
+			command->fd_heredoc = -1;
+		}
+		if (command->fd_in > 2)
+		{
+			close(command->fd_in);
+			command->fd_in = 0;
+		}
+		if (command->fd_out > 2)
+		{
+			close(command->fd_out);
+			command->fd_out = 1;
+		}
+		command = command->next;
+	}
+	close(fd);
+}
 
 void	handle_eof(char *eof, int fd, t_command *command, t_data *data)
 {
@@ -19,13 +43,13 @@ by end-of-file (wanted `", 1);
 	ft_putstr_fd(eof, 1);
 	ft_putstr_fd("')\n", 1);
 	g_return_code = 1;
-	close(fd);
 	free(eof);
+	close_other_fd_heredoc(data->command_top, fd);
 	ft_exit(command, data, "", 1);
 }
 
-void	handle_child_process(int fd, char *eof,
-			t_command *command, t_data *data)
+void	handle_child_process(int fd, char *eof, t_command *command,
+		t_data *data)
 {
 	char	*line;
 
@@ -48,7 +72,7 @@ void	handle_child_process(int fd, char *eof,
 			handle_eof(eof, fd, command, data);
 	}
 	free(line);
-	close(fd);
+	close_other_fd_heredoc(data->command_top, fd);
 	free(eof);
 	ft_exit(command, data, "", 1);
 	exit(g_return_code);

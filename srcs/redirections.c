@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 23:41:19 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/14 17:07:50 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/15 14:06:54 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ void	setup_loop(t_data *data)
 
 void	setup_redirections(int *input_fd, int *output_fd)
 {
-	if ((*input_fd) != STDIN_FILENO)
+	if ((*input_fd) != STDIN_FILENO && (*input_fd) > 2)
 	{
 		dup2((*input_fd), STDIN_FILENO);
 		close((*input_fd));
 	}
-	if ((*output_fd) != STDOUT_FILENO)
+	if ((*output_fd) != STDOUT_FILENO && (*output_fd) > 2)
 	{
 		dup2((*output_fd), STDOUT_FILENO);
 		close((*output_fd));
@@ -43,9 +43,10 @@ void	choose_case(t_data *data)
 
 	setup_signals(&useless);
 	command = data->command_top;
-	prev_fd = command->fd_in;
+	prev_fd = STDIN_FILENO;
 	if (command && command->next == NULL)
 	{
+		prev_fd = command->fd_in;
 		execute_command(command, data, prev_fd, command->fd_out);
 		return ;
 	}

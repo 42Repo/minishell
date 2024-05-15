@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/13 23:16:25 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/15 14:45:06 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,31 +63,6 @@ int	open_heredoc(t_data *data)
 		selected = selected->next;
 	}
 	return (0);
-}
-
-void	set_fd_in(t_command *command, t_token *selected)
-{
-	t_token	*last_redir;
-
-	last_redir = NULL;
-	while (selected)
-	{
-		if (selected->type == REDIR && selected->value[0] == '<')
-			last_redir = selected;
-		if (selected->type == PIPE)
-		{
-			if (last_redir && ft_strcmp(last_redir->value, "<<") == 0)
-			{
-				command->fd_in = command->fd_heredoc;
-				last_redir = NULL;
-			}
-			command = command->next;
-		}
-		selected = selected->next;
-	}
-	if (last_redir && ft_strcmp(last_redir->value, "<<") == 0)
-		command->fd_in = command->fd_heredoc;
-	command->fd_heredoc = -1;
 }
 
 void	count_heredoc(t_data *data)

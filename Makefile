@@ -70,7 +70,9 @@ SRC			=	srcs/signals.c \
 		srcs/lexer/expander/envar_2.c \
 		srcs/lexer/expander/envar.c \
 		srcs/lexer/expander/expander.c \
-		srcs/get_cmd_prompt.c
+		srcs/get_cmd_prompt.c \
+		srcs/command_execution_pipes.c \
+		srcs/parser/parser_3.c
 
 OBJ_DIR = $(CACHE_DIR)/$(NAME)/obj
 DEP_DIR = $(CACHE_DIR)/$(NAME)/dep
