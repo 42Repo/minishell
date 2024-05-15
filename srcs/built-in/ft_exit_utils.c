@@ -6,13 +6,14 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 19:03:53 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/15 23:06:23 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/15 23:30:25 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	exit_with_error(char *arg, int error_code, t_command *command, t_data *data)
+static void	exit_with_error(char *arg, int error_code, t_command *command,
+		t_data *data)
 {
 	(void)command;
 	(void)data;
@@ -60,8 +61,6 @@ static int	check_numeric_and_boundaries(char *arg)
 
 	i = 0;
 	is_negative = 0;
-	if (arg[i] == '\0')
-		return (1);
 	while (arg[i] && ft_isnamespace(arg[i]))
 		i++;
 	if (arg[i] == '-' || arg[i] == '+')
@@ -77,7 +76,7 @@ static int	check_numeric_and_boundaries(char *arg)
 			return (1);
 		j++;
 	}
-	if (is_within_longlong_limits(arg + i, is_negative) == 1)
+	if (is_within_longlong_limits(arg + i, is_negative) == 1 || arg[i] == '\0')
 		return (1);
 	return (0);
 }

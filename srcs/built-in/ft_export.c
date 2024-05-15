@@ -15,7 +15,9 @@
 static void	create_env_node(char *arg, int has_equal, t_env *env)
 {
 	t_env	*new_env;
+	int		i;
 
+	i = 0;
 	new_env = ft_calloc(sizeof(t_env), 1);
 	if (!new_env)
 		return ;
@@ -27,7 +29,9 @@ static void	create_env_node(char *arg, int has_equal, t_env *env)
 	}
 	else
 	{
-		new_env->name = ft_strndup(arg, ft_strchr(arg, '=') - arg);
+		if (ft_strchr(arg, '+') == ft_strchr(arg, '=') - 1)
+			i = 1;
+		new_env->name = ft_strndup(arg, ft_strchr(arg, '=') - arg - i);
 		new_env->value = ft_strdup(ft_strchr(arg, '=') + 1);
 		new_env->next = NULL;
 	}
@@ -42,6 +46,13 @@ void	add_new_env_variable(t_env *env, char *arg)
 		return ;
 	if (!env->name)
 	{
+		if (ft_strchr(arg, '+') == ft_strchr(arg, '=') - 1)
+		{
+			env->name = ft_strndup(arg, ft_strchr(arg, '=') - arg - 1);
+			env->value = ft_strdup(ft_strchr(arg, '=') + 1);
+			env->next = NULL;
+			return ;
+		}
 		env->name = ft_strndup(arg, ft_strchr(arg, '=') - arg);
 		env->value = ft_strdup(ft_strchr(arg, '=') + 1);
 		env->next = NULL;
