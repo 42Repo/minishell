@@ -665,7 +665,7 @@ int			error_cd(char *path, t_env *env, int mode);
 int			error_to_many_args(t_env *env);
 
 // ft_exit
-int			check_arg_exit(t_command *command);
+int			check_arg_exit(t_command *command, t_data *data);
 
 // ft_export
 int			ft_is_equal(char *str);
@@ -705,5 +705,6 @@ void		close_and_dup_pipes(t_command *command, int *prev_fd);
 void		wait_for_commands(t_command *command, t_data *data);
 void		init_data(t_data *data);
 void		set_fd_in(t_command *command, t_token *selected);
+void		free_resources(t_data *data, t_env *env);
 
 #endif // MINISHELL_H
