@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 21:34:54 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/16 17:43:25 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/16 18:12:05 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,12 @@ by end-of-file (wanted `", 1);
 	free(eof);
 	close_other_fd_heredoc(data->command_top, fd);
 	ft_exit(command, data, "", 1);
+}
+
+void	heredoc_signals(void)
+{
+	signal(SIGINT, sig_child_handler);
+	signal(SIGQUIT, sig_child_handler);
 }
 
 void	handle_child_process(int fd, char *eof, t_command *command,
