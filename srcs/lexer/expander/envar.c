@@ -3,23 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   envar.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/13 03:31:19 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/16 17:16:23 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-char	*special_case_envar(int len, char *str)
+char	*check_return_code(t_data *data)
+{
+	if (signal_received == SIGINT)
+	{
+		data->g_return_code = 128 + SIGINT;
+	}
+	return (ft_itoa(data->g_return_code));
+}
+
+char	*special_case_envar(int len, char *str, t_data *data) // TODO - fix return code
 {
 	if (len == -1)
 		return (ft_strdup("$"));
 	if (len == 1)
 		return (ft_strdup(""));
 	if ((ft_strlen(str) >= 2 && str[1] == '?'))
-		return (ft_itoa(g_return_code));
+		return (check_return_code(data));
 	return (NULL);
 }
 
@@ -30,7 +39,7 @@ char	*get_envar(char *str, int len, t_data *data)
 	int		bool;
 
 	if (len == -1 || len == 1 || (ft_strlen(str) >= 2 && str[1] == '?'))
-		return (special_case_envar(len, str));
+		return (special_case_envar(len, str, data));
 	tmp = data->env;
 	envar = NULL;
 	bool = 0;

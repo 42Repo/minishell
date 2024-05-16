@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 16:30:08 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/15 12:35:50 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/16 17:44:13 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ void	read_heredoc(int fd, char *eof, t_command *command, t_data *data)
 		handle_child_process(fd, eof, command, data);
 	waitpid(pid, &status, 0);
 	if (WIFEXITED(status))
-		g_return_code = WEXITSTATUS(status);
+		data->g_return_code = WEXITSTATUS(status);
 	if (WIFSIGNALED(status))
-		g_return_code = 128 + WTERMSIG(status);
+		data->g_return_code = 128 + WTERMSIG(status);
 }
 
 int	open_heredoc_file(t_command *command)
@@ -86,7 +86,7 @@ int	heredoc(char *eof, t_data *data, t_command *command)
 	tcsetattr(0, TCSANOW, data->term);
 	set_signals(&sig_handler);
 	command->fd_heredoc = fd2;
-	if (g_return_code == 130)
+	if (data->g_return_code == 130)
 		return (sigint_here_doc(command));
 	return (0);
 }

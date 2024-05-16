@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 15:18:00 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/13 23:12:28 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/16 17:37:53 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,20 +79,20 @@ t_command	*init_command(void)
 	return (command);
 }
 
-void	get_redir(t_token *selected, t_command *command)
+void	get_redir(t_token *selected, t_command *command, t_data *data)
 {
 	if (selected->type == REDIR)
 	{
 		if (selected->next && selected->next->type == WORD)
 		{
 			if (ft_strlen(selected->value) == 2 && selected->value[1] == '>')
-				select_output(selected->next->value, 2, command);
+				select_output(selected->next->value, 2, command, data);
 			else if (selected->value[0] == '>')
-				select_output(selected->next->value, 1, command);
+				select_output(selected->next->value, 1, command, data);
 			else if (ft_strcmp(selected->value, "<<") == 0)
 				return ;
 			else if (selected->value[0] == '<')
-				select_input(selected->next->value, command);
+				select_input(selected->next->value, command, data);
 		}
 		else
 		{

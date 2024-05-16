@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 23:37:11 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/15 13:14:52 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/16 17:51:48 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ void	setup_command_execution(t_command *command, int *prev_fd)
 void	execute_command(t_command *cmd, t_data *data, int input_fd,
 		int output_fd)
 {
+	int ret;
+
 	if (cmd == NULL || cmd->cmd == NULL || handle_builtin(cmd, data, output_fd,
 			input_fd) == 1)
 		return ;
@@ -58,15 +60,15 @@ void	execute_command(t_command *cmd, t_data *data, int input_fd,
 	if (cmd->pid == 0)
 	{
 		setup_redirections(&input_fd, &output_fd);
-		g_return_code = execve_path_env(cmd->cmd, cmd->args, data->env, data);
-		exit(g_return_code);
+		ret = execve_path_env(cmd->cmd, cmd->args, data->env, data);
+		exit(ret);
 	}
-	waitpid(cmd->pid, &g_return_code, 0);
-	if (WIFSIGNALED(g_return_code))
-		g_return_code = 128 + WTERMSIG(g_return_code);
-	if (WIFEXITED(g_return_code))
-		g_return_code = WEXITSTATUS(g_return_code);
-	if (g_return_code == 130)
+	waitpid(cmd->pid, &data->g_return_code, 0);
+	if (WIFSIGNALED(data->g_return_code))
+		data->g_return_code = 128 + WTERMSIG(data->g_return_code);
+	if (WIFEXITED(data->g_return_code))
+		data->g_return_code = WEXITSTATUS(data->g_return_code);
+	if (data->g_return_code == 130)
 		printf("\n");
 	if (cmd->fd_in > 2)
 		close(cmd->fd_in);

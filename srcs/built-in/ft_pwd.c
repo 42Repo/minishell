@@ -27,21 +27,21 @@ static void	put_program_name(t_env *env)
 	ft_putstr_fd(tmp + i + 1, 2);
 }
 
-void	ft_pwd(t_env *env)
+void	ft_pwd(t_env *env, t_data *data)
 {
 	char	*path;
 
-	g_return_code = 0;
+	data->g_return_code = 0;
 	path = getcwd(NULL, 0);
 	if (!path)
 	{
 		put_program_name(env);
 		put_error(": pwd: ", strerror(errno), "\n");
-		g_return_code = 1;
+		data->g_return_code = 1;
 		return ;
 	}
 	ft_putstr_fd(path, 1);
 	ft_putstr_fd("\n", 1);
 	free(path);
-	g_return_code = 0;
+	data->g_return_code = 0;
 }

@@ -30,6 +30,8 @@
 # define LLONG_MAX_STR "9223372036854775807"
 # define LLONG_MIN_STR "9223372036854775808"
 
+extern sig_atomic_t	signal_received;
+
 /* STRUCTURES */
 typedef enum s_token_type
 {
@@ -89,6 +91,7 @@ typedef struct s_data
 	int				fd_out;
 	struct termios	*term;
 	char			*line;
+	int				g_return_code;
 }	t_data;
 
 typedef struct s_parser
@@ -98,7 +101,6 @@ typedef struct s_parser
 	char	*error;
 }	t_parser;
 
-extern int	g_return_code;
 
 /*  FUNCTIONS  */
 
@@ -164,7 +166,7 @@ int			parser(t_data *data);
  * @return the error message
  */
 char		*parse_misc(t_token **selected, \
-			t_command *command, t_parser *parser);
+			t_command *command, t_parser *parser, t_data *data);
 
 /**
  * @brief free the t_command linked list
@@ -181,7 +183,7 @@ void		free_command(t_data *data);
  * @param data 
  * @param command 
  */
-void		get_redir(t_token *selected, t_command *command);
+void		get_redir(t_token *selected, t_command *command, t_data *data);
 
 /**
  * @brief a function to free a char ** tab
@@ -239,7 +241,7 @@ char		*find_cmd_path(char *cmd, char *path_env);
  * @param command the command struct
  * @return if NULL -> no error, else -> error message
  */
-char		*parse_redir(t_token **selected, t_command *command);
+char		*parse_redir(t_token **selected, t_command *command, t_data *data);
 
 /**
  * @brief takes 3 str and print them in the error fd
@@ -376,7 +378,7 @@ char		*expander(t_data *data);
  * @param env 
  * @return int 
  */
-int			ft_env(t_command *command, t_env *env);
+int			ft_env(t_command *command, t_env *env, t_data *data);
 
 /**
  * @brief free the env list
@@ -558,7 +560,7 @@ void		free_token_lst(t_data *data);
  * @param env the struct env list
  * @return int 0 if success, 1 if error
  */
-int			ft_cd(t_command *command, t_env *env);
+int			ft_cd(t_command *command, t_env *env, t_data *data);
 
 /**
  * @brief initialize the prompt of shell
@@ -584,7 +586,7 @@ void		get_env(t_env *env, char **envp);
  * @param line the name of the variable to add, ex : "PATH=..." or "HOME=..."
  * @return int, always 0
  */
-int			ft_export(t_env *env, char **args);
+int			ft_export(t_env *env, char **args, t_data *data);
 
 /**
  * @brief Get the env value string object
@@ -619,7 +621,7 @@ t_env		*get_env_value_ptr_by_name(t_env *env, char *name);
  * @param env the struct env list
  * @param line the name of the variable to delete, ex : "PATH" or "HOME"
  */
-void		ft_unset(t_env *env, t_command *command);
+void		ft_unset(t_env *env, t_command *command, t_data *data);
 
 /**
  * @brief print a string with or without a newline
@@ -627,14 +629,14 @@ void		ft_unset(t_env *env, t_command *command);
  * @param line the string to print
  * @param mode 0 = with newline, 1 = without newline
  */
-void		ft_echo(t_command *command);
+void		ft_echo(t_command *command, t_data *data);
 
 /**
  * @brief print the path of the current directory
  *
  * @param env the struct env list
  */
-void		ft_pwd(t_env *env);
+void		ft_pwd(t_env *env, t_data *data);
 
 char		*ft_strtrim_free(char *s1, char *set);
 int			is_quote(char c);
@@ -647,12 +649,12 @@ void		if_case_quote(int *in_quote, char *current_quote, char str);
 int			count_words_quote(const char *str, const char *charset);
 void		if_quote_case(int *in_quote, char *current_quote, char *str, int j);
 char		**ft_split_quote_state(char *str, const char *charset);
-void		select_output(char *file, int mode, t_command *command);
-void		select_input(char *file, t_command *command);
+void		select_output(char *file, int mode, t_command *command, t_data *data);
+void		select_input(char *file, t_command *command, t_data *data);
 char		*get_path(t_env *env);
 int			has_slash(char *cmd);
 char		*skip_pipe(t_command **command, t_token **selected,
-				t_parser *parser);
+				t_parser *parser, t_data *data);
 int			handle_path_error(char *cmd);
 void		count_heredoc(t_data *data);
 int			check_executable(const char *path, struct stat *buf);
@@ -661,8 +663,8 @@ int			check_executable(const char *path, struct stat *buf);
 // ft_cd
 char		*ft_export_single_arg(t_env *env, char *name);
 void		update_env(t_env *env, char *new_value);
-int			error_cd(char *path, t_env *env, int mode);
-int			error_to_many_args(t_env *env);
+int			error_cd(char *path, t_env *env, int mode, t_data *data);
+int			error_to_many_args(t_env *env, t_data *data);
 
 // ft_exit
 int			check_arg_exit(t_command *command, t_data *data);

@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 13:13:40 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/15 18:11:23 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/16 17:55:06 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ void	close_all_fd_fork(t_command *command)
 void	execute_command_pipe(t_command *cmd, t_data *data, int input_fd,
 		int output_fd)
 {
+	int	ret;
+
 	if (data->prompt_top->type == END || cmd == NULL || cmd->cmd == NULL)
 		return ;
 	cmd->pid = fork();
@@ -63,8 +65,8 @@ void	execute_command_pipe(t_command *cmd, t_data *data, int input_fd,
 			exit_and_close(cmd, data);
 		close_all_pipes(cmd);
 		close_all_fd_fork(data->command_top);
-		g_return_code = execve_path_env(cmd->cmd, cmd->args, data->env, data);
-		exit(g_return_code);
+		ret = execve_path_env(cmd->cmd, cmd->args, data->env, data);
+		exit(ret);
 	}
 }
 

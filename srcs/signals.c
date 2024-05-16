@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 20:03:02 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/10 20:42:03 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/16 17:19:00 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,6 @@ void	sig_handler(int num)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
-		g_return_code = 130;
+		signal_received = SIGINT;
 	}
 }

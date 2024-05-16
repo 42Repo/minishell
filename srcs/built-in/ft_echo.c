@@ -29,14 +29,14 @@ int	is_arg_option(char *arg)
 	return (0);
 }
 
-void	ft_echo(t_command *command)
+void	ft_echo(t_command *command, t_data *data)
 {
 	int	i;
 	int	newline;
 
 	newline = 1;
 	i = 1;
-	g_return_code = 0;
+	data->g_return_code = 0;
 	while (command->args[i] && is_arg_option(command->args[i]))
 		i++;
 	newline = (i == 1);

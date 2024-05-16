@@ -63,11 +63,11 @@ int	get_strdup_len(const char *src, const char *charset, char *current_quote)
 }
 
 char	*skip_pipe(t_command **command, t_token **selected,
-	t_parser *parser)
+	t_parser *parser, t_data *data)
 {
 	if ((*command)->fd_out != -1 && (*command)->fd_in != -1
 		&& (*command)->fd_heredoc != -2)
-		return (parse_misc(selected, *command, parser));
+		return (parse_misc(selected, *command, parser, data));
 	else
 	{
 		(*selected) = (*selected)->next;

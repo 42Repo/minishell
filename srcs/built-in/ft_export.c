@@ -81,7 +81,7 @@ void	set_env_variable(t_env *tmp, char **value, char *arg)
 	}
 }
 
-static void	process_arg(t_env *env, char *arg)
+static void	process_arg(t_env *env, char *arg, t_data *data)
 {
 	t_env	*tmp;
 	char	*value;
@@ -89,7 +89,7 @@ static void	process_arg(t_env *env, char *arg)
 	if (!is_valid_identifier(arg))
 	{
 		put_error("minishell: export: `", arg, "': not a valid identifier\n");
-		g_return_code = 1;
+		data->g_return_code = 1;
 		return ;
 	}
 	tmp = get_env_value_ptr(env, arg);
@@ -99,12 +99,12 @@ static void	process_arg(t_env *env, char *arg)
 		add_new_env_variable(env, arg);
 }
 
-int	ft_export(t_env *env, char **args)
+int	ft_export(t_env *env, char **args, t_data *data)
 {
 	int	i;
 
 	i = 1;
-	g_return_code = 0;
+	data->g_return_code = 0;
 	if (!args[i])
 	{
 		print_sorted_env(env);
@@ -112,7 +112,7 @@ int	ft_export(t_env *env, char **args)
 	}
 	while (args[i])
 	{
-		process_arg(env, args[i]);
+		process_arg(env, args[i], data);
 		i++;
 	}
 	return (0);

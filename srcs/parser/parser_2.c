@@ -6,16 +6,15 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/15 14:22:05 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/16 17:42:25 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	error_output(char *file, t_command *command, char *error, int mode)
+int	error_output(char *file, t_command *command, int mode, t_data *data)
 {
-	put_error("minishell: ", file, error);
-	g_return_code = 1;
+	data->g_return_code = 1;
 	command->fd_out = -1;
 	if (command->cmd)
 		free (command->cmd);
@@ -25,7 +24,7 @@ int	error_output(char *file, t_command *command, char *error, int mode)
 	return (1);
 }
 
-void	error_input(char *file, t_command *command, char *error, int ret)
+void	error_input(char *file, t_command *command, char *error)
 {
 	put_error("minishell: ", file, error);
 	if (command->cmd)
@@ -36,10 +35,9 @@ void	error_input(char *file, t_command *command, char *error, int ret)
 	if (command->fd_out > 2)
 		close(command->fd_out);
 	command->fd_out = -1;
-	g_return_code = ret;
 }
 
-int	check_dir(char *file, t_command *command)
+int	check_dir(char *file, t_command *command, t_data *data)
 {
 	int			i;
 	char		*end;
@@ -49,9 +47,15 @@ int	check_dir(char *file, t_command *command)
 	i = 0;
 	stat(file, &sb);
 	if (!access(file, F_OK) && S_ISDIR(sb.st_mode))
-		return (error_output(file, command, ": Is a directory\n", 0));
+	{
+		put_error("minishell: ", file, ": Is a directory\n");
+		return (error_output(file, command, 0, data));
+	}
 	if (!access(file, F_OK) && access(file, R_OK))
-		return (error_output(file, command, ": Permission denied\n", 0));
+	{
+		put_error("minishell: ", file,  ": Permission denied\n");
+		return (error_output(file, command, 0, data));
+	}
 	end = ft_strrchr(file, '/');
 	if (!end)
 		return (0);
@@ -60,14 +64,20 @@ int	check_dir(char *file, t_command *command)
 	dir = ft_strndup(&file[0], i);
 	stat(dir, &sb);
 	if (access(dir, F_OK))
-		return (error_output(dir, command, ": No such file or directory\n", 1));
+	{
+		put_error("minishell: ", dir, ": No such file or directory\n");
+		return (error_output(dir, command, 1, data));
+	}
 	if (!(S_ISDIR(sb.st_mode)))
-		return (error_output(dir, command, ": Is a directory\n", 1));
+	{
+		put_error("minishell: ", dir, ": Is a directory\n");
+		return (error_output(dir, command, 1, data));
+	}
 	free(dir);
 	return (0);
 }
 
-void	select_output(char *file, int mode, t_command *command)
+void	select_output(char *file, int mode, t_command *command, t_data *data)
 {
 	if (command->fd_out > 2)
 		close(command->fd_out);
@@ -76,13 +86,13 @@ void	select_output(char *file, int mode, t_command *command)
 	{
 		put_error("minishell: ", file, ": Permission denied\n");
 		command->fd_out = -1;
-		g_return_code = 1;
+		data->g_return_code = 1;
 		if (command->cmd)
 			free (command->cmd);
 		command->cmd = NULL;
 		return ;
 	}
-	if (check_dir(file, command))
+	if (check_dir(file, command, data))
 		return ;
 	if (mode == 1)
 		command->fd_out = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -90,7 +100,7 @@ void	select_output(char *file, int mode, t_command *command)
 		command->fd_out = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 }
 
-void	select_input(char *file, t_command *command)
+void	select_input(char *file, t_command *command, t_data *data)
 {
 	if (command->fd_in != 0)
 		close(command->fd_in);
@@ -98,12 +108,14 @@ void	select_input(char *file, t_command *command)
 		command->fd_in = 0;
 	if (access(file, F_OK) == -1)
 	{
-		error_input(file, command, ": No such file or directory\n", 1);
+		error_input(file, command, ": No such file or directory\n");
+		data->g_return_code = 1;
 		return ;
 	}
 	if (access(file, R_OK) == -1)
 	{
-		error_input(file, command, ": Permission denied\n", 126);
+		error_input(file, command, ": Permission denied\n");
+		data->g_return_code = 126;
 		return ;
 	}
 	command->fd_in = open(file, O_RDONLY);

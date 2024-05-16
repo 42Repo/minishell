@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 23:39:32 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/13 23:47:00 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/16 17:30:24 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,17 @@ int	execute_builtin(t_command *command, t_env *env, t_data *data)
 	if (data->prompt_top->type == END)
 		return (0);
 	else if (ft_strcmp(command->cmd, "cd") == 0)
-		ft_cd(command, env);
+		ft_cd(command, env, data);
 	else if (ft_strcmp(command->cmd, "export") == 0)
-		ft_export(env, command->args);
+		ft_export(env, command->args, data);
 	else if (ft_strcmp(command->cmd, "env") == 0)
-		ft_env(command, env);
+		ft_env(command, env, data);
 	else if (ft_strcmp(command->cmd, "unset") == 0)
-		ft_unset(env, command);
+		ft_unset(env, command, data);
 	else if (ft_strcmp(command->cmd, "echo") == 0)
-		ft_echo(command);
+		ft_echo(command, data);
 	else if (ft_strcmp(command->cmd, "pwd") == 0)
-		ft_pwd(env);
+		ft_pwd(env, data);
 	else
 		return (0);
 	return (1);

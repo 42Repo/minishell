@@ -6,20 +6,20 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/15 23:07:03 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/16 17:56:05 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	g_return_code = 0;
+int	signal_received = 0;
 
-void	close_all_fd(t_command *command)
+void	close_all_fd(t_command *command, t_data *data)
 {
 	if (command->next == NULL && (command->fd_out == -1
 			|| command->fd_in == -1))
 	{
-		g_return_code = 1;
+		data->g_return_code = 1;
 	}
 	if (command->fd_in > 2)
 		close(command->fd_in);
@@ -37,17 +37,17 @@ void	wait_for_commands(t_command *command, t_data *data)
 	{
 		waitpid(command->pid, &status, 0);
 		if (WIFEXITED(status))
-			g_return_code = WEXITSTATUS(status);
+			data->g_return_code = WEXITSTATUS(status);
 		if (WIFSIGNALED(status))
-			g_return_code = 128 + WTERMSIG(status);
-		if (g_return_code == 130)
+			data->g_return_code = 128 + WTERMSIG(status);
+		if (data->g_return_code == 130)
 			printf("\n");
 		command = command->next;
 	}
 	command = data->command_top;
 	while (command)
 	{
-		close_all_fd(command);
+		close_all_fd(command, data);
 		command = command->next;
 	}
 }
@@ -72,7 +72,7 @@ void	execute_loop(t_data *data, char **line)
 
 void	loop(t_data *data)
 {
-	g_return_code = 0;
+	data->g_return_code = 0;
 	data->line = NULL;
 	while (1)
 	{
@@ -84,7 +84,16 @@ void	loop(t_data *data)
 		get_cmd_prompt(data, data->env);
 		if (data->cmd_prompt == NULL)
 			break ;
-		data->line = ft_strtrim_free(readline(data->cmd_prompt), " ");
+		// data->line = ft_strtrim_free(readline(data->cmd_prompt), " ");
+		if (isatty(fileno(stdin)))
+			data->line = ft_strtrim_free(readline(data->cmd_prompt), " ");
+		else
+		{
+			char *line;
+			line = get_next_line(fileno(stdin));
+			data->line = ft_strtrim(line, "\n");
+			free(line);
+		}
 		if (data->line == NULL)
 			ft_exit(data->command_top, data, "exit", 1);
 		if (ft_strlen(data->line) > 0)

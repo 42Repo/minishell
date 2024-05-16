@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:54:05 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/13 19:00:57 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/16 17:23:29 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,23 +30,23 @@ static int	put_program_name(t_env *env)
 	return (0);
 }
 
-int	error_to_many_args(t_env *env)
+int	error_to_many_args(t_env *env, t_data *data)
 {
 	put_program_name(env);
 	ft_putstr_fd(": cd: ", 2);
 	ft_putstr_fd("too many arguments\n", 2);
-	g_return_code = 1;
+	data->g_return_code = 1;
 	return (-1);
 }
 
-int	error_cd(char *path, t_env *env, int mode)
+int	error_cd(char *path, t_env *env, int mode, t_data *data)
 {
 	put_program_name(env);
 	ft_putstr_fd(": cd: ", 2);
 	if (errno == 14)
 	{
 		ft_putstr_fd("HOME not set\n", 2);
-		g_return_code = 1;
+		data->g_return_code = 1;
 		return (-1);
 	}
 	if (path != NULL)
@@ -56,7 +56,7 @@ int	error_cd(char *path, t_env *env, int mode)
 	ft_putstr_fd(": ", 2);
 	ft_putstr_fd(strerror(errno), 2);
 	ft_putstr_fd("\n", 2);
-	g_return_code = 1;
+	data->g_return_code = 1;
 	return (-1);
 }
 

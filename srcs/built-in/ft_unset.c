@@ -37,13 +37,13 @@ static void	delete_env(t_env *env, char *name)
 	}
 }
 
-void	ft_unset(t_env *env, t_command *command)
+void	ft_unset(t_env *env, t_command *command, t_data *data)
 {
 	int		i;
 	char	*line;
 
 	i = 1;
-	g_return_code = 0;
+	data->g_return_code = 0;
 	while (command->args[i])
 	{
 		line = command->args[i];

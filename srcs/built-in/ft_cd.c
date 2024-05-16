@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-static int	other_case_cd(t_command *command, t_env *env)
+static int	other_case_cd(t_command *command, t_env *env, t_data *data)
 {
 	char	*tmp;
 
@@ -20,13 +20,13 @@ static int	other_case_cd(t_command *command, t_env *env)
 	if (command->args[1] == NULL)
 	{
 		if (chdir(get_env_value_string(env, "HOME")) != 0)
-			return (error_cd(get_env_value_string(env, "HOME"), env, 0));
+			return (error_cd(get_env_value_string(env, "HOME"), env, 0, data));
 		return (0);
 	}
 	if (command->args[1][0] == '/')
 	{
 		if (chdir(command->args[1]) != 0)
-			return (error_cd(command->args[1], env, 0));
+			return (error_cd(command->args[1], env, 0, data));
 		return (0);
 	}
 	if (command->args[1][0] == '~')
@@ -34,21 +34,21 @@ static int	other_case_cd(t_command *command, t_env *env)
 		tmp = ft_strjoin(get_env_value_string(env, "HOME"),
 				command->args[1] + 1);
 		if (chdir(tmp) != 0)
-			return (error_cd(tmp, env, 1));
+			return (error_cd(tmp, env, 1, data));
 		free(tmp);
 		return (0);
 	}
 	return (1);
 }
 
-static int	old_cd(t_env *env)
+static int	old_cd(t_env *env, t_data *data)
 {
 	char	*tmp;
 
 	if (get_env_value_string(env, "OLDPWD") == NULL)
 	{
 		ft_putstr_fd("cd: OLDPWD not set\n", 2);
-		g_return_code = 1;
+		data->g_return_code = 1;
 		return (-1);
 	}
 	tmp = getcwd(NULL, 0);
@@ -56,7 +56,7 @@ static int	old_cd(t_env *env)
 	{
 		update_env(env, tmp);
 		printf("%s\n", get_env_value_string(env, "OLDPWD"));
-		g_return_code = 1;
+		data->g_return_code = 1;
 		return (0);
 	}
 	printf("%s\n", get_env_value_string(env, "OLDPWD"));
@@ -76,30 +76,30 @@ static void	set_new_pwd(t_env *env)
 	free(tmp2);
 }
 
-int	ft_cd(t_command *command, t_env *env)
+int	ft_cd(t_command *command, t_env *env, t_data *data)
 {
 	char	*tmp;
 	char	*tmp2;
 
 	tmp = NULL;
 	tmp2 = NULL;
-	g_return_code = 0;
+	data->g_return_code = 0;
 	if (command == NULL || (command->args[1] != NULL
 			&& command->args[2] != NULL))
-		return (error_to_many_args(env));
+		return (error_to_many_args(env, data));
 	if (command->args[1] != NULL
 		&& ft_strcmp(command->args[1], "-") == 0)
-		return (old_cd(env));
+		return (old_cd(env, data));
 	tmp2 = getcwd(NULL, 0);
 	if (tmp2)
 		tmp = ft_strjoin("OLDPWD=", tmp2);
 	ft_export_single_arg(env, tmp);
 	free(tmp2);
 	free(tmp);
-	if (other_case_cd(command, env) == 0)
+	if (other_case_cd(command, env, data) == 0)
 		return (0);
 	if (chdir(command->args[1]) != 0)
-		return (error_cd(command->args[1], env, 0));
+		return (error_cd(command->args[1], env, 0, data));
 	set_new_pwd(env);
 	return (0);
 }

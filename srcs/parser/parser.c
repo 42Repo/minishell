@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/15 17:55:17 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/16 17:42:45 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*parse_line(t_data *data, t_token *selected, t_command *command)
 		command->args = ft_calloc(sizeof(char **), 1);
 		while (selected && selected->type != PIPE)
 		{
-			parser.error = skip_pipe(&command, &selected, &parser);
+			parser.error = skip_pipe(&command, &selected, &parser, data);
 			if (parser.error)
 				return (parser.error);
 		}
@@ -82,7 +82,7 @@ void	count_heredoc(t_data *data)
 	}
 	if (count >= 16)
 	{
-		g_return_code = 2;
+		data->g_return_code = 2;
 		free(data->line);
 		ft_exit(data->command_top, data,
 			"minishell: error: too many here documents", 1);
@@ -107,7 +107,7 @@ int	parser(t_data *data)
 	{
 		put_error("minishell: syntax error near \
 unexpected token `", error, "'\n");
-		g_return_code = 2;
+		data->g_return_code = 2;
 		return (-1);
 	}
 	command = data->command_top;

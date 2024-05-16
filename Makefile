@@ -20,7 +20,7 @@ Green		=	$(shell printf "\033[0;32m")
 Blue 		=	$(shell printf "\033[0;34m")
 Bblue		=	$(shell printf "\033[1;34m")
 NAME		=	minishell
-COMP		=	clang
+COMP		=	cc
 CFLAGS		=	-Wall -Werror -Wextra
 LIBFT_DIR	=	$(shell pwd)/Libft/
 LIBFT		=	$(LIBFT_DIR)libft.a
@@ -151,5 +151,10 @@ fclean : clean
 re : fclean all
 
 -include $(DEP)
+
+PWD = $(shell pwd)
+
+test : debug
+	@valgrind --error-limit=no --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=$(PWD)/suppressions.supp -s --track-fds=all --trace-children=yes --log-fd=2 ./minishell
 
 .PHONY: all fclean clean re banner

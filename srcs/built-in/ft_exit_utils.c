@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 19:03:53 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/15 23:30:25 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/16 17:26:34 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	exit_with_error(char *arg, int error_code, t_command *command,
 	ft_putstr_fd("minishell: exit: ", 2);
 	ft_putstr_fd(arg, 2);
 	ft_putstr_fd(": numeric argument required\n", 2);
-	g_return_code = error_code;
+	data->g_return_code = error_code;
 	free_resources(data, data->env);
 	exit(error_code);
 }
@@ -83,16 +83,15 @@ static int	check_numeric_and_boundaries(char *arg)
 
 int	check_arg_exit(t_command *command, t_data *data)
 {
-	(void)data;
 	if (check_numeric_and_boundaries(command->args[1]))
 		exit_with_error(command->args[1], 2, command, data);
 	if (command->args[2])
 	{
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
-		g_return_code = 1;
+		data->g_return_code = 1;
 		return (EXIT_FAILURE);
 	}
 	if (command->args[1])
-		g_return_code = ft_atoi(command->args[1]);
+		data->g_return_code = ft_atoi(command->args[1]);
 	return (EXIT_SUCCESS);
 }

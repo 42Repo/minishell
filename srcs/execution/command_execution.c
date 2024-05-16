@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:42:37 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/15 17:46:32 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/16 17:50:51 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ static int	check_cmd(char *cmd)
 static int	handle_error_and_free_resources(char ***envp, char **path,
 		t_data *data, t_env *env)
 {
+	int	ret;
+
 	free_tab((*envp));
 	free((*path));
 	free_token_lst(data);
@@ -47,11 +49,12 @@ static int	handle_error_and_free_resources(char ***envp, char **path,
 		close(data->fd_in);
 	if (data->fd_out > 2)
 		close(data->fd_out);
+	ret = data->g_return_code;
 	free(data);
 	close(0);
 	close(1);
 	close(2);
-	return (g_return_code);
+	return (ret);
 }
 
 static void	execute_command_here_doc(char *path, char **args, char ***envp,
@@ -71,26 +74,26 @@ static void	execute_command_here_doc(char *path, char **args, char ***envp,
 	free(path);
 }
 
-static char	*prepare_path(char *cmd, t_env *env)
+static char	*prepare_path(char *cmd, t_env *env, t_data *data)
 {
 	char	*path;
 
 	path = get_path(env);
 	if (has_slash(cmd) != 1)
 	{
-		g_return_code = check_cmd(cmd);
-		if (g_return_code == 0)
+		data->g_return_code = check_cmd(cmd);
+		if (data->g_return_code == 0)
 			path = ft_strdup(cmd);
 		else
 			path = find_cmd_path(cmd, path);
-		g_return_code = 0;
+		data->g_return_code = 0;
 		if (path == NULL)
-			g_return_code = handle_path_error(cmd);
+			data->g_return_code = handle_path_error(cmd);
 	}
 	else
 	{
 		path = ft_strdup(cmd);
-		g_return_code = check_exec_command_path(path);
+		data->g_return_code = check_exec_command_path(path);
 	}
 	return (path);
 }
@@ -102,12 +105,12 @@ int	execve_path_env(char *cmd, char **args, t_env *env, t_data *data)
 
 	if (!cmd || !(*args) || !args || !env || !data)
 		return (1);
-	g_return_code = 0;
+	data->g_return_code = 0;
 	envp = env_to_tab(env);
 	if (!envp)
 		return (1);
-	path = prepare_path(cmd, env);
-	if (g_return_code != 0)
+	path = prepare_path(cmd, env, data);
+	if (data->g_return_code != 0)
 		return (handle_error_and_free_resources(&envp, &path, data, env));
 	execute_command_here_doc(path, args, &envp, data);
 	return (127);

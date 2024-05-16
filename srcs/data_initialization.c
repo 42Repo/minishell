@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 23:27:42 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/13 23:45:38 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/16 17:49:11 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,5 @@ void	init_data(t_data *data)
 	data->fd_in = dup(STDIN_FILENO);
 	data->term = ft_calloc(sizeof(struct termios), 1);
 	tcgetattr(STDIN_FILENO, data->term);
+	data->g_return_code = 0;
 }

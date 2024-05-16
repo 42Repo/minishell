@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_child.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 21:34:54 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/16 17:13:37 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/16 17:43:25 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	handle_eof(char *eof, int fd, t_command *command, t_data *data)
 by end-of-file (wanted `", 1);
 	ft_putstr_fd(eof, 1);
 	ft_putstr_fd("')\n", 1);
-	g_return_code = 1;
+	data->g_return_code = 1;
 	free(eof);
 	close_other_fd_heredoc(data->command_top, fd);
 	ft_exit(command, data, "", 1);
@@ -55,11 +55,11 @@ void	handle_child_process(int fd, char *eof, t_command *command,
 
 	signal(SIGINT, sig_child_handler);
 	signal(SIGQUIT, sig_child_handler);
-	g_return_code = 0;
+	data->g_return_code = 0;
 	line = readline("> ");
-	if (line == NULL && g_return_code != 130)
+	if (line == NULL && data->g_return_code != 130)
 		handle_eof(eof, fd, command, data);
-	while (line && ft_strcmp(line, eof) != 0 && g_return_code != 130)
+	while (line && ft_strcmp(line, eof) != 0 && data->g_return_code != 130)
 	{
 		line = expand_heredoc(line, data);
 		if (test_open(command) == -1)
@@ -69,12 +69,12 @@ void	handle_child_process(int fd, char *eof, t_command *command,
 		free(line);
 		line = NULL;
 		line = readline("> ");
-		if (line == NULL && g_return_code != 130)
+		if (line == NULL && data->g_return_code != 130)
 			handle_eof(eof, fd, command, data);
 	}
 	free(line);
 	close_other_fd_heredoc(data->command_top, fd);
 	free(eof);
 	ft_exit(command, data, "", 1);
-	exit(g_return_code);
+	exit(data->g_return_code);
 }
