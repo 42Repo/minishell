@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 21:34:54 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/16 17:13:37 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/16 17:18:59 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,18 @@ by end-of-file (wanted `", 1);
 	ft_exit(command, data, "", 1);
 }
 
+void	heredoc_signals(void)
+{
+	signal(SIGINT, sig_child_handler);
+	signal(SIGQUIT, sig_child_handler);
+}
+
 void	handle_child_process(int fd, char *eof, t_command *command,
 		t_data *data)
 {
 	char	*line;
 
-	signal(SIGINT, sig_child_handler);
-	signal(SIGQUIT, sig_child_handler);
+	heredoc_signals();
 	g_return_code = 0;
 	line = readline("> ");
 	if (line == NULL && g_return_code != 130)
