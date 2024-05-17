@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 23:41:19 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/16 17:27:53 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/17 15:39:11 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	choose_case(t_data *data)
 	int			prev_fd;
 
 	setup_signals(&useless);
-	signal_received = 0;
+	g_signal_received = 0;
 	command = data->command_top;
 	prev_fd = STDIN_FILENO;
 	if (command && command->next == NULL)

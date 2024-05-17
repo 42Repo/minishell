@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 23:37:11 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/16 17:51:48 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/17 20:34:39 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,18 @@ void	setup_command_execution(t_command *command, int *prev_fd)
 	}
 }
 
+void	close_cmd_fd(t_command *command)
+{
+	if (command->fd_in > 2)
+		close(command->fd_in);
+	if (command->fd_out > 2)
+		close(command->fd_out);
+}
+
 void	execute_command(t_command *cmd, t_data *data, int input_fd,
 		int output_fd)
 {
-	int ret;
+	int	ret;
 
 	if (cmd == NULL || cmd->cmd == NULL || handle_builtin(cmd, data, output_fd,
 			input_fd) == 1)
@@ -70,8 +78,5 @@ void	execute_command(t_command *cmd, t_data *data, int input_fd,
 		data->g_return_code = WEXITSTATUS(data->g_return_code);
 	if (data->g_return_code == 130)
 		printf("\n");
-	if (cmd->fd_in > 2)
-		close(cmd->fd_in);
-	if (cmd->fd_out > 2)
-		close(cmd->fd_out);
+	close_cmd_fd(cmd);
 }

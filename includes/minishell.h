@@ -30,7 +30,7 @@
 # define LLONG_MAX_STR "9223372036854775807"
 # define LLONG_MIN_STR "9223372036854775808"
 
-extern sig_atomic_t	signal_received;
+extern sig_atomic_t	g_signal_received;
 
 /* STRUCTURES */
 typedef enum s_token_type
@@ -100,7 +100,6 @@ typedef struct s_parser
 	char	*tmp2;
 	char	*error;
 }	t_parser;
-
 
 /*  FUNCTIONS  */
 
@@ -649,7 +648,8 @@ void		if_case_quote(int *in_quote, char *current_quote, char str);
 int			count_words_quote(const char *str, const char *charset);
 void		if_quote_case(int *in_quote, char *current_quote, char *str, int j);
 char		**ft_split_quote_state(char *str, const char *charset);
-void		select_output(char *file, int mode, t_command *command, t_data *data);
+void		select_output(char *file, int mode, t_command *command,
+				t_data *data);
 void		select_input(char *file, t_command *command, t_data *data);
 char		*get_path(t_env *env);
 int			has_slash(char *cmd);

@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/16 17:16:23 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/17 15:39:11 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*check_return_code(t_data *data)
 {
-	if (signal_received == SIGINT)
+	if (g_signal_received == SIGINT)
 	{
 		data->g_return_code = 128 + SIGINT;
 	}

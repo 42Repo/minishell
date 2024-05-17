@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:30:00 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/16 18:08:32 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/17 20:37:09 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,15 +72,10 @@ void	ft_exit(t_command *command, t_data *data, char *exit_msg, int check_arg)
 		if (check_arg_exit(command, data) == EXIT_FAILURE)
 			return ;
 	}
+	ret = data->g_return_code;
 	// display_message(exit_msg);
 	free_resources(data, data->env);
-	if (signal_received == SIGINT)
+	if (g_signal_received == SIGINT)
 		ret = 128 + SIGINT;
-	if (ret >= 0 && ret <= 255)
-		exit(ret);
-	if (ret < 0)
-		exit(256 + ret);
-	if (ret > 255)
-		exit(ret % 256);
-	exit(EXIT_SUCCESS);
+	exit(ret & 255);
 }

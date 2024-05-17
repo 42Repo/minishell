@@ -6,13 +6,13 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/16 17:56:05 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/17 20:35:16 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	signal_received = 0;
+int	g_signal_received = 0;
 
 void	close_all_fd(t_command *command, t_data *data)
 {
