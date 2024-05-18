@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/18 16:19:42 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/18 16:24:36 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	error_input(char *file, t_command *command, char *error)
 int	check_dir(char *file, t_command *command, t_data *data)
 {
 	int			i;
-	char		*end;
 	char		*dir;
 	struct stat	sb;
 
@@ -54,7 +53,6 @@ int	check_dir(char *file, t_command *command, t_data *data)
 		put_error("minishell: ", file, ": Permission denied\n");
 	if (!access(file, F_OK) && access(file, R_OK))
 		return (error_output(file, command, 0, data));
-	end = ft_strrchr(file, '/');
 	if (!ft_strrchr(file, '/'))
 		return (0);
 	while (&file[i] != ft_strrchr(file, '/'))
