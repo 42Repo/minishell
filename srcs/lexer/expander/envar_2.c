@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/18 23:10:00 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/18 23:12:41 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ void	set_envar(t_data *data, t_token *selected, t_token *previous)
 			put_error("minishell: ", selected->value, ": ambiguous redirection\n");
 		else
 			put_error("minishell: ", str, ": ambiguous redirection\n");
+		free(str);
 		free(previous->value);
 		previous->value = NULL;
 		return ;
