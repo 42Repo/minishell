@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/18 17:03:53 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/18 22:20:43 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,16 @@ void	loop(t_data *data)
 		get_cmd_prompt(data, data->env);
 		if (data->cmd_prompt == NULL)
 			break ;
-		data->line = ft_strtrim_free(readline(data->cmd_prompt), " ");
+		// data->line = ft_strtrim_free(readline(data->cmd_prompt), " ");
+		if (isatty(fileno(stdin)))
+			data->line = ft_strtrim_free(readline(data->cmd_prompt), " ");
+		else
+		{
+			char *line;
+			line = get_next_line(fileno(stdin));
+			data->line = ft_strtrim(line, "\n");
+			free(line);
+		}
 		if (data->line == NULL)
 			ft_exit(data->command_top, data, "exit", 1);
 		if (ft_strlen(data->line) > 0)
