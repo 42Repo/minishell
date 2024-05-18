@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envar_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/18 23:58:18 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/19 00:13:23 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	set_envar(t_data *data, t_token **selected, t_token *previous)
 	str = replace_envar(data, (*selected), 0, &tmp);
 	if (str && previous && previous->type == REDIR
 		&& (is_space_inside(str) || ft_strlen(str) == 0))
-		is_ambiguous(selected, previous, str);
+		return (is_ambiguous(selected, previous, str));
 	tmp = ft_split_quote_state(str, " \t\n");
 	free((*selected)->value);
 	(*selected)->value = tmp[0];
