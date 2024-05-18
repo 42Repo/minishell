@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 14:44:52 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/18 16:47:03 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/18 17:23:16 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,9 @@ int	check_dir(char *file, t_command *command, t_data *data)
 
 	i = 0;
 	stat(file, &sb);
-	if (check_permission(file, command, data, sb))
-		return (check_permission(file, command, data, sb));
+	i = check_permission(file, command, data, sb);
+	if (i)
+		return (i);
 	if (!ft_strrchr(file, '/'))
 		return (0);
 	while (&file[i] != ft_strrchr(file, '/'))

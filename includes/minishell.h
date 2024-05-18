@@ -641,9 +641,10 @@ int			check_dir(char *file, t_command *command, t_data *data);
 char		*ft_strtrim_free(char *s1, char *set);
 int			is_quote(char c);
 int			is_delimiter(char c, const char *charset);
-int	error_output(char *file, t_command *command, int mode, t_data *data);
-int	check_permission(char *file, t_command *command,
-	t_data *data, struct stat sb);
+int			error_output(char *file, t_command *command, int mode,
+				t_data *data);
+int			check_permission(char *file, t_command *command,
+				t_data *data, struct stat sb);
 int			get_strdup_len(const char *src, const char *charset,
 				char *current_quote);
 void		set_split_var(int *i, int *j, int *in_qt, char *current_quote);
