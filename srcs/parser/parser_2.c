@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_2.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/18 16:24:36 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/18 16:48:18 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,9 @@ void	error_input(char *file, t_command *command, char *error)
 	command->fd_out = -1;
 }
 
-int	check_dir(char *file, t_command *command, t_data *data)
+int	check_permission(char *file, t_command *command,
+	t_data *data, struct stat sb)
 {
-	int			i;
-	char		*dir;
-	struct stat	sb;
-
-	i = 0;
-	stat(file, &sb);
 	if (!access(file, F_OK) && S_ISDIR(sb.st_mode))
 		put_error("minishell: ", file, ": Is a directory\n");
 	if (!access(file, F_OK) && S_ISDIR(sb.st_mode))
@@ -53,22 +48,8 @@ int	check_dir(char *file, t_command *command, t_data *data)
 		put_error("minishell: ", file, ": Permission denied\n");
 	if (!access(file, F_OK) && access(file, R_OK))
 		return (error_output(file, command, 0, data));
-	if (!ft_strrchr(file, '/'))
+	else
 		return (0);
-	while (&file[i] != ft_strrchr(file, '/'))
-		i++;
-	dir = ft_strndup(&file[0], i);
-	stat(dir, &sb);
-	if (access(dir, F_OK))
-		put_error("minishell: ", dir, ": No such file or directory\n");
-	if (access(dir, F_OK))
-		return (error_output(dir, command, 1, data));
-	if (!(S_ISDIR(sb.st_mode)))
-		put_error("minishell: ", dir, ": Is a directory\n");
-	if (!(S_ISDIR(sb.st_mode)))
-		return (error_output(dir, command, 1, data));
-	free(dir);
-	return (0);
 }
 
 void	select_output(char *file, int mode, t_command *command, t_data *data)

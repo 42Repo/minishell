@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envar.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/17 15:39:11 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/18 16:49:13 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*check_return_code(t_data *data)
 	return (ft_itoa(data->g_return_code));
 }
 
-char	*special_case_envar(int len, char *str, t_data *data) // TODO - fix return code
+char	*special_case_envar(int len, char *str, t_data *data)
 {
 	if (len == -1)
 		return (ft_strdup("$"));
@@ -89,17 +89,4 @@ char	*join_replaced(char **tab)
 	}
 	free_tab(tab);
 	return (tmp);
-}
-
-int	check_envar(char *str, int i, int quote_state)
-{
-	return (str[i]
-		&& !((int)ft_strlen(str) >= i + 1
-			&& str[i] == '$'
-			&& (ft_isalpha(str[i + 1])
-				|| str[i + 1] == '_'
-				|| str[i + 1] == '?'
-				|| (str[i + 1] == '"' && quote_state != 2)
-				|| str[i + 1] == '\'')
-			&& quote_state != 1));
 }

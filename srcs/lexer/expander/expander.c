@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/13 17:30:45 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/18 16:49:29 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,19 @@ char	**join_tab(char **tab, char *line)
 	new_tab[i + 1] = NULL;
 	free(tab);
 	return (new_tab);
+}
+
+int	check_envar(char *str, int i, int quote_state)
+{
+	return (str[i]
+		&& !((int)ft_strlen(str) >= i + 1
+			&& str[i] == '$'
+			&& (ft_isalpha(str[i + 1])
+				|| str[i + 1] == '_'
+				|| str[i + 1] == '?'
+				|| (str[i + 1] == '"' && quote_state != 2)
+				|| str[i + 1] == '\'')
+			&& quote_state != 1));
 }
 
 char	*expander(t_data *data)
