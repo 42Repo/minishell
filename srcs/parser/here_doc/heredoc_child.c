@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_child.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 21:34:54 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/16 18:19:09 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/18 15:34:30 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,11 @@ by end-of-file (wanted `", 1);
 	ft_exit(command, data, "", 1);
 }
 
-void	heredoc_signals(void)
+void	heredoc_signals(t_data *data)
 {
 	signal(SIGINT, sig_child_handler);
 	signal(SIGQUIT, sig_child_handler);
+	data->g_return_code = 0;
 }
 
 void	handle_child_process(int fd, char *eof, t_command *command,
@@ -59,9 +60,7 @@ void	handle_child_process(int fd, char *eof, t_command *command,
 {
 	char	*line;
 
-	signal(SIGINT, sig_child_handler);
-	signal(SIGQUIT, sig_child_handler);
-	data->g_return_code = 0;
+	heredoc_signals(data);
 	line = readline("> ");
 	if (line == NULL && data->g_return_code != 130)
 		handle_eof(eof, fd, command, data);
