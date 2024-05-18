@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/18 23:36:34 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/19 00:20:27 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	check_envar(char *str, int i, int quote_state)
 char	*expander(t_data *data)
 {
 	t_token	*selected;
-	t_token *previous;
+	t_token	*previous;
 	int		quote_state;
 	int		i;
 

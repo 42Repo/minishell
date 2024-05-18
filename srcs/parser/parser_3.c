@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 14:44:52 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/18 23:59:43 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/19 00:20:16 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,35 +30,33 @@ void	do_redir(t_command **command, t_token **last_redir)
 	(*command) = (*command)->next;
 }
 
-void	set_fd_in(t_command *command, t_token *selected)
+void	set_fd_in(t_command *cmd, t_token *selected)
 {
 	t_token	*last_redir;
 
 	last_redir = NULL;
-	if (command->fd_in == -1 || command->fd_out == -1)
-	{
-		if (command->fd_heredoc != -1)
-			close(command->fd_heredoc);
+	if ((cmd->fd_in == -1 || cmd->fd_out == -1) && cmd->fd_heredoc != -1)
+		close(cmd->fd_heredoc);
+	if (cmd->fd_in == -1 || cmd->fd_out == -1)
 		return ;
-	}
 	while (selected)
 	{
 		if (selected->type == REDIR && selected->value[0] == '<')
 			last_redir = selected;
 		if (selected->type == PIPE)
-			do_redir(&command, &last_redir);
+			do_redir(&cmd, &last_redir);
 		selected = selected->next;
 	}
 	if (last_redir && ft_strcmp(last_redir->value, "<<") == 0)
 	{
-		if (command->fd_in > 2)
-			close(command->fd_in);
-		command->fd_in = command->fd_heredoc;
-		command->fd_heredoc = -1;
+		if (cmd->fd_in > 2)
+			close(cmd->fd_in);
+		cmd->fd_in = cmd->fd_heredoc;
+		cmd->fd_heredoc = -1;
 	}
-	else if (command->fd_heredoc != -1 && command->fd_heredoc != command->fd_in)
-		close(command->fd_heredoc);
-	command->fd_heredoc = -1;
+	else if (cmd->fd_heredoc != -1 && cmd->fd_heredoc != cmd->fd_in)
+		close(cmd->fd_heredoc);
+	cmd->fd_heredoc = -1;
 }
 
 int	check_dir(char *file, t_command *command, t_data *data)

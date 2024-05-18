@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/18 21:33:49 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/19 00:16:22 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,38 +89,6 @@ void	count_heredoc(t_data *data)
 	}
 }
 
-// int	check_ambiguous_redirect(t_data *data)
-// {
-// 	t_token		*selected;
-// 	int			count;
-// 	int			quote_state;
-// 	int i = 0;
-// 	printf("check_ambiguous_redirect\n");
-// 	selected = data->prompt_top;
-// 	while (selected)
-// 	{
-// 		quote_state = 0;
-// 		count = 0;
-// 		i = 0;
-// 		printf("selected value = %s\n", selected->value);
-// 		while (selected->next && selected-> next->type == WORD && selected->next->value[i] && selected->value[i] != ' ')
-// 		{
-// 			quote_state = quote_management(quote_state, selected->value[i]);
-// 			i++;
-// 		}
-// 		if (selected->type == REDIR && selected->next
-// 			&& selected->next->type == WORD && selected->next->value[i] == ' ' && quote_state == 0)
-// 		{
-// 			put_error("minishell: syntax error near unexpected token `",
-// 				selected->next->value, "'\n");
-// 			data->g_return_code = 2;
-// 			return (-1);
-// 		}
-// 		selected = selected->next;
-// 	}
-// 	return (0);
-// }
-
 int	parser(t_data *data)
 {
 	t_token		*selected;
@@ -133,8 +101,6 @@ int	parser(t_data *data)
 	if (open_heredoc(data) == -1)
 		return (-1);
 	expander(data);
-	// if (check_ambiguous_redirect(data) == -1)
-		// return (-1);
 	clear_token_quotes(data);
 	error = parse_line(data, selected, command);
 	if (error)
