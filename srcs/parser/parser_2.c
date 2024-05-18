@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/18 22:52:55 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/18 22:55:49 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	select_output(char *file, int mode, t_command *command, t_data *data)
 
 void	select_input(char *file, t_command *command, t_data *data)
 {
-	if (command->fd_in == -1)
+	if (command->fd_in == -1 || !file)
 		return ;
 	if (command->fd_in != 0)
 		close(command->fd_in);
