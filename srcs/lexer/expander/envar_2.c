@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/18 22:27:53 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/18 23:03:55 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ int	is_space_inside(char *str)
 	if (!str)
 		return (0);
 	tmp = ft_split(str, ' ');
-	printf("BAH GROS %s\n", str);
 	if (tmp && tmp[0] && tmp[1])
 	{
 		free_tab(tmp);
@@ -97,9 +96,9 @@ void	set_envar(t_data *data, t_token *selected, t_token *previous)
 
 	tmp = ft_calloc(sizeof(char *), 1);
 	str = replace_envar(data, selected, 0, &tmp);
-	if (str && previous && previous->type == REDIR && is_space_inside(str))
+	if (str && previous && previous->type == REDIR && (is_space_inside(str) || ft_strlen(str) == 0))
 	{
-		put_error("minishell:", str, ": ambigout redirection\n");
+		put_error("minishell:", str, ": ambiguous redirection\n");
 		free(previous->value);
 		previous->value = NULL;
 		return ;
