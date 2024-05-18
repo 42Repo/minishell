@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/18 22:11:00 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/18 22:27:53 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void	set_envar(t_data *data, t_token *selected, t_token *previous)
 		previous->value = NULL;
 		return ;
 	}
-	tmp = ft_split_quote_state(str, "\t\n");
+	tmp = ft_split_quote_state(str, " \t\n");
 	free(selected->value);
 	selected->value = tmp[0];
 	j = 1;
