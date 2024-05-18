@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/18 22:41:26 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/18 23:36:34 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ char	*expander(t_data *data)
 			quote_state = quote_management(quote_state, selected->value[i]);
 			if (!check_envar(selected->value, i, quote_state))
 			{
-				set_envar(data, selected, previous);
+				set_envar(data, &selected, previous);
 				break ;
 			}
 			i++;

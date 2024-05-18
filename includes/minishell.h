@@ -145,7 +145,7 @@ int			get_envar_len(char *str);
  * @param data 
  * @param selected 
  */
-void	set_envar(t_data *data, t_token *selected, t_token *previous);
+void	set_envar(t_data *data, t_token **selected, t_token *previous);
 
 /**
  * @brief the main parsing function
