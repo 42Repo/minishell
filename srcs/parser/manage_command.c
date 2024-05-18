@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   manage_command.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 15:18:00 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/16 17:37:53 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/18 22:06:43 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,12 @@ void	get_redir(t_token *selected, t_command *command, t_data *data)
 	{
 		if (selected->next && selected->next->type == WORD)
 		{
-			if (ft_strlen(selected->value) == 2 && selected->value[1] == '>')
+			if (!selected->value)
+			{
+				command->fd_in = -1;
+				command->fd_out = -1;
+			}
+			else if (ft_strlen(selected->value) == 2 && selected->value[1] == '>')
 				select_output(selected->next->value, 2, command, data);
 			else if (selected->value[0] == '>')
 				select_output(selected->next->value, 1, command, data);

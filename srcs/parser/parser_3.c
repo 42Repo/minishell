@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_3.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 14:44:52 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/18 17:23:16 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/18 22:10:03 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,12 @@ void	set_fd_in(t_command *command, t_token *selected)
 	t_token	*last_redir;
 
 	last_redir = NULL;
+	if (command->fd_in == -1 || command->fd_out == -1)
+	{
+		if (command->fd_heredoc != -1)
+			close(command->fd_heredoc);
+		return ;
+	}
 	while (selected)
 	{
 		if (selected->type == REDIR && selected->value[0] == '<')

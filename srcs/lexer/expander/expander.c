@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/18 16:49:29 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/18 21:34:50 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,12 @@ int	check_envar(char *str, int i, int quote_state)
 char	*expander(t_data *data)
 {
 	t_token	*selected;
+	t_token *previous;
 	int		quote_state;
 	int		i;
 
 	selected = data->prompt_top;
+	previous = NULL;
 	quote_state = 0;
 	while (selected->type != END)
 	{
@@ -86,11 +88,12 @@ char	*expander(t_data *data)
 			quote_state = quote_management(quote_state, selected->value[i]);
 			if (check_envar(selected->value, i, quote_state))
 			{
-				set_envar(data, selected);
+				set_envar(data, selected, previous);
 				break ;
 			}
 			i++;
 		}
+		previous = selected;
 		selected = selected->next;
 	}
 	return (NULL);

@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/13 17:30:34 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/18 22:11:00 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,13 +72,39 @@ char	*replace_envar(t_data *data, t_token *tmp, int i, char ***tab)
 	return (join_replaced((*tab)));
 }
 
-void	set_envar(t_data *data, t_token *selected)
+int	is_space_inside(char *str)
+{
+	char **tmp;
+
+	if (!str)
+		return (0);
+	tmp = ft_split(str, ' ');
+	printf("BAH GROS %s\n", str);
+	if (tmp && tmp[0] && tmp[1])
+	{
+		free_tab(tmp);
+		return (1);
+	}
+	free_tab(tmp);
+	return (0);
+}
+
+void	set_envar(t_data *data, t_token *selected, t_token *previous)
 {
 	int		j;
 	char	**tmp;
+	char	*str;
 
 	tmp = ft_calloc(sizeof(char *), 1);
-	tmp = ft_split_quote_state(replace_envar(data, selected, 0, &tmp), " \t\n");
+	str = replace_envar(data, selected, 0, &tmp);
+	if (str && previous && previous->type == REDIR && is_space_inside(str))
+	{
+		put_error("minishell:", str, ": ambigout redirection\n");
+		free(previous->value);
+		previous->value = NULL;
+		return ;
+	}
+	tmp = ft_split_quote_state(str, "\t\n");
 	free(selected->value);
 	selected->value = tmp[0];
 	j = 1;
