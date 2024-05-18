@@ -69,3 +69,19 @@ void	free_token_lst(t_data *data)
 		tmp = NULL;
 	}
 }
+
+int	is_space_inside(char *str)
+{
+	char	**tmp;
+
+	if (!str)
+		return (0);
+	tmp = ft_split(str, ' ');
+	if (tmp && tmp[0] && tmp[1])
+	{
+		free_tab(tmp);
+		return (1);
+	}
+	free_tab(tmp);
+	return (0);
+}

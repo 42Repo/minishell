@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 18:02:13 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/18 23:33:15 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/18 23:58:18 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,22 +72,6 @@ char	*replace_envar(t_data *data, t_token *tmp, int i, char ***tab)
 	return (join_replaced((*tab)));
 }
 
-int	is_space_inside(char *str)
-{
-	char **tmp;
-
-	if (!str)
-		return (0);
-	tmp = ft_split(str, ' ');
-	if (tmp && tmp[0] && tmp[1])
-	{
-		free_tab(tmp);
-		return (1);
-	}
-	free_tab(tmp);
-	return (0);
-}
-
 void	set_envar(t_data *data, t_token **selected, t_token *previous)
 {
 	int		j;
@@ -96,19 +80,9 @@ void	set_envar(t_data *data, t_token **selected, t_token *previous)
 
 	tmp = ft_calloc(sizeof(char *), 1);
 	str = replace_envar(data, (*selected), 0, &tmp);
-	if (str && previous && previous->type == REDIR && (is_space_inside(str) || ft_strlen(str) == 0))
-	{
-		if (ft_strlen(str) == 0)
-			put_error("minishell: ", (*selected)->value, ": ambiguous redirection\n");
-		else
-			put_error("minishell: ", str, ": ambiguous redirection\n");
-		free(str);
-		free(previous->value);
-		while((*selected)->next->type != END && (*selected)->next->type != PIPE)
-			(*selected) = (*selected)->next;
-		previous->value = NULL;
-		return ;
-	}
+	if (str && previous && previous->type == REDIR
+		&& (is_space_inside(str) || ft_strlen(str) == 0))
+		is_ambiguous(selected, previous, str);
 	tmp = ft_split_quote_state(str, " \t\n");
 	free((*selected)->value);
 	(*selected)->value = tmp[0];

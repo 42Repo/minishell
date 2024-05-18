@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 14:44:52 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/18 22:51:48 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/18 23:59:43 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,20 @@ int	check_dir(char *file, t_command *command, t_data *data)
 		return (error_output(dir, command, 1, data));
 	free(dir);
 	return (0);
+}
+
+void	is_ambiguous(t_token **selected, t_token *previous, char *str)
+{
+	if (ft_strlen(str) == 0)
+		put_error("minishell: ",
+			(*selected)->value, ": ambiguous redirection\n");
+	else
+		put_error("minishell: ", str, ": ambiguous redirection\n");
+	free(str);
+	while ((*selected)->next->type != END
+		&& (*selected)->next->type != PIPE)
+		(*selected) = (*selected)->next;
+	free(previous->value);
+	previous->value = NULL;
+	return ;
 }
