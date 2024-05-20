@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 18:49:35 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/09 22:06:36 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/20 20:13:15 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ t_env	*get_env_value_ptr(t_env *env, char *name)
 	}
 	while (tmp)
 	{
-		if (ft_strcmp(tmp->name, tmp_name) == 0)
+		if (tmp->name && ft_strcmp(tmp->name, tmp_name) == 0)
 		{
 			free(tmp_name);
 			return (tmp);

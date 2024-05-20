@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:54:05 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/20 18:59:25 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/20 21:18:00 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ char	*ft_export_single_arg(t_env *env, char *name)
 	else
 	{
 		tmp = env;
-		while (tmp->next)
+		while (!tmp->name && tmp->next)
 			tmp = tmp->next;
 		tmp->next = ft_calloc(sizeof(t_env), 1);
 		if (!tmp->next)
