@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:54:05 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/16 17:23:29 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/20 18:59:25 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	error_cd(char *path, t_env *env, int mode, t_data *data)
 	{
 		ft_putstr_fd("HOME not set\n", 2);
 		data->g_return_code = 1;
-		return (-1);
+		return (0);
 	}
 	if (path != NULL)
 		ft_putstr_fd(path, 2);
@@ -57,7 +57,7 @@ int	error_cd(char *path, t_env *env, int mode, t_data *data)
 	ft_putstr_fd(strerror(errno), 2);
 	ft_putstr_fd("\n", 2);
 	data->g_return_code = 1;
-	return (-1);
+	return (0);
 }
 
 void	update_env(t_env *env, char *new_value)

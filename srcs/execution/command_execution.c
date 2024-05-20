@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:42:37 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/17 16:58:23 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/20 18:49:27 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,9 @@ static void	execute_command_here_doc(char *path, char **args, char ***envp,
 	close(1);
 	close(2);
 	rl_clear_history();
-	free(data->term);
 	free_tab((*envp));
 	free(path);
+	ft_exit(data->command_top, data, "", 1);
 }
 
 static char	*prepare_path(char *cmd, t_env *env, t_data *data)
@@ -83,7 +83,11 @@ static char	*prepare_path(char *cmd, t_env *env, t_data *data)
 	{
 		data->g_return_code = check_cmd(cmd);
 		if (data->g_return_code == 0)
+		{
 			path = ft_strdup(cmd);
+			data->g_return_code = check_exec_command_path(path);
+			return (path);
+		}
 		else
 			path = find_cmd_path(cmd, path);
 		data->g_return_code = 0;

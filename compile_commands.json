@@ -1,0 +1,902 @@
+[
+ {
+  "directory": "/home/asuc/Documents/42/minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-MT",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/signals.o",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/dep/srcs/signals.Td",
+   "-o",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/signals.o",
+   "-c",
+   "srcs/signals.c"
+  ],
+  "file": "srcs/signals.c"
+ },
+ {
+  "directory": "/home/asuc/Documents/42/minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-MT",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/signal.o",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/dep/srcs/signal.Td",
+   "-o",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/signal.o",
+   "-c",
+   "srcs/signal.c"
+  ],
+  "file": "srcs/signal.c"
+ },
+ {
+  "directory": "/home/asuc/Documents/42/minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-MT",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/get_env.o",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/dep/srcs/get_env.Td",
+   "-o",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/get_env.o",
+   "-c",
+   "srcs/get_env.c"
+  ],
+  "file": "srcs/get_env.c"
+ },
+ {
+  "directory": "/home/asuc/Documents/42/minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-MT",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/command_execution.o",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/dep/srcs/command_execution.Td",
+   "-o",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/command_execution.o",
+   "-c",
+   "srcs/command_execution.c"
+  ],
+  "file": "srcs/command_execution.c"
+ },
+ {
+  "directory": "/home/asuc/Documents/42/minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-MT",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/utils/split_quote_state_utils.o",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/dep/srcs/utils/split_quote_state_utils.Td",
+   "-o",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/utils/split_quote_state_utils.o",
+   "-c",
+   "srcs/utils/split_quote_state_utils.c"
+  ],
+  "file": "srcs/utils/split_quote_state_utils.c"
+ },
+ {
+  "directory": "/home/asuc/Documents/42/minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-MT",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/utils/utils.o",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/dep/srcs/utils/utils.Td",
+   "-o",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/utils/utils.o",
+   "-c",
+   "srcs/utils/utils.c"
+  ],
+  "file": "srcs/utils/utils.c"
+ },
+ {
+  "directory": "/home/asuc/Documents/42/minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-MT",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/utils/split_quote_state.o",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/dep/srcs/utils/split_quote_state.Td",
+   "-o",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/utils/split_quote_state.o",
+   "-c",
+   "srcs/utils/split_quote_state.c"
+  ],
+  "file": "srcs/utils/split_quote_state.c"
+ },
+ {
+  "directory": "/home/asuc/Documents/42/minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-MT",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/built-in/ft_exit.o",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/dep/srcs/built-in/ft_exit.Td",
+   "-o",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/built-in/ft_exit.o",
+   "-c",
+   "srcs/built-in/ft_exit.c"
+  ],
+  "file": "srcs/built-in/ft_exit.c"
+ },
+ {
+  "directory": "/home/asuc/Documents/42/minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-MT",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/built-in/ft_echo.o",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/dep/srcs/built-in/ft_echo.Td",
+   "-o",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/built-in/ft_echo.o",
+   "-c",
+   "srcs/built-in/ft_echo.c"
+  ],
+  "file": "srcs/built-in/ft_echo.c"
+ },
+ {
+  "directory": "/home/asuc/Documents/42/minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-MT",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/built-in/ft_cd_utils.o",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/dep/srcs/built-in/ft_cd_utils.Td",
+   "-o",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/built-in/ft_cd_utils.o",
+   "-c",
+   "srcs/built-in/ft_cd_utils.c"
+  ],
+  "file": "srcs/built-in/ft_cd_utils.c"
+ },
+ {
+  "directory": "/home/asuc/Documents/42/minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-MT",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/built-in/ft_env.o",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/dep/srcs/built-in/ft_env.Td",
+   "-o",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/built-in/ft_env.o",
+   "-c",
+   "srcs/built-in/ft_env.c"
+  ],
+  "file": "srcs/built-in/ft_env.c"
+ },
+ {
+  "directory": "/home/asuc/Documents/42/minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-MT",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/built-in/ft_export.o",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/dep/srcs/built-in/ft_export.Td",
+   "-o",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/built-in/ft_export.o",
+   "-c",
+   "srcs/built-in/ft_export.c"
+  ],
+  "file": "srcs/built-in/ft_export.c"
+ },
+ {
+  "directory": "/home/asuc/Documents/42/minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-MT",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/built-in/ft_export_utils.o",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/dep/srcs/built-in/ft_export_utils.Td",
+   "-o",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/built-in/ft_export_utils.o",
+   "-c",
+   "srcs/built-in/ft_export_utils.c"
+  ],
+  "file": "srcs/built-in/ft_export_utils.c"
+ },
+ {
+  "directory": "/home/asuc/Documents/42/minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-MT",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/built-in/ft_cd.o",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/dep/srcs/built-in/ft_cd.Td",
+   "-o",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/built-in/ft_cd.o",
+   "-c",
+   "srcs/built-in/ft_cd.c"
+  ],
+  "file": "srcs/built-in/ft_cd.c"
+ },
+ {
+  "directory": "/home/asuc/Documents/42/minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-MT",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/built-in/ft_export_args_less.o",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/dep/srcs/built-in/ft_export_args_less.Td",
+   "-o",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/built-in/ft_export_args_less.o",
+   "-c",
+   "srcs/built-in/ft_export_args_less.c"
+  ],
+  "file": "srcs/built-in/ft_export_args_less.c"
+ },
+ {
+  "directory": "/home/asuc/Documents/42/minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-MT",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/built-in/ft_unset.o",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/dep/srcs/built-in/ft_unset.Td",
+   "-o",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/built-in/ft_unset.o",
+   "-c",
+   "srcs/built-in/ft_unset.c"
+  ],
+  "file": "srcs/built-in/ft_unset.c"
+ },
+ {
+  "directory": "/home/asuc/Documents/42/minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-MT",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/built-in/ft_pwd.o",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/dep/srcs/built-in/ft_pwd.Td",
+   "-o",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/built-in/ft_pwd.o",
+   "-c",
+   "srcs/built-in/ft_pwd.c"
+  ],
+  "file": "srcs/built-in/ft_pwd.c"
+ },
+ {
+  "directory": "/home/asuc/Documents/42/minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-MT",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/built-in/ft_exit_utils.o",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/dep/srcs/built-in/ft_exit_utils.Td",
+   "-o",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/built-in/ft_exit_utils.o",
+   "-c",
+   "srcs/built-in/ft_exit_utils.c"
+  ],
+  "file": "srcs/built-in/ft_exit_utils.c"
+ },
+ {
+  "directory": "/home/asuc/Documents/42/minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-MT",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/data_initialization.o",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/dep/srcs/data_initialization.Td",
+   "-o",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/data_initialization.o",
+   "-c",
+   "srcs/data_initialization.c"
+  ],
+  "file": "srcs/data_initialization.c"
+ },
+ {
+  "directory": "/home/asuc/Documents/42/minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-MT",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/redirections.o",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/dep/srcs/redirections.Td",
+   "-o",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/redirections.o",
+   "-c",
+   "srcs/redirections.c"
+  ],
+  "file": "srcs/redirections.c"
+ },
+ {
+  "directory": "/home/asuc/Documents/42/minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-MT",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/parser/manage_command.o",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/dep/srcs/parser/manage_command.Td",
+   "-o",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/parser/manage_command.o",
+   "-c",
+   "srcs/parser/manage_command.c"
+  ],
+  "file": "srcs/parser/manage_command.c"
+ },
+ {
+  "directory": "/home/asuc/Documents/42/minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-MT",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/parser/here_doc/heredoc_expander.o",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/dep/srcs/parser/here_doc/heredoc_expander.Td",
+   "-o",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/parser/here_doc/heredoc_expander.o",
+   "-c",
+   "srcs/parser/here_doc/heredoc_expander.c"
+  ],
+  "file": "srcs/parser/here_doc/heredoc_expander.c"
+ },
+ {
+  "directory": "/home/asuc/Documents/42/minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-MT",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/parser/here_doc/signal_handlers.o",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/dep/srcs/parser/here_doc/signal_handlers.Td",
+   "-o",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/parser/here_doc/signal_handlers.o",
+   "-c",
+   "srcs/parser/here_doc/signal_handlers.c"
+  ],
+  "file": "srcs/parser/here_doc/signal_handlers.c"
+ },
+ {
+  "directory": "/home/asuc/Documents/42/minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-MT",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/parser/here_doc/heredoc_child.o",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/dep/srcs/parser/here_doc/heredoc_child.Td",
+   "-o",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/parser/here_doc/heredoc_child.o",
+   "-c",
+   "srcs/parser/here_doc/heredoc_child.c"
+  ],
+  "file": "srcs/parser/here_doc/heredoc_child.c"
+ },
+ {
+  "directory": "/home/asuc/Documents/42/minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-MT",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/parser/here_doc/random_name_generator.o",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/dep/srcs/parser/here_doc/random_name_generator.Td",
+   "-o",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/parser/here_doc/random_name_generator.o",
+   "-c",
+   "srcs/parser/here_doc/random_name_generator.c"
+  ],
+  "file": "srcs/parser/here_doc/random_name_generator.c"
+ },
+ {
+  "directory": "/home/asuc/Documents/42/minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-MT",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/parser/here_doc/here_doc.o",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/dep/srcs/parser/here_doc/here_doc.Td",
+   "-o",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/parser/here_doc/here_doc.o",
+   "-c",
+   "srcs/parser/here_doc/here_doc.c"
+  ],
+  "file": "srcs/parser/here_doc/here_doc.c"
+ },
+ {
+  "directory": "/home/asuc/Documents/42/minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-MT",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/parser/parse_token.o",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/dep/srcs/parser/parse_token.Td",
+   "-o",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/parser/parse_token.o",
+   "-c",
+   "srcs/parser/parse_token.c"
+  ],
+  "file": "srcs/parser/parse_token.c"
+ },
+ {
+  "directory": "/home/asuc/Documents/42/minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-MT",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/parser/parser_2.o",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/dep/srcs/parser/parser_2.Td",
+   "-o",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/parser/parser_2.o",
+   "-c",
+   "srcs/parser/parser_2.c"
+  ],
+  "file": "srcs/parser/parser_2.c"
+ },
+ {
+  "directory": "/home/asuc/Documents/42/minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-MT",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/parser/parser.o",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/dep/srcs/parser/parser.Td",
+   "-o",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/parser/parser.o",
+   "-c",
+   "srcs/parser/parser.c"
+  ],
+  "file": "srcs/parser/parser.c"
+ },
+ {
+  "directory": "/home/asuc/Documents/42/minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-MT",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/minishell.o",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/dep/srcs/minishell.Td",
+   "-o",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/minishell.o",
+   "-c",
+   "srcs/minishell.c"
+  ],
+  "file": "srcs/minishell.c"
+ },
+ {
+  "directory": "/home/asuc/Documents/42/minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-MT",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/builtin_handling.o",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/dep/srcs/builtin_handling.Td",
+   "-o",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/builtin_handling.o",
+   "-c",
+   "srcs/builtin_handling.c"
+  ],
+  "file": "srcs/builtin_handling.c"
+ },
+ {
+  "directory": "/home/asuc/Documents/42/minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-MT",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/execution/command_execution.o",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/dep/srcs/execution/command_execution.Td",
+   "-o",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/execution/command_execution.o",
+   "-c",
+   "srcs/execution/command_execution.c"
+  ],
+  "file": "srcs/execution/command_execution.c"
+ },
+ {
+  "directory": "/home/asuc/Documents/42/minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-MT",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/execution/environment_management.o",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/dep/srcs/execution/environment_management.Td",
+   "-o",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/execution/environment_management.o",
+   "-c",
+   "srcs/execution/environment_management.c"
+  ],
+  "file": "srcs/execution/environment_management.c"
+ },
+ {
+  "directory": "/home/asuc/Documents/42/minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-MT",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/execution/error_management.o",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/dep/srcs/execution/error_management.Td",
+   "-o",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/execution/error_management.o",
+   "-c",
+   "srcs/execution/error_management.c"
+  ],
+  "file": "srcs/execution/error_management.c"
+ },
+ {
+  "directory": "/home/asuc/Documents/42/minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-MT",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/execution/file_and_access_checks.o",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/dep/srcs/execution/file_and_access_checks.Td",
+   "-o",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/execution/file_and_access_checks.o",
+   "-c",
+   "srcs/execution/file_and_access_checks.c"
+  ],
+  "file": "srcs/execution/file_and_access_checks.c"
+ },
+ {
+  "directory": "/home/asuc/Documents/42/minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-MT",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/lexer/ms_lst.o",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/dep/srcs/lexer/ms_lst.Td",
+   "-o",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/lexer/ms_lst.o",
+   "-c",
+   "srcs/lexer/ms_lst.c"
+  ],
+  "file": "srcs/lexer/ms_lst.c"
+ },
+ {
+  "directory": "/home/asuc/Documents/42/minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-MT",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/lexer/lexer.o",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/dep/srcs/lexer/lexer.Td",
+   "-o",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/lexer/lexer.o",
+   "-c",
+   "srcs/lexer/lexer.c"
+  ],
+  "file": "srcs/lexer/lexer.c"
+ },
+ {
+  "directory": "/home/asuc/Documents/42/minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-MT",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/lexer/lexer_2.o",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/dep/srcs/lexer/lexer_2.Td",
+   "-o",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/lexer/lexer_2.o",
+   "-c",
+   "srcs/lexer/lexer_2.c"
+  ],
+  "file": "srcs/lexer/lexer_2.c"
+ },
+ {
+  "directory": "/home/asuc/Documents/42/minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-MT",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/lexer/add_to_list.o",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/dep/srcs/lexer/add_to_list.Td",
+   "-o",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/lexer/add_to_list.o",
+   "-c",
+   "srcs/lexer/add_to_list.c"
+  ],
+  "file": "srcs/lexer/add_to_list.c"
+ },
+ {
+  "directory": "/home/asuc/Documents/42/minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-MT",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/lexer/expander/envar_2.o",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/dep/srcs/lexer/expander/envar_2.Td",
+   "-o",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/lexer/expander/envar_2.o",
+   "-c",
+   "srcs/lexer/expander/envar_2.c"
+  ],
+  "file": "srcs/lexer/expander/envar_2.c"
+ },
+ {
+  "directory": "/home/asuc/Documents/42/minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-MT",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/lexer/expander/envar.o",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/dep/srcs/lexer/expander/envar.Td",
+   "-o",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/lexer/expander/envar.o",
+   "-c",
+   "srcs/lexer/expander/envar.c"
+  ],
+  "file": "srcs/lexer/expander/envar.c"
+ },
+ {
+  "directory": "/home/asuc/Documents/42/minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-MT",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/lexer/expander/expander.o",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/dep/srcs/lexer/expander/expander.Td",
+   "-o",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/lexer/expander/expander.o",
+   "-c",
+   "srcs/lexer/expander/expander.c"
+  ],
+  "file": "srcs/lexer/expander/expander.c"
+ },
+ {
+  "directory": "/home/asuc/Documents/42/minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-MT",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/get_cmd_prompt.o",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/dep/srcs/get_cmd_prompt.Td",
+   "-o",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/get_cmd_prompt.o",
+   "-c",
+   "srcs/get_cmd_prompt.c"
+  ],
+  "file": "srcs/get_cmd_prompt.c"
+ },
+ {
+  "directory": "/home/asuc/Documents/42/minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-MT",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/command_execution_pipes.o",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/dep/srcs/command_execution_pipes.Td",
+   "-o",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/command_execution_pipes.o",
+   "-c",
+   "srcs/command_execution_pipes.c"
+  ],
+  "file": "srcs/command_execution_pipes.c"
+ },
+ {
+  "directory": "/home/asuc/Documents/42/minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-MT",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/parser/parser_3.o",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/dep/srcs/parser/parser_3.Td",
+   "-o",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/parser/parser_3.o",
+   "-c",
+   "srcs/parser/parser_3.c"
+  ],
+  "file": "srcs/parser/parser_3.c"
+ }
+]

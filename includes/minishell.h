@@ -71,14 +71,6 @@ typedef struct s_command
 	char				random_name[21];
 	int					pipe[2];
 }	t_command;
-
-// 1 = pipe, 2 = redirect, 3 = end
-typedef struct s_next
-{
-	int			action;
-	t_command	*next;
-}	t_next;
-
 typedef struct s_data
 {
 	t_token			*prompt_top;

@@ -19,8 +19,12 @@ static int	other_case_cd(t_command *command, t_env *env, t_data *data)
 	tmp = NULL;
 	if (command->args[1] == NULL)
 	{
-		if (chdir(get_env_value_string(env, "HOME")) != 0)
+		tmp = get_env_value_string(env, "HOME");
+		if (!tmp || chdir(tmp) != 0)
+		{
+			errno = 14;
 			return (error_cd(get_env_value_string(env, "HOME"), env, 0, data));
+		}
 		return (0);
 	}
 	if (command->args[1][0] == '/')
@@ -33,8 +37,11 @@ static int	other_case_cd(t_command *command, t_env *env, t_data *data)
 	{
 		tmp = ft_strjoin(get_env_value_string(env, "HOME"),
 				command->args[1] + 1);
-		if (chdir(tmp) != 0)
+		if (!tmp || chdir(tmp) != 0)
+		{
+			errno = 14;
 			return (error_cd(tmp, env, 1, data));
+		}
 		free(tmp);
 		return (0);
 	}

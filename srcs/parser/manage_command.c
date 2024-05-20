@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/30 15:18:00 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/19 00:21:28 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/20 18:37:55 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,12 +102,3 @@ void	get_redir(t_token *selected, t_command *command, t_data *data)
 		}
 	}
 }
-
-// 		else
-// 		{
-// 			ft_putstr_fd("minishell: syntax error near unexpected 
-// 'HAHAHA'\n", 2);
-// 			if (command->cmd)
-// 				free (command->cmd);
-// 			command->cmd = NULL;
-// 		}
