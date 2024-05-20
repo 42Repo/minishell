@@ -3,14 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42angouleme.fr>         +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/05 19:31:29 by asuc              #+#    #+#             */
-/*   Updated: 2024/02/07 22:03:26 by asuc             ###   ########.fr       */
+/*   Created: 2024/05/20 20:07:20 by asuc              #+#    #+#             */
+/*   Updated: 2024/05/20 20:07:20 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+static void	create_env(t_data *data)
+{
+	data->env = (t_env *)malloc(sizeof(t_env));
+	data->env->name = NULL;
+	data->env->value = NULL;
+	data->env->next = NULL;
+}
 
 static void	delete_env(t_data *data, char *name)
 {
@@ -28,27 +36,15 @@ static void	delete_env(t_data *data, char *name)
 			else
 				data->env = tmp->next;
 			free(tmp->name);
-			free(tmp->value);			
+			free(tmp->value);
 			free(tmp);
-			if (!data->env)
-			{
-				data->env = (t_env *)malloc(sizeof(t_env));
-				data->env->name = NULL;
-				data->env->value = NULL;
-				data->env->next = NULL;
-			}
-			return ;
+			break ;
 		}
 		prev = tmp;
 		tmp = tmp->next;
 	}
 	if (!data->env)
-	{
-		data->env = (t_env *)malloc(sizeof(t_env));
-		data->env->name = NULL;
-		data->env->value = NULL;
-		data->env->next = NULL;
-	}
+		create_env(data);
 }
 
 void	ft_unset(t_command *command, t_data *data)
