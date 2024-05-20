@@ -6,30 +6,11 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:42:37 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/20 18:49:27 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/21 00:01:26 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-static int	check_cmd(char *cmd)
-{
-	struct stat	buf;
-
-	stat(cmd, &buf);
-	if (access(cmd, F_OK) == 0)
-	{
-		if (access(cmd, X_OK) == 0)
-		{
-			if (S_ISDIR(buf.st_mode))
-				return (126);
-			return (0);
-		}
-		else
-			return (126);
-	}
-	return (1);
-}
 
 static int	handle_error_and_free_resources(char ***envp, char **path,
 		t_data *data, t_env *env)
@@ -57,21 +38,59 @@ static int	handle_error_and_free_resources(char ***envp, char **path,
 	return (ret);
 }
 
+static void	free_all(char **path, char ***envp, t_data *data)
+{
+	close(0);
+	close(1);
+	close(2);
+	free_tab((*envp));
+	free((*path));
+	ft_exit(data->command_top, data, (*path), 1);
+}
+
 static void	execute_command_here_doc(char *path, char **args, char ***envp,
 		t_data *data)
 {
+	struct stat	buf;
+
 	if (data->fd_in > 2)
 		close(data->fd_in);
 	if (data->fd_out > 2)
 		close(data->fd_out);
 	execve(path, args, (*envp));
-	close(0);
-	close(1);
-	close(2);
-	rl_clear_history();
-	free_tab((*envp));
-	free(path);
-	ft_exit(data->command_top, data, "", 1);
+	if (errno == ENOENT)
+	{
+		if (stat(path, &buf) == 0)
+		{
+			if (S_ISDIR(buf.st_mode))
+			{
+				data->g_return_code = 126;
+				printf("minishell: %s: is a directory\n", path);
+				free_all(&path, envp, data);
+			}
+			data->g_return_code = 127;
+			printf("minishell: %s: no such file or directory\n", path);
+			free_all(&path, envp, data);
+		}
+	}
+	else if (errno == EACCES)
+	{
+		if (stat(path, &buf) == 0)
+		{
+			if (S_ISDIR(buf.st_mode))
+			{
+				data->g_return_code = 126;
+				printf("minishell: %s: is a directory\n", path);
+				free_all(&path, envp, data);
+			}
+		}
+		data->g_return_code = 126;
+		printf("minishell: %s: permission denied\n", path);
+		free_all(&path, envp, data);
+	}
+	data->g_return_code = 1;
+	printf("minishell: %s: %s\n", path, strerror(errno));
+	free_all(&path, envp, data);
 }
 
 static char	*prepare_path(char *cmd, t_env *env, t_data *data)
@@ -81,25 +100,14 @@ static char	*prepare_path(char *cmd, t_env *env, t_data *data)
 	path = get_path(env);
 	if (has_slash(cmd) != 1)
 	{
-		data->g_return_code = check_cmd(cmd);
-		if (data->g_return_code == 0)
-		{
-			path = ft_strdup(cmd);
-			data->g_return_code = check_exec_command_path(path);
-			return (path);
-		}
-		else
-			path = find_cmd_path(cmd, path);
+		if (path == NULL || ft_strlen(path) == 0)
+			return (ft_strdup(cmd));
+		path = find_cmd_path(cmd, path);
 		data->g_return_code = 0;
 		if (path == NULL)
 			data->g_return_code = handle_path_error(cmd);
 	}
-	else
-	{
-		path = ft_strdup(cmd);
-		data->g_return_code = check_exec_command_path(path);
-	}
-	return (path);
+	return (ft_strdup(cmd));
 }
 
 int	execve_path_env(char *cmd, char **args, t_env *env, t_data *data)

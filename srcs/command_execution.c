@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 23:37:11 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/18 22:18:44 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/20 23:40:24 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	execute_command(t_command *cmd, t_data *data, int input_fd,
 {
 	int	ret;
 
+	ret = 0;
 	if (cmd == NULL || cmd->cmd == NULL || cmd->fd_in == -1 || cmd->fd_out == -1
 		|| handle_builtin(cmd, data, output_fd, input_fd) == 1)
 		return ;
