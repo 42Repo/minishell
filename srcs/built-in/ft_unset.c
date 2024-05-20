@@ -12,12 +12,12 @@
 
 #include "../../includes/minishell.h"
 
-static void	delete_env(t_env *env, char *name)
+static void	delete_env(t_data *data, char *name)
 {
 	t_env	*tmp;
 	t_env	*prev;
 
-	tmp = env;
+	tmp = data->env;
 	prev = NULL;
 	while (tmp)
 	{
@@ -26,18 +26,32 @@ static void	delete_env(t_env *env, char *name)
 			if (prev)
 				prev->next = tmp->next;
 			else
-				env = tmp->next;
+				data->env = tmp->next;
 			free(tmp->name);
-			free(tmp->value);
+			free(tmp->value);			
 			free(tmp);
+			if (!data->env)
+			{
+				data->env = (t_env *)malloc(sizeof(t_env));
+				data->env->name = NULL;
+				data->env->value = NULL;
+				data->env->next = NULL;
+			}
 			return ;
 		}
 		prev = tmp;
 		tmp = tmp->next;
 	}
+	if (!data->env)
+	{
+		data->env = (t_env *)malloc(sizeof(t_env));
+		data->env->name = NULL;
+		data->env->value = NULL;
+		data->env->next = NULL;
+	}
 }
 
-void	ft_unset(t_env *env, t_command *command, t_data *data)
+void	ft_unset(t_command *command, t_data *data)
 {
 	int		i;
 	char	*line;
@@ -47,7 +61,7 @@ void	ft_unset(t_env *env, t_command *command, t_data *data)
 	while (command->args[i])
 	{
 		line = command->args[i];
-		delete_env(env, line);
+		delete_env(data, line);
 		i++;
 	}
 }
