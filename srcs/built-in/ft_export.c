@@ -69,6 +69,8 @@ void	set_env_variable(t_env *tmp, char **value, char *arg)
 	if (ft_strchr(arg, '+') == ft_strchr(arg, '=') - 1)
 	{
 		(*value) = ft_strjoin(tmp->value, ft_strchr(arg, '=') + 1);
+		if (!(*value))
+			(*value) = ft_strdup(ft_strchr(arg, '=') + 1);
 		free(tmp->value);
 		tmp->value = (*value);
 		return ;
