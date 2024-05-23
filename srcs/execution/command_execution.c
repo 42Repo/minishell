@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:42:37 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/21 00:01:26 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/23 21:14:57 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ static char	*prepare_path(char *cmd, t_env *env, t_data *data)
 		data->g_return_code = 0;
 		if (path == NULL)
 			data->g_return_code = handle_path_error(cmd);
+		return (path);
 	}
 	return (ft_strdup(cmd));
 }
