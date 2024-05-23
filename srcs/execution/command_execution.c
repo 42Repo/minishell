@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:42:37 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/23 21:14:57 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/23 21:23:31 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ static void	execute_command_here_doc(char *path, char **args, char ***envp,
 		printf("minishell: %s: permission denied\n", path);
 		free_all(&path, envp, data);
 	}
-	data->g_return_code = 1;
+	data->g_return_code = 127;
 	printf("minishell: %s: %s\n", path, strerror(errno));
 	free_all(&path, envp, data);
 }
