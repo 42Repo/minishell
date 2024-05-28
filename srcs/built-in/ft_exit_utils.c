@@ -6,17 +6,15 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 19:03:53 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/16 17:26:34 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/28 15:38:00 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	exit_with_error(char *arg, int error_code, t_command *command,
+static void	exit_with_error(char *arg, int error_code,
 		t_data *data)
 {
-	(void)command;
-	(void)data;
 	ft_putstr_fd("minishell: exit: ", 2);
 	ft_putstr_fd(arg, 2);
 	ft_putstr_fd(": numeric argument required\n", 2);
@@ -84,7 +82,7 @@ static int	check_numeric_and_boundaries(char *arg)
 int	check_arg_exit(t_command *command, t_data *data)
 {
 	if (check_numeric_and_boundaries(command->args[1]))
-		exit_with_error(command->args[1], 2, command, data);
+		exit_with_error(command->args[1], 2, data);
 	if (command->args[2])
 	{
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);

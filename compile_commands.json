@@ -7,26 +7,6 @@
    "-Werror",
    "-Wextra",
    "-MT",
-   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/signals.o",
-   "-MMD",
-   "-MP",
-   "-MF",
-   "/home/asuc/Documents/42/minishell/.cache/minishell/dep/srcs/signals.Td",
-   "-o",
-   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/signals.o",
-   "-c",
-   "srcs/signals.c"
-  ],
-  "file": "srcs/signals.c"
- },
- {
-  "directory": "/home/asuc/Documents/42/minishell",
-  "arguments": [
-   "cc",
-   "-Wall",
-   "-Werror",
-   "-Wextra",
-   "-MT",
    "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/signal.o",
    "-MMD",
    "-MP",
@@ -898,5 +878,45 @@
    "srcs/parser/parser_3.c"
   ],
   "file": "srcs/parser/parser_3.c"
+ },
+ {
+  "directory": "/home/asuc/Documents/42/minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-MT",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/utils/utils2.o",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/dep/srcs/utils/utils2.Td",
+   "-o",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/utils/utils2.o",
+   "-c",
+   "srcs/utils/utils2.c"
+  ],
+  "file": "srcs/utils/utils2.c"
+ },
+ {
+  "directory": "/home/asuc/Documents/42/minishell",
+  "arguments": [
+   "cc",
+   "-Wall",
+   "-Werror",
+   "-Wextra",
+   "-MT",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/execution/command_execution_utils.o",
+   "-MMD",
+   "-MP",
+   "-MF",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/dep/srcs/execution/command_execution_utils.Td",
+   "-o",
+   "/home/asuc/Documents/42/minishell/.cache/minishell/obj/srcs/execution/command_execution_utils.o",
+   "-c",
+   "srcs/execution/command_execution_utils.c"
+  ],
+  "file": "srcs/execution/command_execution_utils.c"
  }
 ]

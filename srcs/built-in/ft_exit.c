@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:30:00 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/28 15:29:59 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/28 15:37:03 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ void	ft_exit(t_command *command, t_data *data, char *exit_msg, int check_arg)
 {
 	int	ret;
 
-	(void)exit_msg;
 	ret = data->g_return_code;
 	if (!command)
 	{
