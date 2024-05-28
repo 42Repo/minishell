@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:54:05 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/20 21:18:00 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/28 19:52:09 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,9 @@ char	*ft_export_single_arg(t_env *env, char *name)
 	else
 	{
 		tmp = env;
-		while (!tmp->name && tmp->next)
+		while (tmp->name && tmp->next) // TODO - PEUT ETRE A FIX fAUT VOIR A TESTER
 			tmp = tmp->next;
+		printf("%s", tmp->name);
 		tmp->next = ft_calloc(sizeof(t_env), 1);
 		if (!tmp->next)
 			return (NULL);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_execution_pipes.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 13:13:40 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/16 17:55:06 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/28 16:52:39 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	exit_and_close(t_command *cmd, t_data *data)
 	close(1);
 	close(2);
 	close_all_pipes(cmd);
-	ft_exit(cmd, data, "", 0);
+	ft_exit(cmd, data, ft_strdup(""), 0);
 }
 
 void	close_all_fd_fork(t_command *command)

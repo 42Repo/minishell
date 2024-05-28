@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 15:59:39 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/28 15:30:06 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/28 19:51:52 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	loop(t_data *data)
 			break ;
 		data->line = ft_strtrim_free(readline(data->cmd_prompt), " ");
 		if (data->line == NULL)
-			ft_exit(data->command_top, data, "exit", 1);
+			ft_exit(data->command_top, data, ft_strdup("exit"), 1);
 		if (ft_strlen(data->line) > 0)
 			add_history(data->line);
 		execute_loop(data, &data->line);

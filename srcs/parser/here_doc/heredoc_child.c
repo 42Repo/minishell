@@ -6,7 +6,7 @@
 /*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 21:34:54 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/18 15:34:30 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/05/28 16:53:26 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ by end-of-file (wanted `", 1);
 	data->g_return_code = 1;
 	free(eof);
 	close_other_fd_heredoc(data->command_top, fd);
-	ft_exit(command, data, "", 1);
+	ft_exit(command, data, ft_strdup(""), 1);
 }
 
 void	heredoc_signals(t_data *data)
@@ -80,6 +80,6 @@ void	handle_child_process(int fd, char *eof, t_command *command,
 	free(line);
 	close_other_fd_heredoc(data->command_top, fd);
 	free(eof);
-	ft_exit(command, data, "", 1);
+	ft_exit(command, data, ft_strdup(""), 1);
 	exit(data->g_return_code);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 19:03:53 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/28 15:38:00 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/28 16:59:11 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,14 +79,20 @@ static int	check_numeric_and_boundaries(char *arg)
 	return (0);
 }
 
-int	check_arg_exit(t_command *command, t_data *data)
+int	check_arg_exit(t_command *command, t_data *data, char *exit_msg)
 {
 	if (check_numeric_and_boundaries(command->args[1]))
+	{
+		if (exit_msg)
+			free(exit_msg);
 		exit_with_error(command->args[1], 2, data);
+	}
 	if (command->args[2])
 	{
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 		data->g_return_code = 1;
+		if (exit_msg)
+			free(exit_msg);
 		return (EXIT_FAILURE);
 	}
 	if (command->args[1])

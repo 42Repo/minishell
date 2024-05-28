@@ -664,7 +664,7 @@ int			error_cd(char *path, t_env *env, int mode, t_data *data);
 int			error_to_many_args(t_env *env, t_data *data);
 
 // ft_exit
-int			check_arg_exit(t_command *command, t_data *data);
+int			check_arg_exit(t_command *command, t_data *data, char *exit_msg);
 
 // ft_export
 int			ft_is_equal(char *str);

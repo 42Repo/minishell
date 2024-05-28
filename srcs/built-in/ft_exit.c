@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/27 17:30:00 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/28 15:37:03 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/28 17:21:04 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ void	free_resources(t_data *data, t_env *env)
 
 static void	display_message(char *exit_msg)
 {
+	if (!exit_msg)
+		return ;
 	if (ft_strlen(exit_msg))
 	{
 		ft_putstr_fd(exit_msg, 2);
@@ -62,6 +64,8 @@ void	ft_exit(t_command *command, t_data *data, char *exit_msg, int check_arg)
 	if (!command)
 	{
 		display_message(exit_msg);
+		if (exit_msg)
+			free(exit_msg);
 		free_resources(data, data->env);
 		if (g_signal_received == SIGINT)
 			ret = 128 + SIGINT;
@@ -69,12 +73,12 @@ void	ft_exit(t_command *command, t_data *data, char *exit_msg, int check_arg)
 	}
 	if (command->args && command->args[1] && check_arg == 0
 		&& ft_strcmp(command->cmd, "exit") == 0)
-	{
-		if (check_arg_exit(command, data) == EXIT_FAILURE)
+		if (check_arg_exit(command, data, exit_msg) == EXIT_FAILURE)
 			return ;
-	}
 	ret = data->g_return_code;
 	display_message(exit_msg);
+	if (exit_msg)
+		free(exit_msg);
 	free_resources(data, data->env);
 	if (g_signal_received == SIGINT)
 		ret = 128 + SIGINT;

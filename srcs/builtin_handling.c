@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_handling.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 23:39:32 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/20 19:50:12 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/28 16:56:02 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	handle_builtin(t_command *command, t_data *data, int output_fd,
 		if (output_fd != STDOUT_FILENO)
 			dup2(output_fd, STDOUT_FILENO);
 		if (ft_strcmp(command->cmd, "exit") == 0)
-			ft_exit(command, data, "exit", 0);
+			ft_exit(command, data, ft_strdup("exit"), 0);
 		if (ft_strcmp(command->cmd, "exit") == 0)
 			return (1);
 		execute_builtin(command, data->env, data);

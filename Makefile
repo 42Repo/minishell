@@ -153,9 +153,4 @@ re : fclean all
 
 -include $(DEP)
 
-PWD = $(shell pwd)
-
-test : debug
-	@valgrind --error-limit=no --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=$(PWD)/suppressions.supp -s --track-fds=all --trace-children=yes --log-fd=2 ./minishell
-
 .PHONY: all fclean clean re banner

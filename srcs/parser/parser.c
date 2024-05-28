@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 18:06:59 by mbuchs            #+#    #+#             */
-/*   Updated: 2024/05/19 00:16:22 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/28 19:40:25 by mbuchs           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	count_heredoc(t_data *data)
 		data->g_return_code = 2;
 		free(data->line);
 		ft_exit(data->command_top, data,
-			"minishell: error: too many here documents", 1);
+			ft_strdup("minishell: error: too many here documents"), 1);
 	}
 }
 
