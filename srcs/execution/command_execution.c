@@ -6,7 +6,7 @@
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 18:42:37 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/23 21:23:31 by asuc             ###   ########.fr       */
+/*   Updated: 2024/05/28 15:30:49 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,22 @@ static int	handle_error_and_free_resources(char ***envp, char **path,
 	return (ret);
 }
 
-static void	free_all(char **path, char ***envp, t_data *data)
+static void	eacces_error(char **path, char ***envp, t_data *data)
 {
-	close(0);
-	close(1);
-	close(2);
-	free_tab((*envp));
-	free((*path));
-	ft_exit(data->command_top, data, (*path), 1);
+	struct stat	buf;
+
+	if (stat((*path), &buf) == 0)
+	{
+		if (S_ISDIR(buf.st_mode))
+		{
+			data->g_return_code = 126;
+			printf("minishell: %s: is a directory\n", (*path));
+			free_all(path, envp, data);
+		}
+	}
+	data->g_return_code = 126;
+	printf("minishell: %s: permission denied\n", (*path));
+	free_all(path, envp, data);
 }
 
 static void	execute_command_here_doc(char *path, char **args, char ***envp,
@@ -53,10 +61,7 @@ static void	execute_command_here_doc(char *path, char **args, char ***envp,
 {
 	struct stat	buf;
 
-	if (data->fd_in > 2)
-		close(data->fd_in);
-	if (data->fd_out > 2)
-		close(data->fd_out);
+	close_fd(data);
 	execve(path, args, (*envp));
 	if (errno == ENOENT)
 	{
@@ -74,20 +79,7 @@ static void	execute_command_here_doc(char *path, char **args, char ***envp,
 		}
 	}
 	else if (errno == EACCES)
-	{
-		if (stat(path, &buf) == 0)
-		{
-			if (S_ISDIR(buf.st_mode))
-			{
-				data->g_return_code = 126;
-				printf("minishell: %s: is a directory\n", path);
-				free_all(&path, envp, data);
-			}
-		}
-		data->g_return_code = 126;
-		printf("minishell: %s: permission denied\n", path);
-		free_all(&path, envp, data);
-	}
+		eacces_error(&path, envp, data);
 	data->g_return_code = 127;
 	printf("minishell: %s: %s\n", path, strerror(errno));
 	free_all(&path, envp, data);

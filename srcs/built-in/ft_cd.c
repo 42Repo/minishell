@@ -12,6 +12,21 @@
 
 #include "../../includes/minishell.h"
 
+static int	do_tilde(t_env *env, t_data *data, t_command *command)
+{
+	char	*tmp;
+
+	tmp = ft_strjoin(get_env_value_string(env, "HOME"), command->args[1] + 1);
+	if (!tmp || chdir(tmp) != 0)
+	{
+		errno = 14;
+		free(tmp);
+		return (error_cd(tmp, env, 1, data));
+	}
+	free(tmp);
+	return (0);
+}
+
 static int	other_case_cd(t_command *command, t_env *env, t_data *data)
 {
 	char	*tmp;
@@ -23,6 +38,7 @@ static int	other_case_cd(t_command *command, t_env *env, t_data *data)
 		if (!tmp || chdir(tmp) != 0)
 		{
 			errno = 14;
+			free(tmp);
 			return (error_cd(get_env_value_string(env, "HOME"), env, 0, data));
 		}
 		return (0);
@@ -34,17 +50,7 @@ static int	other_case_cd(t_command *command, t_env *env, t_data *data)
 		return (0);
 	}
 	if (command->args[1][0] == '~')
-	{
-		tmp = ft_strjoin(get_env_value_string(env, "HOME"),
-				command->args[1] + 1);
-		if (!tmp || chdir(tmp) != 0)
-		{
-			errno = 14;
-			return (error_cd(tmp, env, 1, data));
-		}
-		free(tmp);
-		return (0);
-	}
+		return (do_tilde(env, data, command));
 	return (1);
 }
 

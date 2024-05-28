@@ -28,8 +28,7 @@ CACHE_DIR	:=	$(addprefix $(shell pwd)/, .cache)
 MAKE		=	make --no-print-directory
 AUTHORS		=	asuc & mbuchs
 DEBUG		=	0
-SRC			=	srcs/signals.c \
-		srcs/signal.c \
+SRC			=	srcs/signal.c \
 		srcs/get_env.c \
 		srcs/command_execution.c \
 		srcs/utils/split_quote_state_utils.c \
@@ -72,7 +71,9 @@ SRC			=	srcs/signals.c \
 		srcs/lexer/expander/expander.c \
 		srcs/get_cmd_prompt.c \
 		srcs/command_execution_pipes.c \
-		srcs/parser/parser_3.c
+		srcs/parser/parser_3.c\
+		srcs/utils/utils2.c \
+		srcs/execution/command_execution_utils.c
 
 OBJ_DIR = $(CACHE_DIR)/$(NAME)/obj
 DEP_DIR = $(CACHE_DIR)/$(NAME)/dep

@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
+/*   command_execution_utils.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/10 20:03:02 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/17 15:39:11 by asuc             ###   ########.fr       */
+/*   Created: 2024/05/28 15:27:31 by asuc              #+#    #+#             */
+/*   Updated: 2024/05/28 15:29:25 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-void	sig_handler(int num)
+void	free_all(char **path, char ***envp, t_data *data)
 {
-	if (num == SIGINT)
-	{
-		printf("^C\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-		g_signal_received = SIGINT;
-	}
+	close(0);
+	close(1);
+	close(2);
+	free_tab((*envp));
+	free((*path));
+	ft_exit(data->command_top, data, (*path), 1);
 }

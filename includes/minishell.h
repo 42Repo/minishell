@@ -707,5 +707,7 @@ void		set_fd_in(t_command *command, t_token *selected);
 void		free_resources(t_data *data, t_env *env);
 void		is_ambiguous(t_token **selected, t_token *previous, char *str);
 int			is_space_inside(char *str);
+void		close_fd(t_data *data);
+void		free_all(char **path, char ***envp, t_data *data);
 
 #endif // MINISHELL_H
