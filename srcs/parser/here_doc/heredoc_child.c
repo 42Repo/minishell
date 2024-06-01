@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_child.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mbuchs <mbuchs@student.42.fr>              +#+  +:+       +#+        */
+/*   By: asuc <asuc@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/13 21:34:54 by asuc              #+#    #+#             */
-/*   Updated: 2024/05/28 16:53:26 by mbuchs           ###   ########.fr       */
+/*   Updated: 2024/06/01 15:45:22 by asuc             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,9 @@ void	handle_child_process(int fd, char *eof, t_command *command,
 
 	heredoc_signals(data);
 	line = readline("> ");
-	if (line == NULL && data->g_return_code != 130)
+	if (line == NULL && g_signal_received != 2)
 		handle_eof(eof, fd, command, data);
-	while (line && ft_strcmp(line, eof) != 0 && data->g_return_code != 130)
+	while (line && ft_strcmp(line, eof) != 0 && g_signal_received != 2)
 	{
 		line = expand_heredoc(line, data);
 		if (test_open(command) == -1)
@@ -74,7 +74,7 @@ void	handle_child_process(int fd, char *eof, t_command *command,
 		free(line);
 		line = NULL;
 		line = readline("> ");
-		if (line == NULL && data->g_return_code != 130)
+		if (line == NULL && g_signal_received != 2)
 			handle_eof(eof, fd, command, data);
 	}
 	free(line);
