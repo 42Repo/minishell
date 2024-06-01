@@ -44,16 +44,19 @@ void	add_new_env_variable(t_env *env, char *arg)
 {
 	if (!env)
 		return ;
-	if (!env->name)
+	if (env->name == NULL)
 	{
-		if (ft_strchr(arg, '+') == ft_strchr(arg, '=') - 1)
+		if (!(ft_strchr(arg, '=')))
 		{
-			env->name = ft_strndup(arg, ft_strchr(arg, '=') - arg - 1);
-			env->value = ft_strdup(ft_strchr(arg, '=') + 1);
+			env->name = ft_strdup(arg);
+			env->value = NULL;
 			env->next = NULL;
 			return ;
 		}
-		env->name = ft_strndup(arg, ft_strchr(arg, '=') - arg);
+		if (ft_strchr(arg, '+') == ft_strchr(arg, '=') - 1)
+			env->name = ft_strndup(arg, ft_strchr(arg, '=') - arg - 1);
+		else
+			env->name = ft_strndup(arg, ft_strchr(arg, '=') - arg);
 		env->value = ft_strdup(ft_strchr(arg, '=') + 1);
 		env->next = NULL;
 		return ;
